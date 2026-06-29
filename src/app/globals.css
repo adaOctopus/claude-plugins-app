@@ -1,26 +1,100 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f9f8f6;
+  --foreground: #2d2926;
+  --cream-warm: #f5f2ed;
+  --charcoal-muted: #6b6661;
+  --accent-sage: #e8ede6;
+  --accent-sand: #e8e2d8;
+  --accent-peach: #f5e6dc;
+  --card: #ffffff;
+  --border: #e5e0d8;
+  --ring: #2d2926;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-cream: var(--background);
+  --color-cream-warm: var(--cream-warm);
+  --color-charcoal: var(--foreground);
+  --color-charcoal-muted: var(--charcoal-muted);
+  --color-accent-sage: var(--accent-sage);
+  --color-accent-sand: var(--accent-sand);
+  --color-accent-peach: var(--accent-peach);
+  --color-card: var(--card);
+  --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-display);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Brillance-style high-contrast display serif */
+.font-serif {
+  font-family: var(--font-display), "Playfair Display", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+
+/* Large headlines — thin, editorial, high contrast */
+.font-serif.text-3xl,
+.font-serif.text-4xl,
+.font-serif.text-5xl,
+.font-serif.text-6xl,
+.font-serif.text-\[4\.5rem\] {
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+/* Brand / nav lockup */
+.font-serif.text-lg,
+.font-serif.text-xl {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.hero-glow {
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 100%,
+    rgba(245, 230, 220, 0.6) 0%,
+    transparent 70%
+  );
+}
+
+.pill-nav {
+  backdrop-filter: blur(12px);
+  background: rgba(249, 248, 246, 0.85);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(45, 41, 38, 0.06);
+}
+
+.bento-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+.chart-bar-gradient {
+  fill: currentColor;
 }
