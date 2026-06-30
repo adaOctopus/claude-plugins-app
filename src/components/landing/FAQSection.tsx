@@ -20,7 +20,7 @@ export const faqItems = [
   {
     question: "What is context switching — and why does it drain engineers?",
     answer:
-      "Context switching is the mental cost of jumping between tools and modes: Slack messages, Jira tickets, GitHub PRs, CI logs, and docs — each requiring you to reload a different thread of thought. Research on knowledge work consistently shows that every switch adds recovery time and error risk. For remote engineers, this isn’t occasional — it’s the default state of the day. PlugsVille removes you as the integration layer by pulling everything into one context engine before AI acts.",
+      "Context switching is the mental cost of jumping between tools and modes: Slack messages, Jira tickets, GitHub PRs, CI logs, and docs — each requiring you to reload a different thread of thought. Research on knowledge work consistently shows that every switch adds recovery time and error risk. For remote engineers, this isn’t occasional — it’s the default state of the day. plugsville removes you as the integration layer by pulling everything into one context engine before AI acts.",
   },
   {
     question: "What is AI fatigue — and what causes it?",
@@ -28,7 +28,7 @@ export const faqItems = [
       "AI fatigue is the exhaustion that comes from endlessly prompting, correcting, re-prompting, and copy-pasting outputs between tools — what we call LLM spirals. You spend more energy steering the model than doing the work. Anthropic’s research on how people use AI (including findings from the Anthropic Economic Index) highlights that adoption is soaring, but the burden of crafting effective prompts and iterating for accuracy still falls heavily on the user. That cognitive load is AI fatigue — and it’s why ‘just use ChatGPT’ isn’t enough for real engineering work.",
   },
   {
-    question: "How does PlugsVille eliminate LLM spirals?",
+    question: "How does plugsville eliminate LLM spirals?",
     answer:
       "The plugin runs the entire loop for you in the background: gather context from Jira, Slack, GitHub, and docs → generate CRISPE prompts → execute them → produce finished output. You never prompt, iterate, or copy-paste. You only Approve & submit or Reject & redo. No spirals because you're not in the loop until the work is already done.",
   },
@@ -40,10 +40,10 @@ export const faqItems = [
   {
     question: "How does context engineering differ from ‘just gathering context’?",
     answer:
-      "Gathering context is step one. Context engineering is the full pipeline: collect every relevant signal (tickets, threads, PRs, CI, docs), structure it for the model, and produce a CRISPE-grade prompt — Capacity, Role, Insight, Statement, Personality, Experiment — tuned to deliver accurate, high-quality output the first time. PlugsVille does both. Automatically.",
+      "Gathering context is step one. Context engineering is the full pipeline: collect every relevant signal (tickets, threads, PRs, CI, docs), structure it for the model, and produce a CRISPE-grade prompt — Capacity, Role, Insight, Statement, Personality, Experiment — tuned to deliver accurate, high-quality output the first time. plugsville does both. Automatically.",
   },
   {
-    question: "Can PlugsVille help with CI failure debugging?",
+    question: "Can plugsville help with CI failure debugging?",
     answer:
       "Yes. Instead of copying CI logs into a chat window and spiraling through failed fixes, the plugin feeds full repo context, PR history, and CI output into an engineered prompt — so fixes are targeted, verified against requirements, and delivered without iteration loops.",
   },

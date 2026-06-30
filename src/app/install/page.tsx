@@ -7,7 +7,7 @@ import { Download, CheckCircle2 } from "lucide-react";
 export const metadata: Metadata = {
   title: "Install Guide — Claude Plugin Setup",
   description:
-    "Step-by-step guide to install the PlugsVille Context Engineer Claude plugin. Connect Jira, Slack, and GitHub in minutes.",
+    "Step-by-step guide to install the plugsville Context Engineer Claude plugin. Connect Jira, Slack, and GitHub in minutes.",
 };
 
 const steps = [

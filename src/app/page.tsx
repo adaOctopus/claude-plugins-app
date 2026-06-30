@@ -15,7 +15,7 @@ export default function HomePage() {
     <>
       <HeroSection />
       <ReleasesSection />
-      <WorkflowSection />
+      {/* <WorkflowSection /> */}
       {/* <ProblemSection /> */}
       <SolutionSection />
       <DashboardSection />

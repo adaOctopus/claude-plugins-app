@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 const playfair = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
 });
 
@@ -27,8 +27,8 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "PlugsVille — Claude Plugin for Engineers | Context Engineering",
-    template: "%s | PlugsVille",
+    default: "plugsville — Claude Plugin for Engineers | Context Engineering",
+    template: "%s | plugsville",
   },
   description:
     "Automated context-gathering and prompt-engineering for engineers. Jira, Slack, GitHub, docs — accurate AI output, dashboard inside Claude.",
@@ -45,16 +45,16 @@ export const metadata: Metadata = {
     "context engineer plugin",
   ],
   openGraph: {
-    title: "PlugsVille — Claude Plugin for Engineers",
+    title: "plugsville — Claude Plugin for Engineers",
     description:
       "Gathers all context, engineers advanced prompts, delivers high-quality output. Approve or reject — no iterations.",
     url: APP_URL,
-    siteName: "PlugsVille",
+    siteName: "plugsville",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PlugsVille — Claude Plugin for Engineers",
+    title: "plugsville — Claude Plugin for Engineers",
     description:
       "All context gathered. Advanced prompts built. Approve the output — skip the LLM spirals.",
   },

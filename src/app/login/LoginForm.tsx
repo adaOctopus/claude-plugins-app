@@ -33,7 +33,7 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl">Sign in to PlugsVille</CardTitle>
+        <CardTitle className="text-2xl">Sign in to plugsville</CardTitle>
         <p className="text-sm text-charcoal-muted">
           We&apos;ll email you a magic link — no password needed.
         </p>

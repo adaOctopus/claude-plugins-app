@@ -3,7 +3,7 @@ export type PaidPlan = "monthly" | "annual";
 export const pricingPlans = [
   {
     id: "free" as const,
-    name: "Free day",
+    name: "Free Trial",
     price: "€0",
     period: "",
     badge: "1 day only",

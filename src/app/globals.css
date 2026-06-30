@@ -66,12 +66,19 @@ body {
   line-height: 1.05;
 }
 
-/* Nav lockup */
 .font-serif.text-lg,
 .font-serif.text-xl {
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.25;
+}
+
+.font-serif.brand-lockup {
+  font-weight: 650;
+  font-style: italic;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
 .hero-glow {
