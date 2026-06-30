@@ -17,6 +17,13 @@ export const velocityData = [
   { day: "Fri", hours: 0.8 },
 ];
 
+/** Hours to deliver — without vs with plugsville (10× faster). */
+export const speedComparisonData = [
+  { task: "Feature", without: 10, withPlugin: 1 },
+  { task: "Bug fix", without: 8, withPlugin: 0.8 },
+  { task: "PR + CI", without: 6, withPlugin: 0.6 },
+];
+
 /** Accent palette for dashboard cards — same family as chart */
 export const chartPalette = {
   bar: chartGradient.accent,

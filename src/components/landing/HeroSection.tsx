@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Plug } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroDashboard } from "@/components/landing/HeroDashboard";
 
@@ -15,7 +16,7 @@ export function HeroSection() {
         <div className="text-left">
           <h1 className="max-w-lg font-serif text-4xl text-charcoal md:text-5xl lg:text-[3.25rem] lg:leading-[1.08]">
             Deliver your coding tasks{" "}
-            <em className="font-medium italic">fast</em> and without{" "}
+            <em className="font-medium italic">extremely fast</em> and without{" "}
             <span className="relative inline-block font-medium italic text-charcoal/85">
               Slack-anxiety
               <span
@@ -27,14 +28,17 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
-            A Claude plugin that automatically pulls context from Jira tickets,
-            Slack threads, GitHub repos, and docs and delivers your coding tasks
-            accurately.
+            A Claude plugin that scans Jira tickets,
+            Slack threads, GitHub repos, technical docs and gives AI full context to deliver your coding tasks
+            efficiently.
           </p>
 
           <div className="mt-8">
             <Button size="lg" className="rounded-full px-8" asChild>
-              <Link href="/pricing">GET STARTED NOW</Link>
+              <Link href="/pricing" className="inline-flex items-center gap-2">
+                <Plug className="h-4 w-4 text-white" strokeWidth={2.25} />
+                GET STARTED NOW
+              </Link>
             </Button>
           </div>
         </div>

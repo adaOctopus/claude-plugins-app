@@ -14,10 +14,10 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <ReleasesSection />
+      {/* <ReleasesSection /> */}
       {/* <WorkflowSection /> */}
       {/* <ProblemSection /> */}
-      <SolutionSection />
+      {/* <SolutionSection /> */}
       <DashboardSection />
       {/* <IntegrationsSection /> */}
       <MarketplaceSection />
