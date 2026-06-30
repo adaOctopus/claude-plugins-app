@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { CheckCircle2, XCircle } from "lucide-react";
 
 const integrations = [
   { name: "Jira", color: "bg-blue-100 text-blue-800", angle: 0 },
@@ -8,30 +9,37 @@ const integrations = [
   { name: "CI/CD", color: "bg-green-100 text-green-800", angle: 288 },
 ];
 
-/** Integrations bento — orbit graphic showing unified context sources. */
+/** Integrations bento — automatic execution; human only approves or rejects. */
 export function IntegrationsSection() {
   return (
     <section id="integrations" className="px-4 py-24 md:px-8">
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          Integrations
+          Context engineering
         </Badge>
         <h2 className="font-serif text-3xl text-charcoal md:text-5xl">
-          Built for absolute clarity and focused work
+          The old loop is dead. Welcome to approve / reject.
         </h2>
-        <p className="mt-4 max-w-2xl text-charcoal-muted">
-          Stay focused with tools that organize, connect, and turn information
-          into confident decisions — all unified in one context engine.
+        <p className="mt-4 max-w-3xl text-charcoal-muted">
+          The old way: you gather context, write prompts, run the AI, read output,
+          re-prompt, iterate, copy-paste into Slack, repeat. The new way:{" "}
+          <strong className="font-medium text-charcoal">
+            everything before the final screen is automatic
+          </strong>
+          . Prompts are generated and used — not shown to you. Work runs in the
+          background. You only decide when it&apos;s ready to ship.
         </p>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           <div className="bento-card p-8">
             <h3 className="text-xl font-semibold text-charcoal">
-              Smart. Simple. Brilliant.
+              Runs in the background. Not on your to-do list.
             </h3>
             <p className="mt-2 text-sm text-charcoal-muted">
-              Your data from Jira, Slack, and GitHub is beautifully organized
-              so AI sees everything clearly without the clutter.
+              The plugin pulls everything from Jira, Slack, GitHub, CI, and docs,
+              builds CRISPE prompts, runs them against Claude, and produces
+              finished output — code commits, fix suggestions, Slack messages,
+              standup updates. You don&apos;t touch any of that pipeline.
             </p>
             <div className="relative mx-auto mt-8 flex h-64 items-center justify-center">
               <div className="absolute h-48 w-48 rounded-full border border-border/60" />
@@ -57,33 +65,43 @@ export function IntegrationsSection() {
                 );
               })}
             </div>
+            <p className="mt-4 text-center text-xs text-charcoal-muted">
+              Context → prompts → execution — all automatic
+            </p>
           </div>
 
           <div className="bento-card p-8">
             <h3 className="text-xl font-semibold text-charcoal">
-              Your work, in sync
+              Your only interface: approve or reject
             </h3>
             <p className="mt-2 text-sm text-charcoal-muted">
-              Every update from Jira, Slack, and GitHub flows instantly into
-              your AI context — keeping collaboration effortless and fast.
+              When work is done, you get a single screen: the output, the generated
+              update messages, and two buttons. Approve &amp; submit ships it.
+              Reject &amp; redo sends it back through the pipeline — still without
+              you writing a single prompt.
             </p>
             <div className="mt-8 space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-sand text-xs font-medium">
-                  TM
-                </div>
-                <div className="rounded-2xl bg-accent-sand px-4 py-3 text-sm text-charcoal">
-                  Team updates flow seamlessly
-                </div>
-              </div>
-              <div className="flex items-start justify-end gap-3">
-                <div className="rounded-2xl bg-charcoal px-4 py-3 text-sm text-cream">
-                  Context synced from all platforms
-                </div>
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-charcoal text-xs font-medium text-cream">
-                  AI
+              <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/50 p-4">
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                <div>
+                  <p className="text-sm font-medium text-charcoal">Approve &amp; submit</p>
+                  <p className="text-xs text-charcoal-muted">
+                    Merge the PR, post the Slack reply, send the standup — one tap.
+                  </p>
                 </div>
               </div>
+              <div className="flex items-start gap-3 rounded-2xl border border-border bg-white p-4">
+                <XCircle className="mt-0.5 h-5 w-5 shrink-0 text-charcoal-muted" />
+                <div>
+                  <p className="text-sm font-medium text-charcoal">Reject &amp; redo</p>
+                  <p className="text-xs text-charcoal-muted">
+                    Plugin re-runs automatically. You still never touch the prompts.
+                  </p>
+                </div>
+              </div>
+              <p className="text-xs font-medium text-charcoal">
+                Human out of the loop until the very last step.
+              </p>
             </div>
           </div>
         </div>

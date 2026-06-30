@@ -4,7 +4,7 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
-const FROM_EMAIL = process.env.EMAIL_FROM || "Project X <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.EMAIL_FROM || "PlugsVille <onboarding@resend.dev>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export async function sendMagicLinkEmail(email: string, token: string) {
@@ -21,10 +21,10 @@ export async function sendMagicLinkEmail(email: string, token: string) {
   await resend.emails.send({
     from: FROM_EMAIL,
     to: email,
-    subject: "Sign in to Project X",
+    subject: "Sign in to PlugsVille",
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
-        <h1 style="color: #2D2926;">Sign in to Project X</h1>
+        <h1 style="color: #2D2926;">Sign in to PlugsVille</h1>
         <p style="color: #6B6661;">Click the button below to sign in. This link expires in 15 minutes.</p>
         <a href="${verifyUrl}" style="display: inline-block; background: #2D2926; color: #F9F8F6; padding: 12px 24px; border-radius: 9999px; text-decoration: none; margin: 16px 0;">
           Sign in
@@ -51,7 +51,7 @@ export async function sendPurchaseConfirmationEmail(
   await resend.emails.send({
     from: FROM_EMAIL,
     to: email,
-    subject: `Welcome to Project X — ${pluginTitle}`,
+    subject: `Welcome to PlugsVille — ${pluginTitle}`,
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
         <h1 style="color: #2D2926;">Thank you for your purchase!</h1>

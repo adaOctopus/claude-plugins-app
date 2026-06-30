@@ -17,8 +17,8 @@ export function JsonLd() {
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Project X",
-    url: process.env.NEXT_PUBLIC_APP_URL || "https://projectx.dev",
+    name: "PlugsVille",
+    url: process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev",
     description:
       "Claude plugins that gather context from Jira, Slack, and GitHub for accurate AI-assisted engineering.",
   };
@@ -26,7 +26,7 @@ export function JsonLd() {
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Project X Context Engineer",
+    name: "PlugsVille Context Engineer",
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     offers: [

@@ -22,39 +22,41 @@ const playfair = Playfair_Display({
   style: ["normal", "italic"],
 });
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://projectx.dev";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "Project X — Claude Plugins for Developers | Context Engineering",
-    template: "%s | Project X",
+    default: "PlugsVille — Claude Plugin for Engineers | Context Engineering",
+    template: "%s | PlugsVille",
   },
   description:
-    "Claude plugins that gather context from Jira, Slack, and GitHub. Deliver tasks faster, fix CI failures, and eliminate Slack anxiety. Built for remote engineers.",
+    "Automated context-gathering and prompt-engineering for engineers. Jira, Slack, GitHub, docs — accurate AI output, dashboard inside Claude.",
   keywords: [
     "Claude plugin for developers",
     "AI context engineering",
+    "CRISPE prompt framework",
+    "AI fatigue",
+    "context switching remote work",
     "Jira Slack GitHub integration",
+    "LLM spirals",
     "CI failure AI assistant",
-    "remote work productivity",
-    "Slack anxiety",
-    "Claude MCP dashboard",
+    "Anthropic AI research",
     "context engineer plugin",
   ],
   openGraph: {
-    title: "Project X — Claude Plugins that do your work extremely well",
+    title: "PlugsVille — Claude Plugin for Engineers",
     description:
-      "Gathers context from Jira, Slack, GitHub and docs so AI delivers your tasks accurately.",
+      "Gathers all context, engineers advanced prompts, delivers high-quality output. Approve or reject — no iterations.",
     url: APP_URL,
-    siteName: "Project X",
+    siteName: "PlugsVille",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Project X — Claude Plugins for Engineers",
+    title: "PlugsVille — Claude Plugin for Engineers",
     description:
-      "Work less. Let AI gather context from Jira, Slack, and GitHub.",
+      "All context gathered. Advanced prompts built. Approve the output — skip the LLM spirals.",
   },
   robots: {
     index: true,

@@ -7,7 +7,7 @@ import { ArrowRight, Flag, Clock } from "lucide-react";
 const flagship = {
   title: "Context Engineer",
   description:
-    "The flagship plugin for software engineers. Gathers Jira, Slack, and GitHub context — then generates code, standup updates, and CI fixes automatically.",
+    "One Claude plugin for engineers. Runs in the background: gathers context, generates and executes prompts, produces finished work. You only Approve & submit or Reject & redo.",
   href: "/plugins/context-engineer",
   price: "Included in €19/mo plan",
 };
@@ -40,13 +40,35 @@ export function ReleasesSection() {
         </div>
 
         <h2 className="font-serif text-3xl text-charcoal md:text-5xl">
-          Our engineer plugin is live
+          The plugin for engineers is live
         </h2>
         <p className="mt-4 max-w-2xl text-charcoal-muted">
-          Project X launches with <strong className="font-medium text-charcoal">Context Engineer</strong> — built
-          exclusively for software engineers today. Plugins for PMs and designers
-          are on the way.
+          <strong className="font-medium text-charcoal">Context Engineer</strong> runs
+          the full pipeline automatically — you never write prompts or iterate with
+          the LLM. When output is ready, you Approve &amp; submit or Reject &amp; redo.
+          More plugins for other roles arrive later.
         </p>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          <div className="bento-card p-5 text-center">
+            <p className="font-serif text-3xl text-charcoal md:text-4xl">−6 hrs/week</p>
+            <p className="mt-2 text-sm text-charcoal-muted">
+              Less time gathering context from Slack, Jira, GitHub, and docs
+            </p>
+          </div>
+          <div className="bento-card p-5 text-center">
+            <p className="font-serif text-3xl text-charcoal md:text-4xl">Zero</p>
+            <p className="mt-2 text-sm text-charcoal-muted">
+              Cognitive load on prompts — automatic context engineering
+            </p>
+          </div>
+          <div className="bento-card p-5 text-center">
+            <p className="font-serif text-3xl text-charcoal md:text-4xl">CI ✓</p>
+            <p className="mt-2 text-sm text-charcoal-muted">
+              No GitHub back-and-forth — CI status in your Claude dashboard
+            </p>
+          </div>
+        </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-5">
           {/* Flagship — featured */}

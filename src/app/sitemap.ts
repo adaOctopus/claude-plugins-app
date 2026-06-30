@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://projectx.dev";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [

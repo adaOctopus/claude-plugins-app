@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const footerLinks = {
   Product: [
-    { href: "/plugins", label: "Plugins" },
+    { href: "/plugins", label: "The Plugin" },
     { href: "/pricing", label: "Pricing" },
     { href: "/install", label: "Install Guide" },
   ],
@@ -12,7 +12,7 @@ const footerLinks = {
   ],
   Company: [
     { href: "/#faq", label: "FAQ" },
-    { href: "mailto:hello@projectx.dev", label: "Contact" },
+    { href: "mailto:hello@plugsville.dev", label: "Contact" },
   ],
 };
 
@@ -22,11 +22,11 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-4">
         <div className="md:col-span-1">
           <Link href="/" className="font-serif text-xl text-charcoal">
-            Project X
+            PlugsVille
           </Link>
           <p className="mt-3 text-sm text-charcoal-muted">
-            Claude plugins that gather context from Jira, Slack, and GitHub so AI
-            delivers your work accurately — without the mental overhead.
+            Runs the full pipeline in the background. You only Approve &amp; submit
+            or Reject &amp; redo — human in the loop at the last step only.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export function Footer() {
 
       <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center justify-between gap-4 border-t border-border pt-8 text-sm text-charcoal-muted md:flex-row">
         <p suppressHydrationWarning>
-          &copy; {new Date().getFullYear()} Project X. All rights reserved.
+          &copy; {new Date().getFullYear()} PlugsVille. All rights reserved.
         </p>
         <div className="flex gap-6">
           <Link href="#" className="hover:text-charcoal">

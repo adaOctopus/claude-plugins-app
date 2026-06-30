@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2, MessageSquare, Clock } from "lucide-react";
+import { CheckCircle2, MessageSquare, Clock, XCircle } from "lucide-react";
 import { ClientOnly } from "@/components/ui/client-only";
 import { chartGradient, chartPalette, velocityData } from "@/lib/chart-colors";
 
@@ -35,14 +35,46 @@ export function DashboardSection() {
           Inside Claude
         </Badge>
         <h2 className="font-serif text-3xl text-charcoal md:text-5xl">
-          Your context dashboard, rendered inside Claude
+          Finished work lands on your screen. You decide.
         </h2>
-        <p className="mt-4 max-w-2xl text-charcoal-muted">
-          See task velocity, requirements coverage, Slack action items, and
-          generated standup messages — all without leaving your AI workspace.
+        <p className="mt-4 max-w-3xl text-charcoal-muted">
+          Everything ran automatically in the background — context gathered,
+          prompts generated and executed, output produced. Inside Claude you see
+          the results and the update messages already written. Your only action:{" "}
+          <strong className="font-medium text-charcoal">Approve &amp; submit</strong> or{" "}
+          <strong className="font-medium text-charcoal">Reject &amp; redo</strong>.
         </p>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="mt-8 border-2 border-emerald-300 bg-emerald-50/40">
+          <CardContent className="flex flex-col items-center justify-between gap-6 p-6 sm:flex-row">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-emerald-800">
+                Ready for your decision
+              </p>
+              <p className="mt-1 text-sm text-charcoal">
+                3 tasks completed · 2 update messages generated · 0 prompts written by you
+              </p>
+            </div>
+            <div className="flex w-full shrink-0 gap-3 sm:w-auto">
+              <button
+                type="button"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-2.5 text-sm font-semibold text-white sm:flex-initial"
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                Approve &amp; submit
+              </button>
+              <button
+                type="button"
+                className="flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-white px-6 py-2.5 text-sm font-medium text-charcoal sm:flex-initial"
+              >
+                <XCircle className="h-4 w-4" />
+                Reject &amp; redo
+              </button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
@@ -157,7 +189,7 @@ export function DashboardSection() {
 
           <Card className="md:col-span-2">
             <CardHeader>
-              <CardTitle className="text-lg">Generated standup update</CardTitle>
+              <CardTitle className="text-lg">Generated standup update — approve to send</CardTitle>
             </CardHeader>
             <CardContent>
               <div
@@ -172,6 +204,9 @@ export function DashboardSection() {
                 errors on PR #142. Today I&apos;m adding unit tests and updating
                 the README. No blockers — CI is green.&quot;
               </div>
+              <p className="mt-3 text-xs text-charcoal-muted">
+                Written automatically. Tap Approve &amp; submit to post — no typing required.
+              </p>
             </CardContent>
           </Card>
         </div>

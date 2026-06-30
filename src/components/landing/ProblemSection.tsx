@@ -25,9 +25,9 @@ const painPoints = [
   {
     id: "ci",
     icon: AlertTriangle,
-    title: "CI failure spirals",
+    title: "CI failure & LLM spirals",
     description:
-      "Copy-pasting failed checks into AI, pushing commits back-to-back, hoping something sticks. Hours lost to LLM loops.",
+      "Copy-pasting failed checks into AI, re-prompting, pushing commits back-to-back — each iteration adds AI fatigue. Hours lost to loops that better context and prompts would prevent.",
     visual: "ci",
   },
 ];
@@ -116,8 +116,10 @@ export function ProblemSection() {
           Context chaos is killing remote productivity
         </h2>
         <p className="mt-4 max-w-2xl text-charcoal-muted">
-          Remote workers spend more energy gathering context than doing the work.
-          Slack anxiety, platform switching, and CI spirals consume your day.
+          Today you manually gather context, write prompts, run AI, and iterate.
+          With Project X,{" "}
+          <strong className="font-medium text-charcoal">all of that runs automatically</strong>.
+          You only show up to Approve &amp; submit or Reject &amp; redo.
         </p>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">

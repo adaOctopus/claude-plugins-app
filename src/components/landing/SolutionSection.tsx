@@ -14,29 +14,31 @@ export function SolutionSection() {
               The Solution
             </Badge>
             <h2 className="font-serif text-3xl text-charcoal md:text-5xl">
-              Lay back. AI has the context.
+              The work runs. You approve.
             </h2>
             <p className="mt-4 text-charcoal-muted">
-              Project X connects Jira, Slack, GitHub, and your docs into one
-              context engine. No more copy-pasting CI logs. No more Slack anxiety.
-              No more telling AI what it should already know.
+              While you&apos;re away from the screen, the plugin gathers context,
+              writes and runs advanced prompts, and completes the task — code,
+              CI fixes, Slack drafts, standup updates. Prompts aren&apos;t handed
+              to you. They&apos;re generated, executed, and turned into finished
+              output automatically.
             </p>
             <ul className="mt-6 space-y-3 text-sm text-charcoal">
               <li className="flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />
-                Tasks delivered in minutes, not hours
+                Background execution — zero manual prompt writing
               </li>
               <li className="flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />
-                Standup updates generated automatically
+                Update messages generated for you — approve and send
               </li>
               <li className="flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />
-                CI failures resolved with full repo context
+                Reject triggers automatic redo — no LLM spiral on your end
               </li>
             </ul>
             <Button className="mt-8" size="lg" asChild>
-              <Link href="/pricing">Start working less</Link>
+              <Link href="/pricing">Get the plugin</Link>
             </Button>
           </div>
 
@@ -44,13 +46,25 @@ export function SolutionSection() {
             <div className="absolute inset-0 opacity-30">
               <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-amber-200 to-transparent" />
             </div>
-            <div className="relative text-center">
-              <Palmtree className="mx-auto h-16 w-16 text-emerald-700" />
-              <p className="mt-4 font-serif text-2xl text-charcoal">
-                Tropical productivity
-              </p>
-              <p className="mt-2 text-sm text-charcoal-muted">
-                Chaise lounge not included — but the calm is.
+            <div className="relative w-full max-w-xs px-6 text-center">
+              <div className="rounded-2xl border border-border bg-white/90 p-4 shadow-sm">
+                <p className="text-xs font-medium uppercase tracking-wide text-charcoal-muted">
+                  Your screen
+                </p>
+                <p className="mt-2 text-sm text-charcoal">
+                  Task complete. Standup draft ready. Slack reply written.
+                </p>
+                <div className="mt-4 flex gap-2">
+                  <span className="flex-1 rounded-full bg-emerald-500 py-2 text-xs font-semibold text-white">
+                    Approve &amp; submit
+                  </span>
+                  <span className="flex-1 rounded-full border border-border py-2 text-xs font-medium text-charcoal">
+                    Reject &amp; redo
+                  </span>
+                </div>
+              </div>
+              <p className="mt-6 font-serif text-xl text-charcoal">
+                That&apos;s your entire job.
               </p>
             </div>
           </div>

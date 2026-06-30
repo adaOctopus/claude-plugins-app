@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "/#problem", label: "Problem" },
+  { href: "/#how-it-works", label: "How it works" },
   { href: "/#dashboard", label: "Dashboard" },
   { href: "/#plugins", label: "Plugin" },
   { href: "/pricing", label: "Pricing" },
@@ -21,7 +21,7 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-4 md:px-8">
       <nav className="pill-nav mx-auto flex max-w-5xl items-center justify-between rounded-full px-4 py-2 md:px-6">
         <Link href="/" className="font-serif text-lg text-charcoal">
-          Project X
+          PlugsVille
         </Link>
 
         <div className="hidden items-center gap-6 md:flex">
@@ -41,7 +41,7 @@ export function Navbar() {
             <Link href="/login">Log in</Link>
           </Button>
           <Button size="sm" asChild>
-            <Link href="/pricing">Buy Plugin</Link>
+            <Link href="/pricing">Get the plugin</Link>
           </Button>
         </div>
 
@@ -76,7 +76,7 @@ export function Navbar() {
             <Link href="/login">Log in</Link>
           </Button>
           <Button asChild>
-            <Link href="/pricing">Buy Plugin</Link>
+            <Link href="/pricing">Get the plugin</Link>
           </Button>
         </div>
       </div>

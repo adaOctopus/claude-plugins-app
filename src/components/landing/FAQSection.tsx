@@ -8,34 +8,59 @@ import { Badge } from "@/components/ui/badge";
 
 export const faqItems = [
   {
-    question: "What is a Claude plugin for developers?",
+    question: "Do I write or copy prompts myself?",
     answer:
-      "A Claude plugin extends Claude with custom commands, context sources, and workflows. Project X's Context Engineer plugin connects Jira, Slack, and GitHub so Claude understands your tasks, CI status, and team conversations without manual copy-pasting.",
+      "No. Prompts are never handed to you. The plugin generates CRISPE-engineered prompts and runs them automatically in the background using all gathered context. You don't see the prompt layer — you see finished output: code, fixes, Slack drafts, standup updates. Your only interaction is Approve & submit or Reject & redo.",
   },
   {
-    question: "How does AI context engineering work with Jira, Slack, and GitHub?",
+    question: "What does Approve & submit vs Reject & redo actually mean?",
     answer:
-      "Our MCP server aggregates data from your connected platforms — open Jira tickets, Slack threads, GitHub PRs and CI results — into structured context that Claude uses to generate accurate code, messages, and standup updates.",
+      "Approve & submit ships the work: merge the PR, post the Slack message, send the standup update — whatever was generated. Reject & redo sends the task back through the automatic pipeline for another run. In both cases, you never write prompts, gather context, or iterate manually with the LLM. You're out of the loop until that final decision.",
   },
   {
-    question: "Can Project X help with CI failure debugging?",
+    question: "What is context switching — and why does it drain engineers?",
     answer:
-      "Yes. Instead of copying CI logs into ChatGPT and spiraling through failed fixes, Project X feeds full repo context, PR history, and CI output directly to Claude — so fixes are targeted and verified against your requirements.",
+      "Context switching is the mental cost of jumping between tools and modes: Slack messages, Jira tickets, GitHub PRs, CI logs, and docs — each requiring you to reload a different thread of thought. Research on knowledge work consistently shows that every switch adds recovery time and error risk. For remote engineers, this isn’t occasional — it’s the default state of the day. PlugsVille removes you as the integration layer by pulling everything into one context engine before AI acts.",
+  },
+  {
+    question: "What is AI fatigue — and what causes it?",
+    answer:
+      "AI fatigue is the exhaustion that comes from endlessly prompting, correcting, re-prompting, and copy-pasting outputs between tools — what we call LLM spirals. You spend more energy steering the model than doing the work. Anthropic’s research on how people use AI (including findings from the Anthropic Economic Index) highlights that adoption is soaring, but the burden of crafting effective prompts and iterating for accuracy still falls heavily on the user. That cognitive load is AI fatigue — and it’s why ‘just use ChatGPT’ isn’t enough for real engineering work.",
+  },
+  {
+    question: "How does PlugsVille eliminate LLM spirals?",
+    answer:
+      "The plugin runs the entire loop for you in the background: gather context from Jira, Slack, GitHub, and docs → generate CRISPE prompts → execute them → produce finished output. You never prompt, iterate, or copy-paste. You only Approve & submit or Reject & redo. No spirals because you're not in the loop until the work is already done.",
+  },
+  {
+    question: "What is a Claude plugin — and what does Context Engineer do?",
+    answer:
+      "A Claude plugin extends Claude with custom workflows. Context Engineer is our plugin for software engineers: it automatically gathers all context, generates and runs advanced prompts, completes tasks (code, CI fixes, messages), and puts finished output on your screen. You Approve & submit or Reject & redo. You never write a prompt.",
+  },
+  {
+    question: "How does context engineering differ from ‘just gathering context’?",
+    answer:
+      "Gathering context is step one. Context engineering is the full pipeline: collect every relevant signal (tickets, threads, PRs, CI, docs), structure it for the model, and produce a CRISPE-grade prompt — Capacity, Role, Insight, Statement, Personality, Experiment — tuned to deliver accurate, high-quality output the first time. PlugsVille does both. Automatically.",
+  },
+  {
+    question: "Can PlugsVille help with CI failure debugging?",
+    answer:
+      "Yes. Instead of copying CI logs into a chat window and spiraling through failed fixes, the plugin feeds full repo context, PR history, and CI output into an engineered prompt — so fixes are targeted, verified against requirements, and delivered without iteration loops.",
   },
   {
     question: "How do I reduce Slack anxiety as a remote worker?",
     answer:
-      "Project X monitors Slack for action items and generates draft replies and standup updates. You review and send — no more staring at unread badges or crafting responses from scratch under pressure.",
-  },
-  {
-    question: "Can I upload or sell my own Claude plugin?",
-    answer:
-      "Absolutely. Upload an existing plugin bundle or use our in-app builder to create one. Set your price (typically €2–3/month) and earn 99% of each sale. We handle billing and take a 1% platform fee.",
+      "The plugin monitors Slack for action items and generates reply drafts and standup updates automatically — already written, ready to send. You Approve & submit to post them. No drafting, no prompting, no iteration.",
   },
   {
     question: "What's included in the €19/month subscription?",
     answer:
-      "The flagship Context Engineer plugin with Jira, Slack, GitHub integration, in-Claude dashboard, install guide, and ongoing updates. Additional marketplace plugins are €2.50/month each.",
+      "The Context Engineer Claude plugin with full Jira, Slack, and GitHub integration; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; install guide; and ongoing updates. No per-task prompt writing. No LLM iteration tax.",
+  },
+  {
+    question: "Can I add more plugins later?",
+    answer:
+      "Yes. We launch with one plugin built for engineers. A marketplace for additional plugins — and tools to upload or create your own — is coming. Extra plugins will be available from €2.50/month each.",
   },
 ];
 
@@ -51,8 +76,8 @@ export function FAQSection() {
           Frequently asked questions
         </h2>
         <p className="mt-4 text-charcoal-muted">
-          Everything you need to know about Claude plugins, context engineering,
-          and working less in the remote era.
+          Context switching, AI fatigue, context engineering — and how one Claude
+          plugin changes the way engineers work with AI.
         </p>
 
         <Accordion type="single" collapsible className="mt-10">

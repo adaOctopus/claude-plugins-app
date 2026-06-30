@@ -1,0 +1,58 @@
+export type PaidPlan = "monthly" | "annual";
+
+export const pricingPlans = [
+  {
+    id: "free" as const,
+    name: "Free day",
+    price: "€0",
+    period: "",
+    badge: "1 day only",
+    description: "Try the lite plugin — one source, dashboard check inside Claude.",
+    features: [
+      "Jira OR Slack — choose one integration",
+      "Dashboard inside Claude ✓",
+      "Full 24-hour access, then upgrade",
+      "No GitHub — not included on free",
+      "No coding tasks — context preview only",
+    ],
+    cta: "Start free day",
+    highlighted: false,
+    isFree: true,
+  },
+  {
+    id: "monthly" as const,
+    name: "Monthly",
+    price: "€19",
+    period: "/month",
+    badge: null,
+    description: "Full Context Engineer plugin for engineers.",
+    features: [
+      "Full automatic pipeline — context, prompts, execution",
+      "Jira + Slack + GitHub + docs",
+      "Coding tasks delivered — approve or reject",
+      "In-Claude dashboard via MCP",
+      "Install guide & ongoing updates",
+    ],
+    cta: "Start monthly",
+    highlighted: false,
+    isFree: false,
+  },
+  {
+    id: "annual" as const,
+    name: "Annual",
+    price: "€149",
+    period: "/year",
+    badge: "Best value",
+    description: "Save ~35% — for engineers who live in Claude daily.",
+    features: [
+      "Everything in Monthly",
+      "Priority support",
+      "First access when new plugins launch",
+      "Same zero-iteration context engineering",
+      "Best value for teams",
+    ],
+    cta: "Start annual",
+    highlighted: true,
+    isFree: false,
+  },
+] as const;
