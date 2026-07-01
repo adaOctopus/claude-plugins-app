@@ -14,10 +14,14 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ArrowRight,
+  AtSign,
+  BookOpen,
   CheckCircle2,
+  FileCode2,
   GitBranch,
   GitPullRequest,
   MessageSquare,
+  Mic,
   RefreshCw,
   Terminal,
   Ticket,
@@ -35,7 +39,7 @@ export function DashboardSection() {
           Full Context From Inside Claude
         </Badge>
         <h2 className="max-w-2xl font-serif text-3xl text-charcoal md:text-5xl">
-          No more context switching.
+          Prevents fatigue from context switching.
         </h2>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-5">
@@ -231,35 +235,193 @@ export function DashboardSection() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Included on every run</CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-3">
-              {[
-                { label: "Jira tickets", ok: true },
-                { label: "Slack threads", ok: true },
-                { label: "GitHub PRs", ok: true },
-                { label: "CI status", ok: true },
-                { label: "cursor-cli", ok: true },
-                { label: "claude-code", ok: true },
-              ].map(({ label, ok }) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-2 rounded-lg border border-border bg-cream-warm px-3 py-2 text-sm"
-                >
-                  <CheckCircle2
-                    className="h-4 w-4 shrink-0"
-                    style={{ color: ok ? chartGradient.accentDark : "#6B6661" }}
-                  />
-                  <span className="text-charcoal">{label}</span>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+          <DashboardLivePreview />
         </div>
       </div>
     </section>
+  );
+}
+
+/** Slack mark — simplified logo for dashboard mock. */
+function SlackMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <path
+        fill="#E01E5A"
+        d="M5.042 15.165a2.144 2.144 0 0 1-2.143 2.143A2.144 2.144 0 0 1 .756 15.165a2.144 2.144 0 0 1 2.143-2.143h2.143v2.143zM6.313 15.165a2.144 2.144 0 0 1 2.143-2.143 2.144 2.144 0 0 1 2.144 2.143v5.357a2.144 2.144 0 0 1-2.144 2.144 2.144 2.144 0 0 1-2.143-2.144v-5.357z"
+      />
+      <path
+        fill="#36C5F0"
+        d="M8.572 5.042a2.144 2.144 0 0 1-2.143-2.143A2.144 2.144 0 0 1 8.572.756a2.144 2.144 0 0 1 2.143 2.143v2.143H8.572zM8.572 6.313a2.144 2.144 0 0 1 2.143 2.143 2.144 2.144 0 0 1-2.143 2.144H3.215a2.144 2.144 0 0 1-2.143-2.144 2.144 2.144 0 0 1 2.143-2.143h5.357z"
+      />
+      <path
+        fill="#2EB67D"
+        d="M18.958 8.572a2.144 2.144 0 0 1 2.143-2.143 2.144 2.144 0 0 1 2.143 2.143 2.144 2.144 0 0 1-2.143 2.143h-2.143V8.572zM17.687 8.572a2.144 2.144 0 0 1-2.143 2.143 2.144 2.144 0 0 1-2.144-2.143V3.215a2.144 2.144 0 0 1 2.144-2.143 2.144 2.144 0 0 1 2.143 2.143v5.357z"
+      />
+      <path
+        fill="#ECB22E"
+        d="M15.428 18.958a2.144 2.144 0 0 1 2.143 2.143 2.144 2.144 0 0 1-2.143 2.143 2.144 2.144 0 0 1-2.144-2.143v-2.143h2.144zM15.428 17.687a2.144 2.144 0 0 1-2.144-2.143 2.144 2.144 0 0 1 2.144-2.144h5.357a2.144 2.144 0 0 1 2.143 2.144 2.144 2.144 0 0 1-2.143 2.144h-5.357z"
+      />
+    </svg>
+  );
+}
+
+/** Notion-style doc icon for context mock. */
+function NotionMark({ className }: { className?: string }) {
+  return (
+    <span
+      className={`inline-flex h-6 w-6 items-center justify-center rounded-md border border-border bg-white text-[11px] font-bold text-charcoal ${className ?? ""}`}
+    >
+      N
+    </span>
+  );
+}
+
+/** Visual mock of what users see in the plugsville dashboard. */
+function DashboardLivePreview() {
+  return (
+    <Card className="overflow-hidden border-border">
+      <CardHeader className="border-b border-border bg-cream-warm pb-3">
+        <CardTitle className="text-lg">Your dashboard</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 p-4">
+        {/* Slack */}
+        <div className="rounded-xl border border-[#E8E2E8] bg-[#FAF8FA] p-3">
+          <div className="mb-2.5 flex items-center gap-2">
+            <SlackMark className="h-5 w-5" />
+            <span className="text-xs font-semibold text-charcoal">Slack</span>
+            <span className="ml-auto flex items-center gap-1 text-[10px] font-medium text-emerald-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              AI up to date
+            </span>
+          </div>
+
+          <div className="space-y-1.5">
+            <SlackRow
+              channel="#engineering"
+              status="synced"
+              label="Caught up"
+            />
+            <SlackRow
+              channel="@you · #backend"
+              status="action"
+              label="Action needed"
+              icon={AtSign}
+            />
+          </div>
+
+          <div className="mt-2.5 grid grid-cols-2 gap-1.5">
+            <UpdateBubble icon={Mic} label="Standup" />
+            <UpdateBubble icon={MessageSquare} label="Team update" />
+          </div>
+        </div>
+
+        {/* Task done — CI, Notion, GitHub */}
+        <div
+          className="rounded-xl border border-[#7DD3C0]/30 p-3"
+          style={{ background: `linear-gradient(135deg, ${chartGradient.bg}88, #F9F8F6)` }}
+        >
+          <div className="mb-2 flex items-center gap-2">
+            <FileCode2 className="h-4 w-4 text-[#0D9488]" strokeWidth={2} />
+            <span className="text-xs font-semibold text-charcoal">Coding task done</span>
+          </div>
+
+          <div className="flex flex-wrap gap-1.5">
+            <DoneChip icon={GitPullRequest} label="CI ✓" />
+            <DoneChip icon={BookOpen} label="Notion" notion />
+            <DoneChip icon={GitBranch} label="GitHub" />
+            <DoneChip icon={Ticket} label="Jira" />
+          </div>
+
+          <div className="mt-2 flex gap-1">
+            {["lint", "tests", "build"].map((c) => (
+              <span
+                key={c}
+                className="inline-flex items-center gap-0.5 rounded-md bg-white/90 px-1.5 py-0.5 text-[9px] font-medium text-emerald-800"
+              >
+                <CheckCircle2 className="h-2.5 w-2.5 text-emerald-600" />
+                {c}
+              </span>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function SlackRow({
+  channel,
+  status,
+  label,
+  icon: Icon = MessageSquare,
+}: {
+  channel: string;
+  status: "synced" | "action";
+  label: string;
+  icon?: typeof MessageSquare;
+}) {
+  const isAction = status === "action";
+  return (
+    <div
+      className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 ${isAction ? "border border-amber-200/80 bg-amber-50/80" : "bg-white"}`}
+    >
+      <Icon className={`h-3.5 w-3.5 shrink-0 ${isAction ? "text-amber-600" : "text-charcoal-muted"}`} />
+      <span className="min-w-0 flex-1 truncate text-[11px] font-medium text-charcoal">
+        {channel}
+      </span>
+      {isAction ? (
+        <span className="h-2 w-2 shrink-0 rounded-full bg-amber-500" />
+      ) : (
+        <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+      )}
+      <span
+        className={`shrink-0 text-[9px] font-semibold ${isAction ? "text-amber-800" : "text-emerald-700"}`}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function UpdateBubble({
+  icon: Icon,
+  label,
+}: {
+  icon: typeof Mic;
+  label: string;
+}) {
+  return (
+    <div className="flex items-center gap-1.5 rounded-lg border border-border bg-white px-2 py-1.5">
+      <Icon className="h-3 w-3 shrink-0 text-[#0D9488]" />
+      <div className="min-w-0 flex-1">
+        <p className="text-[10px] font-semibold text-charcoal">{label}</p>
+        <div className="mt-0.5 h-1 w-full rounded-full bg-[#D1F4EE]" />
+      </div>
+      <CheckCircle2 className="h-3 w-3 shrink-0 text-emerald-600" />
+    </div>
+  );
+}
+
+function DoneChip({
+  icon: Icon,
+  label,
+  notion,
+}: {
+  icon: typeof GitPullRequest;
+  label: string;
+  notion?: boolean;
+}) {
+  return (
+    <span className="inline-flex items-center gap-1 rounded-full border border-white/80 bg-white px-2 py-1 text-[10px] font-semibold text-charcoal shadow-sm">
+      {notion ? (
+        <NotionMark className="!h-4 !w-4 !text-[9px]" />
+      ) : (
+        <Icon className="h-3 w-3 text-[#0D9488]" strokeWidth={2} />
+      )}
+      {label}
+      <CheckCircle2 className="h-3 w-3 text-emerald-600" strokeWidth={2.5} />
+    </span>
   );
 }
 
