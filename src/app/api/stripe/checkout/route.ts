@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { connectDB } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { getStripe, PRICING, getOrCreateStripeCustomer, type CheckoutPlan } from "@/lib/stripe";
+import {
+  getStripe,
+  PRICING,
+  getOrCreateStripeCustomer,
+  type CheckoutPlan,
+} from "@/lib/stripe";
 import { User } from "@/models/User";
 
 const schema = z.object({
@@ -10,34 +15,12 @@ const schema = z.object({
   pluginId: z.string().optional(),
 });
 
+/** Create Stripe Checkout — no sign-in required; Stripe collects email. */
 export async function POST(request: NextRequest) {
   try {
-    const session = await getSession();
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const body = await request.json();
     const { plan, pluginId } = schema.parse(body);
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-
-    await connectDB();
-    const user = await User.findById(session.id);
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
-    const stripe = getStripe();
-    const customerId = await getOrCreateStripeCustomer(
-      user.email,
-      user._id.toString(),
-      user.stripeCustomerId
-    );
-
-    if (!user.stripeCustomerId) {
-      user.stripeCustomerId = customerId;
-      await user.save();
-    }
 
     const priceId = PRICING[plan as CheckoutPlan]?.priceId;
     if (!priceId) {
@@ -47,17 +30,47 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const stripe = getStripe();
+    const session = await getSession();
+
+    let customerId: string | undefined;
+    let userId = "";
+
+    if (session) {
+      await connectDB();
+      const user = await User.findById(session.id);
+      if (user) {
+        userId = user._id.toString();
+        customerId = await getOrCreateStripeCustomer(
+          user.email,
+          userId,
+          user.stripeCustomerId
+        );
+        if (!user.stripeCustomerId) {
+          user.stripeCustomerId = customerId;
+          await user.save();
+        }
+      }
+    }
+
+    const cancelUrl =
+      plan === "addon" && pluginId
+        ? `${appUrl}/plugins`
+        : `${appUrl}/pricing?canceled=true`;
+
     const checkoutSession = await stripe.checkout.sessions.create({
-      customer: customerId,
       mode: "subscription",
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${appUrl}/install?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${appUrl}/pricing?canceled=true`,
+      cancel_url: cancelUrl,
       metadata: {
-        userId: user._id.toString(),
+        userId,
         plan,
         pluginId: pluginId || "",
       },
+      ...(customerId
+        ? { customer: customerId }
+        : { customer_creation: "always" }),
     });
 
     return NextResponse.json({ url: checkoutSession.url });

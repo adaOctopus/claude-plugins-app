@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
 import { getMarketplacePluginBySlug } from "@/lib/marketplace-plugins.server";
 import { PluginPurchaseButton } from "@/components/marketplace/PluginPurchaseButton";
+import { FlagshipSubscribeButton } from "@/components/marketplace/FlagshipSubscribeButton";
 
 export async function generateMetadata({
   params,
@@ -79,11 +80,11 @@ export default async function PluginDetailPage({
       </div>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-        {plugin.isFlagship || isFree ? (
+        {plugin.isFlagship ? (
+          <FlagshipSubscribeButton />
+        ) : isFree ? (
           <Button size="lg" asChild>
-            <Link href="/pricing">
-              {plugin.isFlagship ? "Subscribe & get plugin" : "Get free add-on"}
-            </Link>
+            <Link href="/pricing">Get with Pro</Link>
           </Button>
         ) : pluginId ? (
           <PluginPurchaseButton pluginId={pluginId} />
@@ -96,11 +97,6 @@ export default async function PluginDetailPage({
           <Link href="/#browse-plugins">Browse plugins</Link>
         </Button>
       </div>
-
-      <p className="mt-6 text-xs text-charcoal-muted">
-        No account needed to browse. Login is only required to upload or build your own
-        plugin.
-      </p>
     </div>
   );
 }

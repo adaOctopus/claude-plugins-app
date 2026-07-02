@@ -36,6 +36,14 @@ export const metadata: Metadata = {
   alternates: {
     canonical: APP_URL,
   },
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png", sizes: "1024x1024" },
+      { url: "/plugsville-mark.png", type: "image/png", sizes: "1024x1024" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "1024x1024", type: "image/png" }],
+    shortcut: "/plugsville-mark.png",
+  },
   openGraph: {
     title: SEO_DEFAULTS.title,
     description: SEO_DEFAULTS.description,

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Install Guide — Claude Plugin Setup",
@@ -77,12 +77,6 @@ export default function InstallPage() {
       </div>
 
       <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-        <Button asChild>
-          <Link href="/app">
-            <Download className="h-4 w-4" />
-            Go to dashboard & download
-          </Link>
-        </Button>
         <Button variant="outline" asChild>
           <Link href="/">Back to home</Link>
         </Button>

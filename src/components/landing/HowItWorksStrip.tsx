@@ -69,7 +69,7 @@ export function HowItWorksStrip() {
           How it works
         </Badge>
         <h2 className="max-w-2xl font-serif text-3xl text-charcoal md:text-4xl">
-          Your are in <strong style={{ fontStyle: "italic", fontWeight: "600" }}>God Mode</strong> inside Claude.
+          Puts you in <strong style={{ fontStyle: "italic", fontWeight: "600" }}>God Mode</strong> inside Claude.
         </h2>
         <p className="mt-2 max-w-xl text-sm text-charcoal-muted">
           Fetches context, engineers prompts, handles CI and Slack. Then you approve or redo.

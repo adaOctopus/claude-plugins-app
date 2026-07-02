@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { connectDB } from "@/lib/db";
 import { getStripe } from "@/lib/stripe";
-import { User } from "@/models/User";
 import { Plugin } from "@/models/Plugin";
 import { Subscription } from "@/models/Subscription";
 import { Purchase } from "@/models/Purchase";
@@ -11,6 +10,7 @@ import {
   calculateEarnings,
 } from "@/models/CreatorEarning";
 import { sendPurchaseConfirmationEmail } from "@/lib/email";
+import { resolveUserFromCheckoutSession } from "@/lib/checkout-user";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -60,15 +60,13 @@ export async function POST(request: NextRequest) {
 }
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
-  const userId = session.metadata?.userId;
   const plan = session.metadata?.plan as "monthly" | "annual" | "addon" | undefined;
   const pluginId = session.metadata?.pluginId;
 
-  if (!userId) return;
-
-  const user = await User.findById(userId);
+  const user = await resolveUserFromCheckoutSession(session);
   if (!user) return;
 
+  const userId = user._id.toString();
   const amount = (session.amount_total || 0) / 100;
 
   if (plan === "monthly" || plan === "annual") {

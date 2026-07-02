@@ -101,7 +101,7 @@ export function MarketplaceBrowse({ plugins }: { plugins: MarketplacePlugin[] })
 
       <div className="flex flex-col items-start justify-between gap-3  pt-5 sm:flex-row sm:items-center">
         <p className="text-xs text-charcoal-muted">
-          Showing {filtered.length} of {plugins.length} published — no login to browse
+          Showing {filtered.length} of {plugins.length} published
         </p>
         <Link
           href="/plugins"

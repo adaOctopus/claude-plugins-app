@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, X } from "lucide-react";
+import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton";
 import {
   billingOptions,
   freePlan,
@@ -11,6 +12,7 @@ import {
   type BillingPeriod,
   type PaidPlan,
 } from "@/lib/pricing-plans";
+import { startStripeCheckout } from "@/lib/start-checkout";
 
 type PricingCardsProps = {
   billing: BillingPeriod;
@@ -18,10 +20,18 @@ type PricingCardsProps = {
   loadingPlan?: string | null;
 };
 
-/** Free + Pro pricing cards — Pro price follows the billing toggle. */
+/** Free + Pro pricing cards — Pro goes straight to Stripe Checkout. */
 export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsProps) {
   const proPricing = billingOptions[billing];
   const proBadge = proPricing.badge;
+
+  async function handleProCheckout() {
+    if (onCheckout) {
+      await onCheckout(billing);
+      return;
+    }
+    await startStripeCheckout(billing);
+  }
 
   return (
     <div className="mx-auto grid max-w-4xl items-stretch gap-6 md:grid-cols-2">
@@ -69,7 +79,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
 
         <CardFooter>
           <Button className="w-full" variant="outline" asChild>
-            <Link href="/login?redirect=/install?plan=free">{freePlan.cta}</Link>
+            <Link href="/install?plan=free">{freePlan.cta}</Link>
           </Button>
         </CardFooter>
       </Card>
@@ -106,15 +116,15 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
           {onCheckout ? (
             <Button
               className="w-full"
-              onClick={() => onCheckout(billing)}
+              onClick={handleProCheckout}
               disabled={loadingPlan === billing}
             >
               {loadingPlan === billing ? "Redirecting..." : proPlan.cta}
             </Button>
           ) : (
-            <Button className="w-full" asChild>
-              <Link href={`/pricing?plan=${billing}`}>{proPlan.cta}</Link>
-            </Button>
+            <StripeCheckoutButton plan={billing} className="w-full" size="default">
+              {proPlan.cta}
+            </StripeCheckoutButton>
           )}
         </CardFooter>
       </Card>

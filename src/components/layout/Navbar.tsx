@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { PlugsvilleLogo } from "@/components/brand/PlugsvilleMark";
 import { cn } from "@/lib/utils";
 
@@ -29,12 +28,6 @@ export function Navbar() {
         <Link href="/" className="text-charcoal">
           <PlugsvilleLogo />
         </Link>
-
-        <div className="flex items-center gap-3">
-          <Button variant="outline" asChild>
-            <Link href="/login">LOGIN</Link>
-          </Button>
-        </div>
       </nav>
     </header>
   );
