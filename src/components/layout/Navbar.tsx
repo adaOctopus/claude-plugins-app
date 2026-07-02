@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { PlugsvilleLogo } from "@/components/brand/PlugsvilleMark";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
@@ -25,8 +26,8 @@ export function Navbar() {
       )}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between">
-        <Link href="/" className="font-serif brand-lockup text-lg text-charcoal">
-          plugsville
+        <Link href="/" className="text-charcoal">
+          <PlugsvilleLogo />
         </Link>
 
         <div className="flex items-center gap-3">

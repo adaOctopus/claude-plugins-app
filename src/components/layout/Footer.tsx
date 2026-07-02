@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PlugsvilleLogo } from "@/components/brand/PlugsvilleMark";
 
 const footerLinks = {
   Product: [
@@ -21,8 +22,8 @@ export function Footer() {
     <footer className="border-t border-border bg-cream-warm px-4 py-16 md:px-8">
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-4">
         <div className="md:col-span-1">
-          <Link href="/" className="font-serif text-xl text-charcoal">
-            plugsville
+          <Link href="/" className="inline-block text-charcoal">
+            <PlugsvilleLogo />
           </Link>
           <p className="mt-3 text-sm text-charcoal-muted">
             Runs the full pipeline in the background. You only Approve &amp; submit

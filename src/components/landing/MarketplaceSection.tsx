@@ -7,18 +7,16 @@ import { Upload, Wand2, ArrowRight } from "lucide-react";
 /** Marketplace section — future expansion for more plugins. */
 export function MarketplaceSection() {
   return (
-    <section id="marketplace" className="px-4 py-24 md:px-8">
+    <section id="marketplace" className="border-t border-border/60 px-4 py-20 md:px-8">
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          Coming later
+          Make Money with Claude
         </Badge>
         <h2 className="font-serif text-3xl text-charcoal md:text-5xl">
-          One plugin now. A marketplace later.
+          Publish your Claude plugins for extra income.
         </h2>
         <p className="mt-4 max-w-2xl text-charcoal-muted">
-          We&apos;re launching with Context Engineer — one Claude plugin built for
-          engineers. Soon you&apos;ll be able to add more plugins to your stack, or
-          upload and sell your own.
+          Upload your existing plugins, or create your own. Fast and no coding needed.
         </p>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2">
@@ -30,14 +28,13 @@ export function MarketplaceSection() {
             <CardContent>
               <p className="text-sm text-charcoal-muted">
                 Have a Claude plugin ready? Upload your manifest, README, and
-                bundle. Set your price and publish to the marketplace when it
-                opens.
+                bundle. Set your price and publish to the marketplace.
               </p>
             </CardContent>
             <CardFooter>
               <Button variant="outline" asChild>
                 <Link href="/app/upload">
-                  Join waitlist <ArrowRight className="h-4 w-4" />
+                  Publish now<ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
             </CardFooter>

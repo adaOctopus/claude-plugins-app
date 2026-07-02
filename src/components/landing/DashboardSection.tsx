@@ -8,23 +8,25 @@ import {
   YAxis,
   ResponsiveContainer,
   Tooltip,
-  Legend,
 } from "recharts";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { NotionMark } from "@/components/icons/NotionMark";
 import {
-  ArrowRight,
   AtSign,
-  BookOpen,
   CheckCircle2,
   FileCode2,
   GitBranch,
+  GitMerge,
   GitPullRequest,
   MessageSquare,
   Mic,
   RefreshCw,
+  ShieldCheck,
+  Sparkles,
   Terminal,
   Ticket,
+  Wand2,
   XCircle,
 } from "lucide-react";
 import { ClientOnly } from "@/components/ui/client-only";
@@ -36,209 +38,264 @@ export function DashboardSection() {
     <section id="dashboard" className="px-4 py-24 md:px-8">
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          Full Context From Inside Claude
+          Control Panel Inside Claude
         </Badge>
         <h2 className="max-w-2xl font-serif text-3xl text-charcoal md:text-5xl">
-          Prevents fatigue from context switching.
+          Bye-bye👋context switching
         </h2>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-5">
-          {/* Claude chat mock */}
-          <Card className="overflow-hidden border-border shadow-md lg:col-span-3">
-            <div className="flex items-center justify-between border-b border-border bg-cream-warm px-4 py-3">
-              <span className="text-sm font-medium text-charcoal">Claude</span>
-              <span className="rounded-full bg-white px-2.5 py-0.5 text-[10px] font-medium text-charcoal-muted">
-                Chat session
-              </span>
-            </div>
-
-            <CardContent className="space-y-4 p-4 sm:p-5">
-              <div className="flex flex-wrap items-center gap-1.5">
-                <ContextPill icon={Ticket} label="Jira" />
-                <ContextPill icon={MessageSquare} label="Slack" />
-                <ContextPill icon={GitBranch} label="GitHub" />
-                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-800">
-                  <GitPullRequest className="h-3 w-3" />
-                  CI ✓
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5">
-                <ToolPill icon={Terminal} label="cursor-cli" />
-                <ToolPill icon={Terminal} label="claude-code" />
-                <span className="text-[10px] text-charcoal-muted self-center pl-1">
-                  · full context synced for your stack
-                </span>
-              </div>
-
-              <div className="rounded-xl bg-cream-warm px-4 py-3">
-                <p className="mb-2 text-[10px] font-medium uppercase tracking-wide text-charcoal-muted">
-                  plugsville · output ready
-                </p>
-                <div className="rounded-lg border border-border bg-white p-3 font-mono text-xs leading-relaxed text-charcoal">
-                  <span className="text-emerald-700">✓</span> Auth middleware done
-                  <br />
-                  <span className="text-emerald-700">✓</span> CI lint + tests green
-                  <br />
-                  <span className="text-charcoal-muted">→ PR #142 ready to merge</span>
-                </div>
-              </div>
-
-              <div className="rounded-xl border-2 border-emerald-300 bg-emerald-50/60 p-4">
-                <p className="mb-3 text-[10px] font-semibold uppercase tracking-wide text-emerald-900">
-                  Your decision — in this chat
-                </p>
-                <div className="flex flex-col gap-2 sm:flex-row">
-                  <button
-                    type="button"
-                    className="flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white"
-                  >
-                    <CheckCircle2 className="h-4 w-4" />
-                    Approve &amp; submit
-                  </button>
-                  <button
-                    type="button"
-                    className="flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-charcoal"
-                  >
-                    <XCircle className="h-4 w-4" />
-                    Reject &amp; redo
-                  </button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Reject → redo flow */}
-          <Card className="border-border lg:col-span-2">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Reject &amp; redo</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <RedoStep
-                step="1"
-                title="Reject in chat"
-                detail="Tap Reject & redo on the output"
-              />
-              <FlowArrow />
-              <RedoStep
-                step="2"
-                title="Say what's missing"
-                detail={
-                  <span className="mt-1 block rounded-lg border border-dashed border-border bg-cream-warm px-3 py-2 text-xs italic text-charcoal-muted">
-                    &quot;Add error handling for the edge case in PROJ-124&quot;
-                  </span>
-                }
-              />
-              <FlowArrow />
-              <RedoStep
-                step="3"
-                title="Runs again — full context"
-                detail="Jira · Slack · GitHub · CI re-synced, then cursor-cli or claude-code re-runs"
-                highlight
-              />
-
-              <div className="flex items-center gap-2 rounded-xl bg-[#E8FAF6] px-3 py-2.5">
-                <RefreshCw className="h-4 w-4 shrink-0 text-[#0D9488]" />
-                <p className="text-[11px] font-medium text-[#0D9488]">
-                  Same synced context every time — nothing to re-gather
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
-              <CardTitle className="text-lg">Task delivery speed</CardTitle>
-              <span className="shrink-0 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-800">
-                10× faster
-              </span>
-            </CardHeader>
-            <CardContent>
-              <ClientOnly
-                fallback={
-                  <div
-                    className="h-44 w-full animate-pulse rounded-xl"
-                    style={{
-                      background: `linear-gradient(180deg, ${chartGradient.top}, ${chartGradient.bottom})`,
-                    }}
-                  />
-                }
-              >
-                <div className="h-44 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={speedComparisonData}
-                      barCategoryGap="22%"
-                      barGap={4}
-                    >
-                      <defs>
-                        <linearGradient id="dashChartGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor={chartGradient.top} />
-                          <stop offset="100%" stopColor={chartGradient.bottom} />
-                        </linearGradient>
-                      </defs>
-                      <XAxis
-                        dataKey="task"
-                        stroke="#6B6661"
-                        fontSize={11}
-                        tickLine={false}
-                        axisLine={false}
-                      />
-                      <YAxis
-                        stroke="#6B6661"
-                        fontSize={11}
-                        unit="h"
-                        tickLine={false}
-                        axisLine={false}
-                      />
-                      <Tooltip
-                        cursor={{ fill: "rgba(209, 244, 238, 0.35)" }}
-                        contentStyle={{
-                          background: "#FFFFFF",
-                          border: "1px solid #E5E0D8",
-                          borderRadius: "12px",
-                        }}
-                        formatter={(value, name) => [
-                          `${value ?? 0}h`,
-                          name === "withPlugin" ? "With plugsville" : "Without",
-                        ]}
-                      />
-                      <Legend
-                        iconType="circle"
-                        iconSize={8}
-                        formatter={(value) =>
-                          value === "withPlugin" ? "With plugsville" : "Without plugin"
-                        }
-                        wrapperStyle={{ fontSize: 11, paddingTop: 8 }}
-                      />
-                      <Bar
-                        dataKey="without"
-                        name="without"
-                        fill="#E8E2D8"
-                        radius={[6, 6, 0, 0]}
-                      />
-                      <Bar
-                        dataKey="withPlugin"
-                        name="withPlugin"
-                        fill="url(#dashChartGradient)"
-                        radius={[6, 6, 0, 0]}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </ClientOnly>
-              <p className="mt-2 text-xs font-medium text-[#0D9488]">
-                Lower is faster — plugsville cuts delivery time by 10× on every task type
-              </p>
-            </CardContent>
-          </Card>
-
-          <DashboardLivePreview />
+        {/* Row 1 — Claude session + side panel */}
+        <div className="mt-10 grid gap-6 lg:grid-cols-5 lg:items-start">
+          <ClaudeChatMock />
+          <DashboardSidePanel className="lg:col-span-2" />
         </div>
       </div>
     </section>
+  );
+}
+
+/** Realistic Claude chat mock — plugsville run card with clear status checkpoints. */
+function ClaudeChatMock() {
+  return (
+    <Card className="overflow-hidden border-border shadow-md lg:col-span-3">
+      {/* Claude app chrome */}
+      <div className="flex items-center justify-between border-b border-border bg-white px-4 py-2.5">
+        <div className="flex items-center gap-2.5">
+          <ClaudeAvatar />
+          <div>
+            <p className="text-sm font-semibold text-charcoal">Claude</p>
+            <p className="text-[10px] text-charcoal-muted">Sonnet · New chat</p>
+          </div>
+        </div>
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-[#7DD3C0]/40 bg-[#E8FAF6] px-2.5 py-1 text-[10px] font-semibold text-[#0D9488]">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-40" />
+            <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          </span>
+          plugsville MCP
+        </span>
+      </div>
+
+      <CardContent className="space-y-4 bg-[#FAFAF8] p-4 sm:p-5">
+        {/* User message */}
+        <div className="flex justify-end">
+          <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-charcoal px-3.5 py-2.5 text-sm leading-snug text-cream">
+            Ship <span className="font-semibold">PROJ-124</span> — auth middleware
+            from Jira. Use Slack + Notion context.
+          </div>
+        </div>
+
+        {/* Claude response */}
+        <div className="flex gap-2.5">
+          <ClaudeAvatar className="mt-0.5 h-7 w-7 shrink-0 text-[11px]" />
+          <div className="min-w-0 flex-1 space-y-3">
+            <p className="text-sm leading-relaxed text-charcoal">
+              plugsville finished the run. Everything is structured, CI-checked, and
+              ready — you only need to approve or reject below.
+            </p>
+
+            {/* plugsville run card embedded in chat */}
+            <div className="overflow-hidden rounded-xl border border-[#7DD3C0]/35 bg-white shadow-sm">
+              <div
+                className="flex items-center justify-between border-b border-[#7DD3C0]/20 px-3.5 py-2"
+                style={{ background: `linear-gradient(90deg, ${chartGradient.bg}66, #fff)` }}
+              >
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-3.5 w-3.5 text-[#0D9488]" />
+                  <span className="text-[11px] font-bold uppercase tracking-wide text-charcoal">
+                    plugsville · run complete
+                  </span>
+                </div>
+                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-800">
+                  All tasks done
+                </span>
+              </div>
+
+              <div className="space-y-3 p-3.5">
+                {/* Context synced */}
+                <RunSection label="Context synced" icon={ShieldCheck}>
+                  <div className="flex flex-wrap gap-1">
+                    <ContextPill icon={Ticket} label="Jira PROJ-124" />
+                    <ContextPill icon={MessageSquare} label="Slack #backend" />
+                    <ContextPill icon={GitBranch} label="GitHub main" />
+                    <ContextPill
+                      label="Notion spec"
+                      logo={<NotionMark className="h-3 w-3 text-charcoal" />}
+                    />
+                  </div>
+                </RunSection>
+
+                {/* Prompts structured */}
+                <RunSection label="Prompts structured · CRISPE" icon={Wand2}>
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {["C", "R", "I", "S", "P", "E"].map((l) => (
+                      <span
+                        key={l}
+                        className="flex h-5 w-5 items-center justify-center rounded-md bg-[#D1F4EE] text-[9px] font-bold text-[#0D9488]"
+                      >
+                        {l}
+                      </span>
+                    ))}
+                    <span className="text-[10px] font-medium text-emerald-900">
+                    CLICK TO VIEW PROMPT
+                    </span>
+                  </div>
+                  <div className="mt-1.5 flex flex-wrap gap-1">
+                    <ToolPill icon={Terminal} label="cursor-cli" />
+                    <ToolPill icon={Terminal} label="claude-code" />
+                  </div>
+                </RunSection>
+
+                {/* Deliverables checklist */}
+                <div className="rounded-lg border border-border bg-cream-warm/60 p-2.5">
+                  <p className="mb-2 text-[9px] font-bold uppercase tracking-widest text-charcoal-muted">
+                    Deliverables
+                  </p>
+                  <div className="space-y-1.5">
+                    <DeliverableRow
+                      icon={FileCode2}
+                      label="Coding task done"
+                      detail="Auth middleware implemented + pushed"
+                      status="done"
+                    />
+                    <DeliverableRow
+                      icon={GitPullRequest}
+                      label="CI pass"
+                      detail="lint · tests · build — all green"
+                      status="done"
+                      badges={["lint", "tests", "build"]}
+                    />
+                    <DeliverableRow
+                      icon={GitMerge}
+                      label="Ready to merge"
+                      detail="PR #142 · no conflicts · reviewers notified"
+                      status="done"
+                    />
+                    <DeliverableRow
+                      icon={MessageSquare}
+                      label="Slack messages drafted"
+                      detail="Reply to @alex + standup — from synced context"
+                      status="done"
+                    />
+                  </div>
+                </div>
+
+                {/* Approve / reject — only user action */}
+                <div className="rounded-xl border-2 border-emerald-300/80 bg-emerald-50/50 p-3">
+                  <p className="mb-2.5 text-center text-[10px] font-bold uppercase tracking-wide text-emerald-900">
+                    Your only action — right here in chat
+                  </p>
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    <button
+                      type="button"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-600"
+                    >
+                      <CheckCircle2 className="h-4 w-4" />
+                      Approve &amp; submit
+                    </button>
+                    <button
+                      type="button"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-full border border-border bg-white px-4 py-2.5 text-sm font-medium text-charcoal shadow-sm"
+                    >
+                      <XCircle className="h-4 w-4" />
+                      Reject &amp; redo
+                    </button>
+                  </div>
+                  <p className="mt-2 text-center text-[9px] text-charcoal-muted">
+                    Approve merges PR, posts Slack drafts, closes Jira ticket
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Disabled input — reinforces "no prompting needed" */}
+        <div className="flex items-center gap-2 rounded-xl border border-dashed border-border/80 bg-white/60 px-3 py-2.5 opacity-60">
+          <div className="h-8 flex-1 rounded-lg bg-cream-warm px-3 text-[11px] leading-8 text-charcoal-muted">
+            No prompting needed — approve or reject above
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function ClaudeAvatar({ className }: { className?: string }) {
+  return (
+    <span
+      className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#D97757] text-xs font-bold text-white ${className ?? ""}`}
+    >
+      C
+    </span>
+  );
+}
+
+function RunSection({
+  label,
+  icon: Icon,
+  children,
+}: {
+  label: string;
+  icon: typeof ShieldCheck;
+  children: ReactNode;
+}) {
+  return (
+    <div>
+      <div className="mb-1.5 flex items-center gap-1.5">
+        <Icon className="h-3 w-3 text-[#0D9488]" strokeWidth={2.5} />
+        <span className="text-[10px] font-bold uppercase tracking-wide text-[#0D9488]">
+          {label}
+        </span>
+        <CheckCircle2 className="ml-auto h-3.5 w-3.5 text-emerald-600" strokeWidth={2.5} />
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function DeliverableRow({
+  icon: Icon,
+  label,
+  detail,
+  status,
+  badges,
+}: {
+  icon: typeof FileCode2;
+  label: string;
+  detail: string;
+  status: "done";
+  badges?: string[];
+}) {
+  return (
+    <div className="flex items-start gap-2 rounded-lg bg-white px-2.5 py-2">
+      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" strokeWidth={2.5} />
+      <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#0D9488]" strokeWidth={2} />
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="text-[11px] font-bold text-charcoal">{label}</span>
+          {status === "done" && (
+            <span className="rounded bg-emerald-100 px-1.5 py-px text-[8px] font-bold uppercase tracking-wide text-emerald-800">
+              done
+            </span>
+          )}
+        </div>
+        <p className="text-[10px] text-charcoal-muted">{detail}</p>
+        {badges && (
+          <div className="mt-1 flex gap-1">
+            {badges.map((b) => (
+              <span
+                key={b}
+                className="inline-flex items-center gap-0.5 rounded bg-emerald-50 px-1.5 py-0.5 text-[8px] font-semibold text-emerald-800"
+              >
+                <CheckCircle2 className="h-2 w-2 text-emerald-600" />
+                {b}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -266,83 +323,114 @@ function SlackMark({ className }: { className?: string }) {
   );
 }
 
-/** Notion-style doc icon for context mock. */
-function NotionMark({ className }: { className?: string }) {
+/** Right column — Slack status, speed chart, reject & redo (compact). */
+function DashboardSidePanel({ className }: { className?: string }) {
   return (
-    <span
-      className={`inline-flex h-6 w-6 items-center justify-center rounded-md border border-border bg-white text-[11px] font-bold text-charcoal ${className ?? ""}`}
+    <Card
+      className={`flex h-full flex-col overflow-hidden border-border shadow-sm ${className ?? ""}`}
     >
-      N
-    </span>
-  );
-}
+      <div className="flex items-center justify-between border-b border-border bg-cream-warm px-4 py-2.5">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-3.5 w-3.5 text-[#0D9488]" />
+          <span className="text-sm font-semibold text-charcoal">plugsville</span>
+        </div>
+        <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-emerald-700">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          Live sync
+        </span>
+      </div>
 
-/** Visual mock of what users see in the plugsville dashboard. */
-function DashboardLivePreview() {
-  return (
-    <Card className="overflow-hidden border-border">
-      <CardHeader className="border-b border-border bg-cream-warm pb-3">
-        <CardTitle className="text-lg">Your dashboard</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3 p-4">
-        {/* Slack */}
+      <CardContent className="flex flex-1 flex-col gap-3 p-3 sm:p-4">
+        {/* Slack — minimal */}
         <div className="rounded-xl border border-[#E8E2E8] bg-[#FAF8FA] p-3">
-          <div className="mb-2.5 flex items-center gap-2">
-            <SlackMark className="h-5 w-5" />
-            <span className="text-xs font-semibold text-charcoal">Slack</span>
-            <span className="ml-auto flex items-center gap-1 text-[10px] font-medium text-emerald-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              AI up to date
+          <div className="mb-2 flex items-center gap-2">
+            <SlackMark className="h-4 w-4" />
+            <span className="text-[11px] font-bold text-charcoal">Slack</span>
+            <span className="ml-auto text-[9px] font-semibold text-emerald-700">
+              From your context
             </span>
           </div>
-
-          <div className="space-y-1.5">
-            <SlackRow
-              channel="#engineering"
-              status="synced"
-              label="Caught up"
+          <div className="space-y-1">
+            <SlackCompactRow
+              icon={MessageSquare}
+              label="Messages generated"
+              detail="2 drafts · @alex #backend"
+              variant="done"
             />
-            <SlackRow
-              channel="@you · #backend"
-              status="action"
-              label="Action needed"
+            <SlackCompactRow
               icon={AtSign}
+              label="Thread needs action"
+              detail="@you · #backend"
+              variant="action"
             />
-          </div>
-
-          <div className="mt-2.5 grid grid-cols-2 gap-1.5">
-            <UpdateBubble icon={Mic} label="Standup" />
-            <UpdateBubble icon={MessageSquare} label="Team update" />
+            <SlackCompactRow
+              icon={Mic}
+              label="Standup update"
+              detail="Ready for today's call"
+              variant="done"
+            />
           </div>
         </div>
 
-        {/* Task done — CI, Notion, GitHub */}
+        {/* Speed chart — grows to fill space */}
+        <div className="flex min-h-[148px] flex-1 flex-col rounded-xl border border-border bg-white p-3">
+          <div className="mb-2 flex items-center justify-between gap-2">
+            <span className="text-[11px] font-bold text-charcoal">Task delivery speed</span>
+            <span className="shrink-0 rounded-full bg-emerald-50 px-2 py-0.5 text-[9px] font-bold text-emerald-800">
+              10× faster
+            </span>
+          </div>
+          <div className="min-h-[100px] flex-1">
+            <SpeedChartCompact />
+          </div>
+          <p className="mt-1.5 text-[9px] font-medium text-[#0D9488]">
+            Lower is faster — with vs without plugsville
+          </p>
+        </div>
+
+        {/* Reject & redo */}
+        <div className="rounded-xl border border-border bg-white p-3">
+          <p className="mb-2 text-[11px] font-bold text-charcoal">Reject &amp; redo</p>
+          <div className="space-y-1">
+            <CompactRedoStep step="1" title="Reject in chat" />
+            <CompactRedoStep step="2" title="Say what's missing" />
+            <CompactRedoStep step="3" title="Full context re-runs" highlight />
+          </div>
+          <div className="mt-2 rounded-lg border border-dashed border-border bg-cream-warm/80 px-2.5 py-2">
+            <p className="text-[9px] italic text-charcoal-muted">
+              &quot;Add error handling for PROJ-124&quot;
+            </p>
+          </div>
+          <div className="mt-2 flex items-center gap-1.5 rounded-lg bg-[#E8FAF6] px-2 py-1.5">
+            <RefreshCw className="h-3 w-3 shrink-0 text-[#0D9488]" />
+            <p className="text-[9px] font-medium text-[#0D9488]">
+              Nothing to re-gather — same synced context
+            </p>
+          </div>
+        </div>
+
+        {/* Run summary — fills bottom, mirrors left card */}
         <div
-          className="rounded-xl border border-[#7DD3C0]/30 p-3"
-          style={{ background: `linear-gradient(135deg, ${chartGradient.bg}88, #F9F8F6)` }}
+          className="mt-auto rounded-xl border border-[#7DD3C0]/30 p-3"
+          style={{ background: `linear-gradient(135deg, ${chartGradient.bg}55, #F9F8F6)` }}
         >
-          <div className="mb-2 flex items-center gap-2">
-            <FileCode2 className="h-4 w-4 text-[#0D9488]" strokeWidth={2} />
-            <span className="text-xs font-semibold text-charcoal">Coding task done</span>
+          <p className="mb-2 text-[9px] font-bold uppercase tracking-widest text-charcoal-muted">
+            This run
+          </p>
+          <div className="grid grid-cols-3 gap-2">
+            <RunStat label="Hours saved" value="−6 hrs" accent />
+            <RunStat label="Deliverables" value="4 done" />
+            <RunStat label="Your move" value="Approve" />
           </div>
-
-          <div className="flex flex-wrap gap-1.5">
-            <DoneChip icon={GitPullRequest} label="CI ✓" />
-            <DoneChip icon={BookOpen} label="Notion" notion />
-            <DoneChip icon={GitBranch} label="GitHub" />
-            <DoneChip icon={Ticket} label="Jira" />
-          </div>
-
-          <div className="mt-2 flex gap-1">
-            {["lint", "tests", "build"].map((c) => (
-              <span
-                key={c}
-                className="inline-flex items-center gap-0.5 rounded-md bg-white/90 px-1.5 py-0.5 text-[9px] font-medium text-emerald-800"
-              >
-                <CheckCircle2 className="h-2.5 w-2.5 text-emerald-600" />
-                {c}
-              </span>
-            ))}
+          <div className="mt-2.5 flex flex-wrap items-center gap-1.5 border-t border-[#7DD3C0]/20 pt-2.5">
+            <span className="text-[9px] font-semibold text-charcoal-muted">Synced:</span>
+            <ContextPill icon={Ticket} label="Jira" />
+            <ContextPill icon={MessageSquare} label="Slack" />
+            <ContextPill icon={GitBranch} label="GitHub" />
+            <ContextPill
+              label="Notion"
+              logo={<NotionMark className="h-3 w-3 text-charcoal" />}
+            />
           </div>
         </div>
       </CardContent>
@@ -350,91 +438,162 @@ function DashboardLivePreview() {
   );
 }
 
-function SlackRow({
-  channel,
-  status,
+function RunStat({
   label,
-  icon: Icon = MessageSquare,
+  value,
+  accent,
 }: {
-  channel: string;
-  status: "synced" | "action";
   label: string;
-  icon?: typeof MessageSquare;
+  value: string;
+  accent?: boolean;
 }) {
-  const isAction = status === "action";
+  return (
+    <div className="rounded-lg border border-white/80 bg-white/90 px-2 py-2 text-center shadow-sm">
+      <p className="text-[8px] font-semibold uppercase tracking-wide text-charcoal-muted">
+        {label}
+      </p>
+      <p
+        className={`mt-0.5 text-[11px] font-bold ${accent ? "text-[#0D9488]" : "text-charcoal"}`}
+      >
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function SlackCompactRow({
+  icon: Icon,
+  label,
+  detail,
+  variant,
+}: {
+  icon: typeof MessageSquare;
+  label: string;
+  detail: string;
+  variant: "done" | "action";
+}) {
+  const isAction = variant === "action";
   return (
     <div
-      className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 ${isAction ? "border border-amber-200/80 bg-amber-50/80" : "bg-white"}`}
+      className={`flex items-center gap-2 rounded-lg px-2 py-1.5 ${isAction ? "border border-amber-200/70 bg-amber-50/60" : "bg-white"}`}
     >
-      <Icon className={`h-3.5 w-3.5 shrink-0 ${isAction ? "text-amber-600" : "text-charcoal-muted"}`} />
-      <span className="min-w-0 flex-1 truncate text-[11px] font-medium text-charcoal">
-        {channel}
-      </span>
-      {isAction ? (
-        <span className="h-2 w-2 shrink-0 rounded-full bg-amber-500" />
-      ) : (
-        <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
-      )}
-      <span
-        className={`shrink-0 text-[9px] font-semibold ${isAction ? "text-amber-800" : "text-emerald-700"}`}
-      >
-        {label}
-      </span>
-    </div>
-  );
-}
-
-function UpdateBubble({
-  icon: Icon,
-  label,
-}: {
-  icon: typeof Mic;
-  label: string;
-}) {
-  return (
-    <div className="flex items-center gap-1.5 rounded-lg border border-border bg-white px-2 py-1.5">
-      <Icon className="h-3 w-3 shrink-0 text-[#0D9488]" />
+      <Icon
+        className={`h-3 w-3 shrink-0 ${isAction ? "text-amber-600" : "text-[#0D9488]"}`}
+        strokeWidth={2}
+      />
       <div className="min-w-0 flex-1">
-        <p className="text-[10px] font-semibold text-charcoal">{label}</p>
-        <div className="mt-0.5 h-1 w-full rounded-full bg-[#D1F4EE]" />
+        <p className="text-[10px] font-semibold leading-tight text-charcoal">{label}</p>
+        <p className="truncate text-[9px] text-charcoal-muted">{detail}</p>
       </div>
-      <CheckCircle2 className="h-3 w-3 shrink-0 text-emerald-600" />
+      {isAction ? (
+        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500" />
+      ) : (
+        <CheckCircle2 className="h-3 w-3 shrink-0 text-emerald-600" strokeWidth={2.5} />
+      )}
     </div>
   );
 }
 
-function DoneChip({
-  icon: Icon,
-  label,
-  notion,
+function SpeedChartCompact() {
+  return (
+    <ClientOnly
+      fallback={
+        <div
+          className="h-full min-h-[100px] w-full animate-pulse rounded-lg"
+          style={{
+            background: `linear-gradient(180deg, ${chartGradient.top}, ${chartGradient.bottom})`,
+          }}
+        />
+      }
+    >
+      <div className="h-full min-h-[100px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={speedComparisonData} barCategoryGap="22%" barGap={3}>
+            <defs>
+              <linearGradient id="sideChartGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={chartGradient.top} />
+                <stop offset="100%" stopColor={chartGradient.bottom} />
+              </linearGradient>
+            </defs>
+            <XAxis
+              dataKey="task"
+              stroke="#6B6661"
+              fontSize={9}
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis
+              stroke="#6B6661"
+              fontSize={9}
+              unit="h"
+              tickLine={false}
+              axisLine={false}
+              width={28}
+            />
+            <Tooltip
+              cursor={{ fill: "rgba(209, 244, 238, 0.35)" }}
+              contentStyle={{
+                background: "#FFFFFF",
+                border: "1px solid #E5E0D8",
+                borderRadius: "8px",
+                fontSize: 10,
+              }}
+              formatter={(value, name) => [
+                `${value ?? 0}h`,
+                name === "withPlugin" ? "With plugsville" : "Without",
+              ]}
+            />
+            <Bar dataKey="without" name="without" fill="#E8E2D8" radius={[4, 4, 0, 0]} />
+            <Bar
+              dataKey="withPlugin"
+              name="withPlugin"
+              fill="url(#sideChartGradient)"
+              radius={[4, 4, 0, 0]}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </ClientOnly>
+  );
+}
+
+function CompactRedoStep({
+  step,
+  title,
+  highlight,
 }: {
-  icon: typeof GitPullRequest;
-  label: string;
-  notion?: boolean;
+  step: string;
+  title: string;
+  highlight?: boolean;
 }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-white/80 bg-white px-2 py-1 text-[10px] font-semibold text-charcoal shadow-sm">
-      {notion ? (
-        <NotionMark className="!h-4 !w-4 !text-[9px]" />
-      ) : (
-        <Icon className="h-3 w-3 text-[#0D9488]" strokeWidth={2} />
+    <div
+      className={`flex items-center gap-2 rounded-lg px-2 py-1.5 ${highlight ? "border border-emerald-200 bg-emerald-50/50" : "bg-cream-warm/80"}`}
+    >
+      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-charcoal text-[8px] font-bold text-cream">
+        {step}
+      </span>
+      <p className="text-[10px] font-semibold text-charcoal">{title}</p>
+      {highlight && (
+        <CheckCircle2 className="ml-auto h-3 w-3 shrink-0 text-emerald-600" strokeWidth={2.5} />
       )}
-      {label}
-      <CheckCircle2 className="h-3 w-3 text-emerald-600" strokeWidth={2.5} />
-    </span>
+    </div>
   );
 }
 
 function ContextPill({
   icon: Icon,
   label,
+  logo,
 }: {
-  icon: typeof Ticket;
+  icon?: typeof Ticket;
   label: string;
+  logo?: ReactNode;
 }) {
   return (
     <span className="inline-flex items-center gap-1 rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-medium text-charcoal">
-      <Icon className="h-3 w-3 text-[#0D9488]" strokeWidth={2} />
+      {logo ??
+        (Icon && <Icon className="h-3 w-3 text-[#0D9488]" strokeWidth={2} />)}
       {label}
     </span>
   );
@@ -452,41 +611,5 @@ function ToolPill({
       <Icon className="h-3 w-3" />
       {label}
     </span>
-  );
-}
-
-function RedoStep({
-  step,
-  title,
-  detail,
-  highlight,
-}: {
-  step: string;
-  title: string;
-  detail: ReactNode;
-  highlight?: boolean;
-}) {
-  return (
-    <div
-      className={`rounded-xl border px-3 py-2.5 ${highlight ? "border-emerald-200 bg-emerald-50/50" : "border-border bg-white"}`}
-    >
-      <div className="flex items-start gap-2">
-        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-charcoal text-[10px] font-bold text-cream">
-          {step}
-        </span>
-        <div>
-          <p className="text-sm font-semibold text-charcoal">{title}</p>
-          <div className="mt-0.5 text-xs text-charcoal-muted">{detail}</div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function FlowArrow() {
-  return (
-    <div className="flex justify-center">
-      <ArrowRight className="h-4 w-4 rotate-90 text-charcoal/30" />
-    </div>
   );
 }

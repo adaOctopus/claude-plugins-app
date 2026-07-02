@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { connectDB } from "@/lib/db";
-import { Plugin } from "@/models/Plugin";
+import { formatPluginPrice } from "@/lib/marketplace-plugins";
+import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -15,17 +15,7 @@ export const metadata: Metadata = {
 
 /** Plugins browse page — marketplace listing. */
 export default async function PluginsPage() {
-  let plugins: Awaited<ReturnType<typeof Plugin.find>> = [];
-
-  try {
-    await connectDB();
-    plugins = await Plugin.find({ status: "published" }).sort({
-      isFlagship: -1,
-      createdAt: -1,
-    });
-  } catch {
-    plugins = [];
-  }
+  const plugins = await getMarketplacePlugins();
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-32 md:px-8">
@@ -50,7 +40,7 @@ export default async function PluginsPage() {
       ) : (
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {plugins.map((plugin) => (
-            <Card key={plugin._id.toString()} className="flex flex-col">
+            <Card key={plugin.slug} className="flex flex-col">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-xl">{plugin.title}</CardTitle>
@@ -59,11 +49,7 @@ export default async function PluginsPage() {
                 <p className="text-sm text-charcoal-muted">{plugin.description}</p>
               </CardHeader>
               <CardContent className="mt-auto">
-                <p className="text-sm font-medium">
-                  {plugin.isFlagship
-                    ? "Included in base plan"
-                    : `${formatCurrency(plugin.priceMonthly)}/mo add-on`}
-                </p>
+                <p className="text-sm font-medium">{formatPluginPrice(plugin)}</p>
               </CardContent>
               <CardFooter>
                 <Button asChild className="w-full">

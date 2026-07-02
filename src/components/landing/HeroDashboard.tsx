@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import {
   CheckCircle2,
   FileCode2,
@@ -8,6 +8,7 @@ import {
   Ticket,
   Wand2,
 } from "lucide-react";
+import { NotionMark } from "@/components/icons/NotionMark";
 import { chartGradient } from "@/lib/chart-colors";
 
 const weekBars = [
@@ -18,11 +19,17 @@ const weekBars = [
   { day: "F", height: 14 },
 ] as const;
 
-const sources = [
+type LucideIcon = ComponentType<{ className?: string; strokeWidth?: number }>;
+
+const sources: Array<
+  | { label: string; icon: LucideIcon }
+  | { label: string; logo: "notion" }
+> = [
   { icon: Ticket, label: "Jira" },
   { icon: MessageSquare, label: "Slack" },
   { icon: GitBranch, label: "GitHub" },
-] as const;
+  { label: "Notion", logo: "notion" },
+];
 
 const crispeLetters = ["C", "R", "I", "S", "P", "E"] as const;
 
@@ -51,6 +58,9 @@ function PromptEngineeringPanel() {
                 <Icon className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2} />
               </span>
             ))}
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-white">
+              <NotionMark className="h-3.5 w-3.5 text-charcoal" />
+            </span>
           </div>
         </StepCard>
 
@@ -143,7 +153,7 @@ export function HeroDashboard() {
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-widest text-[#0D9488]">
-              Hours saved
+              Hours saved this week
             </p>
             <p className="mt-0.5 font-serif text-4xl leading-none text-charcoal">−6 hrs</p>
           </div>
@@ -169,13 +179,20 @@ export function HeroDashboard() {
         </div>
 
         <div className="mt-3 flex gap-2">
-          {sources.map(({ icon: Icon, label }) => (
+          {sources.map((source) => (
             <span
-              key={label}
+              key={source.label}
               className="inline-flex items-center gap-1 rounded-full border border-white/80 bg-white/75 px-2 py-0.5 text-[10px] font-medium text-charcoal"
             >
-              <Icon className="h-3 w-3 text-[#0D9488]" strokeWidth={2} />
-              {label}
+              {"logo" in source ? (
+                <NotionMark className="h-3 w-3 text-charcoal" />
+              ) : (
+                <source.icon
+                  className="h-3 w-3 text-[#0D9488]"
+                  strokeWidth={2}
+                />
+              )}
+              {source.label}
             </span>
           ))}
         </div>
@@ -194,17 +211,24 @@ export function HeroDashboard() {
             </p>
           </div>
           <p className="mt-1 pl-4 text-[10px] font-medium text-[#0D9488] sm:text-[11px]">
-            Slack · Jira · GitHub ·{" "}
+            Slack · Jira · GitHub · Notion ·{" "}
             <span className="italic text-charcoal/70">no extra actions needed, relax</span>
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-1">
-          {sources.map(({ icon: Icon }, i) => (
+          {sources.map((source, i) => (
             <span
               key={i}
               className="flex h-7 w-7 items-center justify-center rounded-full border border-emerald-200/80 bg-white shadow-sm"
             >
-              <Icon className="h-3 w-3 text-emerald-600" strokeWidth={2} />
+              {"logo" in source ? (
+                <NotionMark className="h-3 w-3 text-charcoal" />
+              ) : (
+                <source.icon
+                  className="h-3 w-3 text-emerald-600"
+                  strokeWidth={2}
+                />
+              )}
             </span>
           ))}
           <CheckCircle2 className="ml-0.5 h-4 w-4 text-emerald-600" strokeWidth={2} />

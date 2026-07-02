@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { SEO_DEFAULTS } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,40 +28,45 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "plugsville — Claude Plugin for Engineers | Context Engineering",
+    default: SEO_DEFAULTS.title,
     template: "%s | plugsville",
   },
-  description:
-    "Automated context-gathering and prompt-engineering for engineers. Jira, Slack, GitHub, docs — accurate AI output, dashboard inside Claude.",
-  keywords: [
-    "Claude plugin for developers",
-    "AI context engineering",
-    "CRISPE prompt framework",
-    "AI fatigue",
-    "context switching remote work",
-    "Jira Slack GitHub integration",
-    "LLM spirals",
-    "CI failure AI assistant",
-    "Anthropic AI research",
-    "context engineer plugin",
-  ],
+  description: SEO_DEFAULTS.description,
+  keywords: [...SEO_DEFAULTS.keywords],
+  alternates: {
+    canonical: APP_URL,
+  },
   openGraph: {
-    title: "plugsville — Claude Plugin for Engineers",
-    description:
-      "Gathers all context, engineers advanced prompts, delivers high-quality output. Approve or reject — no iterations.",
+    title: SEO_DEFAULTS.title,
+    description: SEO_DEFAULTS.description,
     url: APP_URL,
     siteName: "plugsville",
     type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/og-plugsville.png",
+        width: 1200,
+        height: 630,
+        alt: "plugsville",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "plugsville — Claude Plugin for Engineers",
-    description:
-      "All context gathered. Advanced prompts built. Approve the output — skip the LLM spirals.",
+    title: SEO_DEFAULTS.title,
+    description: SEO_DEFAULTS.description,
+    images: ["/og-plugsville.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

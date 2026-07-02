@@ -6,6 +6,7 @@ import { Plugin } from "@/models/Plugin";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
+import { getMarketplacePluginBySlug } from "@/lib/marketplace-plugins.server";
 import { PluginPurchaseButton } from "@/components/marketplace/PluginPurchaseButton";
 
 export async function generateMetadata({
@@ -14,8 +15,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  await connectDB();
-  const plugin = await Plugin.findOne({ slug, status: "published" });
+  const plugin = await getMarketplacePluginBySlug(slug);
   if (!plugin) return { title: "Plugin not found" };
   return {
     title: `${plugin.title} — Claude Plugin`,
@@ -23,27 +23,36 @@ export async function generateMetadata({
   };
 }
 
-/** Plugin detail page — individual marketplace plugin. */
+/** Plugin detail page — browse without login; purchase on this page. */
 export default async function PluginDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const plugin = await getMarketplacePluginBySlug(slug);
+  if (!plugin) notFound();
 
+  let pluginId: string | null = null;
   try {
     await connectDB();
+    const doc = await Plugin.findOne({ slug, status: "published" });
+    pluginId = doc?._id.toString() ?? null;
   } catch {
-    notFound();
+    /* catalog-only fallback */
   }
 
-  const plugin = await Plugin.findOne({ slug, status: "published" });
-  if (!plugin) notFound();
+  const isFree = plugin.priceMonthly === 0 && !plugin.isFlagship;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-32 md:px-8">
-      <div className="mb-4 flex items-center gap-2">
-        {plugin.isFlagship && <Badge>Flagship</Badge>}
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        {plugin.isFlagship && <Badge className="bg-[#0D9488] hover:bg-[#0D9488]">Flagship</Badge>}
+        {isFree && (
+          <Badge variant="secondary" className="bg-emerald-50 text-emerald-800">
+            Free
+          </Badge>
+        )}
         <Badge variant="secondary">{plugin.category}</Badge>
       </div>
 
@@ -54,27 +63,42 @@ export default async function PluginDetailPage({
         <p className="text-2xl font-semibold">
           {plugin.isFlagship
             ? "Included with base subscription (€19/mo or €149/yr)"
-            : `${formatCurrency(plugin.priceMonthly)}/month add-on`}
+            : isFree
+              ? "Free add-on"
+              : `${formatCurrency(plugin.priceMonthly)}/month add-on`}
         </p>
         <p className="mt-2 text-sm text-charcoal-muted">
           {plugin.isFlagship
             ? "Subscribe to get instant access and install guide."
-            : "Requires active base subscription. Creator earns 99% of sales."}
+            : isFree
+              ? "Requires base subscription. Add this fetcher to your stack at no extra cost."
+              : "Requires active base subscription. Creator earns 99% of sales."}
         </p>
       </div>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-        {plugin.isFlagship ? (
+        {plugin.isFlagship || isFree ? (
           <Button size="lg" asChild>
-            <Link href="/pricing">Subscribe & get plugin</Link>
+            <Link href="/pricing">
+              {plugin.isFlagship ? "Subscribe & get plugin" : "Get free add-on"}
+            </Link>
           </Button>
+        ) : pluginId ? (
+          <PluginPurchaseButton pluginId={pluginId} />
         ) : (
-          <PluginPurchaseButton pluginId={plugin._id.toString()} />
+          <Button size="lg" asChild>
+            <Link href="/pricing">Subscribe to add plugin</Link>
+          </Button>
         )}
         <Button size="lg" variant="outline" asChild>
-          <Link href="/plugins">All plugins</Link>
+          <Link href="/#browse-plugins">Browse plugins</Link>
         </Button>
       </div>
+
+      <p className="mt-6 text-xs text-charcoal-muted">
+        No account needed to browse. Login is only required to upload or build your own
+        plugin.
+      </p>
     </div>
   );
 }

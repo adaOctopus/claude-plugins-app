@@ -1,6 +1,9 @@
 import { faqItems } from "@/components/landing/FAQSection";
+import { OG_TAGLINE, SEO_DEFAULTS } from "@/lib/seo";
 
 export function JsonLd() {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -18,9 +21,18 @@ export function JsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "plugsville",
-    url: process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev",
-    description:
-      "Claude plugins that gather context from Jira, Slack, and GitHub for accurate AI-assisted engineering.",
+    url: appUrl,
+    description: SEO_DEFAULTS.description,
+    slogan: OG_TAGLINE,
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "plugsville",
+    url: appUrl,
+    description: SEO_DEFAULTS.description,
+    inLanguage: "en-US",
   };
 
   const productSchema = {
@@ -29,6 +41,7 @@ export function JsonLd() {
     name: "plugsville Context Engineer",
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
+    description: SEO_DEFAULTS.description,
     offers: [
       {
         "@type": "Offer",
@@ -56,6 +69,10 @@ export function JsonLd() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
       <script
         type="application/ld+json"
