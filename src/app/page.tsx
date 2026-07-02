@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HowItWorksStrip } from "@/components/landing/HowItWorksStrip";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { DashboardSection } from "@/components/landing/DashboardSection";
 import { PluginMarketplaceSection } from "@/components/landing/PluginMarketplaceSection";
@@ -27,6 +28,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <HowItWorksStrip />
       <DashboardSection />
       <MarketplaceSection />
       <PluginMarketplaceSection />

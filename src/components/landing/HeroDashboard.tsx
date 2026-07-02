@@ -1,14 +1,6 @@
 import type { ComponentType, ReactNode } from "react";
-import {
-  CheckCircle2,
-  FileCode2,
-  GitBranch,
-  GitPullRequest,
-  MessageSquare,
-  Ticket,
-  Wand2,
-} from "lucide-react";
-import { NotionMark } from "@/components/icons/NotionMark";
+import { CheckCircle2, FileCode2, GitPullRequest, Wand2 } from "lucide-react";
+import { integrationSources } from "@/components/icons/IntegrationMarks";
 import { chartGradient } from "@/lib/chart-colors";
 
 const weekBars = [
@@ -19,19 +11,46 @@ const weekBars = [
   { day: "F", height: 14 },
 ] as const;
 
-type LucideIcon = ComponentType<{ className?: string; strokeWidth?: number }>;
-
-const sources: Array<
-  | { label: string; icon: LucideIcon }
-  | { label: string; logo: "notion" }
-> = [
-  { icon: Ticket, label: "Jira" },
-  { icon: MessageSquare, label: "Slack" },
-  { icon: GitBranch, label: "GitHub" },
-  { label: "Notion", logo: "notion" },
-];
-
 const crispeLetters = ["C", "R", "I", "S", "P", "E"] as const;
+
+type MarkProps = { className?: string };
+
+function IntegrationLogo({
+  Mark,
+  size = "md",
+}: {
+  Mark: ComponentType<MarkProps>;
+  size?: "sm" | "md" | "lg";
+}) {
+  const sizeClass =
+    size === "lg" ? "h-5 w-5" : size === "md" ? "h-4 w-4" : "h-3.5 w-3.5";
+
+  return <Mark className={sizeClass} />;
+}
+
+/** Single source tile — logo + scanned check. */
+function ScannedSourceTile({
+  Mark,
+  label,
+}: {
+  Mark: ComponentType<MarkProps>;
+  label: string;
+}) {
+  return (
+    <div className="relative flex min-w-[4rem] flex-col items-center gap-1.5" title={`${label} scanned`}>
+      <div className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/90 bg-white shadow-sm sm:h-12 sm:w-12">
+        <IntegrationLogo Mark={Mark} size="md" />
+        <CheckCircle2
+          className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-white text-emerald-600"
+          strokeWidth={2.5}
+        />
+      </div>
+      <span className="text-[9px] font-semibold uppercase tracking-wide text-charcoal/70">
+        {label}
+      </span>
+    </div>
+  );
+}
 
 /** Prompt engineering — light, minimal 4-step strip. */
 function PromptEngineeringPanel() {
@@ -47,26 +66,21 @@ function PromptEngineeringPanel() {
       </p>
 
       <div className="flex items-center gap-1 sm:gap-1.5">
-        {/* Context */}
         <StepCard label="Context-engineered">
           <div className="flex gap-1">
-            {[Ticket, MessageSquare, GitBranch].map((Icon, i) => (
+            {integrationSources.map(({ id, Mark }) => (
               <span
-                key={i}
+                key={id}
                 className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-white"
               >
-                <Icon className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2} />
+                <IntegrationLogo Mark={Mark} size="sm" />
               </span>
             ))}
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-white">
-              <NotionMark className="h-3.5 w-3.5 text-charcoal" />
-            </span>
           </div>
         </StepCard>
 
         <Connector />
 
-        {/* CRISPE */}
         <StepCard label="CRISPE">
           <div className="flex items-center gap-1 rounded-lg border border-[#7DD3C0]/40 bg-white px-2 py-1.5">
             <Wand2 className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2} />
@@ -85,7 +99,6 @@ function PromptEngineeringPanel() {
 
         <Connector />
 
-        {/* CI */}
         <StepCard label="CI ✓">
           <div className="flex flex-col items-center gap-1 rounded-lg border border-border bg-white px-2.5 py-1.5">
             <GitPullRequest className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2} />
@@ -103,7 +116,6 @@ function PromptEngineeringPanel() {
 
         <Connector />
 
-        {/* Output */}
         <StepCard label="Done">
           <div className="relative rounded-lg border border-emerald-200 bg-white px-2.5 py-2">
             <FileCode2 className="h-3.5 w-3.5 text-emerald-600" strokeWidth={2} />
@@ -155,7 +167,7 @@ export function HeroDashboard() {
             <p className="text-[10px] font-semibold uppercase tracking-widest text-[#0D9488]">
               Hours saved this week
             </p>
-            <p className="mt-0.5 font-serif text-4xl leading-none text-charcoal">−6 hrs</p>
+            <p className="mt-0.5 font-serif text-4xl leading-none text-charcoal">−10 hrs</p>
           </div>
 
           <div className="flex h-[4rem] w-full max-w-[10rem] items-end justify-end gap-1.5">
@@ -178,60 +190,51 @@ export function HeroDashboard() {
           </div>
         </div>
 
-        <div className="mt-3 flex gap-2">
-          {sources.map((source) => (
+        {/* <div className="mt-3 flex gap-2">
+          {integrationSources.map(({ id, label, Mark }) => (
             <span
-              key={source.label}
-              className="inline-flex items-center gap-1 rounded-full border border-white/80 bg-white/75 px-2 py-0.5 text-[10px] font-medium text-charcoal"
+              key={id}
+              className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/80 bg-white/80 shadow-sm"
+              title={label}
             >
-              {"logo" in source ? (
-                <NotionMark className="h-3 w-3 text-charcoal" />
-              ) : (
-                <source.icon
-                  className="h-3 w-3 text-[#0D9488]"
-                  strokeWidth={2}
-                />
-              )}
-              {source.label}
+              <IntegrationLogo Mark={Mark} size="sm" />
             </span>
           ))}
-        </div>
+        </div> */}
       </div>
 
-      {/* AI run — synced with all sources, stress free */}
-      <div className="flex items-center justify-between gap-3 border-t border-[#7DD3C0]/20 bg-cream-warm px-4 py-3.5 sm:px-5">
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-30" />
-              <span className="relative h-2 w-2 rounded-full bg-emerald-500" />
-            </span>
-            <p className="font-serif text-lg leading-tight text-charcoal sm:text-xl">
-              AI run fully synced with 
+      {/* Context scan — visual only, no tool names in copy */}
+      <div className="border-t border-[#7DD3C0]/20 bg-cream-warm px-4 py-4 sm:px-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-30" />
+                <span className="relative h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              <p className="font-serif text-lg leading-tight text-charcoal sm:text-xl">
+                AI Executed tasks with full context
+              </p>
+            </div>
+            <p className="mt-1 pl-4 text-[10px] font-medium text-[#0D9488] sm:text-[11px]">
+              Fetched Jira tickets, Github comments, Slack threads, and Notion docs ·{" "}
+              <span className="italic text-charcoal/70"></span>
             </p>
           </div>
-          <p className="mt-1 pl-4 text-[10px] font-medium text-[#0D9488] sm:text-[11px]">
-            Slack · Jira · GitHub · Notion ·{" "}
-            <span className="italic text-charcoal/70">no extra actions needed, relax</span>
-          </p>
+
+          <span className="shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-700">
+            100% synced
+          </span>
         </div>
-        <div className="flex shrink-0 items-center gap-1">
-          {sources.map((source, i) => (
-            <span
-              key={i}
-              className="flex h-7 w-7 items-center justify-center rounded-full border border-emerald-200/80 bg-white shadow-sm"
-            >
-              {"logo" in source ? (
-                <NotionMark className="h-3 w-3 text-charcoal" />
-              ) : (
-                <source.icon
-                  className="h-3 w-3 text-emerald-600"
-                  strokeWidth={2}
-                />
-              )}
-            </span>
+
+        <div className="relative mt-4 flex items-center justify-between gap-1 sm:justify-center sm:gap-3">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-[12%] right-[12%] top-1/2 hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-emerald-300/70 to-transparent sm:block"
+          />
+          {integrationSources.map(({ id, label, Mark }) => (
+            <ScannedSourceTile key={id} Mark={Mark} label={label} />
           ))}
-          <CheckCircle2 className="ml-0.5 h-4 w-4 text-emerald-600" strokeWidth={2} />
         </div>
       </div>
 

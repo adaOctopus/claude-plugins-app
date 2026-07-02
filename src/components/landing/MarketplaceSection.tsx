@@ -10,13 +10,13 @@ export function MarketplaceSection() {
     <section id="marketplace" className="border-t border-border/60 px-4 py-20 md:px-8">
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          Make Money with Claude
+          Make Money with Claude Plugins
         </Badge>
         <h2 className="font-serif text-3xl text-charcoal md:text-5xl">
-          Publish your Claude plugins for extra income.
+          Publish your Claude plugins for <span style={{ fontStyle: "italic", fontWeight: "600" }}>extra income.</span>
         </h2>
         <p className="mt-4 max-w-2xl text-charcoal-muted">
-          Upload your existing plugins, or create your own. Fast and no coding needed.
+          Upload your existing plugins, or create your own. Fast and with no coding needed.
         </p>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2">
@@ -27,8 +27,7 @@ export function MarketplaceSection() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-charcoal-muted">
-                Have a Claude plugin ready? Upload your manifest, README, and
-                bundle. Set your price and publish to the marketplace.
+                Have a Claude plugin ready? Upload it and start selling.
               </p>
             </CardContent>
             <CardFooter>
@@ -47,8 +46,7 @@ export function MarketplaceSection() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-charcoal-muted">
-                Build plugins with our in-app wizard — define prompts, commands,
-                and integrations. Publish and earn when the marketplace launches.
+                Launch and sell your plugins with our in-app wizard — no coding needed. 
               </p>
             </CardContent>
             <CardFooter>

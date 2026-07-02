@@ -19,10 +19,10 @@ export async function PluginMarketplaceSection() {
             <h2 className="max-w-xl font-serif text-3xl text-charcoal md:text-4xl">
               Check out the available plugins
             </h2>
-            <p className="mt-2 max-w-lg text-sm text-charcoal-muted">
+            {/* <p className="mt-2 max-w-lg text-sm text-charcoal-muted">
               Start with Context Engineer, add free fetchers for Slack, Notion, and Jira —
               or browse what creators publish.
-            </p>
+            </p> */}
           </div>
           <Link
             href="/app/upload"

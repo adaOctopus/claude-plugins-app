@@ -47,7 +47,9 @@ export default async function PluginDetailPage({
   return (
     <div className="mx-auto max-w-3xl px-4 py-32 md:px-8">
       <div className="mb-4 flex flex-wrap items-center gap-2">
-        {plugin.isFlagship && <Badge className="bg-[#0D9488] hover:bg-[#0D9488]">Flagship</Badge>}
+        {plugin.isFlagship && (
+          <Badge className="bg-[#0D9488] text-white hover:bg-[#0D9488]">Flagship</Badge>
+        )}
         {isFree && (
           <Badge variant="secondary" className="bg-emerald-50 text-emerald-800">
             Free

@@ -41,7 +41,7 @@ export function DashboardSection() {
           Control Panel Inside Claude
         </Badge>
         <h2 className="max-w-2xl font-serif text-3xl text-charcoal md:text-5xl">
-          Bye-bye👋context switching
+          <span style={{ fontStyle: "italic", fontWeight: "600" }}>Bye-bye</span> context switching👋
         </h2>
 
         {/* Row 1 — Claude session + side panel */}
@@ -80,7 +80,7 @@ function ClaudeChatMock() {
         {/* User message */}
         <div className="flex justify-end">
           <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-charcoal px-3.5 py-2.5 text-sm leading-snug text-cream">
-            Ship <span className="font-semibold">PROJ-124</span> — auth middleware
+            Complete this ticket: <span className="font-semibold">PROJ-124</span> — auth middleware
             from Jira. Use Slack + Notion context.
           </div>
         </div>
@@ -90,8 +90,8 @@ function ClaudeChatMock() {
           <ClaudeAvatar className="mt-0.5 h-7 w-7 shrink-0 text-[11px]" />
           <div className="min-w-0 flex-1 space-y-3">
             <p className="text-sm leading-relaxed text-charcoal">
-              plugsville finished the run. Everything is structured, CI-checked, and
-              ready — you only need to approve or reject below.
+              <strong>plugsville</strong> finished the run 🎉 Everything is structured, CI-checked, and
+              what <strong style={{ fontStyle: "italic" }}>@Edouard</strong> shared in team's channel was used too.
             </p>
 
             {/* plugsville run card embedded in chat */}

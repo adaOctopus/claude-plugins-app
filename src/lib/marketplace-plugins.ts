@@ -11,10 +11,10 @@ export type MarketplacePlugin = {
 /** Default catalog — shown when DB is empty; also used for detail-page fallback. */
 export const MARKETPLACE_CATALOG: MarketplacePlugin[] = [
   {
-    slug: "context-engineer",
-    title: "Context Engineer Autopilot",
+    slug: "context-engineering",
+    title: "Context Engineering Autopilot",
     description:
-      "Full-stack context for engineers. Jira, Slack, GitHub, Notion — code, CI, and Slack drafts in one run.",
+      "Gathers full context from Jira, Slack, GitHub, Notion — ships code with CI green, and handles Slack communications.",
     category: "engineering",
     priceMonthly: 0,
     isFlagship: true,
@@ -24,7 +24,7 @@ export const MARKETPLACE_CATALOG: MarketplacePlugin[] = [
     slug: "slack-fetch",
     title: "Slack Fetch",
     description:
-      "Pull threads, mentions, and standup context from Slack into Claude — replies drafted from real conversations.",
+      "Pull threads, mentions, and standup context from Slack into Claude — drafts replies based on your unique tone.",
     category: "integrations",
     priceMonthly: 0,
     isFlagship: false,
@@ -34,7 +34,7 @@ export const MARKETPLACE_CATALOG: MarketplacePlugin[] = [
     slug: "notion-fetch",
     title: "Notion Fetch",
     description:
-      "Sync specs, sprint notes, and docs from Notion so every prompt starts with the right documentation.",
+      "Sync specs, sprint notes, and docs from Notion so every prompt references the right documentation.",
     category: "integrations",
     priceMonthly: 0,
     isFlagship: false,

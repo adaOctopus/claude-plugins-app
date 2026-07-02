@@ -15,11 +15,11 @@ export function HeroSection() {
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-10 lg:gap-12 xl:gap-16">
         <div className="text-left">
           <h1 className="max-w-lg font-serif text-3xl text-charcoal md:text-4xl lg:text-[3.25rem] lg:leading-[1.08]">
-            Ship <em className="font-medium italic">merge-ready</em> code without switching between tools.
+            Ship <em className="font-medium italic">merge-ready</em> code without tool switching.
           </h1>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
-            A plugin that gathers context from your entire stack, ships merge-ready code and handles your Slack. 
+            A plugin that gathers context from your entire stack, ships merge-ready code and handles your Slack communications. 
             <br/>From inside Claude😉
           </p>
 

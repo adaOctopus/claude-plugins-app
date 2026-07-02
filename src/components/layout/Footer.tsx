@@ -26,9 +26,9 @@ export function Footer() {
             <PlugsvilleLogo />
           </Link>
           <p className="mt-3 text-sm text-charcoal-muted">
-            Runs the full pipeline in the background. You only Approve &amp; submit
-            or Reject &amp; redo — human in the loop at the last step only.
-          </p>
+            Ship code faster and stop switching between tools with Claude plugins.
+
+            </p>
         </div>
 
         {Object.entries(footerLinks).map(([title, links]) => (

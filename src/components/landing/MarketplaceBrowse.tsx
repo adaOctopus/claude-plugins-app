@@ -143,7 +143,7 @@ function PluginCard({ plugin }: { plugin: MarketplacePlugin }) {
           variant={plugin.isFlagship ? "default" : "secondary"}
           className={cn(
             "shrink-0 text-[10px]",
-            plugin.isFlagship && "bg-[#0D9488] hover:bg-[#0D9488]"
+            plugin.isFlagship && "bg-[#0D9488] text-white hover:bg-[#0D9488]"
           )}
         >
           {formatPluginPrice(plugin)}
