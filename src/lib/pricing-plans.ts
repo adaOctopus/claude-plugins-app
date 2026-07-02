@@ -5,7 +5,7 @@ export const billingOptions = {
   monthly: {
     price: "€19",
     period: "/month",
-    toggleLabel: "Save >10 hrs/week",
+    toggleLabel: "",
     badge: "Save >10 hrs/week",
   },
   annual: {
