@@ -213,11 +213,11 @@ export function HeroDashboard() {
                 <span className="relative h-2 w-2 rounded-full bg-emerald-500" />
               </span>
               <p className="font-serif text-lg leading-tight text-charcoal sm:text-xl">
-                AI Executed tasks with full context
+                AI Executed tasks with full context fetched
               </p>
             </div>
             <p className="mt-1 pl-4 text-[10px] font-medium text-[#0D9488] sm:text-[11px]">
-              Fetched Jira tickets, Github comments, Slack threads, and Notion docs ·{" "}
+              from Jira tickets, Github comments, Slack threads, and Notion docs ·{" "}
               <span className="italic text-charcoal/70"></span>
             </p>
           </div>

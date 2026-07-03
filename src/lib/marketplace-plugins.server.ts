@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/db";
-import { Plugin } from "@/models/Plugin";
+import { Plugin, type IPlugin } from "@/models/Plugin";
 import {
   MARKETPLACE_CATALOG,
   type MarketplacePlugin,
@@ -56,4 +56,16 @@ export async function getMarketplacePluginBySlug(
   }
 
   return MARKETPLACE_CATALOG.find((p) => p.slug === slug) ?? null;
+}
+
+/** Full plugin doc for install download — DB only. */
+export async function getPublishedPluginDocBySlug(
+  slug: string
+): Promise<IPlugin | null> {
+  try {
+    await connectDB();
+    return Plugin.findOne({ slug, status: "published" });
+  } catch {
+    return null;
+  }
 }

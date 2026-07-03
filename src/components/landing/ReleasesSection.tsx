@@ -9,7 +9,7 @@ const flagship = {
   description:
     "One Claude plugin for engineers. Runs in the background: gathers context, generates and executes prompts, produces finished work. You only Approve & submit or Reject & redo.",
   href: "/plugins/context-engineer",
-  price: "Included in €19/mo plan",
+  price: "Included in €17/mo plan",
 };
 
 const comingSoon = [

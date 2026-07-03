@@ -7,8 +7,15 @@ const resend = process.env.RESEND_API_KEY
 const FROM_EMAIL = process.env.EMAIL_FROM || "plugsville <onboarding@resend.dev>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-export async function sendMagicLinkEmail(email: string, token: string) {
-  const verifyUrl = `${APP_URL}/api/auth/verify?token=${token}`;
+export async function sendMagicLinkEmail(
+  email: string,
+  token: string,
+  redirect?: string
+) {
+  const redirectParam = redirect
+    ? `&redirect=${encodeURIComponent(redirect)}`
+    : "";
+  const verifyUrl = `${APP_URL}/api/auth/verify?token=${token}${redirectParam}`;
 
   if (!resend) {
     console.log("\n--- MAGIC LINK (dev mode) ---");
@@ -24,10 +31,10 @@ export async function sendMagicLinkEmail(email: string, token: string) {
     subject: "Sign in to plugsville",
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
-        <h1 style="color: #2D2926;">Sign in to plugsville</h1>
-        <p style="color: #6B6661;">Click the button below to sign in. This link expires in 15 minutes.</p>
+        <h1 style="color: #2D2926;">Continue to plugsville</h1>
+        <p style="color: #6B6661;">Click the button below to verify your email. This link expires in 15 minutes.</p>
         <a href="${verifyUrl}" style="display: inline-block; background: #2D2926; color: #F9F8F6; padding: 12px 24px; border-radius: 9999px; text-decoration: none; margin: 16px 0;">
-          Sign in
+          Continue
         </a>
         <p style="color: #6B6661; font-size: 12px;">If you didn't request this, you can safely ignore this email.</p>
       </div>
@@ -41,7 +48,7 @@ export async function sendPurchaseConfirmationEmail(
   email: string,
   pluginTitle: string
 ) {
-  const installUrl = `${APP_URL}/install`;
+  const installUrl = `${APP_URL}/install/context-engineer`;
 
   if (!resend) {
     console.log(`Purchase confirmation for ${email}: ${pluginTitle}`);

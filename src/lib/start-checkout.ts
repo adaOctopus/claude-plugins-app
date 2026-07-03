@@ -1,4 +1,5 @@
-import type { PaidPlan } from "@/lib/pricing-plans";
+import type { BillingPeriod, PaidTier } from "@/lib/pricing-plans";
+import { getPaidPlanKey } from "@/lib/pricing-plans";
 import type { CheckoutPlan } from "@/lib/stripe";
 
 export async function startStripeCheckout(
@@ -21,4 +22,12 @@ export async function startStripeCheckout(
   throw new Error(data.error || "Checkout failed");
 }
 
-export type { PaidPlan };
+export async function startTierCheckout(
+  tier: PaidTier,
+  billing: BillingPeriod,
+  pluginId?: string
+): Promise<void> {
+  return startStripeCheckout(getPaidPlanKey(tier, billing), pluginId);
+}
+
+export type { BillingPeriod, PaidTier };

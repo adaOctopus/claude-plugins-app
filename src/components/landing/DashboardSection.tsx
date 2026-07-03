@@ -499,15 +499,15 @@ function SpeedChartCompact() {
     <ClientOnly
       fallback={
         <div
-          className="h-full min-h-[100px] w-full animate-pulse rounded-lg"
+          className="h-[100px] w-full animate-pulse rounded-lg"
           style={{
             background: `linear-gradient(180deg, ${chartGradient.top}, ${chartGradient.bottom})`,
           }}
         />
       }
     >
-      <div className="h-full min-h-[100px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-[100px] w-full">
+        <ResponsiveContainer width="100%" height={100}>
           <BarChart data={speedComparisonData} barCategoryGap="22%" barGap={3}>
             <defs>
               <linearGradient id="sideChartGradient" x1="0" y1="0" x2="0" y2="1">

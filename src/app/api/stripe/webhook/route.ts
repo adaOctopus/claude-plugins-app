@@ -61,6 +61,7 @@ export async function POST(request: NextRequest) {
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const plan = session.metadata?.plan as "monthly" | "annual" | "addon" | undefined;
+  const tier = (session.metadata?.tier as "pro" | "premium" | undefined) ?? "pro";
   const pluginId = session.metadata?.pluginId;
 
   const user = await resolveUserFromCheckoutSession(session);
@@ -83,7 +84,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     if (session.subscription && typeof session.subscription === "string") {
       const stripe = getStripe();
       const sub = await stripe.subscriptions.retrieve(session.subscription);
-      await upsertSubscription(userId, sub, plan, flagship?._id);
+      await upsertSubscription(userId, sub, plan, tier, flagship?._id);
     }
 
     await sendPurchaseConfirmationEmail(
@@ -129,6 +130,7 @@ async function upsertSubscription(
   userId: string,
   stripeSub: Stripe.Subscription,
   plan: "monthly" | "annual",
+  tier: "pro" | "premium" = "pro",
   flagshipId?: { toString(): string }
 ) {
   const includedIds = flagshipId ? [flagshipId] : [];
@@ -143,6 +145,7 @@ async function upsertSubscription(
       userId,
       stripeSubscriptionId: stripeSub.id,
       plan,
+      tier,
       status: stripeSub.status as "active" | "canceled" | "past_due" | "trialing" | "incomplete",
       currentPeriodEnd: new Date(periodEnd * 1000),
       includedPluginIds: includedIds,

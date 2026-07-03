@@ -1,8 +1,10 @@
 import { faqItems } from "@/components/landing/FAQSection";
-import { OG_TAGLINE, SEO_DEFAULTS } from "@/lib/seo";
+import { OG_IMAGE, OG_TAGLINE, SEO_DEFAULTS } from "@/lib/seo";
+import { PRICING_AMOUNTS } from "@/lib/pricing-plans";
 
 export function JsonLd() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
+  const ogImageUrl = `${appUrl}${OG_IMAGE.url}`;
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -24,6 +26,7 @@ export function JsonLd() {
     url: appUrl,
     description: SEO_DEFAULTS.description,
     slogan: OG_TAGLINE,
+    image: ogImageUrl,
   };
 
   const websiteSchema = {
@@ -45,17 +48,35 @@ export function JsonLd() {
     offers: [
       {
         "@type": "Offer",
-        price: "19",
+        price: String(PRICING_AMOUNTS.pro.monthly),
         priceCurrency: "EUR",
         priceValidUntil: "2027-12-31",
         availability: "https://schema.org/InStock",
+        name: "Pro monthly",
       },
       {
         "@type": "Offer",
-        price: "149",
+        price: String(PRICING_AMOUNTS.pro.annual),
         priceCurrency: "EUR",
         priceValidUntil: "2027-12-31",
         availability: "https://schema.org/InStock",
+        name: "Pro annual",
+      },
+      {
+        "@type": "Offer",
+        price: String(PRICING_AMOUNTS.premium.monthly),
+        priceCurrency: "EUR",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
+        name: "Premium monthly",
+      },
+      {
+        "@type": "Offer",
+        price: String(PRICING_AMOUNTS.premium.annual),
+        priceCurrency: "EUR",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
+        name: "Premium annual",
       },
     ],
   };

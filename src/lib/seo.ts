@@ -1,4 +1,12 @@
-export const OG_TAGLINE = "Ship quality code fast and without Slack fatigue.";
+export const OG_TAGLINE =
+  "Ship merge-ready code without tool switching.";
+
+export const OG_IMAGE = {
+  url: "/og-plugsville.jpg",
+  width: 1024,
+  height: 488,
+  alt: "plugsville — Ship merge-ready code without tool switching",
+} as const;
 
 export const SEO_DEFAULTS = {
   title: "plugsville — Ship Quality Code Fast | Claude Plugin for Engineers",

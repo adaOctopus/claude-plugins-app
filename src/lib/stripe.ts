@@ -1,4 +1,6 @@
 import Stripe from "stripe";
+import type { BillingPeriod, PaidTier } from "@/lib/pricing-plans";
+import { PRICING_AMOUNTS } from "@/lib/pricing-plans";
 
 let stripeInstance: Stripe | null = null;
 
@@ -13,12 +15,43 @@ export function getStripe() {
 }
 
 export const PRICING = {
-  monthly: { amount: 19, priceId: process.env.STRIPE_PRICE_MONTHLY },
-  annual: { amount: 149, priceId: process.env.STRIPE_PRICE_ANNUAL },
+  pro_monthly: { amount: PRICING_AMOUNTS.pro.monthly, priceId: process.env.STRIPE_PRICE_MONTHLY },
+  pro_annual: { amount: PRICING_AMOUNTS.pro.annual, priceId: process.env.STRIPE_PRICE_ANNUAL },
+  premium_monthly: {
+    amount: PRICING_AMOUNTS.premium.monthly,
+    priceId: process.env.STRIPE_PRICE_PREMIUM_MONTHLY,
+  },
+  premium_annual: {
+    amount: PRICING_AMOUNTS.premium.annual,
+    priceId: process.env.STRIPE_PRICE_PREMIUM_ANNUAL,
+  },
   addon: { amount: 2.5, priceId: process.env.STRIPE_PRICE_ADDON },
 } as const;
 
-export type CheckoutPlan = "monthly" | "annual" | "addon";
+/** @deprecated Use pro_monthly / pro_annual — kept for backward-compatible callers. */
+export type LegacyCheckoutPlan = "monthly" | "annual";
+
+export type CheckoutPlan = keyof typeof PRICING | LegacyCheckoutPlan;
+
+export type SubscriptionTier = PaidTier;
+
+export function normalizeCheckoutPlan(plan: CheckoutPlan): keyof typeof PRICING {
+  if (plan === "monthly") return "pro_monthly";
+  if (plan === "annual") return "pro_annual";
+  return plan;
+}
+
+export function parseSubscriptionFromCheckout(plan: CheckoutPlan): {
+  tier: SubscriptionTier;
+  billing: BillingPeriod;
+} {
+  const key = normalizeCheckoutPlan(plan);
+  if (key === "addon") {
+    return { tier: "pro", billing: "monthly" };
+  }
+  const [tier, billing] = key.split("_") as [SubscriptionTier, BillingPeriod];
+  return { tier, billing };
+}
 
 export async function getOrCreateStripeCustomer(
   email: string,

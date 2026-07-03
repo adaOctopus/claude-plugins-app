@@ -2,12 +2,17 @@
 
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import { startStripeCheckout } from "@/lib/start-checkout";
+import { startStripeCheckout, startTierCheckout } from "@/lib/start-checkout";
+import type { BillingPeriod, PaidTier } from "@/lib/pricing-plans";
+import { getPaidPlanKey } from "@/lib/pricing-plans";
 import type { CheckoutPlan } from "@/lib/stripe";
 import { cn } from "@/lib/utils";
 
 type StripeCheckoutButtonProps = {
-  plan: CheckoutPlan;
+  /** Legacy direct checkout key (e.g. pro_annual, monthly). */
+  plan?: CheckoutPlan;
+  tier?: PaidTier;
+  billing?: BillingPeriod;
   pluginId?: string;
   children: ReactNode;
   className?: string;
@@ -19,6 +24,8 @@ type StripeCheckoutButtonProps = {
 /** Sends the user straight to Stripe Checkout — no sign-in step. */
 export function StripeCheckoutButton({
   plan,
+  tier = "pro",
+  billing = "annual",
   pluginId,
   children,
   className,
@@ -31,7 +38,11 @@ export function StripeCheckoutButton({
   async function handleClick() {
     setLoading(true);
     try {
-      await startStripeCheckout(plan, pluginId);
+      if (plan) {
+        await startStripeCheckout(plan, pluginId);
+      } else {
+        await startTierCheckout(tier, billing, pluginId);
+      }
     } catch (error) {
       alert(error instanceof Error ? error.message : "Checkout failed");
       setLoading(false);

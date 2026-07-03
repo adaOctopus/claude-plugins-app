@@ -3,7 +3,7 @@ import { PlugsvilleLogo } from "@/components/brand/PlugsvilleMark";
 
 const footerLinks = {
   Product: [
-    { href: "/plugins", label: "The Plugin" },
+    { href: "/plugins", label: "The Plugins" },
     { href: "/pricing", label: "Pricing" },
     { href: "/install", label: "Install Guide" },
   ],
@@ -23,10 +23,10 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-4">
         <div className="md:col-span-1">
           <Link href="/" className="inline-block text-charcoal">
-            <PlugsvilleLogo />
+            <PlugsvilleLogo markSize={40} />
           </Link>
           <p className="mt-3 text-sm text-charcoal-muted">
-            Ship code faster and stop switching between tools with Claude plugins.
+            Ship merge-ready code faster and stop switching between tools.
 
             </p>
         </div>

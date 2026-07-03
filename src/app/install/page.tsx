@@ -1,85 +1,74 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2 } from "lucide-react";
+import { InstallCheckoutFulfillShell } from "@/components/install/InstallCheckoutFulfillShell";
+import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
+import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
+import {
+  isFreeInstallPlugin,
+  requiresProSubscription,
+} from "@/lib/install-access";
 
 export const metadata: Metadata = {
-  title: "Install Guide — Claude Plugin Setup",
+  title: "Install Guides — Claude Plugin Setup",
   description:
-    "Step-by-step guide to install the plugsville Context Engineer Claude plugin. Connect Jira, Slack, and GitHub in minutes.",
+    "Install guides for plugsville Claude plugins. Free add-ons need email verification; Pro plugins require an active subscription.",
 };
 
-const steps = [
-  {
-    title: "Download the plugin bundle",
-    description:
-      "After subscribing, download the Context Engineer plugin .zip from your dashboard.",
-  },
-  {
-    title: "Open Claude Desktop settings",
-    description:
-      "Go to Settings → Developer → Edit Config. This opens your claude_desktop_config.json file.",
-  },
-  {
-    title: "Add the plugin to your config",
-    description:
-      'Add the plugin path to the "plugins" array in your config. Point to the extracted plugin folder.',
-  },
-  {
-    title: "Configure MCP integrations",
-    description:
-      "Set environment variables for Jira, Slack, and GitHub tokens in the plugin's .env file.",
-  },
-  {
-    title: "Restart Claude Desktop",
-    description:
-      "Restart Claude to load the plugin. You'll see the Context Engineer dashboard in your sidebar.",
-  },
-  {
-    title: "Run your first command",
-    description:
-      'Try "/context-gather" on an open Jira ticket to see full context assembled automatically.',
-  },
-];
+function AccessBadge({ plugin }: { plugin: MarketplacePlugin }) {
+  if (requiresProSubscription(plugin)) {
+    return (
+      <Badge variant="secondary" className="gap-1 bg-charcoal text-cream">
+        <Sparkles className="h-3 w-3" />
+        Pro
+      </Badge>
+    );
+  }
+  return <Badge variant="outline">Free</Badge>;
+}
 
-/** Install guide — post-purchase Claude plugin setup instructions. */
-export default function InstallPage() {
+/** Install hub — lists every plugin and links to its gated install guide. */
+export default async function InstallPage() {
+  const plugins = await getMarketplacePlugins();
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-32 md:px-8">
-      <div className="mb-8 rounded-2xl bg-accent-sage p-6">
-        <CheckCircle2 className="mb-2 h-8 w-8 text-emerald-600" />
+      <div className="mb-10">
         <h1 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl">
-          Install your Claude plugin
+          Install guides
         </h1>
-        <p className="mt-2 text-charcoal-muted">
-          Follow these steps to get Context Engineer running in Claude Desktop.
-          Total setup time: about 5 minutes.
+        <p className="mt-3 text-charcoal-muted">
+          Pick a plugin below. Free add-ons only need your email via magic link. Pro
+          plugins require an active subscription tied to the same email.
         </p>
       </div>
 
-      <div className="space-y-4">
-        {steps.map((step, i) => (
-          <Card key={step.title}>
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-3 text-lg">
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-charcoal text-sm text-cream">
-                  {i + 1}
-                </span>
-                {step.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-charcoal-muted">{step.description}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <InstallCheckoutFulfillShell />
 
-      <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-        <Button variant="outline" asChild>
-          <Link href="/">Back to home</Link>
-        </Button>
+      <div className="space-y-4">
+        {plugins.map((plugin) => (
+          <Link key={plugin.slug} href={`/install/${plugin.slug}`} className="block">
+            <Card className="transition-shadow hover:shadow-md">
+              <CardHeader className="pb-2">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <CardTitle className="text-lg">{plugin.title}</CardTitle>
+                  <AccessBadge plugin={plugin} />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-charcoal-muted">{plugin.description}</p>
+                <p className="mt-3 flex items-center gap-1 text-sm font-medium text-charcoal">
+                  {isFreeInstallPlugin(plugin)
+                    ? "Go to guide"
+                    : "Go to guide"}
+                  <ArrowRight className="h-4 w-4" />
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
       </div>
     </div>
   );

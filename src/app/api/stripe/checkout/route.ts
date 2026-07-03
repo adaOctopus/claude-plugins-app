@@ -6,12 +6,22 @@ import {
   getStripe,
   PRICING,
   getOrCreateStripeCustomer,
+  normalizeCheckoutPlan,
+  parseSubscriptionFromCheckout,
   type CheckoutPlan,
 } from "@/lib/stripe";
 import { User } from "@/models/User";
 
 const schema = z.object({
-  plan: z.enum(["monthly", "annual", "addon"]),
+  plan: z.enum([
+    "pro_monthly",
+    "pro_annual",
+    "premium_monthly",
+    "premium_annual",
+    "monthly",
+    "annual",
+    "addon",
+  ]),
   pluginId: z.string().optional(),
 });
 
@@ -21,17 +31,21 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { plan, pluginId } = schema.parse(body);
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const checkoutKey = normalizeCheckoutPlan(plan as CheckoutPlan);
 
-    const priceId = PRICING[plan as CheckoutPlan]?.priceId;
+    const priceId = PRICING[checkoutKey]?.priceId;
     if (!priceId) {
       return NextResponse.json(
-        { error: "Stripe price not configured. Set STRIPE_PRICE_* env vars." },
+        {
+          error: `Stripe price not configured for ${checkoutKey}. Set STRIPE_PRICE_* env vars.`,
+        },
         { status: 500 }
       );
     }
 
     const stripe = getStripe();
     const session = await getSession();
+    const { tier, billing } = parseSubscriptionFromCheckout(plan as CheckoutPlan);
 
     let customerId: string | undefined;
     let userId = "";
@@ -65,7 +79,9 @@ export async function POST(request: NextRequest) {
       cancel_url: cancelUrl,
       metadata: {
         userId,
-        plan,
+        plan: billing,
+        tier,
+        checkoutKey,
         pluginId: pluginId || "",
       },
       ...(customerId

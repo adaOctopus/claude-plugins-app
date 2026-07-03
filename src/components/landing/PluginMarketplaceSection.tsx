@@ -9,7 +9,7 @@ export async function PluginMarketplaceSection() {
   const plugins = await getMarketplacePlugins();
 
   return (
-    <section id="browse-plugins" className="border-t border-border/60 px-4 py-20 md:px-8">
+    <section id="browse-plugins" className="border-t border-border/60 px-4 pt-20 pb-10 md:px-8 md:pb-12">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>

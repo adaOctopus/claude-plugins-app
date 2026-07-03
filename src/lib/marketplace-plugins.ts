@@ -11,7 +11,7 @@ export type MarketplacePlugin = {
 /** Default catalog — shown when DB is empty; also used for detail-page fallback. */
 export const MARKETPLACE_CATALOG: MarketplacePlugin[] = [
   {
-    slug: "context-engineering",
+    slug: "context-engineer",
     title: "Context Engineering Autopilot",
     description:
       "Gathers full context from Jira, Slack, GitHub, Notion — ships code with CI green, and handles Slack communications.",
@@ -62,7 +62,7 @@ export const MARKETPLACE_FILTERS = [
 export type MarketplaceFilterId = (typeof MARKETPLACE_FILTERS)[number]["id"];
 
 export function formatPluginPrice(plugin: MarketplacePlugin): string {
-  if (plugin.isFlagship) return "Included in plan";
+  if (plugin.isFlagship) return "Included in Pro plan";
   if (plugin.priceMonthly === 0) return "Free";
   return `€${plugin.priceMonthly.toFixed(2)}/mo`;
 }

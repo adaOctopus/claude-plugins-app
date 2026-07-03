@@ -6,7 +6,7 @@ import { PluginMarketplaceSection } from "@/components/landing/PluginMarketplace
 import { MarketplaceSection } from "@/components/landing/MarketplaceSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { FAQSection } from "@/components/landing/FAQSection";
-import { SEO_DEFAULTS } from "@/lib/seo";
+import { SEO_DEFAULTS, OG_IMAGE } from "@/lib/seo";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
 
@@ -20,6 +20,21 @@ export const metadata: Metadata = {
     title: SEO_DEFAULTS.title,
     description: SEO_DEFAULTS.description,
     url: APP_URL,
+    images: [
+      {
+        url: OG_IMAGE.url,
+        width: OG_IMAGE.width,
+        height: OG_IMAGE.height,
+        alt: OG_IMAGE.alt,
+        type: "image/jpeg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SEO_DEFAULTS.title,
+    description: SEO_DEFAULTS.description,
+    images: [OG_IMAGE.url],
   },
 };
 
@@ -32,7 +47,6 @@ export default function HomePage() {
       <DashboardSection />
       <MarketplaceSection />
       <PluginMarketplaceSection />
-      
       <PricingSection />
       <FAQSection />
     </>

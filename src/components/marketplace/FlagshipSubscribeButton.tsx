@@ -5,7 +5,7 @@ import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton"
 /** Flagship plugin — straight to Stripe Checkout (annual Pro). */
 export function FlagshipSubscribeButton() {
   return (
-    <StripeCheckoutButton plan="annual" size="lg">
+    <StripeCheckoutButton tier="pro" billing="annual" size="lg">
       Subscribe & get plugin
     </StripeCheckoutButton>
   );

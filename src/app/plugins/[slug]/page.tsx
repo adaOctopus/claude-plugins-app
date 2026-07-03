@@ -9,6 +9,7 @@ import { formatCurrency } from "@/lib/utils";
 import { getMarketplacePluginBySlug } from "@/lib/marketplace-plugins.server";
 import { PluginPurchaseButton } from "@/components/marketplace/PluginPurchaseButton";
 import { FlagshipSubscribeButton } from "@/components/marketplace/FlagshipSubscribeButton";
+import { formatTierPrice } from "@/lib/pricing-plans";
 
 export async function generateMetadata({
   params,
@@ -65,7 +66,7 @@ export default async function PluginDetailPage({
       <div className="mt-8 rounded-2xl border border-border bg-accent-sand/30 p-6">
         <p className="text-2xl font-semibold">
           {plugin.isFlagship
-            ? "Included with base subscription (€19/mo or €149/yr)"
+            ? `Included with base subscription (${formatTierPrice("pro", "monthly")}/mo or ${formatTierPrice("pro", "annual")}/yr)`
             : isFree
               ? "Free add-on"
               : `${formatCurrency(plugin.priceMonthly)}/month add-on`}

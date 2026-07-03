@@ -1,26 +1,26 @@
-import Image from "next/image";
 import { cn } from "@/lib/utils";
-import plugsvilleMark from "@/assets/plugsville-mark.png";
 
-/** plugsville carrot-plug mark — brand icon from logo asset. */
+const PLUGSVILLE_MARK = "/plugsville-mark.jpg";
+
+/** plugsville plug mark — icon tile for navbar/footer lockups. */
 export function PlugsvilleMark({
   className,
-  size = 48,
+  size = 40,
   framed = false,
 }: {
   className?: string;
   size?: number;
-  /** Rounded tile + border — used in navbar/footer lockup. */
+  /** Rounded tile + border — used next to the wordmark. */
   framed?: boolean;
 }) {
   const image = (
-    <Image
-      src={plugsvilleMark}
-      alt="plugsville"
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={PLUGSVILLE_MARK}
+      alt=""
       width={size}
       height={size}
-      className={cn("h-full w-full object-contain", !framed && "shrink-0", className)}
-      priority
+      className={cn("block h-full w-full object-contain p-0.5", className)}
     />
   );
 
@@ -28,7 +28,7 @@ export function PlugsvilleMark({
 
   return (
     <span
-      className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-border bg-cream shadow-[0_1px_2px_rgba(45,41,38,0.07)]"
+      className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-cream shadow-[0_1px_2px_rgba(45,41,38,0.08)]"
       style={{ width: size, height: size }}
     >
       {image}
@@ -36,11 +36,17 @@ export function PlugsvilleMark({
   );
 }
 
-/** Navbar lockup: framed mark + wordmark. */
-export function PlugsvilleLogo({ className }: { className?: string }) {
+/** Navbar/footer lockup: framed mark + wordmark. */
+export function PlugsvilleLogo({
+  className,
+  markSize = 40,
+}: {
+  className?: string;
+  markSize?: number;
+}) {
   return (
-    <span className={`inline-flex items-center gap-2.5 ${className ?? ""}`}>
-      <PlugsvilleMark size={48} framed />
+    <span className={cn("inline-flex items-center gap-2.5", className)}>
+      <PlugsvilleMark size={markSize} framed />
       <span className="font-serif brand-lockup text-lg text-charcoal">plugsville</span>
     </span>
   );

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { SEO_DEFAULTS } from "@/lib/seo";
+import { SEO_DEFAULTS, OG_IMAGE } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -39,10 +39,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/icon.png", type: "image/png", sizes: "1024x1024" },
-      { url: "/plugsville-mark.png", type: "image/png", sizes: "1024x1024" },
+      { url: "/plugsville-mark.jpg", type: "image/jpeg", sizes: "1024x1024" },
     ],
     apple: [{ url: "/apple-icon.png", sizes: "1024x1024", type: "image/png" }],
-    shortcut: "/plugsville-mark.png",
+    shortcut: "/plugsville-mark.jpg",
   },
   openGraph: {
     title: SEO_DEFAULTS.title,
@@ -53,10 +53,11 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/og-plugsville.png",
-        width: 1200,
-        height: 630,
-        alt: "plugsville",
+        url: OG_IMAGE.url,
+        width: OG_IMAGE.width,
+        height: OG_IMAGE.height,
+        alt: OG_IMAGE.alt,
+        type: "image/jpeg",
       },
     ],
   },
@@ -64,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SEO_DEFAULTS.title,
     description: SEO_DEFAULTS.description,
-    images: ["/og-plugsville.png"],
+    images: [OG_IMAGE.url],
   },
   robots: {
     index: true,
