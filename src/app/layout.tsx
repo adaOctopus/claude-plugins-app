@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 const playfair = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
 });
 
@@ -39,10 +39,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/icon.png", type: "image/png", sizes: "1024x1024" },
-      { url: "/plugsville-mark.jpg", type: "image/jpeg", sizes: "1024x1024" },
+      { url: "/plugsville-mark.png", type: "image/png", sizes: "1024x1024" },
     ],
     apple: [{ url: "/apple-icon.png", sizes: "1024x1024", type: "image/png" }],
-    shortcut: "/plugsville-mark.jpg",
+    shortcut: "/plugsville-mark.png",
   },
   openGraph: {
     title: SEO_DEFAULTS.title,

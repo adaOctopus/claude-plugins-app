@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 
-const PLUGSVILLE_MARK = "/plugsville-mark.jpg";
+const PLUGSVILLE_MARK = "/plugsville-mark.png";
 
-/** plugsville plug mark — icon tile for navbar/footer lockups. */
+/** Brand mark — icon tile for navbar/footer lockups. */
 export function PlugsvilleMark({
   className,
   size = 40,
@@ -20,7 +20,7 @@ export function PlugsvilleMark({
       alt=""
       width={size}
       height={size}
-      className={cn("block h-full w-full object-contain p-0.5", className)}
+      className={cn("block h-full w-full object-cover", className)}
     />
   );
 
@@ -28,7 +28,7 @@ export function PlugsvilleMark({
 
   return (
     <span
-      className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-cream shadow-[0_1px_2px_rgba(45,41,38,0.08)]"
+      className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-[#FFF4E8] shadow-[0_1px_2px_rgba(45,41,38,0.08)]"
       style={{ width: size, height: size }}
     >
       {image}
@@ -40,14 +40,23 @@ export function PlugsvilleMark({
 export function PlugsvilleLogo({
   className,
   markSize = 40,
+  wordmarkClassName,
 }: {
   className?: string;
   markSize?: number;
+  wordmarkClassName?: string;
 }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <PlugsvilleMark size={markSize} framed />
-      <span className="font-serif brand-lockup text-lg text-charcoal">plugsville</span>
+      <span
+        className={cn(
+          "font-serif brand-lockup text-charcoal",
+          wordmarkClassName ?? "text-lg"
+        )}
+      >
+        plugsville
+      </span>
     </span>
   );
 }

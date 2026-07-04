@@ -1,7 +1,5 @@
-import Link from "next/link";
-import { Plug } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { HeroDashboard } from "@/components/landing/HeroDashboard";
+import { CtaMonoBadge } from "@/components/hero-cta";
 
 /** Hero section — split layout: copy left, outcome dashboard right. */
 export function HeroSection() {
@@ -26,12 +24,7 @@ export function HeroSection() {
           </p>
 
           <div className="mt-8">
-            <Button size="lg" className="rounded-full px-8" asChild>
-              <Link href="/pricing" className="inline-flex items-center gap-2">
-                <Plug className="h-4 w-4 text-white" strokeWidth={2.25} />
-                GET STARTED NOW
-              </Link>
-            </Button>
+            <CtaMonoBadge />
           </div>
         </div>
 
