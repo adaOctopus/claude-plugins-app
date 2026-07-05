@@ -36,6 +36,15 @@ export function PlugsvilleMark({
   );
 }
 
+/** Inline brand wordmark — same style as navbar/footer lockup text. */
+export function BrandWordmark({ className }: { className?: string }) {
+  return (
+    <span className={cn("font-serif brand-lockup text-charcoal", className)}>
+      plugsville
+    </span>
+  );
+}
+
 /** Navbar/footer lockup: framed mark + wordmark. */
 export function PlugsvilleLogo({
   className,

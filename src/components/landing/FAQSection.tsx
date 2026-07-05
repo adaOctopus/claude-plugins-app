@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { BrandWordmark } from "@/components/brand/PlugsvilleMark";
 import { Badge } from "@/components/ui/badge";
 
 export const faqItems = [
@@ -53,7 +54,7 @@ export const faqItems = [
       "The plugin monitors Slack for action items and generates reply drafts and standup updates automatically — already written, ready to send. You Approve & submit to post them. No drafting, no prompting, no iteration.",
   },
   {
-    question: "What's included in the €19/month subscription?",
+    question: "What's included in the €17/month subscription?",
     answer:
       "The Context Engineer Claude plugin with full Jira, Slack, and GitHub integration; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; install guide; and ongoing updates. No per-task prompt writing. No LLM iteration tax.",
   },
@@ -76,8 +77,8 @@ export function FAQSection() {
           Frequently asked questions
         </h2>
         <p className="mt-4 text-charcoal-muted">
-          Context switching, AI fatigue, context engineering — and how one Claude
-          plugin changes the way engineers work with AI.
+          <BrandWordmark /> helps with context switching, AI fatigue, and the constant burnout, that
+          the modern remote worker faces.
         </p>
 
         <Accordion type="single" collapsible className="mt-10">

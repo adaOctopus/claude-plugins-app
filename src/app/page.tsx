@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/landing/HeroSection";
 import { DashboardSection } from "@/components/landing/DashboardSection";
 import { PluginMarketplaceSection } from "@/components/landing/PluginMarketplaceSection";
 import { MarketplaceSection } from "@/components/landing/MarketplaceSection";
+import { ChatTagsSection } from "@/components/landing/ChatTagsSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { FAQSection } from "@/components/landing/FAQSection";
 import { SEO_DEFAULTS, OG_IMAGE } from "@/lib/seo";
@@ -45,6 +46,7 @@ export default function HomePage() {
       <HeroSection />
       <HowItWorksStrip />
       <DashboardSection />
+      <ChatTagsSection />
       <MarketplaceSection />
       <PluginMarketplaceSection />
       <PricingSection />
