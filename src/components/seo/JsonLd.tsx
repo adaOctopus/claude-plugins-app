@@ -1,10 +1,10 @@
 import { faqItems } from "@/components/landing/FAQSection";
-import { OG_IMAGE, OG_TAGLINE, SEO_DEFAULTS } from "@/lib/seo";
+import { getAbsoluteOgImageUrl, getSiteUrl, OG_TAGLINE, SEO_DEFAULTS } from "@/lib/seo";
 import { PRICING_AMOUNTS } from "@/lib/pricing-plans";
 
 export function JsonLd() {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
-  const ogImageUrl = `${appUrl}${OG_IMAGE.url}`;
+  const appUrl = getSiteUrl();
+  const ogImageUrl = getAbsoluteOgImageUrl();
 
   const faqSchema = {
     "@context": "https://schema.org",

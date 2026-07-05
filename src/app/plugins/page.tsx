@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { formatPluginPrice } from "@/lib/marketplace-plugins";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
@@ -7,11 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
 
-export const metadata: Metadata = {
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
   title: "Claude Plugins Marketplace",
   description:
     "Browse Claude plugins for engineers, PMs, and remote workers. Context engineering plugins for Jira, Slack, and GitHub.",
-};
+  path: "/plugins",
+});
 
 /** Plugins browse page — marketplace listing. */
 export default async function PluginsPage() {

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { SEO_DEFAULTS, OG_IMAGE } from "@/lib/seo";
+import { createRootMetadata } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,61 +23,7 @@ const playfair = Playfair_Display({
   style: ["normal", "italic"],
 });
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
-
-export const metadata: Metadata = {
-  metadataBase: new URL(APP_URL),
-  title: {
-    default: SEO_DEFAULTS.title,
-    template: "%s | plugsville",
-  },
-  description: SEO_DEFAULTS.description,
-  keywords: [...SEO_DEFAULTS.keywords],
-  alternates: {
-    canonical: APP_URL,
-  },
-  icons: {
-    icon: [
-      { url: "/icon.png", type: "image/png", sizes: "1024x1024" },
-      { url: "/plugsville-mark.png", type: "image/png", sizes: "1024x1024" },
-    ],
-    apple: [{ url: "/apple-icon.png", sizes: "1024x1024", type: "image/png" }],
-    shortcut: "/plugsville-mark.png",
-  },
-  openGraph: {
-    title: SEO_DEFAULTS.title,
-    description: SEO_DEFAULTS.description,
-    url: APP_URL,
-    siteName: "plugsville",
-    type: "website",
-    locale: "en_US",
-    images: [
-      {
-        url: OG_IMAGE.url,
-        width: OG_IMAGE.width,
-        height: OG_IMAGE.height,
-        alt: OG_IMAGE.alt,
-        type: "image/jpeg",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: SEO_DEFAULTS.title,
-    description: SEO_DEFAULTS.description,
-    images: [OG_IMAGE.url],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-};
+export const metadata: Metadata = createRootMetadata();
 
 export default function RootLayout({
   children,

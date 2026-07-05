@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -11,11 +10,14 @@ import {
   requiresProSubscription,
 } from "@/lib/install-access";
 
-export const metadata: Metadata = {
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
   title: "Install Guides — Claude Plugin Setup",
   description:
     "Install guides for plugsville Claude plugins. Free add-ons need email verification; Pro plugins require an active subscription.",
-};
+  path: "/install",
+});
 
 function AccessBadge({ plugin }: { plugin: MarketplacePlugin }) {
   if (requiresProSubscription(plugin)) {
