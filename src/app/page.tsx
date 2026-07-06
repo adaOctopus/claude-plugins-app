@@ -1,4 +1,5 @@
 import { HowItWorksStrip } from "@/components/landing/HowItWorksStrip";
+import { BenefitsSection } from "@/components/landing/BenefitsSection";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { DashboardSection } from "@/components/landing/DashboardSection";
 import { PluginMarketplaceSection } from "@/components/landing/PluginMarketplaceSection";
@@ -19,6 +20,7 @@ export default function HomePage() {
     <>
       <HeroSection />
       <HowItWorksStrip />
+      <BenefitsSection />
       <DashboardSection />
       <ChatTagsSection />
       <MarketplaceSection />

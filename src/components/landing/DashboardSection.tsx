@@ -38,7 +38,7 @@ export function DashboardSection() {
     <section id="dashboard" className="px-4 py-24 md:px-8">
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          Control Panel Inside Claude
+          Everything From Inside Claude
         </Badge>
         <h2 className="max-w-2xl font-serif text-3xl text-charcoal md:text-5xl">
           <span style={{ fontStyle: "italic", fontWeight: "600" }}>Bye-bye</span> context switching👋

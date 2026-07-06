@@ -3,10 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { RotatingTagHeadline } from "@/components/landing/RotatingTagHeadline";
 import { cn } from "@/lib/utils";
 import {
-  GitMerge,
-  GitPullRequest,
-  MessageSquare,
-  RefreshCw,
   Smartphone,
   Sparkles,
   Zap,
@@ -33,9 +29,9 @@ const tagCommands: TagCommand[] = [
     glow: "shadow-[0_8px_24px_rgba(59,130,246,0.12),inset_0_1px_0_rgba(255,255,255,0.95)]",
   },
   {
-    tag: "@PRready",
+    tag: "@FullRun",
     emoji: "🚀",
-    title: "PR ready",
+    title: "Full Run",
     blurb: "Commits, push, PR opened — description included.",
     result: "PR #847 opened · CI green · reviewers tagged",
     accent: "from-[#E8FAF6] to-[#D1F4EE]",
@@ -202,7 +198,7 @@ export function ChatTagsSection() {
     >
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          Made for devs · with love ❤️
+          Mobile Friendly For Lazy Days
         </Badge>
         <RotatingTagHeadline />
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-charcoal-muted md:text-base">
@@ -213,7 +209,7 @@ export function ChatTagsSection() {
           </strong>
         </p>
 
-        <div className="mt-10 flex items-center gap-2 rounded-2xl border border-[#7DD3C0]/30 bg-gradient-to-r from-[#E8FAF6]/80 to-white px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:inline-flex sm:gap-3 sm:px-5 sm:py-3.5">
+        {/* <div className="mt-10 flex items-center gap-2 rounded-2xl border border-[#7DD3C0]/30 bg-gradient-to-r from-[#E8FAF6]/80 to-white px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:inline-flex sm:gap-3 sm:px-5 sm:py-3.5">
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/80 bg-white text-lg shadow-sm">
             📱
           </span>
@@ -230,7 +226,7 @@ export function ChatTagsSection() {
             <Zap className="h-3 w-3" />
             ~60s runs
           </span>
-        </div>
+        </div> */}
 
         <div className="mt-12 grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-14">
           <div className="order-2 lg:order-1">
@@ -254,17 +250,16 @@ export function ChatTagsSection() {
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           {[
-            { icon: GitMerge, label: "Rebase", emoji: "🔀" },
-            { icon: GitPullRequest, label: "PR", emoji: "🚀" },
-            { icon: RefreshCw, label: "WTF", emoji: "😂" },
-            { icon: MessageSquare, label: "Slack", emoji: "💬" },
-          ].map(({ icon: Icon, label, emoji }) => (
+            { label: "Rebase", emoji: "🔀" },
+            { label: "PR", emoji: "🚀" },
+            { label: "WTF", emoji: "😂" },
+            { label: "Slack", emoji: "💬" },
+          ].map(({ label, emoji }) => (
             <span
               key={label}
               className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-gradient-to-b from-white to-cream-warm px-3 py-1.5 text-xs font-medium text-charcoal shadow-[0_2px_8px_rgba(45,41,38,0.06),inset_0_1px_0_rgba(255,255,255,0.9)]"
             >
               <span className="text-sm">{emoji}</span>
-              <Icon className="h-3 w-3 text-charcoal/50" strokeWidth={2} />
               {label}
             </span>
           ))}

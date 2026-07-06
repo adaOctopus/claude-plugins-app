@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const keywords = [
-  { text: "rebase", emoji: "🔀" },
-  { text: "PRready", emoji: "🚀" },
+  { text: "Refetch", emoji: "🔀" },
+  { text: "FullRun", emoji: "🚀" },
   { text: "WTF", emoji: "😂" },
   { text: "Slack", emoji: "💬" },
 ] as const;
