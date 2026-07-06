@@ -74,9 +74,9 @@ body {
 }
 
 .font-serif.brand-lockup {
-  font-weight: 600;
-  font-style: italic;
-  letter-spacing: -0.03em;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: -0.04em;
   line-height: 1.15;
   -webkit-text-stroke: 0.018em currentColor;
   paint-order: stroke fill;

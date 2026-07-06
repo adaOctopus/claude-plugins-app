@@ -66,10 +66,10 @@ export function HowItWorksStrip() {
     >
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          How it works
+          What Is It?
         </Badge>
         <h2 className="max-w-2xl font-serif text-3xl text-charcoal md:text-4xl">
-          Puts you in <strong style={{ fontStyle: "italic", fontWeight: "600" }}>God Mode</strong> inside Claude.
+          A Claude plugin that puts you in <strong style={{ fontStyle: "italic", fontWeight: "600" }}>God Mode</strong>.
         </h2>
         <p className="mt-2 max-w-xl text-sm text-charcoal-muted">
           Fetches context, engineers prompts, handles CI and Slack. Then you approve or redo.
@@ -93,7 +93,7 @@ export function HowItWorksStrip() {
           <StepConnector />
 
           {/* 2 — CRISPE prompt engineering */}
-          <HowStep label="Engineered prompts">
+          <HowStep label="Engineers prompts for you">
             <div className="flex flex-col items-center gap-1">
               <Wand2 className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2} />
               <div className="flex gap-px">

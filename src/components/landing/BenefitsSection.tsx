@@ -166,28 +166,28 @@ function BenefitCard({
 const benefits: Benefit[] = [
   {
     title: "Mental energy back",
-    tagline: "The plugin carries the cognitive overload.",
+    tagline: "Carries the cognitive overload.",
     accent: "from-[#E8FAF6] to-white",
     glow: "shadow-[0_8px_24px_rgba(13,148,136,0.1),inset_0_1px_0_rgba(255,255,255,0.95)]",
     visual: <MentalEnergyVisual />,
   },
   {
     title: "Save hours weekly",
-    tagline: "Less tab-hopping and context-switching.",
+    tagline: "Eliminates context-switching.",
     accent: "from-[#E8F4FF] to-white",
     glow: "shadow-[0_8px_24px_rgba(59,130,246,0.1),inset_0_1px_0_rgba(255,255,255,0.95)]",
     visual: <TimeSavedVisual />,
   },
   {
-    title: "Time for your projects",
-    tagline: "Deliver tasks faster, with less mental effort.",
+    title: "Frees up your time",
+    tagline: "More time for your side projects.",
     accent: "from-[#FFF4E8] to-white",
     glow: "shadow-[0_8px_24px_rgba(245,158,11,0.1),inset_0_1px_0_rgba(255,255,255,0.95)]",
     visual: <FocusProjectsVisual />,
   },
   {
     title: "Skip AI fatigue & burnout",
-    tagline: "No spirals. No context-switching.",
+    tagline: "No back and forth with AI.",
     accent: "from-[#F3EEFF] to-white",
     glow: "shadow-[0_8px_24px_rgba(139,92,246,0.1),inset_0_1px_0_rgba(255,255,255,0.95)]",
     visual: <BurnoutAvoidVisual />,
