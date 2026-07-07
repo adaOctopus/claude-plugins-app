@@ -1,17 +1,18 @@
 import type { ComponentType, ReactNode } from "react";
-import { CheckCircle2, FileCode2, GitPullRequest, Wand2 } from "lucide-react";
+import {
+  CheckCircle2,
+  Clock,
+  FileCode2,
+  GitPullRequest,
+  Ticket,
+  Wand2,
+} from "lucide-react";
 import { integrationSources } from "@/components/icons/IntegrationMarks";
 import { chartGradient } from "@/lib/chart-colors";
 
-const weekBars = [
-  { day: "M", height: 100 },
-  { day: "T", height: 72 },
-  { day: "W", height: 48 },
-  { day: "Th", height: 28 },
-  { day: "F", height: 14 },
-] as const;
-
 const crispeLetters = ["C", "R", "I", "S", "P", "E"] as const;
+
+const ciChecks = ["lint", "tests", "build"] as const;
 
 type MarkProps = { className?: string };
 
@@ -151,57 +152,111 @@ function Connector() {
   );
 }
 
+function OutcomeMetric({
+  label,
+  value,
+  sub,
+  className,
+}: {
+  label: string;
+  value: string;
+  sub?: string;
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      <p className="text-[9px] font-semibold uppercase tracking-widest text-[#0D9488]">{label}</p>
+      <p className="mt-0.5 font-serif text-3xl leading-none text-charcoal sm:text-4xl">{value}</p>
+      {sub ? <p className="mt-1 text-[10px] font-medium text-charcoal-muted">{sub}</p> : null}
+    </div>
+  );
+}
+
+function OutcomeStatusCard({
+  icon: Icon,
+  title,
+  detail,
+  children,
+}: {
+  icon: ComponentType<{ className?: string; strokeWidth?: number }>;
+  title: string;
+  detail: string;
+  children?: ReactNode;
+}) {
+  return (
+    <div className="flex min-w-0 flex-1 flex-col rounded-xl border border-white/80 bg-white/90 px-2.5 py-2 shadow-sm">
+      <div className="flex items-center gap-1.5">
+        <Icon className="h-3.5 w-3.5 shrink-0 text-[#0D9488]" strokeWidth={2} />
+        <span className="truncate text-[10px] font-bold uppercase tracking-wide text-charcoal">
+          {title}
+        </span>
+      </div>
+      <p className="mt-1 truncate text-[10px] text-charcoal-muted">{detail}</p>
+      {children ? <div className="mt-1.5">{children}</div> : null}
+    </div>
+  );
+}
+
+/** Top panel — concrete run outcomes instead of generic hours saved. */
+function TodayOutcomesPanel() {
+  return (
+    <div
+      className="px-4 pb-4 pt-4 sm:px-5 sm:pt-5"
+      style={{
+        background: `linear-gradient(145deg, ${chartGradient.bg} 0%, ${chartGradient.bottom} 100%)`,
+      }}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <OutcomeMetric
+          label="Task completed"
+          value="7 mins"
+          sub="PROJ-124 · Auth Middleware"
+        />
+        <OutcomeMetric
+          label="Today saved"
+          value="2.5 hrs"
+          sub="from not switching tools"
+          className="text-right"
+        />
+      </div>
+
+      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <OutcomeStatusCard icon={Clock} title="Delivered" detail="Run complete · 7m 12s">
+          <div className="h-1.5 overflow-hidden rounded-full bg-emerald-100">
+            <div className="h-full w-full rounded-full bg-gradient-to-r from-[#0D9488] to-emerald-400" />
+          </div>
+        </OutcomeStatusCard>
+
+        <OutcomeStatusCard icon={GitPullRequest} title="Github CI pass" detail="PR #847 · CI green">
+          <div className="flex flex-wrap gap-1">
+            {ciChecks.map((check) => (
+              <span
+                key={check}
+                className="inline-flex items-center gap-0.5 rounded-md border border-emerald-200 bg-emerald-50 px-1 py-0.5 text-[8px] font-bold uppercase text-emerald-800"
+              >
+                <CheckCircle2 className="h-2 w-2" strokeWidth={2.5} />
+                {check}
+              </span>
+            ))}
+          </div>
+        </OutcomeStatusCard>
+
+        <OutcomeStatusCard icon={Ticket} title="Jira done" detail="PROJ-124 → Done">
+          <span className="inline-flex items-center gap-1 rounded-md border border-[#7DD3C0]/40 bg-[#E8FAF6] px-1.5 py-0.5 text-[8px] font-bold uppercase text-[#0D9488]">
+            <CheckCircle2 className="h-2 w-2" strokeWidth={2.5} />
+            Moved to Review
+          </span>
+        </OutcomeStatusCard>
+      </div>
+    </div>
+  );
+}
+
 /** Hero right column — visual outcome dashboard for engineers. */
 export function HeroDashboard() {
   return (
     <div className="w-full overflow-hidden rounded-2xl border border-[#7DD3C0]/35 bg-white shadow-[0_8px_40px_rgba(45,41,38,0.07)]">
-      {/* Hours saved */}
-      <div
-        className="px-4 pb-4 pt-4 sm:px-5 sm:pt-5"
-        style={{
-          background: `linear-gradient(145deg, ${chartGradient.bg} 0%, ${chartGradient.bottom} 100%)`,
-        }}
-      >
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#0D9488]">
-              Hours saved this week
-            </p>
-            <p className="mt-0.5 font-serif text-4xl leading-none text-charcoal">−10 hrs</p>
-          </div>
-
-          <div className="flex h-[4rem] w-full max-w-[10rem] items-end justify-end gap-1.5">
-            {weekBars.map((bar, i) => (
-              <div
-                key={i}
-                className="flex h-full flex-1 flex-col items-center justify-end gap-1"
-              >
-                <div
-                  className="w-full min-h-[3px] rounded-t-md"
-                  style={{
-                    height: `${bar.height}%`,
-                    background: `linear-gradient(to top, ${chartGradient.accent}, ${chartGradient.top})`,
-                    opacity: 0.4 + (bar.height / 100) * 0.6,
-                  }}
-                />
-                <span className="text-[8px] text-charcoal/40">{bar.day}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* <div className="mt-3 flex gap-2">
-          {integrationSources.map(({ id, label, Mark }) => (
-            <span
-              key={id}
-              className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/80 bg-white/80 shadow-sm"
-              title={label}
-            >
-              <IntegrationLogo Mark={Mark} size="sm" />
-            </span>
-          ))}
-        </div> */}
-      </div>
+      <TodayOutcomesPanel />
 
       {/* Context scan — visual only, no tool names in copy */}
       <div className="border-t border-[#7DD3C0]/20 bg-cream-warm px-4 py-4 sm:px-5">
