@@ -85,17 +85,16 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
 
         <CardContent className="flex-1">
           <ul className="space-y-3">
-            {freePlan.features.map((feature) => {
-              const isLimitation =
-                feature.startsWith("No ") || feature.includes("not included");
+            {freePlan.features.map((feature, index) => {
+              const isLimitation = index >= freePlan.features.length - 3;
               return (
                 <li key={feature} className="flex items-start gap-2 text-sm">
                   {isLimitation ? (
-                    <X className="mt-0.5 h-4 w-4 shrink-0 text-charcoal-muted" />
+                    <X className="mt-0.5 h-4 w-4 shrink-0 text-charcoal-muted/70" />
                   ) : (
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
                   )}
-                  <span className={isLimitation ? "text-charcoal-muted" : undefined}>
+                  <span className={isLimitation ? "text-charcoal-muted/80" : undefined}>
                     {feature}
                   </span>
                 </li>

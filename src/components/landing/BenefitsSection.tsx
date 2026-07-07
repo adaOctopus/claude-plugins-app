@@ -56,7 +56,7 @@ function MentalEnergyVisual() {
             <span key={i} className="h-1.5 w-1.5 rounded-full bg-charcoal/20" />
           ))}
         </div>
-        <span className="text-[7px] font-bold uppercase text-charcoal/40">Before</span>
+        <span className="text-[7px] font-bold uppercase text-grey/60">Before</span>
       </div>
       <div className="text-charcoal/20">→</div>
       <div className="flex flex-col items-center gap-1.5">

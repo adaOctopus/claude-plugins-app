@@ -45,7 +45,7 @@ export function RotatingTagHeadline({ className }: { className?: string }) {
     >
       <span className="inline-flex flex-wrap items-baseline gap-x-[0.28em]">
         <span>
-          When lazy, type{" "}
+          When lazy, just type{" "}
           <span className="font-mono text-[0.88em] italic font-bold">@</span>
         </span>
 

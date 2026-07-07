@@ -72,7 +72,7 @@ export function HowItWorksStrip() {
           A Claude plugin that puts you in <strong style={{ fontStyle: "italic", fontWeight: "600" }}>God Mode</strong>.
         </h2>
         <p className="mt-2 max-w-xl text-sm text-charcoal-muted">
-          Fetches context, engineers prompts, handles CI and Slack. Then you approve or redo.
+          6 Agents working in parallel to fetch context, engineer prompts, and handle both CI & Slack. You just approve or click redo.
         </p>
 
         <div className="mt-8 flex items-start justify-between gap-1 overflow-x-auto pb-1 sm:gap-0 md:mt-10 md:overflow-visible">
