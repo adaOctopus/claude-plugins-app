@@ -63,7 +63,7 @@ function ClaudeChatMock() {
         <div className="flex items-center gap-2.5">
           <ClaudeAvatar />
           <div>
-            <p className="text-sm font-semibold text-charcoal">Claude</p>
+            <p className="text-sm font-semibold text-charcoal">coolplugz</p>
             <p className="text-[10px] text-charcoal-muted">Sonnet · New chat</p>
           </div>
         </div>
