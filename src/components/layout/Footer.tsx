@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PlugsvilleLogo } from "@/components/brand/PlugsvilleMark";
+import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
 
 const footerLinks = {
   Product: [
@@ -13,7 +13,7 @@ const footerLinks = {
   ],
   Company: [
     { href: "/#faq", label: "FAQ" },
-    { href: "mailto:hello@plugsville.dev", label: "Contact" },
+    { href: "mailto:hello@coolplugz.dev", label: "Contact" },
   ],
 };
 
@@ -23,7 +23,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-4">
         <div className="md:col-span-1">
           <Link href="/" className="inline-block text-charcoal">
-            <PlugsvilleLogo markSize={40} />
+            <CoolplugzLogo markSize={40} />
           </Link>
           <p className="mt-3 text-sm text-charcoal-muted">
             Ship merge-ready code faster and stop switching between tools.
@@ -52,7 +52,7 @@ export function Footer() {
 
       <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center justify-between gap-4 border-t border-border pt-8 text-sm text-charcoal-muted md:flex-row">
         <p suppressHydrationWarning>
-          &copy; {new Date().getFullYear()} plugsville. All rights reserved.
+          &copy; {new Date().getFullYear()} coolplugz. All rights reserved.
         </p>
         <div className="flex gap-6">
           <Link href="#" className="hover:text-charcoal">

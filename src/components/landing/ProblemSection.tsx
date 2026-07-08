@@ -117,7 +117,7 @@ export function ProblemSection() {
         </h2>
         <p className="mt-4 max-w-2xl text-charcoal-muted">
           Today you manually gather context, write prompts, run AI, and iterate.
-          With Project X,{" "}
+          With coolplugz,{" "}
           <strong className="font-medium text-charcoal">all of that runs automatically</strong>.
           You only show up to Approve &amp; submit or Reject &amp; redo.
         </p>

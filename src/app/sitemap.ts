@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { MARKETPLACE_CATALOG } from "@/lib/marketplace-plugins";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://plugsville.dev";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://coolplugz.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [

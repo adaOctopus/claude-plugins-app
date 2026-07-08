@@ -46,7 +46,7 @@ export function InstallEmailGate({ plugin, kind, slug }: InstallEmailGateProps) 
   const description =
     kind === "free"
       ? `Enter your email to access the ${plugin.title} install guide. We'll send a one-time link — no password needed.`
-      : `Enter the email you used for your plugsville subscription. We'll verify your access and send a secure link to the ${plugin.title} install guide.`;
+      : `Enter the email you used for your coolplugz subscription. We'll verify your access and send a secure link to the ${plugin.title} install guide.`;
 
   return (
     <Card className="mx-auto max-w-lg">

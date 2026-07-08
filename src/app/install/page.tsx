@@ -15,7 +15,7 @@ import { createPageMetadata } from "@/lib/seo";
 export const metadata = createPageMetadata({
   title: "Install Guides — Claude Plugin Setup",
   description:
-    "Install guides for plugsville Claude plugins. Free add-ons need email verification; Pro plugins require an active subscription.",
+    "Install guides for coolplugz Claude plugins. Free add-ons need email verification; Pro plugins require an active subscription.",
   path: "/install",
 });
 

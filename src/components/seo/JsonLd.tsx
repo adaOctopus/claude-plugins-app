@@ -22,7 +22,7 @@ export function JsonLd() {
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "plugsville",
+    name: "coolplugz",
     url: appUrl,
     description: SEO_DEFAULTS.description,
     slogan: OG_TAGLINE,
@@ -32,7 +32,7 @@ export function JsonLd() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "plugsville",
+    name: "coolplugz",
     url: appUrl,
     description: SEO_DEFAULTS.description,
     inLanguage: "en-US",
@@ -41,7 +41,7 @@ export function JsonLd() {
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "plugsville Context Engineer",
+    name: "coolplugz Context Engineer",
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web",
     description: SEO_DEFAULTS.description,

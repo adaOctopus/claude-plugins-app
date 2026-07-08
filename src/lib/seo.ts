@@ -4,15 +4,15 @@ export const OG_TAGLINE =
   "Ship merge-ready code without tool switching.";
 
 export const OG_IMAGE = {
-  path: "/og-plugsville.jpg",
+  path: "/og-coolplugz.jpg",
   width: 2718,
   height: 1428,
-  alt: "plugsville — Ship merge-ready code without tool switching",
+  alt: "coolplugz — Ship merge-ready code without tool switching",
   type: "image/jpeg" as const,
 } as const;
 
 export const SEO_DEFAULTS = {
-  title: "plugsville — Ship merge-ready code without switching tools",
+  title: "coolplugz — Ship merge-ready code without switching tools",
   description:
     "Claude plugin for engineers: gathers Jira, Slack, GitHub & Notion context, engineers CRISPE prompts, delivers merge-ready code inside Claude. End Slack fatigue — approve or reject, no LLM spirals.",
   keywords: [
@@ -31,7 +31,7 @@ export const SEO_DEFAULTS = {
     "LLM spirals",
     "AI fatigue remote engineers",
     "context engineer plugin",
-    "plugsville",
+    "coolplugz",
   ],
 } as const;
 
@@ -43,7 +43,7 @@ export function getSiteUrl(): string {
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
   }
-  return "https://plugsville.dev";
+  return "https://coolplugz.dev";
 }
 
 export function getAbsoluteOgImageUrl(): string {
@@ -89,7 +89,7 @@ export function createRootMetadata(): Metadata {
     metadataBase: new URL(siteUrl),
     title: {
       default: SEO_DEFAULTS.title,
-      template: "%s | plugsville",
+      template: "%s | coolplugz",
     },
     description: SEO_DEFAULTS.description,
     keywords: [...SEO_DEFAULTS.keywords],
@@ -99,16 +99,16 @@ export function createRootMetadata(): Metadata {
     icons: {
       icon: [
         { url: "/icon.png", type: "image/png", sizes: "1024x1024" },
-        { url: "/plugsville-mark.png", type: "image/png", sizes: "1024x1024" },
+        { url: "/coolplugz-mark.png", type: "image/png", sizes: "1024x1024" },
       ],
       apple: [{ url: "/apple-icon.png", sizes: "1024x1024", type: "image/png" }],
-      shortcut: "/plugsville-mark.png",
+      shortcut: "/coolplugz-mark.png",
     },
     openGraph: {
       title: SEO_DEFAULTS.title,
       description: SEO_DEFAULTS.description,
       url: siteUrl,
-      siteName: "plugsville",
+      siteName: "coolplugz",
       type: "website",
       locale: "en_US",
       images: openGraphImages,
@@ -153,7 +153,7 @@ export function createPageMetadata({
       title: pageTitle,
       description,
       url: pageUrl,
-      siteName: "plugsville",
+      siteName: "coolplugz",
       type: "website",
       locale: "en_US",
       images: openGraphImages,

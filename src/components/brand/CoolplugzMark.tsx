@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 
-const PLUGSVILLE_MARK = "/plugsville-mark.png";
+const COOLPLUGZ_MARK = "/coolplugz-mark.png";
 
 /** Brand mark — icon tile for navbar/footer lockups. */
-export function PlugsvilleMark({
+export function CoolplugzMark({
   className,
   size = 40,
   framed = false,
@@ -16,7 +16,7 @@ export function PlugsvilleMark({
   const image = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={PLUGSVILLE_MARK}
+      src={COOLPLUGZ_MARK}
       alt=""
       width={size}
       height={size}
@@ -40,13 +40,13 @@ export function PlugsvilleMark({
 export function BrandWordmark({ className }: { className?: string }) {
   return (
     <span className={cn("font-serif brand-lockup text-charcoal", className)}>
-      plugsville
+      coolplugz
     </span>
   );
 }
 
 /** Navbar/footer lockup: framed mark + wordmark. */
-export function PlugsvilleLogo({
+export function CoolplugzLogo({
   className,
   markSize = 40,
   wordmarkClassName,
@@ -57,14 +57,14 @@ export function PlugsvilleLogo({
 }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <PlugsvilleMark size={markSize} framed />
+      <CoolplugzMark size={markSize} framed />
       <span
         className={cn(
           "font-serif brand-lockup text-charcoal",
           wordmarkClassName ?? "text-lg"
         )}
       >
-        plugsville
+        coolplugz
       </span>
     </span>
   );

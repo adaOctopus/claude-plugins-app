@@ -1,14 +1,14 @@
-# Project X — Claude Plugin Marketplace
+# coolplugz — Claude Plugin Marketplace
 
 A Next.js 15 platform for selling, uploading, and creating Claude plugins. Features an SEO-optimized landing page, Stripe subscriptions, MongoDB persistence, and email magic-link authentication.
 
 ## Product overview
 
-**Project X** helps remote engineers work less by gathering context from Jira, Slack, and GitHub into Claude plugins. The platform includes:
+**coolplugz** helps remote engineers work less by gathering context from Jira, Slack, and GitHub into Claude plugins. The platform includes:
 
 - **Landing page** — earthy cream design, problem/solution sections, dashboard mockups, integrations bento grid
 - **Marketplace** — browse, buy, upload, or create plugins
-- **Stripe billing** — €19/month or €149/year base plan; €2.50/month per extra plugin
+- **Stripe billing** — €17/month or €147/year base plan; €2.50/month per extra plugin
 - **Creator economy** — publish plugins, earn 99% (1% platform fee, manual payouts at launch)
 
 ## Tech stack
@@ -126,8 +126,8 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 
 ## Pricing
 
-- **Monthly**: €19/mo — includes flagship Context Engineer plugin
-- **Annual**: €149/yr — ~35% savings
+- **Monthly**: €17/mo — includes flagship Context Engineer plugin
+- **Annual**: €147/yr — ~35% savings
 - **Add-ons**: €2.50/mo per extra marketplace plugin
 - **Creator fee**: 1% platform commission (manual payouts)
 
@@ -143,4 +143,4 @@ Recommended: [Vercel](https://vercel.com)
 
 ## License
 
-Private — Project X
+Private — coolplugz

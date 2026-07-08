@@ -17,7 +17,7 @@ export const velocityData = [
   { day: "Fri", hours: 0.8 },
 ];
 
-/** Hours to deliver — without vs with plugsville (10× faster). */
+/** Hours to deliver — without vs with coolplugz (10× faster). */
 export const speedComparisonData = [
   { task: "Feature", without: 10, withPlugin: 1 },
   { task: "Bug fix", without: 8, withPlugin: 0.8 },

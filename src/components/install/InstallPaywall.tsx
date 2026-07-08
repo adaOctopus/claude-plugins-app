@@ -18,7 +18,7 @@ export function InstallPaywall({ plugin, email }: InstallPaywallProps) {
         <CardTitle className="text-2xl">Subscription required</CardTitle>
         <p className="text-sm text-charcoal-muted">
           Signed in as <span className="font-medium text-charcoal">{email}</span>.{" "}
-          {plugin.title} is included with plugsville Pro — we couldn&apos;t find an active
+          {plugin.title} is included with coolplugz Pro — we couldn&apos;t find an active
           subscription for this email.
         </p>
       </CardHeader>

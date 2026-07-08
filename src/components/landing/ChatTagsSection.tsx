@@ -132,7 +132,7 @@ function PhoneChatMock() {
               <span className="text-[10px] font-semibold text-charcoal">Claude</span>
             </div>
             <span className="rounded-full bg-[#E8FAF6] px-2 py-0.5 text-[8px] font-bold text-[#0D9488]">
-              plugsville
+              coolplugz
             </span>
           </div>
 

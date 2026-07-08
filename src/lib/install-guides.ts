@@ -25,7 +25,7 @@ const baseSteps: InstallStep[] = [
   },
   {
     title: "Restart Claude Desktop",
-    description: "Restart Claude to load the plugin and open the plugsville dashboard.",
+    description: "Restart Claude to load the plugin and open the coolplugz dashboard.",
   },
 ];
 

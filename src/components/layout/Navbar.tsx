@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { PlugsvilleLogo } from "@/components/brand/PlugsvilleMark";
+import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
@@ -26,7 +26,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between">
         <Link href="/" className="text-charcoal">
-          <PlugsvilleLogo markSize={38} wordmarkClassName="text-[18px]" />
+          <CoolplugzLogo markSize={38} wordmarkClassName="text-[18px]" />
         </Link>
       </nav>
     </header>

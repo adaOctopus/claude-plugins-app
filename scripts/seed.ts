@@ -40,7 +40,7 @@ const PLUGINS = [
     files: [
       {
         name: "context-engineer.zip",
-        url: "https://placeholder.plugsville.dev/context-engineer.zip",
+        url: "https://placeholder.coolplugz.dev/context-engineer.zip",
         size: 0,
         type: "application/zip",
       },
@@ -62,7 +62,7 @@ const PLUGINS = [
     files: [
       {
         name: "slack-fetch.zip",
-        url: "https://placeholder.plugsville.dev/slack-fetch.zip",
+        url: "https://placeholder.coolplugz.dev/slack-fetch.zip",
         size: 0,
         type: "application/zip",
       },
@@ -81,7 +81,7 @@ const PLUGINS = [
     files: [
       {
         name: "notion-fetch.zip",
-        url: "https://placeholder.plugsville.dev/notion-fetch.zip",
+        url: "https://placeholder.coolplugz.dev/notion-fetch.zip",
         size: 0,
         type: "application/zip",
       },
@@ -100,7 +100,7 @@ const PLUGINS = [
     files: [
       {
         name: "jira-fetch.zip",
-        url: "https://placeholder.plugsville.dev/jira-fetch.zip",
+        url: "https://placeholder.coolplugz.dev/jira-fetch.zip",
         size: 0,
         type: "application/zip",
       },

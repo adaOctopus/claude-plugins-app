@@ -53,7 +53,7 @@ function HowStep({
   );
 }
 
-/** Compact visual pipeline — how plugsville works, icons only. */
+/** Compact visual pipeline — how coolplugz works, icons only. */
 export function HowItWorksStrip() {
   const GitHubMark = integrationSources.find((s) => s.id === "github")!.Mark;
   const SlackMark = integrationSources.find((s) => s.id === "slack")!.Mark;
@@ -61,7 +61,7 @@ export function HowItWorksStrip() {
   return (
     <section
       id="how"
-      aria-label="How plugsville works"
+      aria-label="How coolplugz works"
       className="border-y border-border/60 bg-cream-warm/40 px-4 py-12 md:px-8 md:py-14"
     >
       <div className="mx-auto max-w-6xl">

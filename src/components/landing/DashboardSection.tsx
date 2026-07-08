@@ -54,7 +54,7 @@ export function DashboardSection() {
   );
 }
 
-/** Realistic Claude chat mock — plugsville run card with clear status checkpoints. */
+/** Realistic Claude chat mock — coolplugz run card with clear status checkpoints. */
 function ClaudeChatMock() {
   return (
     <Card className="overflow-hidden border-border shadow-md lg:col-span-3">
@@ -72,7 +72,7 @@ function ClaudeChatMock() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-40" />
             <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-500" />
           </span>
-          plugsville MCP
+          coolplugz MCP
         </span>
       </div>
 
@@ -90,11 +90,11 @@ function ClaudeChatMock() {
           <ClaudeAvatar className="mt-0.5 h-7 w-7 shrink-0 text-[11px]" />
           <div className="min-w-0 flex-1 space-y-3">
             <p className="text-sm leading-relaxed text-charcoal">
-              <strong>plugsville</strong> finished the run 🎉 Everything is structured, CI-checked, and
+              <strong>coolplugz</strong> finished the run 🎉 Everything is structured, CI-checked, and
               what <strong style={{ fontStyle: "italic" }}>@Edouard</strong> shared in team's channel was used too.
             </p>
 
-            {/* plugsville run card embedded in chat */}
+            {/* coolplugz run card embedded in chat */}
             <div className="overflow-hidden rounded-xl border border-[#7DD3C0]/35 bg-white shadow-sm">
               <div
                 className="flex items-center justify-between border-b border-[#7DD3C0]/20 px-3.5 py-2"
@@ -103,7 +103,7 @@ function ClaudeChatMock() {
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-3.5 w-3.5 text-[#0D9488]" />
                   <span className="text-[11px] font-bold uppercase tracking-wide text-charcoal">
-                    plugsville · run complete
+                    coolplugz · run complete
                   </span>
                 </div>
                 <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-800">
@@ -332,7 +332,7 @@ function DashboardSidePanel({ className }: { className?: string }) {
       <div className="flex items-center justify-between border-b border-border bg-cream-warm px-4 py-2.5">
         <div className="flex items-center gap-2">
           <Sparkles className="h-3.5 w-3.5 text-[#0D9488]" />
-          <span className="text-sm font-semibold text-charcoal">plugsville</span>
+          <span className="text-sm font-semibold text-charcoal">coolplugz</span>
         </div>
         <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-emerald-700">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -384,7 +384,7 @@ function DashboardSidePanel({ className }: { className?: string }) {
             <SpeedChartCompact />
           </div>
           <p className="mt-1.5 text-[9px] font-medium text-[#0D9488]">
-            Lower is faster — with vs without plugsville
+            Lower is faster — with vs without coolplugz
           </p>
         </div>
 
@@ -540,7 +540,7 @@ function SpeedChartCompact() {
               }}
               formatter={(value, name) => [
                 `${value ?? 0}h`,
-                name === "withPlugin" ? "With plugsville" : "Without",
+                name === "withPlugin" ? "With coolplugz" : "Without",
               ]}
             />
             <Bar dataKey="without" name="without" fill="#E8E2D8" radius={[4, 4, 0, 0]} />
