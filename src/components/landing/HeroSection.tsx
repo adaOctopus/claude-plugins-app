@@ -13,14 +13,13 @@ export function HeroSection() {
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-10 lg:gap-12 xl:gap-16">
         <div className="text-left">
           <h1 className="max-w-xl font-serif text-[1.75rem] leading-[1.15] text-charcoal sm:text-3xl md:text-4xl md:leading-[1.12] lg:text-[2.875rem] lg:leading-[1.1]">
-            Ship <em className="font-medium italic">merge-ready</em> code
+            Ships <em className="font-medium italic">merge-ready</em> code
             <br />
-            without switching tools.
+           and handles your <em className="font-medium italic">Slack</em> inside Claude😎
           </h1>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
-            A plugin that gathers context from your entire stack, ships merge-ready code & handles your Slack communications. 
-            <br/>All in one dashboard inside Claude😉
+            A plugin that gathers context from your entire stack, ships merge-ready code & handles your Slack communications right inside Claude.
           </p>
 
           <div className="mt-8">

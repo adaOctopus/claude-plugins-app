@@ -1,13 +1,19 @@
 import type { ReactNode } from "react";
 import {
+  ArrowRight,
+  AtSign,
+  Ban,
   CheckCircle2,
+  ClipboardPaste,
   GitPullRequest,
   LayoutDashboard,
   MessageSquare,
   Mic,
+  Sparkles,
   ThumbsDown,
   ThumbsUp,
   Wand2,
+  XCircle,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { integrationSources } from "@/components/icons/IntegrationMarks";
@@ -53,6 +59,220 @@ function HowStep({
   );
 }
 
+function BeforeAfterShell({
+  before,
+  after,
+}: {
+  before: ReactNode;
+  after: ReactNode;
+}) {
+  return (
+    <div className="flex h-full w-full items-stretch gap-1.5 sm:gap-2">
+      <div className="flex flex-1 flex-col items-center justify-center rounded-lg border border-border/70 bg-white/50 p-2 opacity-80">
+        <span className="mb-1.5 text-[7px] font-bold uppercase tracking-wide text-charcoal-muted/70">
+          Before
+        </span>
+        {before}
+      </div>
+      <div className="flex shrink-0 items-center text-charcoal/25">
+        <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
+      </div>
+      <div className="flex flex-1 flex-col items-center justify-center rounded-lg border border-[#7DD3C0]/35 bg-[#E8FAF6]/60 p-2">
+        <span className="mb-1.5 text-[7px] font-bold uppercase tracking-wide text-[#0D9488]">
+          With coolplugz
+        </span>
+        {after}
+      </div>
+    </div>
+  );
+}
+
+/** Manual prompt typing vs CRISPE auto-engineered — zero effort from you. */
+function PromptEngineeringVisual() {
+  return (
+    <BeforeAfterShell
+      before={
+        <div className="flex w-full flex-col gap-1">
+          <div className="space-y-0.5">
+            <div className="h-1 w-full rounded-full bg-charcoal/15" />
+            <div className="h-1 w-[85%] rounded-full bg-charcoal/12" />
+            <div className="h-1 w-[70%] rounded-full bg-charcoal/10" />
+          </div>
+          <span className="mt-1 text-[7px] font-medium text-charcoal-muted">
+            You craft the prompt…
+          </span>
+        </div>
+      }
+      after={
+        <div className="flex w-full flex-col items-center gap-1">
+          <Wand2 className="h-4 w-4 text-[#0D9488]" strokeWidth={2} />
+          <div className="flex gap-px">
+            {crispeLetters.map((l) => (
+              <span
+                key={l}
+                className="flex h-3.5 w-2.5 items-center justify-center rounded-sm bg-[#D1F4EE] text-[6px] font-bold text-[#0D9488]"
+              >
+                {l}
+              </span>
+            ))}
+          </div>
+          <span className="flex items-center gap-0.5 text-[7px] font-bold uppercase text-[#0D9488]">
+            <Sparkles className="h-2.5 w-2.5" strokeWidth={2.5} />
+            Auto-built
+          </span>
+        </div>
+      }
+    />
+  );
+}
+
+/** CI fail → copy-paste loop vs one-shot fix inside Claude. */
+function CiLoopVisual() {
+  const GitHubMark = integrationSources.find((s) => s.id === "github")!.Mark;
+
+  return (
+    <BeforeAfterShell
+      before={
+        <div className="flex w-full flex-col items-center gap-1">
+          <GitHubMark className="h-3.5 w-3.5 opacity-70" />
+          <div className="flex items-center gap-0.5">
+            <XCircle className="h-3 w-3 text-red-500" strokeWidth={2.5} />
+            <span className="rounded bg-red-50 px-1 py-0.5 text-[6px] font-mono text-red-600">
+              lint fail
+            </span>
+          </div>
+          <div className="flex items-center gap-0.5 text-charcoal/30">
+            <ClipboardPaste className="h-2.5 w-2.5" strokeWidth={2} />
+            <span className="text-[6px]">→ chat → fix → repeat</span>
+          </div>
+          <Ban className="h-3 w-3 text-charcoal/25" strokeWidth={2} />
+        </div>
+      }
+      after={
+        <div className="flex w-full flex-col items-center gap-1">
+          <GitHubMark className="h-3.5 w-3.5" />
+          <div className="flex items-center gap-0.5">
+            {[0, 1, 2].map((i) => (
+              <CheckCircle2
+                key={i}
+                className="h-2.5 w-2.5 text-emerald-600"
+                strokeWidth={2.5}
+              />
+            ))}
+          </div>
+          <GitPullRequest className="h-3 w-3 text-[#0D9488]" strokeWidth={2} />
+          <span className="text-[7px] font-bold uppercase text-[#0D9488]">PR ready</span>
+        </div>
+      }
+    />
+  );
+}
+
+/** Slack thread binge vs mentions + drafts in one panel. */
+function SlackUnifiedVisual() {
+  const SlackMark = integrationSources.find((s) => s.id === "slack")!.Mark;
+
+  return (
+    <BeforeAfterShell
+      before={
+        <div className="flex w-full flex-col items-center gap-1">
+          <SlackMark className="h-3.5 w-3.5 opacity-70" />
+          <div className="w-full space-y-0.5">
+            {[8, 6, 7, 5].map((w, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-0.5"
+                style={{ paddingLeft: i * 3 }}
+              >
+                <div
+                  className="h-0.5 rounded-full bg-charcoal/15"
+                  style={{ width: `${w * 3}px` }}
+                />
+                {i === 1 && (
+                  <AtSign className="h-2 w-2 shrink-0 text-orange-500" strokeWidth={2.5} />
+                )}
+              </div>
+            ))}
+          </div>
+          <span className="text-[7px] font-medium text-charcoal-muted">
+            Hunt @mentions…
+          </span>
+        </div>
+      }
+      after={
+        <div className="flex w-full flex-col items-center gap-1">
+          <div
+            className="w-full rounded-md border border-[#7DD3C0]/30 p-1.5"
+            style={{ background: `linear-gradient(180deg, ${chartGradient.bg}33, white)` }}
+          >
+            <div className="flex items-center gap-1">
+              <LayoutDashboard className="h-2.5 w-2.5 text-[#0D9488]" strokeWidth={2} />
+              <AtSign className="h-2.5 w-2.5 text-orange-500" strokeWidth={2.5} />
+              <span className="text-[6px] font-semibold text-charcoal">2 mentions</span>
+            </div>
+            <div className="mt-1 flex items-center gap-0.5 rounded border border-[#7DD3C0]/25 bg-white px-1 py-0.5">
+              <MessageSquare className="h-2 w-2 text-[#0D9488]" strokeWidth={2} />
+              <Mic className="h-2 w-2 text-[#0D9488]" strokeWidth={2} />
+              <span className="text-[6px] text-charcoal-muted">Draft ready</span>
+            </div>
+          </div>
+          <span className="text-[7px] font-bold uppercase text-[#0D9488]">One place</span>
+        </div>
+      }
+    />
+  );
+}
+
+function ValueCard({
+  title,
+  description,
+  visual,
+  accent,
+}: {
+  title: string;
+  description: string;
+  visual: ReactNode;
+  accent: string;
+}) {
+  return (
+    <article
+      className={cn(
+        "flex flex-col overflow-hidden rounded-2xl border border-white/70 bg-gradient-to-b p-4 sm:p-5",
+        accent,
+        "shadow-[0_8px_24px_rgba(13,148,136,0.08),inset_0_1px_0_rgba(255,255,255,0.95)]"
+      )}
+    >
+      <div className="mb-4 h-[5.5rem] sm:h-[6rem]">{visual}</div>
+      <h3 className="font-serif text-base text-charcoal md:text-lg">{title}</h3>
+      <p className="mt-1 text-sm leading-snug text-charcoal-muted">{description}</p>
+    </article>
+  );
+}
+
+const valueProps = [
+  {
+    title: "Prompt engineering done for you",
+    description:
+      "Advanced CRISPE-style prompts are engineered automatically — you never write or refine them yourself.",
+    visual: <PromptEngineeringVisual />,
+    accent: "from-[#E8FAF6] to-white",
+  },
+  {
+    title: "No CI errors copy-paste loop",
+    description:
+      "GitHub checks run, failures get fixed, and the PR moves forward, without going back and forth between agent chat and Github.",
+    visual: <CiLoopVisual />,
+    accent: "from-[#E8F4FF] to-white",
+  },
+  {
+    title: "No binge-checking Slack threads",
+    description:
+      "No more hunting slack @mentions. Thread mentions, DMs, and tone-matched drafts done in one panel.",
+    visual: <SlackUnifiedVisual />,
+    accent: "from-[#FFF4E8] to-white",
+  },
+];
+
 /** Compact visual pipeline — how coolplugz works, icons only. */
 export function HowItWorksStrip() {
   const GitHubMark = integrationSources.find((s) => s.id === "github")!.Mark;
@@ -66,17 +286,18 @@ export function HowItWorksStrip() {
     >
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          What Is It?
+          What&apos;s So Cool About It?
         </Badge>
         <h2 className="max-w-2xl font-serif text-3xl text-charcoal md:text-4xl">
-          A Claude plugin that puts you in <strong style={{ fontStyle: "italic", fontWeight: "600" }}>God Mode</strong>.
+          A Claude plugin that puts you in{" "}
+          <strong style={{ fontStyle: "italic", fontWeight: "600" }}>God Mode</strong>.
         </h2>
         <p className="mt-2 max-w-xl text-sm text-charcoal-muted">
-          6 Agents working in parallel to fetch context, engineer prompts, and handle both CI & Slack. You just approve or click redo.
+          6 Agents working in parallel to fetch context, engineer prompts, and handle both CI & Slack.
+          You just approve or click redo.
         </p>
 
         <div className="mt-8 flex items-start justify-between gap-1 overflow-x-auto pb-1 sm:gap-0 md:mt-10 md:overflow-visible">
-          {/* 1 — Fetch context from stack */}
           <HowStep label="Gathers context automatically">
             <div className="grid grid-cols-2 gap-1">
               {integrationSources.map(({ id, Mark }) => (
@@ -92,7 +313,6 @@ export function HowItWorksStrip() {
 
           <StepConnector />
 
-          {/* 2 — CRISPE prompt engineering */}
           <HowStep label="Engineers prompts for you">
             <div className="flex flex-col items-center gap-1">
               <Wand2 className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2} />
@@ -111,7 +331,6 @@ export function HowItWorksStrip() {
 
           <StepConnector />
 
-          {/* 3 — GitHub CI, PR reviews, comments */}
           <HowStep label="CI & reviews checked">
             <div className="flex flex-col items-center gap-1">
               <GitHubMark className="h-3.5 w-3.5" />
@@ -130,7 +349,6 @@ export function HowItWorksStrip() {
 
           <StepConnector />
 
-          {/* 4 — Slack threads, actions, tone-matched drafts */}
           <HowStep label="Message Drafts tone-matched">
             <div className="flex flex-col items-center gap-1">
               <SlackMark className="h-3.5 w-3.5" />
@@ -147,7 +365,6 @@ export function HowItWorksStrip() {
 
           <StepConnector />
 
-          {/* 5 — Control panel inside Claude */}
           <HowStep label="Claude panel">
             <div
               className="flex w-full flex-col gap-1 rounded-lg border border-[#7DD3C0]/25 p-1.5"
@@ -172,6 +389,12 @@ export function HowItWorksStrip() {
             </div>
           </HowStep>
         </div>
+{/* 
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:mt-12">
+          {valueProps.map((prop) => (
+            <ValueCard key={prop.title} {...prop} />
+          ))}
+        </div> */}
       </div>
     </section>
   );

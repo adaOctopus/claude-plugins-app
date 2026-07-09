@@ -210,12 +210,12 @@ function TodayOutcomesPanel() {
         <OutcomeMetric
           label="Task completed"
           value="7 mins"
-          sub="PROJ-124 · Auth Middleware"
+          sub="PROJ-124 · Context fetched from Jira, Github, Slack & Notion"
         />
         <OutcomeMetric
           label="Today saved"
           value="2.5 hrs"
-          sub="from not switching tools"
+          sub=""
           className="text-right"
         />
       </div>
