@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
 import { getMarketplacePluginBySlug } from "@/lib/marketplace-plugins.server";
+import { FREE_PLUGIN_SLUG } from "@/lib/marketplace-plugins";
 import { PluginPurchaseButton } from "@/components/marketplace/PluginPurchaseButton";
 import { FlagshipSubscribeButton } from "@/components/marketplace/FlagshipSubscribeButton";
 import { formatTierPrice } from "@/lib/pricing-plans";
@@ -45,6 +46,7 @@ export default async function PluginDetailPage({
   }
 
   const isFree = plugin.priceMonthly === 0 && !plugin.isFlagship;
+  const isFreePromptBuilder = plugin.slug === FREE_PLUGIN_SLUG;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-32 md:px-8">
@@ -67,22 +69,30 @@ export default async function PluginDetailPage({
         <p className="text-2xl font-semibold">
           {plugin.isFlagship
             ? `Included with base subscription (${formatTierPrice("pro", "monthly")}/mo or ${formatTierPrice("pro", "annual")}/yr)`
-            : isFree
-              ? "Free add-on"
-              : `${formatCurrency(plugin.priceMonthly)}/month add-on`}
+            : isFreePromptBuilder
+              ? "Free — €0 forever"
+              : isFree
+                ? "Free add-on"
+                : `${formatCurrency(plugin.priceMonthly)}/month add-on`}
         </p>
         <p className="mt-2 text-sm text-charcoal-muted">
           {plugin.isFlagship
             ? "Subscribe to get instant access and install guide."
-            : isFree
-              ? "Requires base subscription. Add this fetcher to your stack at no extra cost."
-              : "Requires active base subscription. Creator earns 99% of sales."}
+            : isFreePromptBuilder
+              ? "Links Jira, Slack & Notion, engineers CRISPE prompts, and returns them to you — no GitHub, no code execution, no dashboard."
+              : isFree
+                ? "Requires base subscription. Add this fetcher to your stack at no extra cost."
+                : "Requires active base subscription. Creator earns 99% of sales."}
         </p>
       </div>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row">
         {plugin.isFlagship ? (
           <FlagshipSubscribeButton />
+        ) : isFreePromptBuilder ? (
+          <Button size="lg" asChild>
+            <Link href={`/install/${FREE_PLUGIN_SLUG}`}>Install free plugin</Link>
+          </Button>
         ) : isFree ? (
           <Button size="lg" asChild>
             <Link href="/pricing">Get with Pro</Link>

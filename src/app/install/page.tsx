@@ -15,7 +15,7 @@ import { createPageMetadata } from "@/lib/seo";
 export const metadata = createPageMetadata({
   title: "Install Guides — Claude Plugin Setup",
   description:
-    "Install guides for coolplugz Claude plugins. Free add-ons need email verification; Pro plugins require an active subscription.",
+    "Install guides for coolplugz Claude plugins. The free Context Prompt Builder needs email verification; Pro plugins require an active subscription.",
   path: "/install",
 });
 
@@ -42,7 +42,7 @@ export default async function InstallPage() {
           Install guides
         </h1>
         <p className="mt-3 text-charcoal-muted">
-          Pick a plugin below. Free add-ons only need your email via magic link. Pro
+          Pick a plugin below. The free Context Prompt Builder only needs your email via magic link. Pro
           plugins require an active subscription tied to the same email.
         </p>
       </div>

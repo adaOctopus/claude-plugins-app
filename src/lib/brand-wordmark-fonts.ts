@@ -1,10 +1,13 @@
 import type { CSSProperties } from "react";
+import { BRAND_WORDMARK_FAMILY } from "@/lib/brand-font";
 import {
+  Bricolage_Grotesque,
   Montserrat,
   Nunito,
   Plus_Jakarta_Sans,
   Outfit,
   DM_Sans,
+  Rubik,
   Sora,
   Quicksand,
   Varela_Round,
@@ -65,6 +68,18 @@ const poppins = Poppins({
   weight: ["600", "700"],
 });
 
+const rubik = Rubik({
+  variable: "--font-wordmark-rubik",
+  subsets: ["latin"],
+  weight: ["600", "700"],
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-wordmark-bricolage",
+  subsets: ["latin"],
+  weight: ["600", "700"],
+});
+
 export type WordmarkFontVariant = {
   id: string;
   name: string;
@@ -78,19 +93,35 @@ export type WordmarkFontVariant = {
 export const WORDMARK_FONT_VARIANTS: WordmarkFontVariant[] = [
   {
     id: "current",
-    name: "Current — Playfair Display",
-    description: "Serif italic with text-stroke — what the brand uses today.",
-    cssVar: "--font-display",
-    fontWeight: 600,
+    name: `Live brand — ${BRAND_WORDMARK_FAMILY}`,
+    description: "Currently on navbar/footer — thick modern sans, ~700 weight.",
+    cssVar: "--font-brand-wordmark",
+    fontWeight: 700,
     letterSpacing: "-0.04em",
     isCurrent: true,
+  },
+  {
+    id: "bricolage",
+    name: "Bricolage Grotesque",
+    description: "Calligraphic grotesque — quirky, editorial, rounded.",
+    cssVar: "--font-wordmark-bricolage",
+    fontWeight: 700,
+    letterSpacing: "-0.03em",
+  },
+  {
+    id: "rubik",
+    name: "Rubik",
+    description: "Rounded geometric — soft flow, still thick at 700.",
+    cssVar: "--font-wordmark-rubik",
+    fontWeight: 700,
+    letterSpacing: "-0.035em",
   },
   {
     id: "montserrat",
     name: "Montserrat",
     description: "Geometric sans — clean, confident, widely used in tech.",
     cssVar: "--font-wordmark-montserrat",
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: "-0.03em",
   },
   {
@@ -106,7 +137,7 @@ export const WORDMARK_FONT_VARIANTS: WordmarkFontVariant[] = [
     name: "Plus Jakarta Sans",
     description: "Modern startup feel with subtle roundness.",
     cssVar: "--font-wordmark-plus-jakarta",
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: "-0.03em",
   },
   {
@@ -170,6 +201,8 @@ export const wordmarkFontVariableClass = [
   quicksand.variable,
   varelaRound.variable,
   poppins.variable,
+  rubik.variable,
+  bricolage.variable,
 ].join(" ");
 
 export function wordmarkFontStyle(variant: WordmarkFontVariant): CSSProperties {
@@ -177,13 +210,7 @@ export function wordmarkFontStyle(variant: WordmarkFontVariant): CSSProperties {
     fontFamily: `var(${variant.cssVar}), system-ui, sans-serif`,
     fontWeight: variant.fontWeight,
     letterSpacing: variant.letterSpacing,
-    fontStyle: variant.isCurrent ? "italic" : "normal",
-    lineHeight: 1.15,
-    ...(variant.isCurrent
-      ? {
-          WebkitTextStroke: "0.018em currentColor",
-          paintOrder: "stroke fill",
-        }
-      : {}),
+    fontStyle: "normal",
+    lineHeight: 1.05,
   };
 }

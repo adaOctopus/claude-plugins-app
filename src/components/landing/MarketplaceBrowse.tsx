@@ -4,17 +4,17 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
-  GitBranch,
-  MessageSquare,
   Search,
   Sparkles,
-  Ticket,
+  Wand2,
 } from "lucide-react";
 import { NotionMark } from "@/components/icons/NotionMark";
+import { JiraMark, SlackMark } from "@/components/icons/IntegrationMarks";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import {
   MARKETPLACE_FILTERS,
+  FREE_PLUGIN_SLUG,
   formatPluginPrice,
   type MarketplaceFilterId,
   type MarketplacePlugin,
@@ -25,9 +25,7 @@ const DISPLAY_LIMIT = 6;
 
 const SLUG_ICONS: Record<string, typeof Sparkles> = {
   "context-engineer": Sparkles,
-  "slack-fetch": MessageSquare,
-  "notion-fetch": GitBranch,
-  "jira-fetch": Ticket,
+  [FREE_PLUGIN_SLUG]: Wand2,
 };
 
 /** Search + filter grid for published marketplace plugins. */
@@ -117,7 +115,7 @@ export function MarketplaceBrowse({ plugins }: { plugins: MarketplacePlugin[] })
 
 function PluginCard({ plugin }: { plugin: MarketplacePlugin }) {
   const Icon = SLUG_ICONS[plugin.slug] ?? Sparkles;
-  const isNotion = plugin.slug === "notion-fetch";
+  const isFreePromptBuilder = plugin.slug === FREE_PLUGIN_SLUG;
 
   return (
     <Link
@@ -130,11 +128,17 @@ function PluginCard({ plugin }: { plugin: MarketplacePlugin }) {
             "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
             plugin.isFlagship
               ? "bg-[#E8FAF6] text-[#0D9488]"
-              : "bg-cream-warm text-charcoal"
+              : isFreePromptBuilder
+                ? "bg-cream-warm"
+                : "bg-cream-warm text-charcoal"
           )}
         >
-          {isNotion ? (
-            <NotionMark className="h-4 w-4 text-charcoal" />
+          {isFreePromptBuilder ? (
+            <span className="grid grid-cols-2 gap-0.5">
+              <JiraMark className="h-2 w-2" />
+              <SlackMark className="h-2 w-2" />
+              <NotionMark className="h-2 w-2 col-span-2 mx-auto" />
+            </span>
           ) : (
             <Icon className="h-4 w-4" strokeWidth={2} />
           )}

@@ -1,6 +1,9 @@
+import { brandWordmarkFont } from "@/lib/brand-font";
 import { cn } from "@/lib/utils";
 
 const COOLPLUGZ_MARK = "/coolplugz-mark.png";
+
+const wordmarkStyles = cn(brandWordmarkFont.className, "brand-wordmark");
 
 /** Brand mark — icon tile for navbar/footer lockups. */
 export function CoolplugzMark({
@@ -36,13 +39,9 @@ export function CoolplugzMark({
   );
 }
 
-/** Inline brand wordmark — same style as navbar/footer lockup text. */
+/** Inline brand wordmark — Quirk Chick lockup text. */
 export function BrandWordmark({ className }: { className?: string }) {
-  return (
-    <span className={cn("font-serif brand-lockup text-charcoal", className)}>
-      coolplugz
-    </span>
-  );
+  return <span className={cn(wordmarkStyles, className)}>coolplugz</span>;
 }
 
 /** Navbar/footer lockup: framed mark + wordmark. */
@@ -58,14 +57,7 @@ export function CoolplugzLogo({
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <CoolplugzMark size={markSize} framed />
-      <span
-        className={cn(
-          "font-serif brand-lockup text-charcoal",
-          wordmarkClassName ?? "text-lg"
-        )}
-      >
-        coolplugz
-      </span>
+      <span className={cn(wordmarkStyles, wordmarkClassName ?? "text-[22px]")}>coolplugz</span>
     </span>
   );
 }

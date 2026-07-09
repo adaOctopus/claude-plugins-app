@@ -23,7 +23,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-4">
         <div className="md:col-span-1">
           <Link href="/" className="inline-block text-charcoal">
-            <CoolplugzLogo markSize={40} />
+            <CoolplugzLogo markSize={44} wordmarkClassName="text-[22px]" />
           </Link>
           <p className="mt-3 text-sm text-charcoal-muted">
             Ship merge-ready code faster and stop switching between tools.

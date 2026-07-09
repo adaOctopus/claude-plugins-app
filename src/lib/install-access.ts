@@ -6,7 +6,7 @@ import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
 import { hasActiveSubscription, canDownloadPlugin } from "@/lib/entitlements";
 import { Plugin } from "@/models/Plugin";
 
-/** Free add-ons — magic link only. Flagship & paid add-ons need Pro subscription. */
+/** Free Context Prompt Builder — magic link only. Flagship & paid add-ons need Pro. */
 export function isFreeInstallPlugin(plugin: MarketplacePlugin) {
   return !plugin.isFlagship && plugin.priceMonthly === 0;
 }

@@ -54,37 +54,26 @@ const slugSteps: Record<string, InstallStep[]> = {
         'Try "/context-gather" on an open Jira ticket to see full stack context assembled.',
     },
   ],
-  "slack-fetch": [
+  "context-prompts": [
     {
-      title: "Download Slack Fetch",
-      description: "Free add-on — pulls threads and drafts replies in your tone.",
+      title: "Download Context Prompt Builder",
+      description:
+        "Free plugin — links Jira, Slack & Notion and returns fully engineered CRISPE prompts.",
     },
     ...baseSteps.slice(1, 4),
     {
-      title: "Connect Slack",
-      description: "Add your Slack bot token to the plugin .env and restart Claude.",
+      title: "Connect Jira, Slack & Notion",
+      description:
+        "Add your integration tokens to the plugin .env. No GitHub or code execution is configured.",
     },
-  ],
-  "notion-fetch": [
     {
-      title: "Download Notion Fetch",
-      description: "Free add-on — syncs specs and sprint docs into context.",
+      title: "Restart Claude Desktop",
+      description: "Restart Claude to load the plugin.",
     },
-    ...baseSteps.slice(1, 4),
     {
-      title: "Connect Notion",
-      description: "Add your Notion integration token to the plugin .env.",
-    },
-  ],
-  "jira-fetch": [
-    {
-      title: "Download Jira Fetch",
-      description: "Free add-on — attaches tickets and acceptance criteria automatically.",
-    },
-    ...baseSteps.slice(1, 4),
-    {
-      title: "Connect Jira",
-      description: "Add your Jira API token and site URL to the plugin .env.",
+      title: "Run a prompt build",
+      description:
+        'Use "/build-prompt" on a ticket or thread — coolplugz returns the engineered prompt for you to copy.',
     },
   ],
 };

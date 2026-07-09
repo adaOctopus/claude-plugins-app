@@ -14,6 +14,7 @@ import {
   type BillingPeriod,
   type PaidTier,
 } from "@/lib/pricing-plans";
+import { FREE_PLUGIN_SLUG } from "@/lib/marketplace-plugins";
 import { startTierCheckout } from "@/lib/start-checkout";
 import { cn } from "@/lib/utils";
 
@@ -77,9 +78,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
           <CardTitle className="font-serif text-2xl">{freePlan.name}</CardTitle>
           <div>
             <span className="font-serif text-4xl">{freePlan.price}</span>
-            <p className="mt-2 text-sm text-charcoal-muted">
-              One day access — then pick a plan
-            </p>
+            <p className="mt-2 text-sm text-charcoal-muted">{freePlan.tagline}</p>
           </div>
         </CardHeader>
 
@@ -105,7 +104,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
 
         <CardFooter>
           <Button className="w-full" variant="outline" asChild>
-            <Link href="/install?plan=free">{freePlan.cta}</Link>
+            <Link href={`/install/${FREE_PLUGIN_SLUG}`}>{freePlan.cta}</Link>
           </Button>
         </CardFooter>
       </Card>

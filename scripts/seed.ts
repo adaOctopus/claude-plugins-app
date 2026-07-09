@@ -1,5 +1,5 @@
 /**
- * Seed script for marketplace plugins (flagship + free fetchers).
+ * Seed script for marketplace plugins (flagship + free prompt builder).
  * Run: npx tsx scripts/seed.ts
  */
 import mongoose from "mongoose";
@@ -27,6 +27,8 @@ const PluginSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const REMOVED_SLUGS = ["slack-fetch", "notion-fetch", "jira-fetch"];
+
 const PLUGINS = [
   {
     slug: "context-engineer",
@@ -51,67 +53,34 @@ const PLUGINS = [
     },
   },
   {
-    slug: "slack-fetch",
-    title: "Slack Fetch",
+    slug: "context-prompts",
+    title: "Context Prompt Builder",
     description:
-      "Pull threads, mentions, and standup context from Slack into Claude — replies drafted from real conversations.",
+      "Connect Jira, Slack & Notion — fetches your context and returns fully engineered CRISPE prompts. No GitHub, no code execution, no dashboard.",
     category: "integrations",
     priceMonthly: 0,
     isFlagship: false,
     status: "published",
     files: [
       {
-        name: "slack-fetch.zip",
-        url: "https://placeholder.coolplugz.dev/slack-fetch.zip",
+        name: "context-prompts.zip",
+        url: "https://placeholder.coolplugz.dev/context-prompts.zip",
         size: 0,
         type: "application/zip",
       },
     ],
-    manifest: { name: "Slack Fetch", version: "1.0.0" },
-  },
-  {
-    slug: "notion-fetch",
-    title: "Notion Fetch",
-    description:
-      "Sync specs, sprint notes, and docs from Notion so every prompt starts with the right documentation.",
-    category: "integrations",
-    priceMonthly: 0,
-    isFlagship: false,
-    status: "published",
-    files: [
-      {
-        name: "notion-fetch.zip",
-        url: "https://placeholder.coolplugz.dev/notion-fetch.zip",
-        size: 0,
-        type: "application/zip",
-      },
-    ],
-    manifest: { name: "Notion Fetch", version: "1.0.0" },
-  },
-  {
-    slug: "jira-fetch",
-    title: "Jira Fetch",
-    description:
-      "Tickets, epics, and acceptance criteria from Jira — attached automatically before any coding task runs.",
-    category: "integrations",
-    priceMonthly: 0,
-    isFlagship: false,
-    status: "published",
-    files: [
-      {
-        name: "jira-fetch.zip",
-        url: "https://placeholder.coolplugz.dev/jira-fetch.zip",
-        size: 0,
-        type: "application/zip",
-      },
-    ],
-    manifest: { name: "Jira Fetch", version: "1.0.0" },
+    manifest: { name: "Context Prompt Builder", version: "1.0.0" },
   },
 ];
 
 async function seed() {
   await mongoose.connect(MONGODB_URI!);
   const Plugin = mongoose.models.Plugin || mongoose.model("Plugin", PluginSchema);
+
+  for (const slug of REMOVED_SLUGS) {
+    const removed = await Plugin.deleteOne({ slug });
+    if (removed.deletedCount) console.log(`✗ removed ${slug}`);
+  }
 
   for (const plugin of PLUGINS) {
     await Plugin.findOneAndUpdate({ slug: plugin.slug }, plugin, {

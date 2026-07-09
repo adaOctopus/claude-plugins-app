@@ -1,0 +1,47 @@
+@font-face {
+  font-family: "Quirk Chick";
+  src: url("/fonts/brand/quirk-chick.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Creamy Chocolate";
+  src: url("/fonts/brand/creamy-chocolate.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clipper";
+  src: url("/fonts/brand/clipper.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clever Couple";
+  src: url("/fonts/brand/clever-couple.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Milk Peach Clean";
+  src: url("/fonts/brand/milk-peach-clean.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Milk Peach";
+  src: url("/fonts/brand/milk-peach.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
