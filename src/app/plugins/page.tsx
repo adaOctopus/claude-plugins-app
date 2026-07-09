@@ -1,5 +1,3 @@
-import type { Metadata } from "next";
-import { headers } from "next/headers";
 import Link from "next/link";
 import { formatPluginPrice } from "@/lib/marketplace-plugins";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
@@ -7,19 +5,15 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
+import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
-import { createPageMetadata, resolveSiteUrlFromRequest } from "@/lib/seo";
-
-export async function generateMetadata(): Promise<Metadata> {
-  const headersList = await headers();
-  return createPageMetadata({
-    title: "Claude Plugins Marketplace",
-    description:
-      "Browse Claude plugins for engineers, PMs, and remote workers. Context engineering plugins for Jira, Slack, and GitHub.",
-    path: "/plugins",
-    siteUrl: resolveSiteUrlFromRequest(headersList),
-  });
-}
+export const metadata = createPageMetadata({
+  title: "Claude Plugins Marketplace",
+  description:
+    "Browse Claude plugins for engineers, PMs, and remote workers. Context engineering plugins for Jira, Slack, and GitHub.",
+  path: "/plugins",
+  siteUrl: CANONICAL_SITE_URL,
+});
 
 /** Plugins browse page — marketplace listing. */
 export default async function PluginsPage() {

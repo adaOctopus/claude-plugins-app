@@ -7,11 +7,17 @@ export const OG_TAGLINE =
 
 export const OG_IMAGE = {
   path: "/og-coolplugz.jpg",
-  width: 1024,
-  height: 559,
+  /** Bump when replacing the social preview asset so X/FB re-fetch. */
+  version: "2",
+  width: 1200,
+  height: 630,
   alt: "coolplugz — Ship merge-ready code without tool switching",
   type: "image/jpeg" as const,
 } as const;
+
+/** X/Twitter card descriptions should stay under ~200 chars. */
+export const TWITTER_CARD_DESCRIPTION =
+  "Claude plugin for engineers: Jira, Slack, GitHub & Notion context, CRISPE prompts, merge-ready code, and Slack handling inside Claude.";
 
 export const SEO_DEFAULTS = {
   title: "coolplugz — Ship merge-ready code without switching tools",
@@ -89,6 +95,10 @@ export function resolveSiteUrlFromRequest(requestHeaders: Headers): string {
   if (host && !isDeployPreviewHost(host)) {
     const protocol =
       requestHeaders.get("x-forwarded-proto")?.split(",")[0]?.trim() || "https";
+    const hostname = host.split(":")[0].toLowerCase();
+    if (hostname === "coolplugz.com" || hostname === "www.coolplugz.com") {
+      return CANONICAL_SITE_URL;
+    }
     return normalizeSiteUrl(`${protocol}://${host}`);
   }
 
@@ -96,7 +106,7 @@ export function resolveSiteUrlFromRequest(requestHeaders: Headers): string {
 }
 
 export function getAbsoluteOgImageUrl(siteUrl = getSiteUrl()): string {
-  return `${siteUrl}${OG_IMAGE.path}`;
+  return `${siteUrl}${OG_IMAGE.path}?v=${OG_IMAGE.version}`;
 }
 
 /** Shared Open Graph + Twitter image config (Facebook, LinkedIn, iMessage, Slack, etc.). */
@@ -133,7 +143,7 @@ type PageMetadataOptions = {
 /** Root layout metadata — site-wide defaults + social preview image. */
 export function createRootMetadata(options: { siteUrl?: string } = {}): Metadata {
   const siteUrl = options.siteUrl ?? getSiteUrl();
-  const { openGraphImages, twitterImages } = getSocialImageMetadata(siteUrl);
+  const { openGraphImages } = getSocialImageMetadata(siteUrl);
 
   return {
     metadataBase: new URL(siteUrl),
@@ -147,12 +157,9 @@ export function createRootMetadata(options: { siteUrl?: string } = {}): Metadata
       canonical: siteUrl,
     },
     icons: {
-      icon: [
-        { url: "/icon.png", type: "image/png", sizes: "1024x1024" },
-        { url: "/coolplugz-mark.png", type: "image/png", sizes: "1024x1024" },
-      ],
-      apple: [{ url: "/apple-icon.png", sizes: "1024x1024", type: "image/png" }],
-      shortcut: "/coolplugz-mark.png",
+      icon: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
+      apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+      shortcut: "/icon.png",
     },
     openGraph: {
       title: SEO_DEFAULTS.title,
@@ -166,8 +173,8 @@ export function createRootMetadata(options: { siteUrl?: string } = {}): Metadata
     twitter: {
       card: "summary_large_image",
       title: SEO_DEFAULTS.title,
-      description: SEO_DEFAULTS.description,
-      images: twitterImages,
+      description: TWITTER_CARD_DESCRIPTION,
+      images: [openGraphImages[0]?.url ?? getAbsoluteOgImageUrl(siteUrl)],
     },
     robots: {
       index: true,
@@ -192,7 +199,7 @@ export function createPageMetadata({
   const siteUrl = siteUrlOverride ?? getSiteUrl();
   const pageUrl = path === "/" ? siteUrl : `${siteUrl}${path}`;
   const pageTitle = title ?? SEO_DEFAULTS.title;
-  const { openGraphImages, twitterImages } = getSocialImageMetadata(siteUrl);
+  const { openGraphImages } = getSocialImageMetadata(siteUrl);
 
   return {
     title: pageTitle,
@@ -212,8 +219,8 @@ export function createPageMetadata({
     twitter: {
       card: "summary_large_image",
       title: pageTitle,
-      description,
-      images: twitterImages,
+      description: TWITTER_CARD_DESCRIPTION,
+      images: [openGraphImages[0]?.url ?? getAbsoluteOgImageUrl(siteUrl)],
     },
   };
 }

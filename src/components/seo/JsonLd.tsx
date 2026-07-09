@@ -1,16 +1,9 @@
-import { headers } from "next/headers";
 import { faqItems } from "@/components/landing/FAQSection";
-import {
-  getAbsoluteOgImageUrl,
-  OG_TAGLINE,
-  resolveSiteUrlFromRequest,
-  SEO_DEFAULTS,
-} from "@/lib/seo";
+import { CANONICAL_SITE_URL, getAbsoluteOgImageUrl, OG_TAGLINE, SEO_DEFAULTS } from "@/lib/seo";
 import { PRICING_AMOUNTS } from "@/lib/pricing-plans";
 
-export async function JsonLd() {
-  const headersList = await headers();
-  const appUrl = resolveSiteUrlFromRequest(headersList);
+export function JsonLd() {
+  const appUrl = CANONICAL_SITE_URL;
   const ogImageUrl = getAbsoluteOgImageUrl(appUrl);
 
   const faqSchema = {
