@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 
+export const CANONICAL_SITE_URL = "https://www.coolplugz.com";
+
 export const OG_TAGLINE =
   "Ship merge-ready code without tool switching.";
 
 export const OG_IMAGE = {
   path: "/og-coolplugz.jpg",
-  width: 2718,
-  height: 1428,
+  width: 1024,
+  height: 559,
   alt: "coolplugz — Ship merge-ready code without tool switching",
   type: "image/jpeg" as const,
 } as const;
@@ -35,24 +37,71 @@ export const SEO_DEFAULTS = {
   ],
 } as const;
 
-/** Canonical site origin — used for absolute OG/Twitter image URLs. */
-export function getSiteUrl(): string {
-  if (process.env.NEXT_PUBLIC_APP_URL) {
-    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "");
-  }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  return "https://coolplugz.dev";
+function normalizeSiteUrl(url: string): string {
+  return url.replace(/\/$/, "");
 }
 
-export function getAbsoluteOgImageUrl(): string {
-  return `${getSiteUrl()}${OG_IMAGE.path}`;
+function isDeployPreviewHost(host: string): boolean {
+  const normalized = host.toLowerCase();
+  return (
+    normalized === "localhost" ||
+    normalized.startsWith("127.0.0.1") ||
+    normalized.endsWith(".vercel.app") ||
+    normalized.endsWith(".vercel.sh")
+  );
+}
+
+function isPublicSiteUrl(url: string): boolean {
+  try {
+    return !isDeployPreviewHost(new URL(url).hostname);
+  } catch {
+    return false;
+  }
+}
+
+/** Canonical site origin — used when no request host is available. */
+export function getSiteUrl(): string {
+  const candidates: string[] = [];
+
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    candidates.push(process.env.NEXT_PUBLIC_APP_URL);
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    candidates.push(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`);
+  }
+
+  for (const raw of candidates) {
+    const url = normalizeSiteUrl(raw);
+    if (isPublicSiteUrl(url)) {
+      return url;
+    }
+  }
+
+  return CANONICAL_SITE_URL;
+}
+
+/** Prefer the incoming host so social crawlers get coolplugz.com, not a Vercel deploy URL. */
+export function resolveSiteUrlFromRequest(requestHeaders: Headers): string {
+  const host =
+    requestHeaders.get("x-forwarded-host")?.split(",")[0]?.trim() ||
+    requestHeaders.get("host")?.trim();
+
+  if (host && !isDeployPreviewHost(host)) {
+    const protocol =
+      requestHeaders.get("x-forwarded-proto")?.split(",")[0]?.trim() || "https";
+    return normalizeSiteUrl(`${protocol}://${host}`);
+  }
+
+  return getSiteUrl();
+}
+
+export function getAbsoluteOgImageUrl(siteUrl = getSiteUrl()): string {
+  return `${siteUrl}${OG_IMAGE.path}`;
 }
 
 /** Shared Open Graph + Twitter image config (Facebook, LinkedIn, iMessage, Slack, etc.). */
-export function getSocialImageMetadata() {
-  const url = getAbsoluteOgImageUrl();
+export function getSocialImageMetadata(siteUrl = getSiteUrl()) {
+  const url = getAbsoluteOgImageUrl(siteUrl);
 
   return {
     openGraphImages: [
@@ -78,12 +127,13 @@ type PageMetadataOptions = {
   title?: string;
   description?: string;
   path?: string;
+  siteUrl?: string;
 };
 
 /** Root layout metadata — site-wide defaults + social preview image. */
-export function createRootMetadata(): Metadata {
-  const siteUrl = getSiteUrl();
-  const { openGraphImages, twitterImages } = getSocialImageMetadata();
+export function createRootMetadata(options: { siteUrl?: string } = {}): Metadata {
+  const siteUrl = options.siteUrl ?? getSiteUrl();
+  const { openGraphImages, twitterImages } = getSocialImageMetadata(siteUrl);
 
   return {
     metadataBase: new URL(siteUrl),
@@ -137,11 +187,12 @@ export function createPageMetadata({
   title,
   description = SEO_DEFAULTS.description,
   path = "/",
+  siteUrl: siteUrlOverride,
 }: PageMetadataOptions = {}): Metadata {
-  const siteUrl = getSiteUrl();
+  const siteUrl = siteUrlOverride ?? getSiteUrl();
   const pageUrl = path === "/" ? siteUrl : `${siteUrl}${path}`;
   const pageTitle = title ?? SEO_DEFAULTS.title;
-  const { openGraphImages, twitterImages } = getSocialImageMetadata();
+  const { openGraphImages, twitterImages } = getSocialImageMetadata(siteUrl);
 
   return {
     title: pageTitle,

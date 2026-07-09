@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -10,14 +12,18 @@ import {
   requiresProSubscription,
 } from "@/lib/install-access";
 
-import { createPageMetadata } from "@/lib/seo";
+import { createPageMetadata, resolveSiteUrlFromRequest } from "@/lib/seo";
 
-export const metadata = createPageMetadata({
-  title: "Install Guides — Claude Plugin Setup",
-  description:
-    "Install guides for coolplugz Claude plugins. The free Context Prompt Builder needs email verification; Pro plugins require an active subscription.",
-  path: "/install",
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const headersList = await headers();
+  return createPageMetadata({
+    title: "Install Guides — Claude Plugin Setup",
+    description:
+      "Install guides for coolplugz Claude plugins. The free Context Prompt Builder needs email verification; Pro plugins require an active subscription.",
+    path: "/install",
+    siteUrl: resolveSiteUrlFromRequest(headersList),
+  });
+}
 
 function AccessBadge({ plugin }: { plugin: MarketplacePlugin }) {
   if (requiresProSubscription(plugin)) {

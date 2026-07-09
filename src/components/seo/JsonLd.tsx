@@ -1,10 +1,17 @@
+import { headers } from "next/headers";
 import { faqItems } from "@/components/landing/FAQSection";
-import { getAbsoluteOgImageUrl, getSiteUrl, OG_TAGLINE, SEO_DEFAULTS } from "@/lib/seo";
+import {
+  getAbsoluteOgImageUrl,
+  OG_TAGLINE,
+  resolveSiteUrlFromRequest,
+  SEO_DEFAULTS,
+} from "@/lib/seo";
 import { PRICING_AMOUNTS } from "@/lib/pricing-plans";
 
-export function JsonLd() {
-  const appUrl = getSiteUrl();
-  const ogImageUrl = getAbsoluteOgImageUrl();
+export async function JsonLd() {
+  const headersList = await headers();
+  const appUrl = resolveSiteUrlFromRequest(headersList);
+  const ogImageUrl = getAbsoluteOgImageUrl(appUrl);
 
   const faqSchema = {
     "@context": "https://schema.org",

@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
 import { MARKETPLACE_CATALOG } from "@/lib/marketplace-plugins";
-
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://coolplugz.dev";
+import { getSiteUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const siteUrl = getSiteUrl();
   const routes = [
     "",
     "/pricing",
@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pluginRoutes = MARKETPLACE_CATALOG.map((plugin) => `/plugins/${plugin.slug}`);
 
   return [...routes, ...pluginRoutes].map((route) => ({
-    url: `${APP_URL}${route}`,
+    url: `${siteUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: route === "" ? "weekly" : "monthly",
     priority: route === "" ? 1 : 0.8,

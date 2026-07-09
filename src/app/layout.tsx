@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { brandWordmarkFont } from "@/lib/brand-font";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { createRootMetadata } from "@/lib/seo";
+import { createRootMetadata, resolveSiteUrlFromRequest } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,7 +25,12 @@ const playfair = Playfair_Display({
   style: ["normal", "italic"],
 });
 
-export const metadata: Metadata = createRootMetadata();
+export async function generateMetadata(): Promise<Metadata> {
+  const headersList = await headers();
+  return createRootMetadata({
+    siteUrl: resolveSiteUrlFromRequest(headersList),
+  });
+}
 
 export default function RootLayout({
   children,
