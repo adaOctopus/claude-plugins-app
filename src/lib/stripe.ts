@@ -15,8 +15,14 @@ export function getStripe() {
 }
 
 export const PRICING = {
-  pro_monthly: { amount: PRICING_AMOUNTS.pro.monthly, priceId: process.env.STRIPE_PRICE_MONTHLY },
-  pro_annual: { amount: PRICING_AMOUNTS.pro.annual, priceId: process.env.STRIPE_PRICE_ANNUAL },
+  pro_monthly: {
+    amount: PRICING_AMOUNTS.pro.monthly,
+    priceId: process.env.STRIPE_PRICE_MONTHLY ?? process.env.STRIPE_PRICE_PRO_MONTHLY,
+  },
+  pro_annual: {
+    amount: PRICING_AMOUNTS.pro.annual,
+    priceId: process.env.STRIPE_PRICE_ANNUAL ?? process.env.STRIPE_PRICE_PRO_ANNUAL,
+  },
   premium_monthly: {
     amount: PRICING_AMOUNTS.premium.monthly,
     priceId: process.env.STRIPE_PRICE_PREMIUM_MONTHLY,

@@ -92,9 +92,7 @@ export async function POST(request: NextRequest) {
         checkoutKey,
         pluginId: pluginId || "",
       },
-      ...(customerId
-        ? { customer: customerId }
-        : { customer_creation: "always" }),
+      ...(customerId ? { customer: customerId } : {}),
     });
 
     return NextResponse.json({ url: checkoutSession.url });
