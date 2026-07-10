@@ -107,12 +107,29 @@ Flag logic: `src/lib/site-mode.ts`. Coming-soon UI: `src/components/landing/Comi
 
 ### Waitlist → Google Sheets
 
-While in WIP mode, emails from the coming-soon form POST to `/api/waitlist` and append to a Google Sheet via Apps Script:
+While in WIP mode, emails from the coming-soon form POST to `/api/waitlist`. Signups are **saved to MongoDB** first; if `GOOGLE_SHEETS_WEBHOOK_URL` is set, they are also appended to your Google Sheet.
 
 1. Create a Google Sheet with headers: `submittedAt` | `email` | `source`
-2. **Extensions → Apps Script** — paste `scripts/google-apps-script-waitlist.js`
-3. **Deploy → New deployment → Web app** (Execute as: Me, Access: Anyone)
-4. Copy the deployment URL into `GOOGLE_SHEETS_WEBHOOK_URL`
+2. **Extensions → Apps Script** — paste `scripts/google-apps-script-waitlist.js` into **Code.gs** → **Save**
+3. Toolbar function dropdown → select **`doGet`** → **Run** → authorize when Google prompts
+4. **Deploy → New deployment → Web app**
+   - Execute as: **Me**
+   - Who has access: **Anyone** (not “Only myself”)
+4. Copy the URL ending in **`/exec`** — e.g. `https://script.google.com/macros/s/AKfycb…/exec`
+   - Do **not** use the script editor URL (`…/macros/edit?…`) or the Sheet URL — those cause “Access Denied”
+5. Open the `/exec` URL in a browser — you should see `{"ok":true,"message":"coolplugz waitlist ready"}`
+6. Set `GOOGLE_SHEETS_WEBHOOK_URL` in Vercel to that `/exec` URL
+
+**Troubleshooting Google ("Unauthorized" / "does not exist")**
+
+| Symptom | Fix |
+|---|---|
+| Unauthorized in browser | Select **`doGet`** in Apps Script → **Run** → authorize, then redeploy Web app |
+| Does not exist after login | URL is stale or wrong ID — **Deploy → Manage deployments → copy fresh `/exec` URL** |
+| Access Denied HTML | Access is not **Anyone**, or you copied the script editor link |
+| Works logged in, not in incognito | Redeploy with **Who has access: Anyone** (test in incognito) |
+
+**Skip Google for now:** if `MONGODB_URI` is set in Vercel, emails save to MongoDB even when Sheets fails. You can remove `GOOGLE_SHEETS_WEBHOOK_URL` temporarily and fix Sheets later.
 
 ### 6. Stripe webhook (local)
 
