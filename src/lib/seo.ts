@@ -17,21 +17,30 @@ export const OG_IMAGE = {
 
 /** X/Twitter card descriptions should stay under ~200 chars. */
 export const TWITTER_CARD_DESCRIPTION =
-  "Claude plugin for engineers: Jira, Slack, GitHub & Notion context, CRISPE prompts, merge-ready code, and Slack handling inside Claude.";
+  "Claude plugin for devs: Jira, Slack, GitHub & Notion context, advanced prompting, merge-ready code, and Slack handling inside Claude.";
 
 export const SEO_DEFAULTS = {
   title: "coolplugz — Ship merge-ready code without switching tools",
   description:
-    "Claude plugin for engineers: gathers Jira, Slack, GitHub & Notion context, engineers CRISPE prompts, delivers merge-ready code inside Claude. End Slack fatigue — approve or reject, no LLM spirals.",
+    "Claude plugin for devs: gathers context from Jira, Slack, GitHub & Notion, writes great prompts, ships merge-ready code & handles your Slack.",
   keywords: [
     "Claude plugin for developers",
     "Claude plugin for engineers",
+    "how to automate CI checks",
+    "how to fix CI failures",
+    "how to fix CI errors with AI",
     "ship code faster AI",
+    "AI fatigue",
+    "how to fix burnout",
     "Slack fatigue developers",
     "context switching remote work",
     "AI context engineering",
     "Jira Slack GitHub Notion integration",
     "CRISPE prompt engineering",
+    "how to automate slack",
+    "how to automate slack messages",
+    "how to automate slack messages with AI",
+    "how to automate slack messages with Claude",
     "merge ready code AI",
     "Claude MCP dashboard",
     "automatic standup updates Slack",
