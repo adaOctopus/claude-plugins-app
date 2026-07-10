@@ -41,7 +41,7 @@ export function WaitlistEmailForm({
       }
 
       setStatus("success");
-      setMessage("You're on the list — we'll email you when we launch.");
+      setMessage("You're on the list 🥳 we'll email you in a couple of weeks.");
       setEmail("");
     } catch (error) {
       setStatus("error");
