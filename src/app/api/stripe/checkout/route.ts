@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { connectDB } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { isWipSite } from "@/lib/site-mode";
 import {
   getStripe,
   PRICING,
@@ -28,6 +29,13 @@ const schema = z.object({
 /** Create Stripe Checkout — no sign-in required; Stripe collects email. */
 export async function POST(request: NextRequest) {
   try {
+    if (isWipSite()) {
+      return NextResponse.json(
+        { error: "Checkout is not open yet. Join the waitlist on the homepage." },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const { plan, pluginId } = schema.parse(body);
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";

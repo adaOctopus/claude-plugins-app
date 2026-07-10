@@ -6,6 +6,7 @@ import { PluginMarketplaceSection } from "@/components/landing/PluginMarketplace
 import { MarketplaceSection } from "@/components/landing/MarketplaceSection";
 import { ChatTagsSection } from "@/components/landing/ChatTagsSection";
 import { PricingSection } from "@/components/landing/PricingSection";
+import { ComingSoonSection } from "@/components/landing/ComingSoonSection";
 import { FAQSection } from "@/components/landing/FAQSection";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
@@ -26,6 +27,7 @@ export default function HomePage() {
       <ChatTagsSection />
       <MarketplaceSection />
       <PluginMarketplaceSection />
+      <ComingSoonSection />
       <PricingSection />
       <FAQSection />
     </>

@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
+import { resolveProductHref } from "@/lib/site-mode";
 
 const footerLinks = {
   Product: [
-    { href: "/plugins", label: "The Plugins" },
-    { href: "/pricing", label: "Pricing" },
-    { href: "/install", label: "Install Guide" },
+    { href: resolveProductHref("/plugins"), label: "The Plugins" },
+    { href: resolveProductHref("/pricing"), label: "Pricing" },
+    { href: resolveProductHref("/install"), label: "Install Guide" },
   ],
   Creators: [
-    { href: "/app/upload", label: "Upload Plugin" },
-    { href: "/app/create", label: "Create Plugin" },
+    { href: resolveProductHref("/app/upload"), label: "Upload Plugin" },
+    { href: resolveProductHref("/app/create"), label: "Create Plugin" },
   ],
   Company: [
     { href: "/#faq", label: "FAQ" },
@@ -36,7 +37,7 @@ export function Footer() {
             <h3 className="mb-4 text-sm font-semibold text-charcoal">{title}</h3>
             <ul className="space-y-2">
               {links.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     href={link.href}
                     className="text-sm text-charcoal-muted transition-colors hover:text-charcoal"

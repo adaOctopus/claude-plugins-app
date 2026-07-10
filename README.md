@@ -88,6 +88,32 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Site mode (WIP / LIVE)
+
+The launch flag lives in `NEXT_PUBLIC_SITE_MODE`:
+
+| Value | Behavior |
+|---|---|
+| `WIP` (default) | Navbar shows **WIP** badge. Payments, `/plugins`, `/pricing`, `/install`, and creator upload routes redirect to `/#coming-soon` on the landing page. |
+| `LIVE` | Full marketplace, Stripe checkout, and install flows are enabled. |
+
+To go live, set in Vercel (and `.env.local`):
+
+```bash
+NEXT_PUBLIC_SITE_MODE=LIVE
+```
+
+Flag logic: `src/lib/site-mode.ts`. Coming-soon UI: `src/components/landing/ComingSoonSection.tsx`.
+
+### Waitlist → Google Sheets
+
+While in WIP mode, emails from the coming-soon form POST to `/api/waitlist` and append to a Google Sheet via Apps Script:
+
+1. Create a Google Sheet with headers: `submittedAt` | `email` | `source`
+2. **Extensions → Apps Script** — paste `scripts/google-apps-script-waitlist.js`
+3. **Deploy → New deployment → Web app** (Execute as: Me, Access: Anyone)
+4. Copy the deployment URL into `GOOGLE_SHEETS_WEBHOOK_URL`
+
 ### 6. Stripe webhook (local)
 
 ```bash

@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { startStripeCheckout, startTierCheckout } from "@/lib/start-checkout";
+import { comingSoonHref, isWipSite } from "@/lib/site-mode";
 import type { BillingPeriod, PaidTier } from "@/lib/pricing-plans";
 import { getPaidPlanKey } from "@/lib/pricing-plans";
 import type { CheckoutPlan } from "@/lib/stripe";
@@ -36,6 +37,11 @@ export function StripeCheckoutButton({
   const [loading, setLoading] = useState(false);
 
   async function handleClick() {
+    if (isWipSite()) {
+      window.location.href = comingSoonHref;
+      return;
+    }
+
     setLoading(true);
     try {
       if (plan) {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
+import { SiteModeBadge } from "@/components/waitlist/SiteModeBadge";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
@@ -28,6 +29,7 @@ export function Navbar() {
         <Link href="/" className="text-charcoal">
           <CoolplugzLogo markSize={46} wordmarkClassName="text-[32px]" />
         </Link>
+        <SiteModeBadge />
       </nav>
     </header>
   );

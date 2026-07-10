@@ -19,6 +19,7 @@ import {
   type MarketplaceFilterId,
   type MarketplacePlugin,
 } from "@/lib/marketplace-plugins";
+import { resolveProductHref } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
 
 const DISPLAY_LIMIT = 6;
@@ -102,7 +103,7 @@ export function MarketplaceBrowse({ plugins }: { plugins: MarketplacePlugin[] })
           Showing {filtered.length} of {plugins.length} published
         </p>
         <Link
-          href="/plugins"
+          href={resolveProductHref("/plugins")}
           className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0D9488] hover:underline"
         >
           View all plugins
@@ -119,7 +120,7 @@ function PluginCard({ plugin }: { plugin: MarketplacePlugin }) {
 
   return (
     <Link
-      href={`/plugins/${plugin.slug}`}
+      href={resolveProductHref(`/plugins/${plugin.slug}`)}
       className="group flex flex-col rounded-2xl border border-border bg-white p-4 shadow-sm transition-all hover:border-[#7DD3C0]/50 hover:shadow-md"
     >
       <div className="mb-3 flex items-start justify-between gap-2">

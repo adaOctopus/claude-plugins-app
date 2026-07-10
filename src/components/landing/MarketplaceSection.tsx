@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, Wand2, ArrowRight } from "lucide-react";
+import { resolveProductHref } from "@/lib/site-mode";
 
 /** Marketplace section — future expansion for more plugins. */
 export function MarketplaceSection() {
@@ -32,7 +33,7 @@ export function MarketplaceSection() {
             </CardContent>
             <CardFooter>
               <Button variant="outline" asChild>
-                <Link href="/app/upload">
+                <Link href={resolveProductHref("/app/upload")}>
                   Publish now<ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -51,7 +52,7 @@ export function MarketplaceSection() {
             </CardContent>
             <CardFooter>
               <Button variant="outline" asChild>
-                <Link href="/app/create">
+                <Link href={resolveProductHref("/app/create")}>
                   Start building <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>

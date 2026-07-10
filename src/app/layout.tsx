@@ -4,6 +4,7 @@ import { brandWordmarkFont } from "@/lib/brand-font";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ScrollToHashOnLoad } from "@/components/waitlist/ScrollToHashOnLoad";
 import { CANONICAL_SITE_URL, createRootMetadata } from "@/lib/seo";
 import "./globals.css";
 
@@ -40,6 +41,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-cream text-charcoal">
+        <ScrollToHashOnLoad />
         <JsonLd />
         <Navbar />
         <main className="flex-1">{children}</main>

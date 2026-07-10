@@ -10,6 +10,7 @@ import {
   type PaidTier,
 } from "@/lib/pricing-plans";
 import { startTierCheckout } from "@/lib/start-checkout";
+import { comingSoonHref, isWipSite } from "@/lib/site-mode";
 
 function resolveBilling(planParam: string | null): BillingPeriod {
   return planParam === "monthly" || planParam === "annual" ? planParam : "annual";
@@ -22,6 +23,11 @@ function PricingContent() {
   const [loading, setLoading] = useState<string | null>(null);
 
   const checkout = useCallback(async (tier: PaidTier, period: BillingPeriod) => {
+    if (isWipSite()) {
+      window.location.href = comingSoonHref;
+      return;
+    }
+
     const key = getPaidPlanKey(tier, period);
     setLoading(key);
     try {

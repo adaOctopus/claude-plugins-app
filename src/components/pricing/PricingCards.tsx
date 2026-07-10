@@ -16,6 +16,7 @@ import {
 } from "@/lib/pricing-plans";
 import { FREE_PLUGIN_SLUG } from "@/lib/marketplace-plugins";
 import { startTierCheckout } from "@/lib/start-checkout";
+import { isWipSite, comingSoonHref, resolveProductHref } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
 
 type PricingCardsProps = {
@@ -54,6 +55,11 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
   const premiumPrice = tierPricing.premium[billing];
 
   async function handleCheckout(tier: PaidTier) {
+    if (isWipSite()) {
+      window.location.href = comingSoonHref;
+      return;
+    }
+
     if (onCheckout) {
       await onCheckout(tier, billing);
       return;
@@ -104,7 +110,9 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
 
         <CardFooter>
           <Button className="w-full" variant="outline" asChild>
-            <Link href={`/install/${FREE_PLUGIN_SLUG}`}>{freePlan.cta}</Link>
+            <Link href={resolveProductHref(`/install/${FREE_PLUGIN_SLUG}`)}>
+              {freePlan.cta}
+            </Link>
           </Button>
         </CardFooter>
       </Card>

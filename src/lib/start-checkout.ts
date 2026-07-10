@@ -1,11 +1,17 @@
 import type { BillingPeriod, PaidTier } from "@/lib/pricing-plans";
 import { getPaidPlanKey } from "@/lib/pricing-plans";
 import type { CheckoutPlan } from "@/lib/stripe";
+import { isWipSite, comingSoonHref } from "@/lib/site-mode";
 
 export async function startStripeCheckout(
   plan: CheckoutPlan,
   pluginId?: string
 ): Promise<void> {
+  if (isWipSite()) {
+    window.location.href = comingSoonHref;
+    return;
+  }
+
   const res = await fetch("/api/stripe/checkout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

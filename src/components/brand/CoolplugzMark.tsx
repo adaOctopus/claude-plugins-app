@@ -39,7 +39,7 @@ export function CoolplugzMark({
   );
 }
 
-/** Inline brand wordmark — Quirk Chick lockup text. */
+/** Inline brand wordmark — Milk Peach Clean lockup text. */
 export function BrandWordmark({ className }: { className?: string }) {
   return <span className={cn(wordmarkStyles, className)}>coolplugz</span>;
 }
