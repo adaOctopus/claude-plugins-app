@@ -70,7 +70,7 @@ export default async function PluginDetailPage({
           {plugin.isFlagship
             ? `Included with base subscription (${formatTierPrice("pro", "monthly")}/mo or ${formatTierPrice("pro", "annual")}/yr)`
             : isFreePromptBuilder
-              ? "Free — €0 forever"
+              ? "Free - €0 forever"
               : isFree
                 ? "Free add-on"
                 : `${formatCurrency(plugin.priceMonthly)}/month add-on`}
@@ -91,7 +91,7 @@ export default async function PluginDetailPage({
           <FlagshipSubscribeButton />
         ) : isFreePromptBuilder ? (
           <Button size="lg" asChild>
-            <Link href={`/install/${FREE_PLUGIN_SLUG}`}>Install free plugin</Link>
+            <Link href={`/install/${FREE_PLUGIN_SLUG}`}>Go to installation guide</Link>
           </Button>
         ) : isFree ? (
           <Button size="lg" asChild>
