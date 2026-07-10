@@ -29,7 +29,7 @@ export function Navbar() {
         <Link href="/" className="text-charcoal">
           <CoolplugzLogo markSize={46} wordmarkClassName="text-[32px]" />
         </Link>
-        <SiteModeBadge />
+        {/* <SiteModeBadge /> */}
       </nav>
     </header>
   );
