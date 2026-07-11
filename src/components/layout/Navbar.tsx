@@ -5,7 +5,7 @@ import Link from "next/link";
 import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
 import { cn } from "@/lib/utils";
 
-export function Navbar() {
+export function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -28,11 +28,14 @@ export function Navbar() {
         <Link href="/" className="text-charcoal">
           <CoolplugzLogo markSize={46} wordmarkClassName="text-[32px]" />
         </Link>
-        {process.env.NEXT_PUBLIC_SITE_MODE === "WIP" ? (
-          <Link href="/login" className="text-charcoal">
+        {!isLoggedIn && (
+          <Link
+            href="/login"
+            className="inline-flex items-center rounded-full border border-charcoal/25 bg-transparent px-4 py-2 text-sm font-normal text-charcoal-muted transition-colors hover:border-charcoal/40 hover:text-charcoal"
+          >
             Manage plugins
           </Link>
-        ) : null}
+        )}
       </nav>
     </header>
   );

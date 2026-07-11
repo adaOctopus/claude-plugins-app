@@ -51,7 +51,7 @@ export function LoginForm() {
       <CardHeader>
         <CardTitle className="text-2xl">Manage your plugins</CardTitle>
         <p className="text-sm text-charcoal-muted">
-          Enter your email. We&apos;ll send a one-time link to continue.
+          Login with a magic link✨
         </p>
       </CardHeader>
       <CardContent>

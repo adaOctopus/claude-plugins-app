@@ -47,7 +47,7 @@ export default async function AppDashboardPage() {
               <p className="text-sm text-charcoal-muted">{plugin.description}</p>
               <Button variant="outline" size="sm" asChild className="shrink-0">
                 <Link href={`/install/${plugin.slug}`}>
-                  {requiresProSubscription(plugin) ? "Open guide" : "Install"}
+                  {requiresProSubscription(plugin) ? "Open guide" : "Open guide"}
                 </Link>
               </Button>
             </CardContent>
@@ -58,7 +58,7 @@ export default async function AppDashboardPage() {
       {subscription && (
         <Card className="mt-8">
           <CardContent className="flex flex-col gap-3 pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-charcoal-muted">
+            <p className="text-sm text-charcoal-muted font-medium">
               {subscription.tier} · {subscription.plan} · until{" "}
               {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
             </p>

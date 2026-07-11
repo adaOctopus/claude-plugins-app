@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { brandWordmarkFont } from "@/lib/brand-font";
-import { Navbar } from "@/components/layout/Navbar";
+import { NavbarShell } from "@/components/layout/NavbarShell";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ScrollToHashOnLoad } from "@/components/waitlist/ScrollToHashOnLoad";
@@ -43,7 +43,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-cream text-charcoal">
         <ScrollToHashOnLoad />
         <JsonLd />
-        <Navbar />
+        <NavbarShell />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
