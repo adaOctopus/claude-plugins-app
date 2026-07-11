@@ -49,3 +49,11 @@ export function formatPluginPrice(plugin: MarketplacePlugin): string {
   if (plugin.priceMonthly === 0) return "Free";
   return `€${plugin.priceMonthly.toFixed(2)}/mo`;
 }
+
+export function isFreeInstallPlugin(plugin: MarketplacePlugin) {
+  return !plugin.isFlagship && plugin.priceMonthly === 0;
+}
+
+export function requiresProSubscription(plugin: MarketplacePlugin) {
+  return plugin.isFlagship || plugin.priceMonthly > 0;
+}

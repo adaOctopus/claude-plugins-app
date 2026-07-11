@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getInstallSteps } from "@/lib/install-guides";
 import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
+import { requiresProSubscription } from "@/lib/marketplace-plugins";
+import { LoginLink } from "@/components/auth/LoginLink";
 
 type InstallPluginGuideProps = {
   plugin: MarketplacePlugin;
@@ -44,6 +46,11 @@ export function InstallPluginGuide({ plugin, email }: InstallPluginGuideProps) {
         <p className="mt-2 text-charcoal-muted">
           Access verified for {email}. Follow the steps below to set up the plugin in Claude.
         </p>
+        {requiresProSubscription(plugin) && (
+          <p className="mt-2 text-sm">
+            <LoginLink className="text-charcoal underline" redirect="/app" />
+          </p>
+        )}
         <Button
           className="mt-4 gap-2"
           onClick={handleDownload}

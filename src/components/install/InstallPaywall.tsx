@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton";
 import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
 import { formatTierPrice } from "@/lib/pricing-plans";
+import { LoginLink } from "@/components/auth/LoginLink";
 
 type InstallPaywallProps = {
   plugin: MarketplacePlugin;
@@ -29,6 +30,9 @@ export function InstallPaywall({ plugin, email }: InstallPaywallProps) {
         <Button variant="outline" className="w-full" asChild>
           <Link href="/pricing">View all plans</Link>
         </Button>
+        <p className="pt-2 text-center text-xs text-charcoal-muted">
+          Already subscribed? <LoginLink className="text-charcoal underline" redirect="/app" />
+        </p>
         <p className="pt-2 text-center text-xs text-charcoal-muted">
           Use the same email at checkout, then return here after payment.
         </p>

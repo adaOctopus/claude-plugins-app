@@ -3,17 +3,14 @@ import {
   getMarketplacePluginBySlug,
 } from "@/lib/marketplace-plugins.server";
 import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
+import {
+  isFreeInstallPlugin,
+  requiresProSubscription,
+} from "@/lib/marketplace-plugins";
 import { hasActiveSubscription, canDownloadPlugin } from "@/lib/entitlements";
 import { Plugin } from "@/models/Plugin";
 
-/** Free Context Prompt Builder — magic link only. Flagship & paid add-ons need Pro. */
-export function isFreeInstallPlugin(plugin: MarketplacePlugin) {
-  return !plugin.isFlagship && plugin.priceMonthly === 0;
-}
-
-export function requiresProSubscription(plugin: MarketplacePlugin) {
-  return plugin.isFlagship || plugin.priceMonthly > 0;
-}
+export { isFreeInstallPlugin, requiresProSubscription };
 
 export async function canAccessInstallGuide(
   userId: string,

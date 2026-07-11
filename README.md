@@ -145,7 +145,8 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 |---|---|
 | `/` | Landing page |
 | `/pricing` | Subscription plans |
-| `/login` | Magic link sign-in |
+| `/app` | Your plugins (after email login) |
+| `/login` | Email login |
 | `/plugins` | Marketplace browse |
 | `/plugins/[slug]` | Plugin detail |
 | `/install` | Claude plugin install guide |
@@ -161,6 +162,7 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/api/auth/verify` | GET | Verify token, create session |
 | `/api/auth/logout` | POST | Clear session |
 | `/api/stripe/checkout` | POST | Create Checkout Session |
+| `/api/stripe/cancel-subscription` | POST | Cancel subscription at period end |
 | `/api/stripe/portal` | POST | Customer Portal URL |
 | `/api/stripe/webhook` | POST | Stripe event handler |
 | `/api/plugins` | GET/POST | List / upload plugins |

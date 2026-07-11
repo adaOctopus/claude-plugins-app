@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
+import { MagicLinkSentMessage } from "@/components/auth/MagicLinkSentMessage";
 
 type InstallEmailGateProps = {
   plugin: MarketplacePlugin;
@@ -17,11 +18,13 @@ type InstallEmailGateProps = {
 /** Email magic-link gate before showing an install guide. */
 export function InstallEmailGate({ plugin, kind, slug }: InstallEmailGateProps) {
   const [email, setEmail] = useState("");
+  const [devLink, setDevLink] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
+    setDevLink(null);
     try {
       const res = await fetch("/api/auth/send-link", {
         method: "POST",
@@ -31,7 +34,9 @@ export function InstallEmailGate({ plugin, kind, slug }: InstallEmailGateProps) 
           redirect: `/install/${slug}`,
         }),
       });
-      if (!res.ok) throw new Error("Failed");
+      const data = (await res.json()) as { devLink?: string; error?: string };
+      if (!res.ok) throw new Error(data.error || "Failed");
+      setDevLink(data.devLink ?? null);
       setStatus("sent");
     } catch {
       setStatus("error");
@@ -56,9 +61,7 @@ export function InstallEmailGate({ plugin, kind, slug }: InstallEmailGateProps) 
       </CardHeader>
       <CardContent>
         {status === "sent" ? (
-          <div className="rounded-xl bg-accent-sage p-4 text-sm text-charcoal">
-            Check your inbox for the link. In dev mode, check the server console.
-          </div>
+          <MagicLinkSentMessage devLink={devLink ?? undefined} />
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>

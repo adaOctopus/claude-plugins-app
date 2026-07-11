@@ -7,11 +7,17 @@ const resend = process.env.RESEND_API_KEY
 const FROM_EMAIL = process.env.EMAIL_FROM || "coolplugz <onboarding@resend.dev>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
+export type MagicLinkEmailResult = {
+  success: true;
+  dev?: boolean;
+  verifyUrl?: string;
+};
+
 export async function sendMagicLinkEmail(
   email: string,
   token: string,
   redirect?: string
-) {
+): Promise<MagicLinkEmailResult> {
   const redirectParam = redirect
     ? `&redirect=${encodeURIComponent(redirect)}`
     : "";
@@ -22,7 +28,7 @@ export async function sendMagicLinkEmail(
     console.log(`Email: ${email}`);
     console.log(`Link: ${verifyUrl}`);
     console.log("-----------------------------\n");
-    return { success: true, dev: true };
+    return { success: true, dev: true, verifyUrl };
   }
 
   await resend.emails.send({

@@ -14,6 +14,7 @@ const footerLinks = {
   ],
   Company: [
     { href: "/#faq", label: "FAQ" },
+    { href: "/login", label: "Log in" },
     { href: "mailto:hello@coolplugz.dev", label: "Contact" },
   ],
 };

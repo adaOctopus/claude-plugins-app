@@ -11,6 +11,7 @@ import {
 } from "@/lib/pricing-plans";
 import { startTierCheckout } from "@/lib/start-checkout";
 import { comingSoonHref, isWipSite } from "@/lib/site-mode";
+import { LoginLink } from "@/components/auth/LoginLink";
 
 function resolveBilling(planParam: string | null): BillingPeriod {
   return planParam === "monthly" || planParam === "annual" ? planParam : "annual";
@@ -53,6 +54,10 @@ function PricingContent() {
       <div className="mt-12">
         <PricingCards billing={billing} onCheckout={checkout} loadingPlan={loading} />
       </div>
+
+      <p className="mt-10 text-sm text-charcoal-muted">
+        Already a customer? <LoginLink className="text-charcoal underline" redirect="/app" />
+      </p>
     </div>
   );
 }

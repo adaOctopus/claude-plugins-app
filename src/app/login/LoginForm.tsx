@@ -7,35 +7,51 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MagicLinkSentMessage } from "@/components/auth/MagicLinkSentMessage";
+
+function safeRedirect(path: string | null) {
+  if (!path || !path.startsWith("/") || path.startsWith("//")) return "/app";
+  return path;
+}
 
 export function LoginForm() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
+  const redirect = safeRedirect(searchParams.get("redirect"));
   const [email, setEmail] = useState("");
+  const [devLink, setDevLink] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
+    setDevLink(null);
+    setErrorMessage(null);
     try {
       const res = await fetch("/api/auth/send-link", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, redirect }),
       });
-      if (!res.ok) throw new Error("Failed");
+      const data = (await res.json()) as { devLink?: string; error?: string };
+      if (!res.ok) throw new Error(data.error || "Failed");
+      setDevLink(data.devLink ?? null);
       setStatus("sent");
-    } catch {
+    } catch (error) {
       setStatus("error");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Could not send link. Please try again."
+      );
     }
   }
 
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl">Sign in to coolplugz</CardTitle>
+        <CardTitle className="text-2xl">Manage your plugins</CardTitle>
         <p className="text-sm text-charcoal-muted">
-          We&apos;ll email you a magic link — no password needed.
+          Enter your email. We&apos;ll send a one-time link to continue.
         </p>
       </CardHeader>
       <CardContent>
@@ -47,10 +63,7 @@ export function LoginForm() {
           </p>
         )}
         {status === "sent" ? (
-          <div className="rounded-xl bg-accent-sage p-4 text-sm text-charcoal">
-            Check your email for the sign-in link. In dev mode, check the server
-            console.
-          </div>
+          <MagicLinkSentMessage devLink={devLink ?? undefined} />
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -65,8 +78,11 @@ export function LoginForm() {
                 className="mt-2"
               />
             </div>
+            {status === "error" && errorMessage && (
+              <p className="text-sm text-red-600">{errorMessage}</p>
+            )}
             <Button type="submit" className="w-full" disabled={status === "loading"}>
-              {status === "loading" ? "Sending..." : "Send magic link"}
+              {status === "loading" ? "Sending..." : "Continue"}
             </Button>
           </form>
         )}

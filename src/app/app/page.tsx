@@ -4,153 +4,78 @@ import { getSession } from "@/lib/auth";
 import { getUserSubscription } from "@/lib/entitlements";
 import { connectDB } from "@/lib/db";
 import { Plugin } from "@/models/Plugin";
-import { CreatorEarning } from "@/models/CreatorEarning";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, CreditCard, Upload, Wand2 } from "lucide-react";
-import { formatCurrency } from "@/lib/utils";
-import {
-  DownloadButton,
-  ManageBillingButton,
-  LogoutButton,
-} from "@/components/marketplace/DashboardActions";
+import { LogoutButton } from "@/components/marketplace/DashboardActions";
+import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
+import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
+import { requiresProSubscription } from "@/lib/marketplace-plugins";
 
-/** User dashboard — subscriptions, downloads, creator earnings. */
+/** Logged-in hub — install guides for your plugins; cancel only if subscribed. */
 export default async function AppDashboardPage() {
   const session = await getSession();
-  if (!session) redirect("/login");
+  if (!session) redirect("/login?redirect=/app");
 
   let subscription = null;
-  let plugins: Awaited<ReturnType<typeof Plugin.find>> = [];
-  let earnings: Awaited<ReturnType<typeof CreatorEarning.find>> = [];
+  let plugins = await getMarketplacePlugins();
 
   try {
     await connectDB();
     subscription = await getUserSubscription(session.id);
-    plugins = await Plugin.find({ status: "published" });
-    if (session.role === "creator") {
-      earnings = await CreatorEarning.find({ creatorId: session.id }).populate(
-        "pluginId",
-        "title"
-      );
+    const dbPlugins = await Plugin.find({ status: "published" });
+    if (dbPlugins.length > 0) {
+      plugins = plugins.filter((p) => dbPlugins.some((d) => d.slug === p.slug));
     }
   } catch {
-    // DB not connected in dev
+    // catalog fallback
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-32 md:px-8">
-      <h1 className="font-serif text-3xl font-semibold text-charcoal">Dashboard</h1>
-      <p className="mt-2 text-charcoal-muted">Signed in as {session.email}</p>
+    <div className="mx-auto max-w-3xl px-4 py-32 md:px-8">
+      <h1 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl">
+        Your plugins
+      </h1>
+      <p className="mt-2 text-charcoal-muted">{session.email}</p>
 
-      <div className="mt-8 grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <CreditCard className="h-5 w-5" />
-              Subscription
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {subscription ? (
-              <div className="space-y-2 text-sm">
-                <p>
-                  Plan: <strong className="capitalize">{subscription.plan}</strong>
-                </p>
-                <p>Status: {subscription.status}</p>
-                <p>
-                  Renews:{" "}
-                  {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
-                </p>
-                <ManageBillingButton />
-              </div>
-            ) : (
-              <div>
-                <p className="text-sm text-charcoal-muted">No active subscription</p>
-                <Button className="mt-4" asChild>
-                  <Link href="/pricing">Subscribe now</Link>
-                </Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              Quick actions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <Button variant="outline" asChild>
-              <Link href="/app/upload">
-                <Upload className="h-4 w-4" /> Upload plugin
-              </Link>
-            </Button>
-            <Button variant="outline" asChild>
-              <Link href="/app/create">
-                <Wand2 className="h-4 w-4" /> Create plugin
-              </Link>
-            </Button>
-            <Button variant="outline" asChild>
-              <Link href="/install">Install guide</Link>
-            </Button>
-          </CardContent>
-        </Card>
+      <div className="mt-8 space-y-4">
+        {plugins.map((plugin) => (
+          <Card key={plugin.slug}>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg">{plugin.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-charcoal-muted">{plugin.description}</p>
+              <Button variant="outline" size="sm" asChild className="shrink-0">
+                <Link href={`/install/${plugin.slug}`}>
+                  {requiresProSubscription(plugin) ? "Open guide" : "Install"}
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      {subscription && plugins.length > 0 && (
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Download className="h-5 w-5" />
-              Your plugins
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {plugins.map((plugin) => (
-              <div
-                key={plugin._id.toString()}
-                className="flex items-center justify-between rounded-xl border border-border p-4"
-              >
-                <div>
-                  <p className="font-medium">{plugin.title}</p>
-                  <p className="text-xs text-charcoal-muted">{plugin.category}</p>
-                </div>
-                <DownloadButton pluginId={plugin._id.toString()} />
-              </div>
-            ))}
+      {subscription && (
+        <Card className="mt-8">
+          <CardContent className="flex flex-col gap-3 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-charcoal-muted">
+              {subscription.tier} · {subscription.plan} · until{" "}
+              {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
+            </p>
+            <CancelSubscriptionButton
+              currentPeriodEnd={subscription.currentPeriodEnd.toISOString()}
+            />
           </CardContent>
         </Card>
       )}
 
-      {earnings.length > 0 && (
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle>Creator earnings</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {earnings.map((earning) => (
-                <div
-                  key={earning._id.toString()}
-                  className="flex justify-between rounded-xl border border-border p-4 text-sm"
-                >
-                  <div>
-                    <p className="font-medium">
-                      {(earning.pluginId as { title?: string })?.title || "Plugin"}
-                    </p>
-                    <p className="text-xs text-charcoal-muted">
-                      Fee: {formatCurrency(earning.platformFee)} (1%) · Status:{" "}
-                      {earning.status.replace("_", " ")}
-                    </p>
-                  </div>
-                  <p className="font-semibold">{formatCurrency(earning.netAmount)}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      {!subscription && (
+        <p className="mt-8 text-sm text-charcoal-muted">
+          No paid plan yet.{" "}
+          <Link href="/pricing" className="font-medium text-charcoal underline">
+            View pricing
+          </Link>
+        </p>
       )}
 
       <div className="mt-8">
