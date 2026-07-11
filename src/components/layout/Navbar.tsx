@@ -28,12 +28,11 @@ export function Navbar() {
         <Link href="/" className="text-charcoal">
           <CoolplugzLogo markSize={46} wordmarkClassName="text-[32px]" />
         </Link>
-        <Link
-          href="/login"
-          className="rounded-full border border-charcoal/20 bg-transparent px-4 py-2 text-sm font-normal text-charcoal-muted transition-colors hover:border-charcoal/35 hover:text-charcoal"
-        >
-          Manage plugins
-        </Link>
+        {process.env.NEXT_PUBLIC_SITE_MODE === "WIP" ? (
+          <Link href="/login" className="text-charcoal">
+            Manage plugins
+          </Link>
+        ) : null}
       </nav>
     </header>
   );
