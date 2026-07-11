@@ -2,7 +2,7 @@ export type BillingPeriod = "monthly" | "annual";
 export type PaidTier = "pro" | "premium";
 export type PaidPlan = `${PaidTier}_${BillingPeriod}`;
 
-/** Single source of truth for displayed & checkout amounts (EUR). */
+/** Single source of truth for displayed & checkout amounts (USD). */
 export const PRICING_AMOUNTS = {
   pro: { monthly: 17, annual: 147 },
   premium: { monthly: 47, annual: 387 },
@@ -19,17 +19,17 @@ export const billingOptions = {
 
 export const tierPricing = {
   pro: {
-    monthly: { price: `€${PRICING_AMOUNTS.pro.monthly}`, period: "/month" },
+    monthly: { amount: PRICING_AMOUNTS.pro.monthly, period: "/month" },
     annual: {
-      price: `€${PRICING_AMOUNTS.pro.annual}`,
+      amount: PRICING_AMOUNTS.pro.annual,
       period: "/year",
       savings: "Save ~35%",
     },
   },
   premium: {
-    monthly: { price: `€${PRICING_AMOUNTS.premium.monthly}`, period: "/month" },
+    monthly: { amount: PRICING_AMOUNTS.premium.monthly, period: "/month" },
     annual: {
-      price: `€${PRICING_AMOUNTS.premium.annual}`,
+      amount: PRICING_AMOUNTS.premium.annual,
       period: "/year",
       savings: "Save ~34%",
     },
@@ -39,7 +39,8 @@ export const tierPricing = {
 export const freePlan = {
   id: "free" as const,
   name: "Free",
-  price: "€0",
+  price: "$0",
+  amount: 0,
   period: "",
   badge: "",
   tagline: "Context Prompt Builder — fetch context, get engineered prompts back.",
@@ -93,5 +94,5 @@ export function getPaidPlanKey(tier: PaidTier, billing: BillingPeriod): PaidPlan
 }
 
 export function formatTierPrice(tier: PaidTier, billing: BillingPeriod): string {
-  return tierPricing[tier][billing].price;
+  return `$${tierPricing[tier][billing].amount}`;
 }

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Sparkles, X } from "lucide-react";
 import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton";
+import { PriceDisplay } from "@/components/pricing/PriceDisplay";
 import {
   freePlan,
   getPaidPlanKey,
@@ -83,7 +84,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
           </div>
           <CardTitle className="font-serif text-2xl">{freePlan.name}</CardTitle>
           <div>
-            <span className="font-serif text-4xl">{freePlan.price}</span>
+            <PriceDisplay amount={freePlan.amount} />
             <p className="mt-2 text-sm text-charcoal-muted">{freePlan.tagline}</p>
           </div>
         </CardHeader>
@@ -138,7 +139,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
           </div>
           <CardTitle className="font-serif text-2xl">{proPlan.name}</CardTitle>
           <div>
-            <span className="font-serif text-4xl">{proPrice.price}</span>
+            <PriceDisplay amount={proPrice.amount} />
             <span className="text-charcoal-muted">{proPrice.period}</span>
             {"savings" in proPrice && proPrice.savings && (
               <p className="mt-1 text-xs font-medium text-emerald-700">
@@ -194,7 +195,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
           </div>
           <CardTitle className="font-serif text-2xl">{premiumPlan.name}</CardTitle>
           <div>
-            <span className="font-serif text-4xl">{premiumPrice.price}</span>
+            <PriceDisplay amount={premiumPrice.amount} />
             <span className="text-charcoal-muted">{premiumPrice.period}</span>
             {"savings" in premiumPrice && premiumPrice.savings && (
               <p className="mt-1 text-xs font-medium text-emerald-700">

@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import {
   ArrowRight,
   Search,
@@ -19,7 +18,7 @@ import {
   type MarketplaceFilterId,
   type MarketplacePlugin,
 } from "@/lib/marketplace-plugins";
-import { resolveProductHref } from "@/lib/site-mode";
+import { MarketplaceNotifyTrigger } from "@/components/waitlist/MarketplaceNotifyDialog";
 import { cn } from "@/lib/utils";
 
 const DISPLAY_LIMIT = 6;
@@ -102,13 +101,13 @@ export function MarketplaceBrowse({ plugins }: { plugins: MarketplacePlugin[] })
         <p className="text-xs text-charcoal-muted">
           Showing {filtered.length} of {plugins.length} published
         </p>
-        <Link
-          href={resolveProductHref("/plugins")}
+        <MarketplaceNotifyTrigger
+          source="browse-view-all"
           className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0D9488] hover:underline"
         >
           View all plugins
           <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
+        </MarketplaceNotifyTrigger>
       </div>
     </div>
   );
@@ -119,9 +118,9 @@ function PluginCard({ plugin }: { plugin: MarketplacePlugin }) {
   const isFreePromptBuilder = plugin.slug === FREE_PLUGIN_SLUG;
 
   return (
-    <Link
-      href={resolveProductHref(`/plugins/${plugin.slug}`)}
-      className="group flex flex-col rounded-2xl border border-border bg-white p-4 shadow-sm transition-all hover:border-[#7DD3C0]/50 hover:shadow-md"
+    <MarketplaceNotifyTrigger
+      source={`browse-plugin-${plugin.slug}`}
+      className="group flex flex-col rounded-2xl border border-border bg-white p-4 text-left shadow-sm transition-all hover:border-[#7DD3C0]/50 hover:shadow-md"
     >
       <div className="mb-3 flex items-start justify-between gap-2">
         <span
@@ -166,6 +165,6 @@ function PluginCard({ plugin }: { plugin: MarketplacePlugin }) {
         View plugin
         <ArrowRight className="h-3 w-3" />
       </span>
-    </Link>
+    </MarketplaceNotifyTrigger>
   );
 }

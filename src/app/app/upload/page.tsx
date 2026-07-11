@@ -94,7 +94,7 @@ export default function UploadPluginPage() {
             <Input id="category" name="category" defaultValue="engineering" className="mt-2" />
           </div>
           <div>
-            <Label htmlFor="priceMonthly">Price (€/month)</Label>
+            <Label htmlFor="priceMonthly">Price ($/month)</Label>
             <Input
               id="priceMonthly"
               name="priceMonthly"

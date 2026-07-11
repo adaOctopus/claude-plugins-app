@@ -1,23 +1,6 @@
 import Link from "next/link";
 import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
-import { resolveProductHref } from "@/lib/site-mode";
-
-const footerLinks = {
-  Product: [
-    { href: resolveProductHref("/plugins"), label: "The Plugins" },
-    { href: resolveProductHref("/pricing"), label: "Pricing" },
-    { href: resolveProductHref("/install"), label: "Install Guide" },
-  ],
-  Creators: [
-    { href: resolveProductHref("/app/upload"), label: "Upload Plugin" },
-    { href: resolveProductHref("/app/create"), label: "Create Plugin" },
-  ],
-  Company: [
-    { href: "/#faq", label: "FAQ" },
-    { href: "/login", label: "Log in" },
-    { href: "mailto:hello@coolplugz.dev", label: "Contact" },
-  ],
-};
+import { FooterNav } from "@/components/layout/FooterNav";
 
 export function Footer() {
   return (
@@ -29,27 +12,10 @@ export function Footer() {
           </Link>
           <p className="mt-3 text-sm text-charcoal-muted">
             Ship merge-ready code faster and stop switching between tools.
-
-            </p>
+          </p>
         </div>
 
-        {Object.entries(footerLinks).map(([title, links]) => (
-          <div key={title}>
-            <h3 className="mb-4 text-sm font-semibold text-charcoal">{title}</h3>
-            <ul className="space-y-2">
-              {links.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-charcoal-muted transition-colors hover:text-charcoal"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <FooterNav />
       </div>
 
       <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center justify-between gap-4 border-t border-border pt-8 text-sm text-charcoal-muted md:flex-row">

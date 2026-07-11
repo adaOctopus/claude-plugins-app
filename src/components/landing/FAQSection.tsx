@@ -54,14 +54,14 @@ export const faqItems = [
       "The plugin monitors Slack for action items and generates reply drafts and standup updates automatically — already written, ready to send. You Approve & submit to post them. No drafting, no prompting, no iteration.",
   },
   {
-    question: "What's included in the €17/month subscription?",
+    question: "What's included in the $17/month subscription?",
     answer:
       "The Context Engineer Claude plugin with full Jira, Slack, and GitHub integration; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; install guide; and ongoing updates. No per-task prompt writing. No LLM iteration tax.",
   },
   {
     question: "Can I add more plugins later?",
     answer:
-      "Yes. We launch with one plugin built for engineers. A marketplace for additional plugins — and tools to upload or create your own — is coming. Extra plugins will be available from €2.50/month each.",
+      "Yes. We launch with one plugin built for engineers. A marketplace for additional plugins — and tools to upload or create your own — is coming. Extra plugins will be available from $2.50/month each.",
   },
 ];
 

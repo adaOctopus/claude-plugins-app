@@ -217,7 +217,7 @@ export default function CreatePluginPage() {
       {step === 3 && (
         <div className="mt-8 space-y-4">
           <div>
-            <Label htmlFor="price">Monthly price (€)</Label>
+            <Label htmlFor="price">Monthly price ($)</Label>
             <Input
               id="price"
               type="number"

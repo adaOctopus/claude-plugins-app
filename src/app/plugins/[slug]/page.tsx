@@ -70,7 +70,7 @@ export default async function PluginDetailPage({
           {plugin.isFlagship
             ? `Included with base subscription (${formatTierPrice("pro", "monthly")}/mo or ${formatTierPrice("pro", "annual")}/yr)`
             : isFreePromptBuilder
-              ? "Free - €0 forever"
+              ? "Free - $0 forever"
               : isFree
                 ? "Free add-on"
                 : `${formatCurrency(plugin.priceMonthly)}/month add-on`}

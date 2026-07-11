@@ -49,7 +49,7 @@ export function JsonLd() {
       {
         "@type": "Offer",
         price: String(PRICING_AMOUNTS.pro.monthly),
-        priceCurrency: "EUR",
+        priceCurrency: "USD",
         priceValidUntil: "2027-12-31",
         availability: "https://schema.org/InStock",
         name: "Pro monthly",
@@ -57,7 +57,7 @@ export function JsonLd() {
       {
         "@type": "Offer",
         price: String(PRICING_AMOUNTS.pro.annual),
-        priceCurrency: "EUR",
+        priceCurrency: "USD",
         priceValidUntil: "2027-12-31",
         availability: "https://schema.org/InStock",
         name: "Pro annual",
@@ -65,7 +65,7 @@ export function JsonLd() {
       {
         "@type": "Offer",
         price: String(PRICING_AMOUNTS.premium.monthly),
-        priceCurrency: "EUR",
+        priceCurrency: "USD",
         priceValidUntil: "2027-12-31",
         availability: "https://schema.org/InStock",
         name: "Premium monthly",
@@ -73,7 +73,7 @@ export function JsonLd() {
       {
         "@type": "Offer",
         price: String(PRICING_AMOUNTS.premium.annual),
-        priceCurrency: "EUR",
+        priceCurrency: "USD",
         priceValidUntil: "2027-12-31",
         availability: "https://schema.org/InStock",
         name: "Premium annual",

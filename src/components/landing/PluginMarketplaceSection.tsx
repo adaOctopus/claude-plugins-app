@@ -1,9 +1,7 @@
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
 import { MarketplaceBrowse } from "@/components/landing/MarketplaceBrowse";
-import { resolveProductHref } from "@/lib/site-mode";
-import { ArrowRight } from "lucide-react";
+import { PublishYourOwnLink } from "@/components/landing/PublishYourOwnLink";
 
 /** Minimal marketplace preview — search, filter, latest published plugins. */
 export async function PluginMarketplaceSection() {
@@ -25,13 +23,7 @@ export async function PluginMarketplaceSection() {
               or browse what creators publish.
             </p> */}
           </div>
-          <Link
-            href={resolveProductHref("/app/upload")}
-            className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-charcoal-muted hover:text-charcoal"
-          >
-            Publish your own
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+          <PublishYourOwnLink />
         </div>
 
         <MarketplaceBrowse plugins={plugins} />

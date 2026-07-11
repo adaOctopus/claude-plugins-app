@@ -24,7 +24,7 @@ const CreatorEarningSchema = new Schema<ICreatorEarning>(
     grossAmount: { type: Number, required: true },
     platformFee: { type: Number, required: true },
     netAmount: { type: Number, required: true },
-    currency: { type: String, default: "eur" },
+    currency: { type: String, default: "usd" },
     status: {
       type: String,
       enum: ["pending_manual_payout", "paid"],

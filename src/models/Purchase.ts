@@ -21,7 +21,7 @@ const PurchaseSchema = new Schema<IPurchase>(
     stripeSessionId: String,
     stripePaymentIntentId: String,
     amount: { type: Number, required: true },
-    currency: { type: String, default: "eur" },
+    currency: { type: String, default: "usd" },
     type: {
       type: String,
       enum: ["subscription", "addon", "one_time"],

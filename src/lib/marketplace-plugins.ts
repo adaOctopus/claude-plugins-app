@@ -47,7 +47,7 @@ export type MarketplaceFilterId = (typeof MARKETPLACE_FILTERS)[number]["id"];
 export function formatPluginPrice(plugin: MarketplacePlugin): string {
   if (plugin.isFlagship) return "Included in Pro plan";
   if (plugin.priceMonthly === 0) return "Free";
-  return `€${plugin.priceMonthly.toFixed(2)}/mo`;
+  return `$${plugin.priceMonthly.toFixed(2)}/mo`;
 }
 
 export function isFreeInstallPlugin(plugin: MarketplacePlugin) {

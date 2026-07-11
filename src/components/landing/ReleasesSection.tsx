@@ -1,15 +1,20 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Flag, Clock } from "lucide-react";
+import { MarketplaceNotifyTrigger } from "@/components/waitlist/MarketplaceNotifyDialog";
+import { resolveProductHref } from "@/lib/site-mode";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const flagship = {
   title: "Context Engineer",
   description:
     "One Claude plugin for engineers. Runs in the background: gathers context, generates and executes prompts, produces finished work. You only Approve & submit or Reject & redo.",
-  href: "/plugins/context-engineer",
-  price: "Included in €17/mo plan",
+  price: "Included in $17/mo plan",
 };
 
 const comingSoon = [
@@ -27,7 +32,7 @@ const comingSoon = [
   },
 ];
 
-/** Plugin releases — flagship engineer plugin highlighted as available now. */
+/** Plugin releases — flagship CTA to pricing; view details opens notify popup (v2). */
 export function ReleasesSection() {
   return (
     <section id="plugins" className="px-4 py-20 md:px-8">
@@ -71,7 +76,6 @@ export function ReleasesSection() {
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-5">
-          {/* Flagship — featured */}
           <Card className="relative flex flex-col border-2 border-emerald-400 bg-gradient-to-br from-emerald-50/80 to-white shadow-md lg:col-span-3">
             <div className="absolute -top-3 left-6">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-sm">
@@ -114,17 +118,19 @@ export function ReleasesSection() {
 
             <CardFooter className="flex flex-col gap-3 sm:flex-row">
               <Button asChild>
-                <Link href="/pricing">
+                <Link href={resolveProductHref("/pricing")}>
                   Buy the plugin <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="outline" asChild>
-                <Link href={flagship.href}>View details</Link>
-              </Button>
+              <MarketplaceNotifyTrigger
+                source="releases-view-details"
+                className={cn(buttonVariants({ variant: "outline" }), "gap-2")}
+              >
+                View details
+              </MarketplaceNotifyTrigger>
             </CardFooter>
           </Card>
 
-          {/* Coming soon */}
           <div className="flex flex-col gap-4 lg:col-span-2">
             <p className="text-xs font-medium uppercase tracking-wider text-charcoal-muted">
               Coming soon

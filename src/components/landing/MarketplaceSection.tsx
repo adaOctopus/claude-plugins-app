@@ -1,11 +1,13 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { Upload, Wand2, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, Wand2, ArrowRight } from "lucide-react";
-import { resolveProductHref } from "@/lib/site-mode";
+import { MarketplaceNotifyTrigger } from "@/components/waitlist/MarketplaceNotifyDialog";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-/** Marketplace section — future expansion for more plugins. */
+/** Marketplace section — upload & create open v2 notify popup. */
 export function MarketplaceSection() {
   return (
     <section id="marketplace" className="border-t border-border/60 px-4 py-20 md:px-8">
@@ -14,7 +16,8 @@ export function MarketplaceSection() {
           Make Money with Claude Plugins
         </Badge>
         <h2 className="font-serif text-3xl text-charcoal md:text-5xl">
-          Publish your Claude plugins for <span style={{ fontStyle: "italic", fontWeight: "600" }}>extra income.</span>
+          Publish your Claude plugins for{" "}
+          <span style={{ fontStyle: "italic", fontWeight: "600" }}>extra income.</span>
         </h2>
         <p className="mt-4 max-w-2xl text-charcoal-muted">
           Upload your existing plugins, or create your own. Fast and with no coding needed.
@@ -32,11 +35,13 @@ export function MarketplaceSection() {
               </p>
             </CardContent>
             <CardFooter>
-              <Button variant="outline" asChild>
-                <Link href={resolveProductHref("/app/upload")}>
-                  Publish now<ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
+              <MarketplaceNotifyTrigger
+                source="marketplace-upload"
+                className={cn(buttonVariants({ variant: "outline" }), "gap-2")}
+              >
+                Publish now
+                <ArrowRight className="h-4 w-4" />
+              </MarketplaceNotifyTrigger>
             </CardFooter>
           </Card>
 
@@ -47,15 +52,17 @@ export function MarketplaceSection() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-charcoal-muted">
-                Launch and sell your plugins with our in-app wizard — no coding needed. 
+                Launch and sell your plugins with our in-app wizard — no coding needed.
               </p>
             </CardContent>
             <CardFooter>
-              <Button variant="outline" asChild>
-                <Link href={resolveProductHref("/app/create")}>
-                  Start building <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
+              <MarketplaceNotifyTrigger
+                source="marketplace-create"
+                className={cn(buttonVariants({ variant: "outline" }), "gap-2")}
+              >
+                Start building
+                <ArrowRight className="h-4 w-4" />
+              </MarketplaceNotifyTrigger>
             </CardFooter>
           </Card>
         </div>

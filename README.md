@@ -8,7 +8,7 @@ A Next.js 15 platform for selling, uploading, and creating Claude plugins. Featu
 
 - **Landing page** — earthy cream design, problem/solution sections, dashboard mockups, integrations bento grid
 - **Marketplace** — browse, buy, upload, or create plugins
-- **Stripe billing** — €17/month or €147/year base plan; €2.50/month per extra plugin
+- **Stripe billing** — $17/month or $147/year base plan; $2.50/month per extra plugin
 - **Creator economy** — publish plugins, earn 99% (1% platform fee, manual payouts at launch)
 
 ## Tech stack
@@ -171,9 +171,9 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 
 ## Pricing
 
-- **Monthly**: €17/mo — includes flagship Context Engineer plugin
-- **Annual**: €147/yr — ~35% savings
-- **Add-ons**: €2.50/mo per extra marketplace plugin
+- **Monthly**: $17/mo — includes flagship Context Engineer plugin
+- **Annual**: $147/yr — ~35% savings
+- **Add-ons**: $2.50/mo per extra marketplace plugin
 - **Creator fee**: 1% platform commission (manual payouts)
 
 ## Deployment
