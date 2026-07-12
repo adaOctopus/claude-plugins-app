@@ -86,7 +86,7 @@ export function MarketplaceNotifyProvider({ children }: { children: ReactNode })
                 id="marketplace-notify-title"
                 className="mt-2 text-center font-serif text-xl text-charcoal md:text-2xl"
               >
-                <BrandWordmark className="text-[1.05em] align-baseline" /> marketplace
+                <BrandWordmark className="text-[1.05em] align-baseline" />
               </h2>
               <p className="mt-3 text-center text-sm text-charcoal-muted">
                 We&apos;ll let you know when browsing, uploading, and selling plugins goes live.
