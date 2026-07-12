@@ -2,10 +2,25 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
+import { MarketplaceNotifyTrigger } from "@/components/waitlist/MarketplaceNotifyDialog";
 import { cn } from "@/lib/utils";
 
-export function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
+const managePluginsClassName =
+  "inline-flex items-center rounded-full border border-charcoal/25 bg-transparent px-4 py-2 text-sm font-normal text-charcoal-muted transition-colors hover:border-charcoal/40 hover:text-charcoal";
+
+export function Navbar({
+  isLoggedIn = false,
+  isWip = true,
+}: {
+  isLoggedIn?: boolean;
+  /** From server — WIP shows waitlist popup; LIVE sends to /login. */
+  isWip?: boolean;
+}) {
+  const pathname = usePathname();
+  const isManagePluginsView = pathname === "/app" || pathname.startsWith("/app/");
+  const showManagePlugins = !(isLoggedIn && isManagePluginsView);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -28,14 +43,19 @@ export function Navbar({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
         <Link href="/" className="text-charcoal">
           <CoolplugzLogo markSize={46} wordmarkClassName="text-[32px]" />
         </Link>
-        {!isLoggedIn && (
-          <Link
-            href="/login"
-            className="inline-flex items-center rounded-full border border-charcoal/25 bg-transparent px-4 py-2 text-sm font-normal text-charcoal-muted transition-colors hover:border-charcoal/40 hover:text-charcoal"
-          >
-            Manage plugins
-          </Link>
-        )}
+        {showManagePlugins &&
+          (isWip ? (
+            <MarketplaceNotifyTrigger
+              source="navbar-manage-plugins"
+              className={managePluginsClassName}
+            >
+              Manage plugins
+            </MarketplaceNotifyTrigger>
+          ) : (
+            <Link href="/login" className={managePluginsClassName}>
+              Manage plugins
+            </Link>
+          ))}
       </nav>
     </header>
   );
