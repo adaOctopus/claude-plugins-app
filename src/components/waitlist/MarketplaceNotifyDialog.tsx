@@ -89,10 +89,10 @@ export function MarketplaceNotifyProvider({ children }: { children: ReactNode })
                 <BrandWordmark className="text-[1.05em] align-baseline" />
               </h2>
               <p className="mt-3 text-center text-sm text-charcoal-muted">
-                We&apos;ll let you know when browsing, uploading, and selling plugins goes live.
+                We&apos;ll let you know when we go live.
               </p>
 
-              <ul className="mt-5 space-y-2 text-sm text-charcoal">
+              {/* <ul className="mt-5 space-y-2 text-sm text-charcoal">
                 <li className="flex items-center justify-center gap-2">
                   <Sparkles className="h-4 w-4 shrink-0 text-charcoal-muted" />
                   Early access when we flip the switch
@@ -101,7 +101,7 @@ export function MarketplaceNotifyProvider({ children }: { children: ReactNode })
                   <Sparkles className="h-4 w-4 shrink-0 text-charcoal-muted" />
                   One email. No spam.
                 </li>
-              </ul>
+              </ul> */}
 
               <div className="mt-6 rounded-2xl border border-border/80 bg-white/90 px-5 py-6 shadow-sm">
                 <WaitlistEmailForm source={source} />
