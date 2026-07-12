@@ -1,83 +1,49 @@
-export type InstallStep = {
-  title: string;
+/** CoolPlugz MCP setup — paste URL in Claude, connect tools, start using commands. */
+
+export type CoolplugzCommand = {
+  command: string;
   description: string;
 };
 
-const baseSteps: InstallStep[] = [
-  {
-    title: "Download the plugin bundle",
-    description: "Use the download button below to get the .zip for this plugin.",
-  },
-  {
-    title: "Open Claude Desktop settings",
-    description:
-      "Go to Settings → Developer → Edit Config to open claude_desktop_config.json.",
-  },
-  {
-    title: "Add the plugin to your config",
-    description:
-      'Add the extracted plugin folder path to the "plugins" array in your config.',
-  },
-  {
-    title: "Configure integrations",
-    description:
-      "Set Jira, Slack, GitHub, or Notion tokens in the plugin .env file as needed.",
-  },
-  {
-    title: "Restart Claude Desktop",
-    description: "Restart Claude to load the plugin and open the coolplugz dashboard.",
-  },
-];
-
-const slugSteps: Record<string, InstallStep[]> = {
-  "context-engineer": [
-    {
-      title: "Download Context Engineer",
-      description: "Get the flagship bundle — full pipeline with in-Claude dashboard.",
-    },
-    ...baseSteps.slice(1),
-    {
-      title: "Run your first context gather",
-      description:
-        'Try "/context-gather" on an open Jira ticket to see full stack context assembled.',
-    },
+export const COOLPLUGZ_GETTING_STARTED = {
+  title: "CoolPlugz — Getting Started",
+  setupTitle: "Setup",
+  setupSteps: [
+    "Open Claude (desktop, mobile, or claude.ai)",
+    "Go to Settings → MCP Servers → Add",
+    "Paste your CoolPlugz URL and save",
   ],
-  "context-engineering": [
+  connectTitle: "Connect your tools",
+  connectIntro:
+    'Type "dashboard" in Claude. CoolPlugz shows four Connect buttons — one for each service (Jira, GitHub, Notion, Slack). Click each one, authorize in your browser, close the tab. Done.',
+  usageTitle: "Start using it",
+  usageIntro: "Just talk to Claude:",
+  commands: [
     {
-      title: "Download Context Engineer",
-      description: "Get the flagship bundle — full pipeline with in-Claude dashboard.",
-    },
-    ...baseSteps.slice(1),
-    {
-      title: "Run your first context gather",
+      command: "run",
       description:
-        'Try "/context-gather" on an open Jira ticket to see full stack context assembled.',
-    },
-  ],
-  "context-prompts": [
-    {
-      title: "Download Context Prompt Builder",
-      description:
-        "Free plugin — links Jira, Slack & Notion and returns fully engineered CRISPE prompts.",
-    },
-    ...baseSteps.slice(1, 4),
-    {
-      title: "Connect Jira, Slack & Notion",
-      description:
-        "Add your integration tokens to the plugin .env. No GitHub or code execution is configured.",
+        "picks up your Jira tasks, writes code, opens PRs, watches CI",
     },
     {
-      title: "Restart Claude Desktop",
-      description: "Restart Claude to load the plugin.",
+      command: "dashboard",
+      description: "your task board, standup draft, and Slack mentions",
     },
     {
-      title: "Run a prompt build",
-      description:
-        'Use "/build-prompt" on a ticket or thread — coolplugz returns the engineered prompt for you to copy.',
+      command: "wtf",
+      description: "investigates and fixes a failing CI check",
     },
-  ],
+    {
+      command: "reject",
+      description: "re-runs with your feedback",
+    },
+  ] satisfies CoolplugzCommand[],
+  usageFooter: "Works on desktop and mobile. Connect once, stays connected.",
 };
 
-export function getInstallSteps(slug: string): InstallStep[] {
-  return slugSteps[slug] ?? baseSteps;
+export function getCoolplugzMcpUrl(): string {
+  return (
+    process.env.COOLPLUGZ_MCP_URL ||
+    process.env.NEXT_PUBLIC_COOLPLUGZ_MCP_URL ||
+    "https://mcp.coolplugz.com"
+  );
 }

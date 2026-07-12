@@ -15,7 +15,7 @@ type InstallEmailGateProps = {
   slug: string;
 };
 
-/** Email magic-link gate before showing an install guide. */
+/** Email magic-link gate before showing MCP setup. */
 export function InstallEmailGate({ plugin, kind, slug }: InstallEmailGateProps) {
   const [email, setEmail] = useState("");
   const [devLink, setDevLink] = useState<string | null>(null);
@@ -46,12 +46,12 @@ export function InstallEmailGate({ plugin, kind, slug }: InstallEmailGateProps) 
   const title =
     kind === "free"
       ? "Verify your email to continue"
-      : "Verify your email to unlock the guide";
+      : "Verify your email to get your MCP URL";
 
   const description =
     kind === "free"
-      ? `Enter your email to access the ${plugin.title} install guide. We'll send a one-time link — no password needed.`
-      : `Enter the email you used for your coolplugz subscription. We'll verify your access and send a secure link to the ${plugin.title} install guide.`;
+      ? `Enter your email to access your CoolPlugz MCP URL for ${plugin.title}. We'll send a one-time link — no password needed.`
+      : `Enter the email you used for your coolplugz subscription. We'll verify your access and send a link to your MCP setup.`;
 
   return (
     <Card className="mx-auto max-w-lg">
@@ -86,7 +86,7 @@ export function InstallEmailGate({ plugin, kind, slug }: InstallEmailGateProps) 
         )}
         <p className="mt-6 text-center text-sm text-charcoal-muted">
           <Link href="/install" className="hover:text-charcoal">
-            ← All install guides
+            ← All setup pages
           </Link>
         </p>
       </CardContent>

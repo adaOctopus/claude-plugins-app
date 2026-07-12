@@ -15,15 +15,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const plugin = await getMarketplacePluginBySlug(slug);
   if (!plugin) {
-    return { title: "Install guide not found" };
+    return { title: "Setup not found" };
   }
   return {
-    title: `${plugin.title} — Install Guide`,
-    description: `Step-by-step setup for ${plugin.title} in Claude Desktop.`,
+    title: `${plugin.title} — Getting Started`,
+    description: `Add your CoolPlugz MCP URL to Claude and connect Jira, GitHub, Notion, and Slack.`,
   };
 }
 
-/** Per-plugin install guide with free (magic link) or Pro (subscription) access gates. */
+/** Per-plugin MCP setup — email or subscription gate, then CoolPlugz URL + quick start. */
 export default async function InstallPluginPage({ params }: PageProps) {
   const { slug } = await params;
   const session = await getSession();

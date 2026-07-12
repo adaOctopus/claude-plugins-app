@@ -49,11 +49,11 @@ export function Navbar({
               source="navbar-manage-plugins"
               className={managePluginsClassName}
             >
-              Manage plugins
+              Manage Plugins
             </MarketplaceNotifyTrigger>
           ) : (
             <Link href="/login" className={managePluginsClassName}>
-              Manage plugins
+              Manage Plugins
             </Link>
           ))}
       </nav>

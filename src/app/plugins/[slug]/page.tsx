@@ -77,7 +77,7 @@ export default async function PluginDetailPage({
         </p>
         <p className="mt-2 text-sm text-charcoal-muted">
           {plugin.isFlagship
-            ? "Subscribe to get instant access and install guide."
+            ? "Subscribe to get your CoolPlugz MCP URL."
             : isFreePromptBuilder
               ? "Links Jira, Slack & Notion, engineers CRISPE prompts, and returns them to you — no GitHub, no code execution, no dashboard."
               : isFree

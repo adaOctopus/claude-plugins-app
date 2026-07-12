@@ -38,7 +38,7 @@ export function InstallPaywall({ plugin, email }: InstallPaywallProps) {
         </p>
         <p className="text-center text-sm text-charcoal-muted">
           <Link href="/install" className="hover:text-charcoal">
-            ← All install guides
+            ← All setup pages
           </Link>
         </p>
       </CardContent>

@@ -56,7 +56,7 @@ export const faqItems = [
   {
     question: "What's included in the $17/month subscription?",
     answer:
-      "The Context Engineer Claude plugin with full Jira, Slack, and GitHub integration; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; install guide; and ongoing updates. No per-task prompt writing. No LLM iteration tax.",
+      "The Context Engineer Claude plugin with full Jira, Slack, and GitHub integration; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; your CoolPlugz MCP URL to paste into Claude; and ongoing updates. No per-task prompt writing. No LLM iteration tax.",
   },
   {
     question: "Can I add more plugins later?",

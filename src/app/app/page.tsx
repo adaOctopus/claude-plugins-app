@@ -9,9 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogoutButton } from "@/components/marketplace/DashboardActions";
 import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
-import { requiresProSubscription } from "@/lib/marketplace-plugins";
 
-/** Logged-in hub — install guides for your plugins; cancel only if subscribed. */
+/** Logged-in hub — MCP setup for your plugins; cancel only if subscribed. */
 export default async function AppDashboardPage() {
   const session = await getSession();
   if (!session) redirect("/login?redirect=/app");
@@ -46,9 +45,7 @@ export default async function AppDashboardPage() {
             <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-charcoal-muted">{plugin.description}</p>
               <Button variant="outline" size="sm" asChild className="shrink-0">
-                <Link href={`/install/${plugin.slug}`}>
-                  {requiresProSubscription(plugin) ? "Open guide" : "Open guide"}
-                </Link>
+                <Link href={`/install/${plugin.slug}`}>Get started</Link>
               </Button>
             </CardContent>
           </Card>

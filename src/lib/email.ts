@@ -94,10 +94,10 @@ export async function sendPurchaseConfirmationEmail(
           Thank you for your purchase!
         </h1>
         <p style="color: #6B6661; font-size: 16px; line-height: 1.5;">
-          Your ${emailBrandWordmarkHtml(20)} subscription is active. Follow the install guide to set up your Claude plugin.
+          Your ${emailBrandWordmarkHtml(20)} subscription is active. Add your CoolPlugz MCP URL to Claude and connect your tools.
         </p>
         <a href="${installUrl}" style="display: inline-block; background: #2D2926; color: #F9F8F6; padding: 12px 24px; border-radius: 9999px; text-decoration: none; font-size: 16px;">
-          View install guide
+          Get started
         </a>
       </div>
     `),

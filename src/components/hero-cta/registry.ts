@@ -18,7 +18,7 @@ export const heroCtaVariants: HeroCtaVariantMeta[] = [
     index: 2,
     name: "Cursor Dev",
     inspiration: "Cursor",
-    description: "Install in Claude + mono sub-line",
+    description: "Add to Claude + MCP URL sub-line",
     Component: CtaCursorDev,
   },
   {

@@ -14,9 +14,9 @@ export function CtaCursorDev() {
         "h-auto min-h-12 gap-0.5 bg-charcoal px-8 py-2.5 text-cream hover:bg-charcoal/90"
       )}
     >
-      <span className="text-[15px] font-medium tracking-[-0.01em]">Install in Claude</span>
+      <span className="text-[15px] font-medium tracking-[-0.01em]">Add to Claude</span>
       <span className="font-mono text-[10px] font-normal tracking-wide text-cream/70">
-        plugin · setup in 5 min
+        paste MCP URL · connect once
       </span>
     </Link>
   );

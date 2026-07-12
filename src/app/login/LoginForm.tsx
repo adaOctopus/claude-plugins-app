@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MagicLinkSentMessage } from "@/components/auth/MagicLinkSentMessage";
+import { BrandWordmark } from "@/components/brand/CoolplugzMark";
 
 function safeRedirect(path: string | null) {
   if (!path || !path.startsWith("/") || path.startsWith("//")) return "/app";
@@ -49,7 +50,10 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl">Manage your plugins</CardTitle>
+        <CardTitle className="text-2xl">
+          Manage your{" "}
+          <BrandWordmark className="text-[1.08em] align-baseline" />
+        </CardTitle>
         <p className="text-sm text-charcoal-muted">
           Login with a magic link✨
         </p>

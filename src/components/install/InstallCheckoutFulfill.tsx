@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-/** After Stripe Checkout, fulfill session and redirect to the flagship install guide. */
+/** After Stripe Checkout, fulfill session and redirect to MCP setup. */
 export function InstallCheckoutFulfill() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -39,11 +39,11 @@ export function InstallCheckoutFulfill() {
         }
 
         setMessage(
-          data.error || "Could not confirm checkout. Try opening your install guide again."
+          data.error || "Could not confirm checkout. Try opening your setup page again."
         );
       } catch {
         if (!cancelled && mountedRef.current) {
-          setMessage("Could not confirm checkout. Try opening your install guide again.");
+          setMessage("Could not confirm checkout. Try opening your setup page again.");
         }
       }
     }

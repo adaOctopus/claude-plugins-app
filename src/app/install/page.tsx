@@ -6,15 +6,14 @@ import { InstallCheckoutFulfillShell } from "@/components/install/InstallCheckou
 import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
 import {
-  isFreeInstallPlugin,
   requiresProSubscription,
 } from "@/lib/install-access";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: "Install Guides — Claude Plugin Setup",
+  title: "Getting Started — CoolPlugz MCP Setup",
   description:
-    "Install guides for coolplugz Claude plugins. The free Context Prompt Builder needs email verification; Pro plugins require an active subscription.",
+    "Add your CoolPlugz MCP URL to Claude. Paste the URL, connect your tools, and start using CoolPlugz on desktop or mobile.",
   path: "/install",
   siteUrl: CANONICAL_SITE_URL,
 });
@@ -31,7 +30,7 @@ function AccessBadge({ plugin }: { plugin: MarketplacePlugin }) {
   return <Badge variant="outline">Free</Badge>;
 }
 
-/** Install hub — lists every plugin and links to its gated install guide. */
+/** Setup hub — lists plugins and links to MCP URL setup after access is verified. */
 export default async function InstallPage() {
   const plugins = await getMarketplacePlugins();
 
@@ -39,11 +38,11 @@ export default async function InstallPage() {
     <div className="mx-auto max-w-3xl px-4 py-32 md:px-8">
       <div className="mb-10">
         <h1 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl">
-          Install guides
+          Getting started
         </h1>
         <p className="mt-3 text-charcoal-muted">
-          Pick a plugin below. The free Context Prompt Builder only needs your email via magic link. Pro
-          plugins require an active subscription tied to the same email.
+          CoolPlugz is an MCP server — just paste your URL into Claude and you&apos;re in. Pick a
+          plugin below to verify access and get your MCP URL.
         </p>
       </div>
 
@@ -62,9 +61,7 @@ export default async function InstallPage() {
               <CardContent>
                 <p className="text-sm text-charcoal-muted">{plugin.description}</p>
                 <p className="mt-3 flex items-center gap-1 text-sm font-medium text-charcoal">
-                  {isFreeInstallPlugin(plugin)
-                    ? "Go to guide"
-                    : "Go to guide"}
+                  Get started
                   <ArrowRight className="h-4 w-4" />
                 </p>
               </CardContent>

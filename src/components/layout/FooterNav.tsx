@@ -15,7 +15,7 @@ const footerLinks: Record<string, FooterLinkItem[]> = {
   Product: [
     { label: "The Plugins", notify: true, source: "footer-plugins" },
     { href: resolveProductHref("/pricing"), label: "Pricing" },
-    { href: resolveProductHref("/install"), label: "Install Guide" },
+    { href: resolveProductHref("/install"), label: "Getting started" },
   ],
   Creators: [
     { label: "Upload Plugin", notify: true, source: "footer-upload" },
