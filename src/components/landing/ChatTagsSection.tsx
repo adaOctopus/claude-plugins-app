@@ -32,7 +32,7 @@ const tagCommands: TagCommand[] = [
     tag: "@FullRun",
     emoji: "🚀",
     title: "Full Run",
-    blurb: "Commits, push, PR opened — description included.",
+    blurb: "Commits, push, PR opened & description included.",
     result: "PR #847 opened · CI green · reviewers tagged",
     accent: "from-[#E8FAF6] to-[#D1F4EE]",
     glow: "shadow-[0_8px_24px_rgba(13,148,136,0.14),inset_0_1px_0_rgba(255,255,255,0.95)]",

@@ -17,7 +17,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
-            A plugin that gathers context from your entire stack, writes your prompts, ships merge-ready code & handles your Slack too. All inside Claude.
+            A plugin that gathers context from your entire stack, writes your prompts, ships merge-ready code & handles your Slack too. 
           </p>
 
           <div className="mt-8">

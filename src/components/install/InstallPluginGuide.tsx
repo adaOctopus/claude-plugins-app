@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BrandWordmark } from "@/components/brand/CoolplugzMark";
 import { InstallMcpSetupBlock } from "@/components/install/InstallMcpSetupBlock";
 import { COOLPLUGZ_GETTING_STARTED } from "@/lib/install-guides";
 import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
@@ -20,8 +21,11 @@ export function InstallPluginGuide({ plugin, email, mcpUrl = null }: InstallPlug
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-8 rounded-2xl bg-accent-sage p-6">
-        <h1 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl">
-          CoolPlugz 😎
+        <h1 className="text-3xl md:text-4xl">
+          <BrandWordmark className="text-[2rem] md:text-[2.25rem]" />
+          <span className="ml-2 align-middle" aria-hidden>
+            
+          </span>
         </h1>
         <p className="mt-2 text-charcoal-muted">
           Access verified for {email} ✅

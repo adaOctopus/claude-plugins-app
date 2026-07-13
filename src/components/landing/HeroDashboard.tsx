@@ -1,299 +1,345 @@
 import type { ComponentType, ReactNode } from "react";
 import {
+  ArrowRight,
   CheckCircle2,
-  Clock,
-  FileCode2,
   GitPullRequest,
-  Ticket,
+  ShieldCheck,
+  Sparkles,
   Wand2,
+  XCircle,
+  Zap,
 } from "lucide-react";
-import { integrationSources } from "@/components/icons/IntegrationMarks";
+import { ClaudeMark } from "@/components/icons/ClaudeMark";
+import { integrationSources, SlackMark } from "@/components/icons/IntegrationMarks";
 import { chartGradient } from "@/lib/chart-colors";
 
-const crispeLetters = ["C", "R", "I", "S", "P", "E"] as const;
-
-const ciChecks = ["lint", "tests", "build"] as const;
+const COOLPLUGZ_FAVICON = "/icon.png";
+const DASHBOARD_SHORTLINK = "coolplugz.dash/···12v4";
 
 type MarkProps = { className?: string };
 
 function IntegrationLogo({
   Mark,
-  size = "md",
+  className = "h-3 w-3",
 }: {
   Mark: ComponentType<MarkProps>;
-  size?: "sm" | "md" | "lg";
+  className?: string;
 }) {
-  const sizeClass =
-    size === "lg" ? "h-5 w-5" : size === "md" ? "h-4 w-4" : "h-3.5 w-3.5";
-
-  return <Mark className={sizeClass} />;
+  return <Mark className={className} />;
 }
 
-/** Single source tile — logo + scanned check. */
-function ScannedSourceTile({
-  Mark,
-  label,
-}: {
-  Mark: ComponentType<MarkProps>;
-  label: string;
-}) {
+/** Hero right column — one card, chat top + summary bottom. */
+export function HeroDashboard() {
   return (
-    <div className="relative flex min-w-[4rem] flex-col items-center gap-1.5" title={`${label} scanned`}>
-      <div className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/90 bg-white shadow-sm sm:h-12 sm:w-12">
-        <IntegrationLogo Mark={Mark} size="md" />
-        <CheckCircle2
-          className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-white text-emerald-600"
-          strokeWidth={2.5}
-        />
+    <div className="w-full overflow-hidden rounded-2xl border border-border bg-white shadow-[0_12px_48px_rgba(45,41,38,0.08)]">
+      <ClaudeChrome />
+
+      <div className="border-b border-border bg-[#FAFAF8] p-3.5 sm:p-4">
+        <HeroChatBody />
       </div>
-      <span className="text-[9px] font-semibold uppercase tracking-wide text-charcoal/70">
-        {label}
+
+      <div className="bg-cream-warm/60 p-3.5 sm:p-4">
+        <HeroRunSummaryBody />
+      </div>
+
+      {/* <p className="border-t border-border/60 bg-[#FAFAF8] px-4 py-2.5 text-[10px] leading-snug text-charcoal-muted">
+        <span className="font-medium text-charcoal/80">Skipped:</span> tab-hopping · Slack scroll ·
+        status updates
+      </p> */}
+    </div>
+  );
+}
+
+function ClaudeChrome() {
+  return (
+    <div className="flex items-center justify-between border-b border-border bg-white px-4 py-2.5">
+      <div className="flex items-center gap-2.5">
+        <ClaudeAvatar className="h-7 w-7 p-1.5" />
+        <div className="leading-none">
+          <p className="text-xs font-semibold text-charcoal">Claude</p>
+          <p className="text-[10px] text-charcoal-muted">Sonnet · New chat</p>
+        </div>
+      </div>
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-[#7DD3C0]/40 bg-[#E8FAF6] px-2.5 py-1 text-[9px] font-semibold text-[#0D9488]">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-40" />
+          <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        </span>
+        coolplugz MCP
       </span>
     </div>
   );
 }
 
-/** Prompt engineering — light, minimal 4-step strip. */
-function PromptEngineeringPanel() {
+function HeroChatBody() {
   return (
-    <div
-      className="border-t border-[#7DD3C0]/25 px-4 py-4 sm:px-5"
-      style={{
-        background: `linear-gradient(180deg, ${chartGradient.bottom}33 0%, #F9F8F6 100%)`,
-      }}
-    >
-      <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-[#0D9488]">
-        Prompt engineering
-      </p>
+    <div className="flex flex-col gap-2.5">
+      <div className="flex justify-end">
+        <div className="rounded-2xl rounded-tr-sm bg-charcoal px-3 py-2 text-[12px] leading-snug text-cream sm:text-[13px]">
+          <span className="font-semibold">Morning ☀️</span> Show my dashboard & run my tasks for today. Thnx
+        </div>
+      </div>
 
-      <div className="flex items-center gap-1 sm:gap-1.5">
-        <StepCard label="Context-engineered">
-          <div className="flex gap-1">
+      <div className="flex gap-2">
+        <CoolplugzAvatar className="mt-0.5 h-6 w-6" />
+        <div className="min-w-0 flex-1 space-y-2">
+          <p className="text-[12px] leading-snug text-charcoal sm:text-[13px]">
+            <span className="font-semibold">coolplugz</span> — run complete ✅
+          </p>
+
+          <div className="overflow-hidden rounded-xl border border-[#7DD3C0]/35 bg-white shadow-sm">
+            <div
+              className="flex items-center justify-between gap-2 border-b border-[#7DD3C0]/20 px-3 py-2"
+              style={{ background: `linear-gradient(90deg, ${chartGradient.bg}55, #fff)` }}
+            >
+              <div className="flex items-center gap-1.5">
+                <Sparkles className="h-3.5 w-3.5 text-[#0D9488]" />
+                <span className="text-[10px] font-bold uppercase tracking-wide text-charcoal">
+                  TASKS DELIVERED
+                </span>
+              </div>
+              <span className="font-mono text-[9px] font-medium text-charcoal-muted">7m 12s</span>
+            </div>
+
+            <div className="space-y-2 p-3">
+              <RunLine icon={ShieldCheck} label="4 sources scanned, context fetched">
+                <div className="flex gap-1">
+                  {integrationSources.map(({ id, Mark }) => (
+                    <span
+                      key={id}
+                      className="inline-flex h-5 w-5 items-center justify-center rounded border border-border bg-white"
+                    >
+                      <IntegrationLogo Mark={Mark} className="h-2.5 w-2.5" />
+                    </span>
+                  ))}
+                </div>
+              </RunLine>
+
+              <RunLine icon={Wand2} label="Prompts written">
+                <span className="rounded border border-[#7DD3C0]/40 bg-[#E8FAF6] px-2 py-0.5 text-[9px] font-bold text-[#0D9488]">
+                  CRISPE
+                </span>
+              </RunLine>
+
+              <RunLine icon={Zap} label="Github synced & CI pass">
+                <span className="text-[9px] font-semibold text-emerald-700">PR #847 open</span>
+              </RunLine>
+
+              <SlackHandledCard compact />
+
+              <div className="flex items-center gap-1.5 pt-1">
+                <ArrowRight className="h-3 w-3 shrink-0 text-[#0D9488]" strokeWidth={2.5} />
+                <DashboardShortlink />
+              </div>
+
+              <div className="flex gap-1.5 pt-1">
+                <button
+                  type="button"
+                  className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-emerald-500 px-3 py-2 text-[11px] font-semibold text-white shadow-sm"
+                >
+                  <CheckCircle2 className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  Approve &amp; submit
+                </button>
+                <button
+                  type="button"
+                  className="flex items-center justify-center rounded-full border border-border bg-white px-3 py-2 text-[11px] font-medium text-charcoal"
+                >
+                  <XCircle className="h-3.5 w-3.5" strokeWidth={2} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroRunSummaryBody() {
+  return (
+    <div className="flex flex-col gap-3">
+      {/* <div>
+        <p className="text-[10px] font-bold uppercase tracking-wide text-charcoal">What happened</p>
+        <p className="text-[9px] text-charcoal-muted">Under the hood · one run</p>
+      </div> */}
+
+      {/* <div className="grid grid-cols-3 gap-2">
+        <PipelineNode title="Context" subtitle="4 sources">
+          <div className="flex -space-x-1">
             {integrationSources.map(({ id, Mark }) => (
               <span
                 key={id}
-                className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-white"
+                className="flex h-6 w-6 items-center justify-center rounded-md border border-white bg-white shadow-sm ring-2 ring-cream-warm"
               >
-                <IntegrationLogo Mark={Mark} size="sm" />
+                <IntegrationLogo Mark={Mark} className="h-3 w-3" />
               </span>
             ))}
           </div>
-        </StepCard>
+        </PipelineNode>
 
-        <Connector />
-
-        <StepCard label="CRISPE">
-          <div className="flex items-center gap-1 rounded-lg border border-[#7DD3C0]/40 bg-white px-2 py-1.5">
-            <Wand2 className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2} />
-            <div className="flex gap-px">
-              {crispeLetters.map((l) => (
-                <span
-                  key={l}
-                  className="flex h-4 w-3 items-center justify-center rounded-sm bg-[#D1F4EE] text-[7px] font-bold text-[#0D9488]"
-                >
-                  {l}
-                </span>
-              ))}
-            </div>
+        <PipelineNode title="Prompts" subtitle="CRISPE">
+          <div className="flex items-center gap-1 rounded-md border border-[#7DD3C0]/40 bg-white px-2 py-1">
+            <Wand2 className="h-3 w-3 text-[#0D9488]" strokeWidth={2} />
+            <span className="text-[8px] font-bold text-[#0D9488]">CRISPE</span>
           </div>
-        </StepCard>
+        </PipelineNode>
 
-        <Connector />
-
-        <StepCard label="CI ✓">
-          <div className="flex flex-col items-center gap-1 rounded-lg border border-border bg-white px-2.5 py-1.5">
-            <GitPullRequest className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2} />
-            <div className="flex gap-0.5">
-              {[0, 1, 2].map((i) => (
-                <CheckCircle2
-                  key={i}
-                  className="h-3 w-3 text-emerald-600"
-                  strokeWidth={2.5}
-                />
-              ))}
-            </div>
+        <PipelineNode title="Shipped" subtitle="PR · CI">
+          <div className="flex items-center gap-1">
+            <GitPullRequest className="h-3 w-3 text-[#0D9488]" strokeWidth={2} />
+            <CheckCircle2 className="h-3 w-3 text-emerald-600" strokeWidth={2.5} />
           </div>
-        </StepCard>
+        </PipelineNode>
+      </div> */}
 
-        <Connector />
-
-        <StepCard label="Done">
-          <div className="relative rounded-lg border border-emerald-200 bg-white px-2.5 py-2">
-            <FileCode2 className="h-3.5 w-3.5 text-emerald-600" strokeWidth={2} />
-            <div className="mt-1 space-y-0.5">
-              <div className="h-0.5 w-8 rounded-full bg-emerald-400/70" />
-              <div className="h-0.5 w-5 rounded-full bg-border" />
-            </div>
-            <CheckCircle2
-              className="absolute -right-1 -top-1 h-3 w-3 text-emerald-600"
-              strokeWidth={2.5}
-            />
-          </div>
-        </StepCard>
+      <div className="grid grid-cols-3 gap-2">
+        <StatCell label="Run time" value="7m 12s" tone="sky" />
+        <StatCell label="PR #847 & CI Pass" value="Done✅" tone="mint" />
+        <StatCell label="PROJ-124" value="Done✅" tone="emerald" />
       </div>
     </div>
   );
 }
 
-function StepCard({ label, children }: { label: string; children: ReactNode }) {
+function DashboardShortlink() {
   return (
-    <div className="flex min-w-0 flex-1 flex-col items-center gap-2">
-      <div className="flex h-11 w-full items-center justify-center">{children}</div>
-      <span className="text-[9px] font-semibold text-charcoal-muted sm:text-[10px]">{label}</span>
-    </div>
+    <span
+      className="inline-flex min-w-0 max-w-full items-center gap-1.5 rounded-full border border-[#7DD3C0]/45 px-2.5 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]"
+      style={{ background: `linear-gradient(90deg, ${chartGradient.bg}, #fff 85%)` }}
+    >
+      <span className="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-[#0D9488]/10">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#0D9488]" />
+      </span>
+      <span className="truncate font-mono text-[10px] font-semibold tracking-tight text-[#0D9488]">
+        {DASHBOARD_SHORTLINK}
+      </span>
+      <span className="shrink-0 rounded-full bg-charcoal/5 px-1.5 py-px text-[7px] font-bold uppercase tracking-wider text-charcoal-muted">
+        GO TO DASHBOARD
+      </span>
+    </span>
   );
 }
 
-function Connector() {
+function ClaudeAvatar({ className }: { className?: string }) {
   return (
-    <div className="flex w-2 shrink-0 items-center sm:w-2.5">
-      <div className="h-px w-full bg-[#7DD3C0]/40" />
-    </div>
+    <span
+      className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F4F3EE] p-1.5 ${className ?? ""}`}
+    >
+      <ClaudeMark className="h-full w-full" />
+    </span>
   );
 }
 
-function OutcomeMetric({
-  label,
-  value,
-  sub,
-  className,
-}: {
-  label: string;
-  value: string;
-  sub?: string;
-  className?: string;
-}) {
+function CoolplugzAvatar({ className }: { className?: string }) {
   return (
-    <div className={className}>
-      <p className="text-[9px] font-semibold uppercase tracking-widest text-[#0D9488]">{label}</p>
-      <p className="mt-0.5 font-serif text-3xl leading-none text-charcoal sm:text-4xl">{value}</p>
-      {sub ? <p className="mt-1 text-[10px] font-medium text-charcoal-muted">{sub}</p> : null}
-    </div>
+    <span
+      className={`inline-flex shrink-0 overflow-hidden rounded-lg border border-border/60 bg-white shadow-sm ${className ?? "h-6 w-6"}`}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={COOLPLUGZ_FAVICON} alt="" className="h-full w-full object-cover" />
+    </span>
   );
 }
 
-function OutcomeStatusCard({
+function SlackHandledCard({ compact = false }: { compact?: boolean }) {
+  if (compact) {
+    return (
+      <div className="rounded-lg border border-[#E8DEFF]/70 bg-gradient-to-r from-[#FAF8FF] to-white px-2.5 py-2">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-1.5">
+            <SlackMark className="h-3 w-3 shrink-0" />
+            <span className="text-[9px] font-bold uppercase tracking-wide text-[#611F69]">
+              Slack handled
+            </span>
+          </div>
+          <CheckCircle2 className="h-3 w-3 shrink-0 text-emerald-600" strokeWidth={2.5} />
+        </div>
+        <p className="mt-1 text-[9px] text-charcoal-muted">3 threads scanned · 2 replies drafted</p>
+        <p className="mt-0.5 truncate text-[9px] text-[#0D9488]">
+          @alex → &quot;PR open, middleware ships today&quot;
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+}
+
+function RunLine({
   icon: Icon,
-  title,
-  detail,
+  label,
   children,
 }: {
   icon: ComponentType<{ className?: string; strokeWidth?: number }>;
-  title: string;
-  detail: string;
-  children?: ReactNode;
+  label: string;
+  children: ReactNode;
 }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col rounded-xl border border-white/80 bg-white/90 px-2.5 py-2 shadow-sm">
+    <div className="flex items-center justify-between gap-2">
       <div className="flex items-center gap-1.5">
-        <Icon className="h-3.5 w-3.5 shrink-0 text-[#0D9488]" strokeWidth={2} />
-        <span className="truncate text-[10px] font-bold uppercase tracking-wide text-charcoal">
-          {title}
-        </span>
+        <Icon className="h-3 w-3 text-[#0D9488]" strokeWidth={2.5} />
+        <span className="text-[9px] font-bold uppercase tracking-wide text-[#0D9488]">{label}</span>
+        <CheckCircle2 className="h-3 w-3 text-emerald-600" strokeWidth={2.5} />
       </div>
-      <p className="mt-1 truncate text-[10px] text-charcoal-muted">{detail}</p>
-      {children ? <div className="mt-1.5">{children}</div> : null}
+      {children}
     </div>
   );
 }
 
-/** Top panel — concrete run outcomes instead of generic hours saved. */
-function TodayOutcomesPanel() {
+function PipelineNode({
+  title,
+  subtitle,
+  children,
+}: {
+  title: string;
+  subtitle: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col items-center rounded-xl border border-white/90 bg-white px-2 py-2 text-center shadow-sm">
+      <div className="flex h-7 items-center justify-center">{children}</div>
+      <p className="mt-1.5 text-[10px] font-bold leading-tight text-charcoal">{title}</p>
+      <p className="text-[8px] text-charcoal-muted">{subtitle}</p>
+    </div>
+  );
+}
+
+const statToneStyles = {
+  sky: {
+    background: `linear-gradient(135deg, ${chartGradient.top}cc, ${chartGradient.bg})`,
+    borderColor: `${chartGradient.border}55`,
+    valueClass: "text-charcoal",
+  },
+  mint: {
+    background: `linear-gradient(135deg, ${chartGradient.bg}, ${chartGradient.bottom})`,
+    borderColor: `${chartGradient.border}70`,
+    valueClass: "text-emerald-700",
+  },
+  emerald: {
+    background: `linear-gradient(135deg, ${chartGradient.bottom}bb, ${chartGradient.mid}99)`,
+    borderColor: `${chartGradient.accent}66`,
+    valueClass: "text-[#0D9488]",
+  },
+} as const;
+
+function StatCell({
+  label,
+  value,
+  tone = "sky",
+}: {
+  label: string;
+  value: string;
+  tone?: keyof typeof statToneStyles;
+}) {
+  const style = statToneStyles[tone];
+
   return (
     <div
-      className="px-4 pb-4 pt-4 sm:px-5 sm:pt-5"
-      style={{
-        background: `linear-gradient(145deg, ${chartGradient.bg} 0%, ${chartGradient.bottom} 100%)`,
-      }}
+      className="rounded-lg border px-2 py-2 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]"
+      style={{ background: style.background, borderColor: style.borderColor }}
     >
-      <div className="flex items-start justify-between gap-3">
-        <OutcomeMetric
-          label="Task completed"
-          value="7 mins"
-          sub="PROJ-124 · Context fetched from Jira, Github, Slack & Notion"
-        />
-        <OutcomeMetric
-          label="Today saved"
-          value="2.5 hrs"
-          sub=""
-          className="text-right"
-        />
-      </div>
-
-      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
-        <OutcomeStatusCard icon={Clock} title="Delivered" detail="Run complete · 7m 12s">
-          <div className="h-1.5 overflow-hidden rounded-full bg-emerald-100">
-            <div className="h-full w-full rounded-full bg-gradient-to-r from-[#0D9488] to-emerald-400" />
-          </div>
-        </OutcomeStatusCard>
-
-        <OutcomeStatusCard icon={GitPullRequest} title="Github CI pass" detail="PR #847 · CI green">
-          <div className="flex flex-wrap gap-1">
-            {ciChecks.map((check) => (
-              <span
-                key={check}
-                className="inline-flex items-center gap-0.5 rounded-md border border-emerald-200 bg-emerald-50 px-1 py-0.5 text-[8px] font-bold uppercase text-emerald-800"
-              >
-                <CheckCircle2 className="h-2 w-2" strokeWidth={2.5} />
-                {check}
-              </span>
-            ))}
-          </div>
-        </OutcomeStatusCard>
-
-        <OutcomeStatusCard icon={Ticket} title="Jira done" detail="PROJ-124 → Done">
-          <span className="inline-flex items-center gap-1 rounded-md border border-[#7DD3C0]/40 bg-[#E8FAF6] px-1.5 py-0.5 text-[8px] font-bold uppercase text-[#0D9488]">
-            <CheckCircle2 className="h-2 w-2" strokeWidth={2.5} />
-            Moved to Review
-          </span>
-        </OutcomeStatusCard>
-      </div>
-    </div>
-  );
-}
-
-/** Hero right column — visual outcome dashboard for engineers. */
-export function HeroDashboard() {
-  return (
-    <div className="w-full overflow-hidden rounded-2xl border border-[#7DD3C0]/35 bg-white shadow-[0_8px_40px_rgba(45,41,38,0.07)]">
-      <TodayOutcomesPanel />
-
-      {/* Context scan — visual only, no tool names in copy */}
-      <div className="border-t border-[#7DD3C0]/20 bg-cream-warm px-4 py-4 sm:px-5">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-30" />
-                <span className="relative h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-              <p className="font-serif text-lg leading-tight text-charcoal sm:text-xl">
-                AI Executed tasks with full context fetched
-              </p>
-            </div>
-            <p className="mt-1 pl-4 text-[10px] font-medium text-[#0D9488] sm:text-[11px]">
-              from Jira tickets, Github comments, Slack threads, and Notion docs ·{" "}
-              <span className="italic text-charcoal/70"></span>
-            </p>
-          </div>
-
-          <span className="shrink-0 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-700">
-            100% synced
-          </span>
-        </div>
-
-        <div className="relative mt-4 flex items-center justify-between gap-1 sm:justify-center sm:gap-3">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-[12%] right-[12%] top-1/2 hidden h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-emerald-300/70 to-transparent sm:block"
-          />
-          {integrationSources.map(({ id, label, Mark }) => (
-            <ScannedSourceTile key={id} Mark={Mark} label={label} />
-          ))}
-        </div>
-      </div>
-
-      <PromptEngineeringPanel />
+      <p className="text-[8px] font-bold uppercase tracking-wider text-charcoal-muted">{label}</p>
+      <p className={`mt-0.5 font-mono text-sm font-semibold ${style.valueClass}`}>{value}</p>
     </div>
   );
 }

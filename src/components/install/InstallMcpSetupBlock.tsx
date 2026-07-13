@@ -58,11 +58,11 @@ export function InstallMcpSetupBlock({
     <>
       <Card className="mb-6 border-charcoal/15">
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg">Your CoolPlugz MCP URL 🔗</CardTitle>
+          <CardTitle className="text-lg">Your MCP URL 🔗</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="mb-4 text-sm text-charcoal-muted">
-            Copy this once — use it in claude.ai or Claude Desktop below.
+            Copy this once - use it in claude.ai or Claude Desktop below.
           </p>
           {status === "loading" && (
             <p className="text-sm text-charcoal-muted">

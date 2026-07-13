@@ -17,7 +17,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Your CoolPlugz MCP URL",
+  title: "Your MCP URL",
   description:
     "Your unique CoolPlugz MCP URL — paste it into Claude under Settings → MCP Servers and connect your tools.",
   path: UNIQUE_MCP_URL_PATH,
