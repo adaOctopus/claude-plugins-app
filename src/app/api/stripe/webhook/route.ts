@@ -11,6 +11,7 @@ import {
 } from "@/models/CreatorEarning";
 import { sendPurchaseConfirmationEmail } from "@/lib/email";
 import { resolveUserFromCheckoutSession } from "@/lib/checkout-user";
+import { provisionCoolplugzForUser } from "@/lib/provision-coolplugz";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -85,6 +86,12 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       const stripe = getStripe();
       const sub = await stripe.subscriptions.retrieve(session.subscription);
       await upsertSubscription(userId, sub, plan, tier, flagship?._id);
+
+      try {
+        await provisionCoolplugzForUser(userId);
+      } catch (error) {
+        console.error("MCP provision after webhook checkout failed:", error);
+      }
     }
 
     await sendPurchaseConfirmationEmail(

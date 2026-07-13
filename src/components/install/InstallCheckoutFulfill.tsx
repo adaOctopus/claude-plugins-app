@@ -30,10 +30,23 @@ export function InstallCheckoutFulfill() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ session_id: sessionId }),
         });
-        const data = (await res.json()) as { redirect?: string; error?: string };
+        const data = (await res.json()) as {
+          redirect?: string;
+          error?: string;
+          email?: string;
+        };
         if (cancelled || !mountedRef.current) return;
 
         if (res.ok && data.redirect) {
+          try {
+            await fetch("/api/provision-coolplugz", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({}),
+            });
+          } catch {
+            // Setup page can retry provisioning if this fails.
+          }
           router.replace(data.redirect);
           return;
         }

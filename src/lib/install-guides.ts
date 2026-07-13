@@ -6,18 +6,18 @@ export type CoolplugzCommand = {
 };
 
 export const COOLPLUGZ_GETTING_STARTED = {
-  title: "CoolPlugz — Getting Started",
+  title: "CoolPlugz - Getting Started",
   setupTitle: "Setup",
   setupSteps: [
     "Open Claude (desktop, mobile, or claude.ai)",
     "Go to Settings → MCP Servers → Add",
     "Paste your CoolPlugz URL and save",
   ],
-  connectTitle: "Connect your tools",
+  connectTitle: "Start with a keyword🔑",
   connectIntro:
-    'Type "dashboard" in Claude. CoolPlugz shows four Connect buttons — one for each service (Jira, GitHub, Notion, Slack). Click each one, authorize in your browser, close the tab. Done.',
-  usageTitle: "Start using it",
-  usageIntro: "Just talk to Claude:",
+    'Type "dashboard" in Claude. CoolPlugz shows four Connect buttons, one for each service (Jira, GitHub, Notion, Slack). Click each one to authorize in your browser, and you are good to go.',
+  usageTitle: "Start using it❤️",
+  usageIntro: "Just type:",
   commands: [
     {
       command: "run",
@@ -39,11 +39,3 @@ export const COOLPLUGZ_GETTING_STARTED = {
   ] satisfies CoolplugzCommand[],
   usageFooter: "Works on desktop and mobile. Connect once, stays connected.",
 };
-
-export function getCoolplugzMcpUrl(): string {
-  return (
-    process.env.COOLPLUGZ_MCP_URL ||
-    process.env.NEXT_PUBLIC_COOLPLUGZ_MCP_URL ||
-    "https://mcp.coolplugz.com"
-  );
-}

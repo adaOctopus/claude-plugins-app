@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/db";
 import { getStripe } from "@/lib/stripe";
 import { createSession } from "@/lib/auth";
 import { resolveUserFromCheckoutSession } from "@/lib/checkout-user";
+import { provisionCoolplugzForUser } from "@/lib/provision-coolplugz";
 import { Plugin } from "@/models/Plugin";
 import { Subscription, type SubscriptionTier } from "@/models/Subscription";
 import type { IUser } from "@/models/User";
@@ -61,14 +62,14 @@ export async function fulfillCheckoutSession(sessionId: string): Promise<IUser |
       plan,
       tier
     );
+
+    try {
+      await provisionCoolplugzForUser(user._id.toString());
+    } catch (error) {
+      console.error("MCP provision after checkout failed:", error);
+    }
   }
 
   await createSession(user);
   return user;
-}
-
-export async function getFlagshipInstallSlug(): Promise<string> {
-  await connectDB();
-  const flagship = await Plugin.findOne({ isFlagship: true, status: "published" });
-  return flagship?.slug ?? "context-engineer";
 }

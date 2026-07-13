@@ -2,12 +2,10 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { InstallCheckoutFulfillShell } from "@/components/install/InstallCheckoutFulfillShell";
 import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
-import {
-  requiresProSubscription,
-} from "@/lib/install-access";
+import { requiresProSubscription } from "@/lib/marketplace-plugins";
+import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -46,11 +44,14 @@ export default async function InstallPage() {
         </p>
       </div>
 
-      <InstallCheckoutFulfillShell />
-
       <div className="space-y-4">
-        {plugins.map((plugin) => (
-          <Link key={plugin.slug} href={`/install/${plugin.slug}`} className="block">
+        {plugins.map((plugin) => {
+          const href = requiresProSubscription(plugin)
+            ? UNIQUE_MCP_URL_PATH
+            : `/install/${plugin.slug}`;
+
+          return (
+          <Link key={plugin.slug} href={href} className="block">
             <Card className="transition-shadow hover:shadow-md">
               <CardHeader className="pb-2">
                 <div className="flex flex-wrap items-start justify-between gap-3">
@@ -67,7 +68,8 @@ export default async function InstallPage() {
               </CardContent>
             </Card>
           </Link>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

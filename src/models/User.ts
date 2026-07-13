@@ -7,6 +7,8 @@ export interface IUser {
   email: string;
   name?: string;
   stripeCustomerId?: string;
+  /** Unique CoolPlugz MCP URL — provisioned after successful payment. */
+  mcpUrl?: string;
   role: UserRole;
   createdAt: Date;
   updatedAt: Date;
@@ -17,6 +19,7 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true, lowercase: true },
     name: String,
     stripeCustomerId: String,
+    mcpUrl: String,
     role: {
       type: String,
       enum: ["buyer", "creator", "admin"],

@@ -5,6 +5,7 @@ const WIP_BLOCKED = [
   "/plugins",
   "/pricing",
   "/install",
+  "/premium",
   "/app/upload",
   "/app/create",
 ];
@@ -38,6 +39,7 @@ export const config = {
     "/plugins/:path*",
     "/pricing",
     "/install/:path*",
+    "/premium/:path*",
     "/app/upload",
     "/app/create",
   ],

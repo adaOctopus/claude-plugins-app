@@ -9,6 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogoutButton } from "@/components/marketplace/DashboardActions";
 import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
+import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
+import { requiresProSubscription } from "@/lib/marketplace-plugins";
 
 /** Logged-in hub — MCP setup for your plugins; cancel only if subscribed. */
 export default async function AppDashboardPage() {
@@ -45,7 +47,15 @@ export default async function AppDashboardPage() {
             <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-charcoal-muted">{plugin.description}</p>
               <Button variant="outline" size="sm" asChild className="shrink-0">
-                <Link href={`/install/${plugin.slug}`}>Get started</Link>
+                <Link
+                  href={
+                    requiresProSubscription(plugin)
+                      ? UNIQUE_MCP_URL_PATH
+                      : `/install/${plugin.slug}`
+                  }
+                >
+                  Get started
+                </Link>
               </Button>
             </CardContent>
           </Card>

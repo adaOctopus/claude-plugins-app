@@ -12,6 +12,7 @@ import {
   type CheckoutPlan,
 } from "@/lib/stripe";
 import { User } from "@/models/User";
+import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 
 const schema = z.object({
   plan: z.enum([
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${appUrl}/install?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${appUrl}${UNIQUE_MCP_URL_PATH}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: cancelUrl,
       metadata: {
         userId,

@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -61,7 +62,7 @@ export async function sendMagicLinkEmail(
         <h1 style="color: #2D2926; font-size: 28px; font-weight: 600; margin: 0 0 16px; line-height: 1.3;">
           Continue to ${emailBrandWordmarkHtml(30)}
         </h1>
-        <p style="color: #6B6661; font-size: 16px; line-height: 1.5;">Click the button below to verify your email. This link expires in 15 minutes.</p>
+        <p style="color: #6B6661; font-size: 16px; line-height: 1.5;">Super excited to have you on board🎉 Click the button below to verify your email. This link expires in 15 minutes.</p>
         <a href="${verifyUrl}" style="display: inline-block; background: #2D2926; color: #F9F8F6; padding: 12px 24px; border-radius: 9999px; text-decoration: none; margin: 16px 0; font-size: 16px;">
           Continue
         </a>
@@ -77,7 +78,7 @@ export async function sendPurchaseConfirmationEmail(
   email: string,
   pluginTitle: string
 ) {
-  const installUrl = `${APP_URL}/install/context-engineer`;
+  const installUrl = `${APP_URL}${UNIQUE_MCP_URL_PATH}`;
 
   if (!resend) {
     console.log(`Purchase confirmation for ${email}: ${pluginTitle}`);
