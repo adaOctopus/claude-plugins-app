@@ -1,6 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { ClaudeMark } from "@/components/icons/ClaudeMark";
+import { CoolplugzMark } from "@/components/brand/CoolplugzMark";
 import {
   BarChart,
   Bar,
@@ -61,9 +63,10 @@ function ClaudeChatMock() {
       {/* Claude app chrome */}
       <div className="flex items-center justify-between border-b border-border bg-white px-4 py-2.5">
         <div className="flex items-center gap-2.5">
-          <ClaudeAvatar />
+  
+          <ClaudeMark className="h-4 w-4" />
           <div>
-            <p className="text-sm font-semibold text-charcoal">coolplugz</p>
+            <p className="text-sm font-semibold text-charcoal">Claude</p>
             <p className="text-[10px] text-charcoal-muted">Sonnet · New chat</p>
           </div>
         </div>
@@ -87,7 +90,7 @@ function ClaudeChatMock() {
 
         {/* Claude response */}
         <div className="flex gap-2.5">
-          <ClaudeAvatar className="mt-0.5 h-7 w-7 shrink-0 text-[11px]" />
+          <CoolplugzMark className="h-4 w-4" />
           <div className="min-w-0 flex-1 space-y-3">
             <p className="text-sm leading-relaxed text-charcoal">
               <strong>coolplugz</strong> finished the run 🎉 Everything is structured, CI-checked, and
@@ -103,11 +106,11 @@ function ClaudeChatMock() {
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-3.5 w-3.5 text-[#0D9488]" />
                   <span className="text-[11px] font-bold uppercase tracking-wide text-charcoal">
-                    coolplugz · run complete
+                    coolplugz · dashboard preview
                   </span>
                 </div>
-                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-800">
-                  All tasks done
+                <span className="rounded-full bg-grey-400 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-800">
+                  GO TO DASHBOARD
                 </span>
               </div>
 
@@ -183,7 +186,7 @@ function ClaudeChatMock() {
                 {/* Approve / reject — only user action */}
                 <div className="rounded-xl border-2 border-emerald-300/80 bg-emerald-50/50 p-3">
                   <p className="mb-2.5 text-center text-[10px] font-bold uppercase tracking-wide text-emerald-900">
-                    Your only action — right here in chat
+                    Your only action - right here in chat
                   </p>
                   <div className="flex flex-col gap-2 sm:flex-row">
                     <button
@@ -211,11 +214,11 @@ function ClaudeChatMock() {
         </div>
 
         {/* Disabled input — reinforces "no prompting needed" */}
-        <div className="flex items-center gap-2 rounded-xl border border-dashed border-border/80 bg-white/60 px-3 py-2.5 opacity-60">
+        {/* <div className="flex items-center gap-2 rounded-xl border border-dashed border-border/80 bg-white/60 px-3 py-2.5 opacity-60">
           <div className="h-8 flex-1 rounded-lg bg-cream-warm px-3 text-[11px] leading-8 text-charcoal-muted">
             No prompting needed — approve or reject above
           </div>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );
