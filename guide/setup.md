@@ -1,22 +1,43 @@
 # CoolPlugz — Getting Started
 
-## Setup
+One step — same URL for web or desktop ✨
 
-1. Open Claude (desktop, mobile, or claude.ai)
-2. Go to **Settings → MCP Servers → Add**
-3. Paste your CoolPlugz URL and save
+## 🌐 claude.ai (browser) — easiest
 
-## Connect your tools
+1. **Settings → Connectors → Add → Custom connector**
+2. Name: `coolplugz`
+3. Paste your unique URL → **Add**
 
-Type **"dashboard"** in Claude. CoolPlugz shows four Connect buttons — one for each service (Jira, GitHub, Notion, Slack). Click each one, authorize in your browser, close the tab. Done.
+## 🖥️ Claude Desktop
 
-## Start using it
+1. **Settings → Desktop app → Developer → Edit Config**
+2. Choose `claude_desktop_config.json` — **create the file if it doesn't exist**
+3. Paste the JSON below with your URL → Save
+4. Quit Claude Desktop fully, then reopen
 
-Just talk to Claude:
+**Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`  
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "coolplugz": {
+      "url": "YOUR_COOLPLUGZ_URL",
+      "transport": "http"
+    }
+  }
+}
+```
+
+## Connect your tools 🔑
+
+Type **"dashboard"** in Claude. CoolPlugz shows four Connect buttons — Jira, GitHub, Notion, Slack. Click each one, authorize, close the tab. Done.
+
+## Start using it ❤️
 
 - **"run"** — picks up your Jira tasks, writes code, opens PRs, watches CI
 - **"dashboard"** — your task board, standup draft, and Slack mentions
 - **"wtf"** — investigates and fixes a failing CI check
 - **"reject"** — re-runs with your feedback
 
-Works on desktop and mobile. Connect once, stays connected.
+Works on web and desktop. Connect once, stays connected.
