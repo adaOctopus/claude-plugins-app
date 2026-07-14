@@ -37,7 +37,6 @@ export const tierPricing = {
 } as const;
 
 export const proPlanFeatures = [
-  "Up to 3 premium plugins",
   "Scans Jira + Slack + GitHub + Notion",
   "Automated advanced Prompt Engineering",
   "6 AI Agents working in parallel",
@@ -52,9 +51,9 @@ export const freePlan = {
   amount: 0,
   period: "for 1 day",
   badge: "No card required",
-  tagline: "Full Pro for 24 hours — credit card free. We mint a unique MCP URL on our server.",
+  tagline: "Full Pro for 24 hours",
   durationNote:
-    "Your MCP URL expires after 1 day (managed on our server). Upgrade to Pro anytime to keep access.",
+    "After 1 day upgrade to Pro for full access.",
   features: proPlanFeatures,
   cta: "START FREE TRIAL",
   trialDays: 1,
@@ -65,7 +64,7 @@ export const proPlan = {
   name: "Pro",
   badge: "Recommended",
   description:
-    "Context Engineer Autopilot for engineers — full stack context, merge-ready code, in-Claude dashboard.",
+    "A Claude plugin that automates your engineering workflow and puts you in God Mode",
   features: proPlanFeatures,
   cta: "GET PRO",
 };
@@ -75,10 +74,9 @@ export const premiumPlan = {
   name: "Premium",
   badge: "For contractors",
   description:
-    "Multiple clients, workspaces, and premium plugins — built for contractors with multiple clients.",
+    "Built for contractors with multiple clients who want to achieve 4-hour workweeks",
   features: [
     "Everything in Pro",
-    "Up to 10 premium plugins per month",
     "Multiple client workspaces",
     "Multiple Slack + Jira connections",
     "Separate context profiles per client",
