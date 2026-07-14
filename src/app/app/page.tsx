@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
+import { getFreeTrialStatus } from "@/lib/free-trial";
 import { getUserSubscription } from "@/lib/entitlements";
 import { connectDB } from "@/lib/db";
 import { Plugin } from "@/models/Plugin";
@@ -10,7 +11,7 @@ import { LogoutButton } from "@/components/marketplace/DashboardActions";
 import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
 import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
-import { requiresProSubscription } from "@/lib/marketplace-plugins";
+import { filterListedPlugins, requiresProSubscription } from "@/lib/marketplace-plugins";
 
 /** Logged-in hub — MCP setup for your plugins; cancel only if subscribed. */
 export default async function AppDashboardPage() {
@@ -18,14 +19,18 @@ export default async function AppDashboardPage() {
   if (!session) redirect("/login?redirect=/app");
 
   let subscription = null;
-  let plugins = await getMarketplacePlugins();
+  let trialStatus = null;
+  let plugins = filterListedPlugins(await getMarketplacePlugins());
 
   try {
     await connectDB();
     subscription = await getUserSubscription(session.id);
+    trialStatus = await getFreeTrialStatus(session.id);
     const dbPlugins = await Plugin.find({ status: "published" });
     if (dbPlugins.length > 0) {
-      plugins = plugins.filter((p) => dbPlugins.some((d) => d.slug === p.slug));
+      plugins = filterListedPlugins(
+        plugins.filter((p) => dbPlugins.some((d) => d.slug === p.slug))
+      );
     }
   } catch {
     // catalog fallback
@@ -76,12 +81,34 @@ export default async function AppDashboardPage() {
         </Card>
       )}
 
-      {!subscription && (
+      {!subscription && trialStatus?.active && (
+        <Card className="mt-8 border-[#7DD3C0]/40 bg-[#E8FAF6]/40">
+          <CardContent className="pt-6">
+            <p className="text-sm font-medium text-charcoal">Free 1-day trial active</p>
+            <p className="mt-1 text-sm text-charcoal-muted">
+              Your MCP URL expires{" "}
+              {trialStatus.endsAt
+                ? new Date(trialStatus.endsAt).toLocaleString(undefined, {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  })
+                : "soon"}
+              .{" "}
+              <Link href={UNIQUE_MCP_URL_PATH} className="font-medium text-charcoal underline">
+                Open MCP setup
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {!subscription && !trialStatus?.active && (
         <p className="mt-8 text-sm text-charcoal-muted">
           No paid plan yet.{" "}
           <Link href="/pricing" className="font-medium text-charcoal underline">
             View pricing
-          </Link>
+          </Link>{" "}
+          — or start a card-free 1-day trial from the pricing page.
         </p>
       )}
 

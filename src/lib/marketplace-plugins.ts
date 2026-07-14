@@ -8,8 +8,20 @@ export type MarketplacePlugin = {
   createdAt: string;
 };
 
-/** Standalone free-tier plugin — prompt builder only (Jira, Slack, Notion). */
+/** Standalone free-tier plugin — hidden while we launch with Pro only. */
 export const FREE_PLUGIN_SLUG = "context-prompts";
+
+export const HIDDEN_PLUGIN_SLUGS = [FREE_PLUGIN_SLUG] as const;
+
+export function isListedPlugin(plugin: MarketplacePlugin) {
+  return !HIDDEN_PLUGIN_SLUGS.includes(
+    plugin.slug as (typeof HIDDEN_PLUGIN_SLUGS)[number]
+  );
+}
+
+export function filterListedPlugins(plugins: MarketplacePlugin[]) {
+  return plugins.filter(isListedPlugin);
+}
 
 /** Default catalog — shown when DB is empty; also used for detail-page fallback. */
 export const MARKETPLACE_CATALOG: MarketplacePlugin[] = [

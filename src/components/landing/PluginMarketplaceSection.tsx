@@ -1,11 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
+import { filterListedPlugins } from "@/lib/marketplace-plugins";
 import { MarketplaceBrowse } from "@/components/landing/MarketplaceBrowse";
 import { PublishYourOwnLink } from "@/components/landing/PublishYourOwnLink";
 
 /** Minimal marketplace preview — search, filter, latest published plugins. */
 export async function PluginMarketplaceSection() {
-  const plugins = await getMarketplacePlugins();
+  const plugins = filterListedPlugins(await getMarketplacePlugins());
 
   return (
     <section id="browse-plugins" className="border-t border-border/60 px-4 pt-20 pb-10 md:px-8 md:pb-12">

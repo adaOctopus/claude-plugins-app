@@ -25,6 +25,7 @@ const schema = z.object({
     "addon",
   ]),
   pluginId: z.string().optional(),
+  trialPeriodDays: z.number().int().min(1).max(30).optional(),
 });
 
 /** Create Stripe Checkout — no sign-in required; Stripe collects email. */
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { plan, pluginId } = schema.parse(body);
+    const { plan, pluginId, trialPeriodDays } = schema.parse(body);
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const checkoutKey = normalizeCheckoutPlan(plan as CheckoutPlan);
 
@@ -92,7 +93,11 @@ export async function POST(request: NextRequest) {
         tier,
         checkoutKey,
         pluginId: pluginId || "",
+        trialPeriodDays: trialPeriodDays ? String(trialPeriodDays) : "",
       },
+      ...(trialPeriodDays
+        ? { subscription_data: { trial_period_days: trialPeriodDays } }
+        : {}),
       ...(customerId ? { customer: customerId } : {}),
     });
 

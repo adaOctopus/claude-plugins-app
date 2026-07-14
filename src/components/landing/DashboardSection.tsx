@@ -83,8 +83,8 @@ function ClaudeChatMock() {
         {/* User message */}
         <div className="flex justify-end">
           <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-charcoal px-3.5 py-2.5 text-sm leading-snug text-cream">
-            Complete this ticket: <span className="font-semibold">PROJ-124</span> — auth middleware
-            from Jira. Use Slack + Notion context.
+            Complete this ticket: <span className="font-semibold">PROJ-124</span>: auth middleware
+            from Jira & show my dashboard.
           </div>
         </div>
 

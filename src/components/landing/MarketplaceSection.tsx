@@ -52,7 +52,7 @@ export function MarketplaceSection() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-charcoal-muted">
-                Launch and sell your plugins with our in-app wizard — no coding needed.
+                Launch and sell your plugins with our in-app wizard, no coding needed.
               </p>
             </CardContent>
             <CardFooter>

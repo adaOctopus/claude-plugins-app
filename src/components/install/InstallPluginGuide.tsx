@@ -11,30 +11,60 @@ type InstallPluginGuideProps = {
   plugin: MarketplacePlugin;
   email: string;
   mcpUrl?: string | null;
+  accessMode?: "pro" | "free-trial";
+  freeTrialEndsAt?: string | null;
 };
 
 /** CoolPlugz MCP URL setup — web Connectors or Desktop JSON, then connect tools. */
-export function InstallPluginGuide({ plugin, email, mcpUrl = null }: InstallPluginGuideProps) {
+export function InstallPluginGuide({
+  plugin,
+  email,
+  mcpUrl = null,
+  accessMode = "pro",
+  freeTrialEndsAt = null,
+}: InstallPluginGuideProps) {
   const guide = COOLPLUGZ_GETTING_STARTED;
   const needsProvision = requiresProSubscription(plugin);
+  const isFreeTrial = accessMode === "free-trial";
+  const trialEndLabel = freeTrialEndsAt
+    ? new Date(freeTrialEndsAt).toLocaleString(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+      })
+    : null;
 
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-8 rounded-2xl bg-accent-sage p-6">
         <h1 className="text-3xl md:text-4xl">
           <BrandWordmark className="text-[2rem] md:text-[2.25rem]" />
-          <span className="ml-2 align-middle" aria-hidden>
-            
-          </span>
         </h1>
         <p className="mt-2 text-charcoal-muted">
           Access verified for {email} ✅
           <br />
-          Add your unique MCP URL to Claude — one step, either web or desktop.
+          {isFreeTrial ? (
+            <>
+              <span className="font-medium text-charcoal">Free 1-day trial</span> — no credit card.
+              Your unique MCP URL is minted on our server and expires after 24 hours.
+            </>
+          ) : (
+            <>Add your unique MCP URL to Claude — one step, either web or desktop.</>
+          )}
         </p>
+        {isFreeTrial && trialEndLabel && (
+          <p className="mt-2 rounded-lg border border-[#7DD3C0]/35 bg-white/80 px-3 py-2 text-sm text-[#0D9488]">
+            Trial active until <span className="font-semibold">{trialEndLabel}</span>. Upgrade to Pro
+            before then to keep your MCP URL.
+          </p>
+        )}
       </div>
 
-      <InstallMcpSetupBlock initialMcpUrl={mcpUrl} autoProvision={needsProvision} />
+      <InstallMcpSetupBlock
+        initialMcpUrl={mcpUrl}
+        initialExpiresAt={freeTrialEndsAt}
+        autoProvision={needsProvision}
+        provisionMode={isFreeTrial ? "free-trial" : "subscription"}
+      />
 
       <Card className="mb-4">
         <CardHeader className="pb-2">
@@ -63,6 +93,16 @@ export function InstallPluginGuide({ plugin, email, mcpUrl = null }: InstallPlug
           <p className="text-sm text-charcoal-muted">{guide.usageFooter}</p>
         </CardContent>
       </Card>
+
+      {isFreeTrial && (
+        <div className="mb-6 rounded-xl border border-border bg-cream-warm/60 p-4 text-sm text-charcoal-muted">
+          When your trial ends, this MCP URL stops working on our server.{" "}
+          <Link href="/pricing" className="font-medium text-charcoal underline">
+            Get Pro
+          </Link>{" "}
+          to keep a permanent MCP URL — no card was required for the trial.
+        </div>
+      )}
 
       <Button variant="outline" asChild>
         <Link href="/">← Back to home</Link>

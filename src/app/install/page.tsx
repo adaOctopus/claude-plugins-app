@@ -2,9 +2,12 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
+import {
+  filterListedPlugins,
+  requiresProSubscription,
+  type MarketplacePlugin,
+} from "@/lib/marketplace-plugins";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
-import { requiresProSubscription } from "@/lib/marketplace-plugins";
 import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
@@ -30,7 +33,7 @@ function AccessBadge({ plugin }: { plugin: MarketplacePlugin }) {
 
 /** Setup hub — lists plugins and links to MCP URL setup after access is verified. */
 export default async function InstallPage() {
-  const plugins = await getMarketplacePlugins();
+  const plugins = filterListedPlugins(await getMarketplacePlugins());
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-32 md:px-8">

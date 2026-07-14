@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Sparkles, X } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton";
 import { PriceDisplay } from "@/components/pricing/PriceDisplay";
 import {
@@ -15,7 +15,7 @@ import {
   type BillingPeriod,
   type PaidTier,
 } from "@/lib/pricing-plans";
-import { FREE_PLUGIN_SLUG } from "@/lib/marketplace-plugins";
+import { freeTrialLoginRedirect } from "@/lib/mcp-setup-paths";
 import { startTierCheckout } from "@/lib/start-checkout";
 import { isWipSite, comingSoonHref, resolveProductHref } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
@@ -54,6 +54,7 @@ function PlanBadge({
 export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsProps) {
   const proPrice = tierPricing.pro[billing];
   const premiumPrice = tierPricing.premium[billing];
+  const freeTrialHref = resolveProductHref(freeTrialLoginRedirect());
 
   async function handleCheckout(tier: PaidTier) {
     if (isWipSite()) {
@@ -74,46 +75,35 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
 
   return (
     <div className="mx-auto grid max-w-6xl items-stretch gap-6 lg:grid-cols-3 lg:gap-5">
-      {/* Free */}
+      {/* Free 1-day trial — card-free, server-managed MCP URL */}
       <Card className="flex h-full flex-col border-border/80 bg-white/60">
         <CardHeader className="space-y-3 pb-4">
           <div className="flex min-h-[1.75rem] items-center">
-            {freePlan.badge && (
-              <PlanBadge label={freePlan.badge} variant="muted" />
-            )}
+            {freePlan.badge && <PlanBadge label={freePlan.badge} variant="muted" />}
           </div>
           <CardTitle className="font-serif text-2xl">{freePlan.name}</CardTitle>
           <div>
             <PriceDisplay amount={freePlan.amount} />
+            <span className="text-charcoal-muted">{freePlan.period}</span>
             <p className="mt-2 text-sm text-charcoal-muted">{freePlan.tagline}</p>
+            <p className="mt-1 text-xs font-medium text-[#0D9488]">{freePlan.durationNote}</p>
           </div>
         </CardHeader>
 
         <CardContent className="flex-1">
           <ul className="space-y-3">
-            {freePlan.features.map((feature, index) => {
-              const isLimitation = index >= freePlan.features.length - 3;
-              return (
-                <li key={feature} className="flex items-start gap-2 text-sm">
-                  {isLimitation ? (
-                    <X className="mt-0.5 h-4 w-4 shrink-0 text-charcoal-muted/70" />
-                  ) : (
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                  )}
-                  <span className={isLimitation ? "text-charcoal-muted/80" : undefined}>
-                    {feature}
-                  </span>
-                </li>
-              );
-            })}
+            {freePlan.features.map((feature) => (
+              <li key={feature} className="flex items-start gap-2 text-sm">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+                <span>{feature}</span>
+              </li>
+            ))}
           </ul>
         </CardContent>
 
         <CardFooter>
           <Button className="w-full" variant="outline" asChild>
-            <Link href={resolveProductHref(`/install/${FREE_PLUGIN_SLUG}`)}>
-              {freePlan.cta}
-            </Link>
+            <Link href={freeTrialHref}>{freePlan.cta}</Link>
           </Button>
         </CardFooter>
       </Card>
@@ -127,29 +117,20 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
           "lg:z-10 lg:-my-3 lg:scale-[1.04]"
         )}
       >
-        <div
-          className="absolute inset-x-0 top-0 h-1 bg-charcoal"
-          aria-hidden
-        />
+        <div className="absolute inset-x-0 top-0 h-1 bg-charcoal" aria-hidden />
         <CardHeader className="space-y-3 pb-4 pt-6">
           <div className="flex min-h-[1.75rem] items-center">
-            {proPlan.badge && (
-              <PlanBadge label={proPlan.badge} variant="recommended" />
-            )}
+            {proPlan.badge && <PlanBadge label={proPlan.badge} variant="recommended" />}
           </div>
           <CardTitle className="font-serif text-2xl">{proPlan.name}</CardTitle>
           <div>
             <PriceDisplay amount={proPrice.amount} />
             <span className="text-charcoal-muted">{proPrice.period}</span>
             {"savings" in proPrice && proPrice.savings && (
-              <p className="mt-1 text-xs font-medium text-emerald-700">
-                {proPrice.savings}
-              </p>
+              <p className="mt-1 text-xs font-medium text-emerald-700">{proPrice.savings}</p>
             )}
           </div>
-          <p className="text-sm leading-relaxed text-charcoal-muted">
-            {proPlan.description}
-          </p>
+          <p className="text-sm leading-relaxed text-charcoal-muted">{proPlan.description}</p>
         </CardHeader>
 
         <CardContent className="flex-1">
@@ -173,12 +154,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
               {isLoading("pro") ? "Redirecting..." : proPlan.cta}
             </Button>
           ) : (
-            <StripeCheckoutButton
-              tier="pro"
-              billing={billing}
-              className="w-full shadow-sm"
-              size="default"
-            >
+            <StripeCheckoutButton tier="pro" billing={billing} className="w-full shadow-sm" size="default">
               {proPlan.cta}
             </StripeCheckoutButton>
           )}
@@ -189,23 +165,17 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
       <Card className="flex h-full flex-col border-border bg-white">
         <CardHeader className="space-y-3 pb-4">
           <div className="flex min-h-[1.75rem] items-center">
-            {premiumPlan.badge && (
-              <PlanBadge label={premiumPlan.badge} variant="premium" />
-            )}
+            {premiumPlan.badge && <PlanBadge label={premiumPlan.badge} variant="premium" />}
           </div>
           <CardTitle className="font-serif text-2xl">{premiumPlan.name}</CardTitle>
           <div>
             <PriceDisplay amount={premiumPrice.amount} />
             <span className="text-charcoal-muted">{premiumPrice.period}</span>
             {"savings" in premiumPrice && premiumPrice.savings && (
-              <p className="mt-1 text-xs font-medium text-emerald-700">
-                {premiumPrice.savings}
-              </p>
+              <p className="mt-1 text-xs font-medium text-emerald-700">{premiumPrice.savings}</p>
             )}
           </div>
-          <p className="text-sm leading-relaxed text-charcoal-muted">
-            {premiumPlan.description}
-          </p>
+          <p className="text-sm leading-relaxed text-charcoal-muted">{premiumPlan.description}</p>
         </CardHeader>
 
         <CardContent className="flex-1">
@@ -230,12 +200,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
               {isLoading("premium") ? "Redirecting..." : premiumPlan.cta}
             </Button>
           ) : (
-            <StripeCheckoutButton
-              tier="premium"
-              billing={billing}
-              className="w-full"
-              variant="outline"
-            >
+            <StripeCheckoutButton tier="premium" billing={billing} className="w-full" variant="outline">
               {premiumPlan.cta}
             </StripeCheckoutButton>
           )}

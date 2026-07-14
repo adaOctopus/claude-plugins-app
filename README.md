@@ -167,14 +167,47 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/api/stripe/webhook` | POST | Stripe event handler |
 | `/api/plugins` | GET/POST | List / upload plugins |
 | `/api/plugins/builder` | POST | Create/publish builder drafts |
-| `/api/plugins/[id]/download` | GET | Download with entitlement check |
+| `/api/provision-coolplugz` | POST | Mint MCP URL (paid subscribers) |
+| `/api/provision-coolplugz/free-trial` | POST | Card-free 1-day trial MCP URL |
 
 ## Pricing
 
-- **Monthly**: $17/mo — includes flagship Context Engineer plugin
-- **Annual**: $147/yr — ~35% savings
+- **Free 1-day trial**: $0, no credit card — full Pro via a unique MCP URL (1-day TTL on CoolPlugz server)
+- **Pro monthly**: $17/mo — includes flagship Context Engineer plugin
+- **Pro annual**: $147/yr — ~35% savings
+- **Premium**: $47/mo or $387/yr — multiple workspaces
 - **Add-ons**: $2.50/mo per extra marketplace plugin
 - **Creator fee**: 1% platform commission (manual payouts)
+
+Free trial flow: pricing → magic-link login → `/premium/unique-mcp-url?start=trial` → `POST /api/provision-coolplugz/free-trial` → CoolPlugz admin API with `tier: "trial"` and `ttlHours: 24`.
+
+### CoolPlugz MCP provisioning (external API)
+
+Set on Vercel / `.env.local` when your server is ready:
+
+```bash
+COOLPLUGZ_API_URL=https://api.coolplugz.com
+COOLPLUGZ_ADMIN_SECRET=your_admin_secret_here
+```
+
+**Paid subscription** — `POST /api/provision-coolplugz` (this app, session auth) calls your server:
+
+```http
+POST ${COOLPLUGZ_API_URL}/api/provision-coolplugz
+Content-Type: application/json
+
+{ "email": "user@example.com", "tier": "pro" }
+```
+
+**Free 1-day trial** — same external endpoint with:
+
+```json
+{ "email": "user@example.com", "tier": "trial", "ttlHours": 24 }
+```
+
+Response expected: `{ "mcpUrl": "https://...", "expiresAt": "2026-07-15T12:00:00.000Z" }`.
+
+Optional: set `COOLPLUGZ_ADMIN_SECRET` to send `Authorization: Bearer …` if your server requires it.
 
 ## Deployment
 

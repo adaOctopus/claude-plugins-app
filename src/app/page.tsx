@@ -25,8 +25,8 @@ export default function HomePage() {
       <BenefitsSection />
       <DashboardSection />
       <ChatTagsSection />
-      <MarketplaceSection />
-      <PluginMarketplaceSection />
+      {/* <MarketplaceSection /> */}
+      {/* <PluginMarketplaceSection /> */}
       <ComingSoonSection />
       <PricingSection />
       <FAQSection />

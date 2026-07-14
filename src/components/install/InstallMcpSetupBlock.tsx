@@ -8,15 +8,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type InstallMcpSetupBlockProps = {
   initialMcpUrl?: string | null;
+  initialExpiresAt?: string | null;
   autoProvision?: boolean;
+  provisionMode?: "subscription" | "free-trial";
 };
+
+function formatExpiresAt(iso: string) {
+  return new Date(iso).toLocaleString(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+}
 
 /** Unique MCP URL + web/desktop setup paths in one block. */
 export function InstallMcpSetupBlock({
   initialMcpUrl = null,
+  initialExpiresAt = null,
   autoProvision = true,
+  provisionMode = "subscription",
 }: InstallMcpSetupBlockProps) {
+  const provisionEndpoint =
+    provisionMode === "free-trial"
+      ? "/api/provision-coolplugz/free-trial"
+      : "/api/provision-coolplugz";
+
   const [mcpUrl, setMcpUrl] = useState(initialMcpUrl);
+  const [expiresAt, setExpiresAt] = useState<string | null>(initialExpiresAt);
   const [status, setStatus] = useState<"idle" | "loading" | "error">(
     initialMcpUrl ? "idle" : autoProvision ? "loading" : "idle"
   );
@@ -26,33 +43,41 @@ export function InstallMcpSetupBlock({
     setStatus("loading");
     setError(null);
     try {
-      const res = await fetch("/api/provision-coolplugz", {
+      const res = await fetch(provisionEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({}),
       });
-      const data = (await res.json()) as { mcpUrl?: string; error?: string };
+      const data = (await res.json()) as {
+        mcpUrl?: string;
+        expiresAt?: string;
+        error?: string;
+      };
       if (!res.ok || !data.mcpUrl) {
         throw new Error(data.error || "Could not generate your MCP URL");
       }
       setMcpUrl(data.mcpUrl);
+      if (data.expiresAt) setExpiresAt(data.expiresAt);
       setStatus("idle");
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Could not generate your MCP URL");
     }
-  }, []);
+  }, [provisionEndpoint]);
 
   useEffect(() => {
     if (initialMcpUrl) {
       setMcpUrl(initialMcpUrl);
       setStatus("idle");
-      return;
     }
+    if (initialExpiresAt) {
+      setExpiresAt(initialExpiresAt);
+    }
+    if (initialMcpUrl) return;
     if (autoProvision) {
       void provision();
     }
-  }, [initialMcpUrl, autoProvision, provision]);
+  }, [initialMcpUrl, initialExpiresAt, autoProvision, provision]);
 
   return (
     <>
@@ -69,12 +94,23 @@ export function InstallMcpSetupBlock({
               Generating your unique CoolPlugz MCP URL…
             </p>
           )}
-          {status !== "loading" && mcpUrl && <CopyMcpUrlButton url={mcpUrl} />}
+          {status !== "loading" && mcpUrl && (
+            <div className="space-y-3">
+              <CopyMcpUrlButton url={mcpUrl} />
+              {provisionMode === "free-trial" && expiresAt && (
+                <p className="text-sm text-[#0D9488]">
+                  Expires: <span className="font-semibold">{formatExpiresAt(expiresAt)}</span>
+                </p>
+              )}
+            </div>
+          )}
           {status !== "loading" && !mcpUrl && (
             <div className="space-y-3">
               <p className="text-sm text-charcoal-muted">
                 {error ||
-                  "Your unique MCP URL is not ready yet. This usually takes a few seconds after payment."}
+                  (provisionMode === "free-trial"
+                    ? "Could not mint your trial MCP URL. Try again or contact support."
+                    : "Your unique MCP URL is not ready yet. This usually takes a few seconds after payment.")}
               </p>
               <Button type="button" variant="outline" size="sm" onClick={() => void provision()}>
                 Generate my URL

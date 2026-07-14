@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatPluginPrice } from "@/lib/marketplace-plugins";
+import { formatPluginPrice, filterListedPlugins } from "@/lib/marketplace-plugins";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ export const metadata = createPageMetadata({
 
 /** Plugins browse page — marketplace listing. */
 export default async function PluginsPage() {
-  const plugins = await getMarketplacePlugins();
+  const plugins = filterListedPlugins(await getMarketplacePlugins());
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-32 md:px-8">

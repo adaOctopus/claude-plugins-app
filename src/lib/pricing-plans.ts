@@ -36,23 +36,28 @@ export const tierPricing = {
   },
 } as const;
 
+export const proPlanFeatures = [
+  "Up to 3 premium plugins",
+  "Scans Jira + Slack + GitHub + Notion",
+  "Automated advanced Prompt Engineering",
+  "6 AI Agents working in parallel",
+  "In-Claude dashboard via MCP",
+  "Slack messages handled hourly",
+] as const;
+
 export const freePlan = {
   id: "free" as const,
-  name: "Free",
+  name: "Free 1-Day Trial",
   price: "$0",
   amount: 0,
-  period: "",
-  badge: "",
-  tagline: "Context Prompt Builder — fetch context, get engineered prompts back.",
-  features: [
-    "Jira + Slack + Notion context linking",
-    "Full CRISPE prompt engineering",
-    "Engineered prompts returned to you",
-    "GitHub CI checks & PR automations",
-    "In-Claude dashboard & Slack handling",
-    "Code execution environment",
-  ],
-  cta: "START FOR FREE",
+  period: "for 1 day",
+  badge: "No card required",
+  tagline: "Full Pro for 24 hours — credit card free. We mint a unique MCP URL on our server.",
+  durationNote:
+    "Your MCP URL expires after 1 day (managed on our server). Upgrade to Pro anytime to keep access.",
+  features: proPlanFeatures,
+  cta: "START FREE TRIAL",
+  trialDays: 1,
 };
 
 export const proPlan = {
@@ -61,14 +66,7 @@ export const proPlan = {
   badge: "Recommended",
   description:
     "Context Engineer Autopilot for engineers — full stack context, merge-ready code, in-Claude dashboard.",
-  features: [
-    "Up to 3 premium plugins",
-    "Scans Jira + Slack + GitHub + Notion",
-    "Automated advanced Prompt Engineering",
-    "6 AI Agents working in parallel",
-    "In-Claude dashboard via MCP",
-    "Slack messages handled hourly",
-  ],
+  features: proPlanFeatures,
   cta: "GET PRO",
 };
 

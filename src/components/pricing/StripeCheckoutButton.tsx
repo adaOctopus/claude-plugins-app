@@ -15,6 +15,7 @@ type StripeCheckoutButtonProps = {
   tier?: PaidTier;
   billing?: BillingPeriod;
   pluginId?: string;
+  trialPeriodDays?: number;
   children: ReactNode;
   className?: string;
   size?: "default" | "sm" | "lg";
@@ -28,6 +29,7 @@ export function StripeCheckoutButton({
   tier = "pro",
   billing = "annual",
   pluginId,
+  trialPeriodDays,
   children,
   className,
   size = "default",
@@ -45,9 +47,9 @@ export function StripeCheckoutButton({
     setLoading(true);
     try {
       if (plan) {
-        await startStripeCheckout(plan, pluginId);
+        await startStripeCheckout(plan, pluginId, { trialPeriodDays });
       } else {
-        await startTierCheckout(tier, billing, pluginId);
+        await startTierCheckout(tier, billing, pluginId, { trialPeriodDays });
       }
     } catch (error) {
       alert(error instanceof Error ? error.message : "Checkout failed");

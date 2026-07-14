@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
+import { canAccessMcp, getFreeTrialStatus } from "@/lib/free-trial";
 import { hasActiveSubscription } from "@/lib/entitlements";
-import { getUserMcpUrl } from "@/lib/provision-coolplugz";
-import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
+import {
+  getUserMcpUrl,
+  isUserOnFreeTrial,
+  provisionFreeTrialForUser,
+} from "@/lib/provision-coolplugz";
+import {
+  UNIQUE_MCP_URL_PATH,
+  freeTrialLoginRedirect,
+} from "@/lib/mcp-setup-paths";
 import { getMarketplacePluginBySlug } from "@/lib/marketplace-plugins.server";
 import { InstallCheckoutFulfillShell } from "@/components/install/InstallCheckoutFulfillShell";
 import { InstallPaywall } from "@/components/install/InstallPaywall";
@@ -13,7 +21,7 @@ import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 const FLAGSHIP_SLUG = "context-engineer";
 
 type PageProps = {
-  searchParams: Promise<{ session_id?: string }>;
+  searchParams: Promise<{ session_id?: string; start?: string }>;
 };
 
 export const metadata: Metadata = createPageMetadata({
@@ -24,9 +32,9 @@ export const metadata: Metadata = createPageMetadata({
   siteUrl: CANONICAL_SITE_URL,
 });
 
-/** Post-purchase page — unique MCP URL + minimal getting started guide. */
+/** Post-purchase or free-trial page — unique MCP URL + minimal getting started guide. */
 export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
-  const { session_id: checkoutSessionId } = await searchParams;
+  const { session_id: checkoutSessionId, start } = await searchParams;
   const plugin = await getMarketplacePluginBySlug(FLAGSHIP_SLUG);
   if (!plugin) notFound();
 
@@ -39,24 +47,60 @@ export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
   }
 
   const session = await getSession();
+  const wantsFreeTrial = start === "trial";
+
   if (!session) {
-    redirect(`/login?redirect=${encodeURIComponent(UNIQUE_MCP_URL_PATH)}`);
+    redirect(wantsFreeTrial ? freeTrialLoginRedirect() : `/login?redirect=${encodeURIComponent(UNIQUE_MCP_URL_PATH)}`);
   }
 
-  const subscribed = await hasActiveSubscription(session.id);
-  if (!subscribed) {
+  if (wantsFreeTrial) {
+    try {
+      await provisionFreeTrialForUser(session.id);
+      redirect(UNIQUE_MCP_URL_PATH);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Could not start free trial";
+      const trialStatus = await getFreeTrialStatus(session.id);
+      return (
+        <div className="px-4 py-32 md:px-8">
+          <InstallPaywall
+            plugin={plugin}
+            email={session.email}
+            trialExpired={trialStatus.used && !trialStatus.active}
+            errorMessage={message}
+          />
+        </div>
+      );
+    }
+  }
+
+  const hasAccess = await canAccessMcp(session.id);
+  if (!hasAccess) {
+    const trialStatus = await getFreeTrialStatus(session.id);
     return (
       <div className="px-4 py-32 md:px-8">
-        <InstallPaywall plugin={plugin} email={session.email} />
+        <InstallPaywall
+          plugin={plugin}
+          email={session.email}
+          trialExpired={trialStatus.used && !trialStatus.active}
+        />
       </div>
     );
   }
 
   const mcpUrl = await getUserMcpUrl(session.id);
+  const onFreeTrial = await isUserOnFreeTrial(session.id);
+  const subscribed = await hasActiveSubscription(session.id);
+  const trialStatus = onFreeTrial ? await getFreeTrialStatus(session.id) : null;
 
   return (
     <div className="px-4 py-32 md:px-8">
-      <InstallPluginGuide plugin={plugin} email={session.email} mcpUrl={mcpUrl} />
+      <InstallPluginGuide
+        plugin={plugin}
+        email={session.email}
+        mcpUrl={mcpUrl}
+        accessMode={subscribed ? "pro" : "free-trial"}
+        freeTrialEndsAt={trialStatus?.endsAt?.toISOString() ?? null}
+      />
     </div>
   );
 }

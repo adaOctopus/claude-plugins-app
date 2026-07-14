@@ -5,7 +5,8 @@ import { isWipSite, comingSoonHref } from "@/lib/site-mode";
 
 export async function startStripeCheckout(
   plan: CheckoutPlan,
-  pluginId?: string
+  pluginId?: string,
+  options?: { trialPeriodDays?: number }
 ): Promise<void> {
   if (isWipSite()) {
     window.location.href = comingSoonHref;
@@ -15,7 +16,11 @@ export async function startStripeCheckout(
   const res = await fetch("/api/stripe/checkout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ plan, pluginId }),
+    body: JSON.stringify({
+      plan,
+      pluginId,
+      trialPeriodDays: options?.trialPeriodDays,
+    }),
   });
 
   const data = (await res.json()) as { url?: string; error?: string };
@@ -31,9 +36,10 @@ export async function startStripeCheckout(
 export async function startTierCheckout(
   tier: PaidTier,
   billing: BillingPeriod,
-  pluginId?: string
+  pluginId?: string,
+  options?: { trialPeriodDays?: number }
 ): Promise<void> {
-  return startStripeCheckout(getPaidPlanKey(tier, billing), pluginId);
+  return startStripeCheckout(getPaidPlanKey(tier, billing), pluginId, options);
 }
 
 export type { BillingPeriod, PaidTier };

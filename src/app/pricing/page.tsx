@@ -42,10 +42,11 @@ function PricingContent() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-32 text-center md:px-8">
       <h1 className="font-serif text-4xl text-charcoal md:text-6xl">Pricing</h1>
-      <p className="mx-auto mt-4 max-w-xl text-sm text-charcoal-muted md:text-base">
-        Three plans — start free, scale to Pro, or go Premium when you&apos;re running
-        multiple client workspaces.
-      </p>
+        <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
+          Start with a <span className="font-medium text-charcoal">card-free 1-day trial</span> — we
+          mint a unique MCP URL on our server (expires after 24 hours). Pro and Premium are paid via
+          Stripe when you&apos;re ready to keep access.
+        </p>
 
       <div className="mt-8 flex justify-center">
         <BillingToggle value={billing} onChange={setBilling} />
@@ -62,7 +63,7 @@ function PricingContent() {
   );
 }
 
-/** Pricing page — Stripe Checkout for Pro & Premium, no sign-in required. */
+/** Pricing page — card-free 1-day trial + Stripe Checkout for Pro & Premium. */
 export default function PricingPage() {
   return (
     <Suspense fallback={<div className="py-32 text-center">Loading...</div>}>
