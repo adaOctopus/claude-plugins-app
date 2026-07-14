@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { RotatingTagHeadline } from "@/components/landing/RotatingTagHeadline";
+import { ClaudeMark } from "../icons/ClaudeMark";
 import { cn } from "@/lib/utils";
 import {
   Smartphone,
@@ -126,9 +127,7 @@ function PhoneChatMock() {
         <div className="overflow-hidden rounded-[1.6rem] bg-[#FAFAF8]">
           <div className="flex items-center justify-between border-b border-border/60 bg-white px-3 py-2">
             <div className="flex items-center gap-1.5">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#D97757] text-[9px] font-bold text-white">
-                C
-              </span>
+              <ClaudeMark className="h-4 w-4" />
               <span className="text-[10px] font-semibold text-charcoal">Claude</span>
             </div>
             <span className="rounded-full bg-[#E8FAF6] px-2 py-0.5 text-[8px] font-bold text-[#0D9488]">
