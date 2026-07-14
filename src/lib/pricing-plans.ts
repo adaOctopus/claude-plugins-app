@@ -49,11 +49,11 @@ export const freePlan = {
   name: "Free 1-Day Trial",
   price: "$0",
   amount: 0,
-  period: "for 1 day",
+  period: "",
   badge: "No card required",
   tagline: "Full Pro for 24 hours",
   durationNote:
-    "After 1 day upgrade to Pro for full access.",
+    "After 1 day upgrade to Pro for full access",
   features: proPlanFeatures,
   cta: "START FREE TRIAL",
   trialDays: 1,
