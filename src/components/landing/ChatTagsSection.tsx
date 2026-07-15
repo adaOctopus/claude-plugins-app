@@ -197,7 +197,7 @@ export function ChatTagsSection() {
     >
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          Mobile Friendly For Lazy Days
+          Complete Tasks With Just Keywords
         </Badge>
         <RotatingTagHeadline />
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-charcoal-muted md:text-base">
