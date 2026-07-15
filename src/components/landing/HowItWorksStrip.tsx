@@ -9,9 +9,12 @@ import {
   LayoutDashboard,
   MessageSquare,
   Mic,
+  Server,
   Sparkles,
+  Terminal,
   ThumbsDown,
   ThumbsUp,
+  UserRound,
   Wand2,
   XCircle,
 } from "lucide-react";
@@ -37,10 +40,12 @@ function HowStep({
   label,
   children,
   className,
+  visualClassName,
 }: {
   label: string;
   children: ReactNode;
   className?: string;
+  visualClassName?: string;
 }) {
   return (
     <div
@@ -49,7 +54,12 @@ function HowStep({
         className
       )}
     >
-      <div className="flex h-[4.5rem] w-full items-center justify-center rounded-xl border border-border/80 bg-white px-2 shadow-sm sm:h-20">
+      <div
+        className={cn(
+          "flex h-[4.5rem] w-full items-center justify-center rounded-xl border border-border/80 bg-white px-2 shadow-sm sm:h-20",
+          visualClassName
+        )}
+      >
         {children}
       </div>
       <span className="text-center text-[9px] font-semibold uppercase tracking-wide text-charcoal-muted sm:text-[10px]">
@@ -168,6 +178,53 @@ function CiLoopVisual() {
   );
 }
 
+/** Code runs in CoolPlugz env — CI checked there, user does nothing. */
+function CiEnvironmentVisual() {
+  const GitHubMark = integrationSources.find((s) => s.id === "github")!.Mark;
+  const ciChecks = ["lint", "test", "build"] as const;
+
+  return (
+    <div className="flex w-full items-center gap-1 sm:gap-1.5">
+      <div className="flex shrink-0 flex-col items-center gap-0.5 opacity-35">
+        <UserRound className="h-3 w-3 text-charcoal" strokeWidth={2} />
+        <Ban className="h-2.5 w-2.5 text-charcoal/50" strokeWidth={2.5} />
+      </div>
+
+      <ArrowRight className="h-2.5 w-2.5 shrink-0 text-charcoal/20" strokeWidth={2} />
+
+      <div className="min-w-0 flex-1 rounded-md border border-[#7DD3C0]/45 bg-gradient-to-b from-[#E8FAF6]/90 to-white p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+        <div className="flex items-center gap-0.5">
+          <Server className="h-2.5 w-2.5 shrink-0 text-[#0D9488]" strokeWidth={2.25} />
+          <span className="truncate text-[5px] font-bold uppercase tracking-wide text-[#0D9488]">
+            coolplugz env
+          </span>
+        </div>
+
+        <div className="mt-0.5 flex items-center gap-0.5 rounded bg-charcoal px-1 py-0.5">
+          <Terminal className="h-2 w-2 shrink-0 text-emerald-400/90" strokeWidth={2.5} />
+          <span className="truncate font-mono text-[5px] text-emerald-300/95">run &amp; execute</span>
+          <span className="ml-auto h-1 w-1 shrink-0 animate-pulse rounded-full bg-emerald-400" />
+        </div>
+
+        <div className="mt-0.5 flex flex-wrap items-center justify-center gap-0.5">
+          <GitHubMark className="h-2.5 w-2.5 shrink-0 opacity-80" />
+          {ciChecks.map((check) => (
+            <span
+              key={check}
+              className="inline-flex items-center gap-px rounded border border-emerald-200/80 bg-emerald-50 px-0.5 py-px"
+            >
+              <CheckCircle2 className="h-2 w-2 text-emerald-600" strokeWidth={2.5} />
+              <span className="font-mono text-[4px] font-semibold uppercase text-emerald-700">
+                {check}
+              </span>
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /** Slack thread binge vs mentions + drafts in one panel. */
 function SlackUnifiedVisual() {
   const SlackMark = integrationSources.find((s) => s.id === "slack")!.Mark;
@@ -275,7 +332,6 @@ const valueProps = [
 
 /** Compact visual pipeline — how coolplugz works, icons only. */
 export function HowItWorksStrip() {
-  const GitHubMark = integrationSources.find((s) => s.id === "github")!.Mark;
   const SlackMark = integrationSources.find((s) => s.id === "slack")!.Mark;
 
   return (
@@ -331,20 +387,12 @@ export function HowItWorksStrip() {
 
           <StepConnector />
 
-          <HowStep label="CI & reviews checked">
-            <div className="flex flex-col items-center gap-1">
-              <GitHubMark className="h-3.5 w-3.5" />
-              <div className="flex items-center gap-0.5">
-                {[0, 1, 2].map((i) => (
-                  <CheckCircle2
-                    key={i}
-                    className="h-2.5 w-2.5 text-emerald-600"
-                    strokeWidth={2.5}
-                  />
-                ))}
-              </div>
-              <GitPullRequest className="h-3 w-3 text-charcoal/50" strokeWidth={2} />
-            </div>
+          <HowStep
+            label="Ships code with CI checked"
+            className="sm:min-w-[6.5rem]"
+            visualClassName="h-[5.25rem] sm:h-[5.5rem]"
+          >
+            <CiEnvironmentVisual />
           </HowStep>
 
           <StepConnector />

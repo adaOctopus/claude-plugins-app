@@ -77,8 +77,8 @@ export function FAQSection() {
           Frequently asked questions
         </h2>
         <p className="mt-4 text-charcoal-muted">
-          <BrandWordmark /> helps with context switching, AI fatigue, and the constant burnout, that
-          the modern remote worker faces.
+          <BrandWordmark className="text-[1.2rem] md:text-[1.45rem]" /> helps with context switching,
+          AI fatigue, and the constant burnout, that the modern remote worker faces.
         </p>
 
         <Accordion type="single" collapsible className="mt-10">

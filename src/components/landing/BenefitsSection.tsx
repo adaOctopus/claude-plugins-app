@@ -261,7 +261,7 @@ const benefits: Benefit[] = [
   {
     title: "Mental energy back",
     tagline:
-      "No mental energy spent on doing advanced prompt engineering.",
+      "No mental energy spent on writing advanced prompts.",
     accent: "from-[#E8FAF6] to-white",
     glow: "shadow-[0_8px_24px_rgba(13,148,136,0.1),inset_0_1px_0_rgba(255,255,255,0.95)]",
     visual: <MentalEnergyVisual />,
@@ -277,7 +277,7 @@ const benefits: Benefit[] = [
   {
     title: "Skip AI fatigue & burnout",
     tagline:
-      "Stop binge-checking Slack for @mentions. Threads and DM drafts all in one panel.",
+      "No binge-checking Slack for @mentions. Threads and DMs drafted for you.",
     accent: "from-[#F3EEFF] to-white",
     glow: "shadow-[0_8px_24px_rgba(139,92,246,0.1),inset_0_1px_0_rgba(255,255,255,0.95)]",
     visual: <BurnoutAvoidVisual />,
