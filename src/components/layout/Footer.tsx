@@ -20,13 +20,13 @@ export function Footer() {
 
       <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center justify-between gap-4 border-t border-border pt-8 text-sm text-charcoal-muted md:flex-row">
         <p suppressHydrationWarning>
-          &copy; {new Date().getFullYear()} coolplugz. All rights reserved.
+          &copy; {new Date().getFullYear()} CoolPlugz Inc. All rights reserved.
         </p>
         <div className="flex gap-6">
-          <Link href="#" className="hover:text-charcoal">
+          <Link href="/privacy" className="hover:text-charcoal">
             Privacy
           </Link>
-          <Link href="#" className="hover:text-charcoal">
+          <Link href="/terms" className="hover:text-charcoal">
             Terms
           </Link>
         </div>

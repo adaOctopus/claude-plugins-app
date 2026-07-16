@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/plugins",
     "/install",
     "/login",
+    "/privacy",
+    "/terms",
     "/app",
     "/app/upload",
     "/app/create",

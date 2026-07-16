@@ -40,6 +40,8 @@ claude-plugins/
 │   │   ├── login/           # Magic link sign-in
 │   │   ├── plugins/         # Marketplace browse + detail
 │   │   ├── pricing/         # Subscription checkout
+│   │   ├── privacy/         # Privacy Policy (CoolPlugz Inc.)
+│   │   ├── terms/           # Terms of Service (CoolPlugz Inc.)
 │   │   ├── layout.tsx       # Root layout + SEO
 │   │   └── page.tsx         # Landing page
 │   ├── components/
@@ -145,12 +147,13 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 |---|---|
 | `/` | Landing page |
 | `/pricing` | Subscription plans |
-| `/app` | Your plugins (after email login) |
+| `/app` | User dashboard (after email login) |
 | `/login` | Email login |
 | `/plugins` | Marketplace browse |
 | `/plugins/[slug]` | Plugin detail |
 | `/install` | Claude plugin install guide |
-| `/app` | User dashboard |
+| `/privacy` | Privacy Policy — CoolPlugz Inc. |
+| `/terms` | Terms of Service — CoolPlugz Inc. |
 | `/app/upload` | Upload plugin form |
 | `/app/create` | Plugin builder wizard |
 
