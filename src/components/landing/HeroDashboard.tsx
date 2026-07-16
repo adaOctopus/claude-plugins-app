@@ -76,7 +76,7 @@ function HeroChatBody() {
     <div className="flex flex-col gap-2.5">
       <div className="flex justify-end">
         <div className="rounded-2xl rounded-tr-sm bg-charcoal px-3 py-2 text-[12px] leading-snug text-cream sm:text-[13px]">
-          <span className="font-semibold">Morning ☀️</span> Show my dashboard and run a<span className="font-semibold" style={{ fontStyle: "italic" }}>@FullRun</span> for me. Thnx
+          Hi <span className="font-semibold">Cooplugz👋</span> Show my dashboard and run a<span className="font-semibold" style={{ fontStyle: "italic" }}>@FullRun</span> for me. Thnx
         </div>
       </div>
 
