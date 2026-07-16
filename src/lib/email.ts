@@ -11,7 +11,7 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 /** Milk Peach Clean wordmark as PNG — Gmail blocks web fonts, so we use an image. */
 function emailBrandWordmarkHtml(heightPx = 30) {
   const wordmarkUrl = `${APP_URL}/email-wordmark.png`;
-  return `<img src="${wordmarkUrl}" alt="coolplugz" height="${heightPx}" style="display: inline-block; vertical-align: -5px; border: 0; height: ${heightPx}px; width: auto;" />`;
+  return `<img src="${wordmarkUrl}" alt="coolplugz" height="${heightPx}" style="display: inline-block; vertical-align: middle; margin-top: 9px; border: 0; height: ${heightPx}px; width: auto;" />`;
 }
 
 function emailShellHtml(body: string) {
