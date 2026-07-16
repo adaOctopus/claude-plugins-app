@@ -3,11 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { RotatingTagHeadline } from "@/components/landing/RotatingTagHeadline";
 import { ClaudeMark } from "../icons/ClaudeMark";
 import { cn } from "@/lib/utils";
-import {
-  Smartphone,
-  Sparkles,
-  Zap,
-} from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 type TagCommand = {
   tag: string;
@@ -21,15 +17,6 @@ type TagCommand = {
 
 const tagCommands: TagCommand[] = [
   {
-    tag: "@rebase",
-    emoji: "🔀",
-    title: "Rebase",
-    blurb: "Type it. Branch rebased. Conflicts handled.",
-    result: "Interactive rebase done · main synced",
-    accent: "from-[#E8F4FF] to-[#D6EBFF]",
-    glow: "shadow-[0_8px_24px_rgba(59,130,246,0.12),inset_0_1px_0_rgba(255,255,255,0.95)]",
-  },
-  {
     tag: "@FullRun",
     emoji: "🚀",
     title: "Full Run",
@@ -37,6 +24,15 @@ const tagCommands: TagCommand[] = [
     result: "PR #847 opened · CI green · reviewers tagged",
     accent: "from-[#E8FAF6] to-[#D1F4EE]",
     glow: "shadow-[0_8px_24px_rgba(13,148,136,0.14),inset_0_1px_0_rgba(255,255,255,0.95)]",
+  },
+  {
+    tag: "@rebase",
+    emoji: "🔀",
+    title: "Rebase",
+    blurb: "Type it. Branch rebased. Conflicts handled.",
+    result: "Interactive rebase done · main synced",
+    accent: "from-[#E8F4FF] to-[#D6EBFF]",
+    glow: "shadow-[0_8px_24px_rgba(59,130,246,0.12),inset_0_1px_0_rgba(255,255,255,0.95)]",
   },
   {
     tag: "@WTF",
@@ -137,7 +133,7 @@ function PhoneChatMock() {
 
           <div className="space-y-2.5 p-3">
             <ChatBubble role="user">
-              <span className="font-mono font-semibold">@PRready</span> 🚀
+              <span className="font-mono font-semibold">@FullRun</span> 🚀 and show my dashboard.
             </ChatBubble>
             <ChatBubble role="assistant">
               <span className="flex items-center gap-1 font-semibold text-[#0D9488]">
@@ -208,29 +204,10 @@ export function ChatTagsSection() {
           </strong>
         </p>
 
-        {/* <div className="mt-10 flex items-center gap-2 rounded-2xl border border-[#7DD3C0]/30 bg-gradient-to-r from-[#E8FAF6]/80 to-white px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:inline-flex sm:gap-3 sm:px-5 sm:py-3.5">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/80 bg-white text-lg shadow-sm">
-            📱
-          </span>
-          <div>
-            <p className="flex items-center gap-1.5 text-sm font-semibold text-charcoal">
-              <Smartphone className="h-3.5 w-3.5 text-[#0D9488]" />
-              If too lazy do it from your phone
-            </p>
-            <p className="text-xs text-charcoal-muted sm:text-sm">
-              Same Claude session just one keyword.
-            </p>
-          </div>
-          <span className="ml-auto hidden items-center gap-1 rounded-full bg-[#0D9488] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white sm:flex">
-            <Zap className="h-3 w-3" />
-            ~60s runs
-          </span>
-        </div> */}
-
         <div className="mt-12 grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-14">
           <div className="order-2 lg:order-1">
-            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-charcoal-muted">
-              @ commands in Claude
+            <p className="mb-4 text-xs font-bold uppercase tracking-tight text-charcoal-muted">
+              @ KEYWORDS TO KICK OFF TASKS
             </p>
             <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
               {tagCommands.map((cmd) => (

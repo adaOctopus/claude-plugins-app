@@ -36,26 +36,35 @@ export const COOLPLUGZ_GETTING_STARTED = {
   },
   connectTitle: "Connect your tools 🔑",
   connectIntro:
-    'Type "dashboard" in Claude. CoolPlugz shows four Connect buttons — Jira, GitHub, Notion, Slack. Click each one, authorize, close the tab. Done.',
-  usageTitle: "Start using it ❤️",
-  usageIntro: "Just type:",
+    'Type "Show my dashboard" in Claude. CoolPlugz shows four Connect buttons — Jira, GitHub, Notion, Slack. Click each one, authorize, close the tab. Done.',
+  usageTitle: "What you can say ❤️",
+  usageIntro: "Plain English — no IDs, no config:",
   commands: [
     {
-      command: "run",
+      command: "Show my dashboard",
       description:
-        "picks up your Jira tasks, writes code, opens PRs, watches CI",
+        "home base — connect Jira, GitHub, Notion, Slack once, then tasks, PRs, and Slack drafts",
     },
     {
-      command: "dashboard",
-      description: "your task board, standup draft, and Slack mentions",
+      command: "Run",
+      description:
+        "syncs all tools and works your incomplete Jira tickets — PRs, CI fixes, Slack drafts",
     },
     {
-      command: "wtf",
-      description: "investigates and fixes a failing CI check",
+      command: "What's blocking my tasks?",
+      description: "re-analyzes stuck or failing tasks — what's wrong and what to do",
     },
     {
-      command: "reject",
-      description: "re-runs with your feedback",
+      command: "Show task PROJ-42",
+      description: "deep dive on one ticket — status, PR, CI, context, history",
+    },
+    {
+      command: "Reject PROJ-42 and redo it",
+      description: "give feedback and re-execute with your corrections",
+    },
+    {
+      command: "Refresh Slack",
+      description: "pulls latest mentions and generates draft replies",
     },
   ] satisfies CoolplugzCommand[],
   usageFooter: "Works on web and desktop. Connect once, stays connected.",

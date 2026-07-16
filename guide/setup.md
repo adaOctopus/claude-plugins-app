@@ -31,13 +31,17 @@ One step — same URL for web or desktop ✨
 
 ## Connect your tools 🔑
 
-Type **"dashboard"** in Claude. CoolPlugz shows four Connect buttons — Jira, GitHub, Notion, Slack. Click each one, authorize, close the tab. Done.
+Type **"Show my dashboard"** in Claude. CoolPlugz shows four Connect buttons — Jira, GitHub, Notion, Slack. Click each one, authorize, close the tab. Done.
 
-## Start using it ❤️
+## What you can say ❤️
 
-- **"run"** — picks up your Jira tasks, writes code, opens PRs, watches CI
-- **"dashboard"** — your task board, standup draft, and Slack mentions
-- **"wtf"** — investigates and fixes a failing CI check
-- **"reject"** — re-runs with your feedback
+Plain English — no IDs, no config:
+
+- **"Show my dashboard"** — home base; connect tools first time, then tasks, PRs, and Slack drafts
+- **"Run"** — syncs all tools and works your incomplete Jira tickets
+- **"What's blocking my tasks?"** — stuck or failing tasks — what's wrong and what to do
+- **"Show task PROJ-42"** — deep dive on one ticket
+- **"Reject PROJ-42 and redo it"** — feedback and re-execute
+- **"Refresh Slack"** — latest mentions and draft replies
 
 Works on web and desktop. Connect once, stays connected.
