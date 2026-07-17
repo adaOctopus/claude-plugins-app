@@ -24,6 +24,7 @@ export const funnelGuides: Guide[] = [
       "When you Google 'best Claude plugins' or 'best Claude skills,' you are shopping — not learning. YouTube is full of Claude tutorials and hacks; Google results skew toward skills, plugins, connectors, and models. For client work, pick stack-connected MCP tools that pull real Jira/Slack/GitHub context — not generic chat that hallucinates without it.",
     relatedSlugs: [
       "claude-plugin-mcp-explained",
+      "claude-code-after-tutorial",
       "claude-plugin-for-contractors",
       "make-money-with-claude-as-a-developer",
       "developer-freedom-with-claude",
@@ -36,11 +37,11 @@ export const funnelGuides: Guide[] = [
         blocks: [
           {
             type: "p",
-            text: "Search 'Claude' on YouTube and you get tutorials — learn Claude, master Claude, beginner guides, new hacks. That is learning intent. People watch, then go build.",
+            text: "Search 'Claude' or 'Claude Code' on YouTube and autocomplete fills in: best practices, tutorial, code tutorial, code agents, beginners, hacks. That is learning intent — watch for an hour, try prompts in a demo repo, maybe install Claude Code once.",
           },
           {
             type: "p",
-            text: "On Google, 'best Claude' autocompletes to skills, plugins, connectors, models. 'How to make money with' autocompletes to Claude. That is shopping intent — you already decided Claude might be the lever and you want the right setup.",
+            text: "On Google, the same journey shifts. 'Best Claude' autocompletes to skills, plugins, connectors, models. 'Claude code' skews toward agents, MCP, and production setup. 'How to make money with' autocompletes to Claude. That is shopping intent — you already decided Claude might be the lever and you want the right stack.",
           },
           {
             type: "p",
@@ -129,6 +130,110 @@ export const funnelGuides: Guide[] = [
       paragraphs: [
         ctaParagraph,
         "Start with a free 1-day trial — full Pro access, no credit card.",
+      ],
+    },
+  },
+  {
+    slug: "claude-code-after-tutorial",
+    title: "Claude Code Best Practices — After the YouTube Tutorial",
+    metaTitle: "Claude Code Best Practices & Agents (Post-Tutorial)",
+    metaDescription:
+      "YouTube shows Claude tutorials, code tutorials, and code agents. This guide is for the next step — production best practices, MCP setup, and stack-connected automation after you finish watching.",
+    keywords: [
+      "claude best practices",
+      "claude code best practices",
+      "claude code tutorial",
+      "claude code agents",
+      "claude tutorial for developers",
+      "claude code production",
+      "claude MCP setup",
+    ],
+    category: "guide",
+    directAnswer:
+      "YouTube Claude searches skew toward tutorials and 'code agents' demos — learning intent. Production best practices mean connecting Claude to real Jira, Slack, GitHub, and Notion via MCP, scoping agents to grounded context, and approving output before it ships — not running open-ended agent loops on client repos.",
+    relatedSlugs: [
+      "best-claude-plugins-for-developers",
+      "claude-plugin-mcp-explained",
+      "make-money-with-claude-as-a-developer",
+      "ci-failure-debugging-ai",
+      "developer-freedom-with-claude",
+    ],
+    sections: [
+      {
+        id: "youtube-autocomplete",
+        title: "What YouTube autocomplete tells you",
+        blocks: [
+          {
+            type: "p",
+            text: "Type 'Claude' or 'Claude Code' on YouTube and suggestions cluster around: best practices, tutorial, code tutorial, code agents, beginners, tips. That is the learning funnel — long videos, walkthrough repos, agent demos that look magical in isolation.",
+          },
+          {
+            type: "p",
+            text: "Those searches rarely convert directly to a paid tool. They create graduates: developers who know Claude exists, tried Claude Code once, and now need a production setup that does not hallucinate ticket numbers or ship CI-breaking patches.",
+          },
+          {
+            type: "p",
+            text: "coolplugz targets the search after the tutorial — Google queries like best Claude plugins, Claude MCP, Claude automation, and make money with Claude.",
+          },
+        ],
+      },
+      {
+        id: "best-practices",
+        title: "Claude Code best practices (client work)",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Ground before generate — pull live Jira ticket, PR diff, CI log, Slack thread; never prompt from memory",
+              "One MCP URL per client or workspace — isolate tokens and context profiles on Premium",
+              "Approve/reject gates — treat agent output as a draft until you verify diffs and CI",
+              "Named commands — '@ Run', 'Show my dashboard' beat vague 'fix everything' agent spirals",
+              "OAuth over pasted secrets — scoped GitHub/Slack/Jira access beats API keys in chat",
+              "Time-box agents — batch standup drafts and CI triage; do not leave autonomous loops on production repos",
+            ],
+          },
+        ],
+      },
+      {
+        id: "agents-vs-mcp",
+        title: "Claude Code agents vs MCP plugins",
+        blocks: [
+          {
+            type: "p",
+            text: "YouTube 'Claude Code agents' videos usually show an agent editing files and running terminal commands inside a sandbox repo. That is powerful for personal projects and spikes.",
+          },
+          {
+            type: "p",
+            text: "Client retainers add Slack, Jira, multiple repos, and CI pipelines agents cannot see unless you connect them. MCP plugins (HTTP URL in Claude Connectors) expose those systems as tools — tickets, PRs, threads, dashboards — so Claude acts on real state, not guesses.",
+          },
+          {
+            type: "p",
+            text: "Best setup for many contractors: Claude Code or Cursor for in-editor edits, plus an MCP plugin like coolplugz for cross-tool orchestration — standups, CI fixes, Slack drafts — with stack context already gathered.",
+          },
+        ],
+      },
+      {
+        id: "after-tutorial",
+        title: "After the tutorial — a 15-minute checklist",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Finish one YouTube Claude Code tutorial with a throwaway repo — learn the UI, not your client stack",
+              "Pick one painful workflow: daily standup, CI failure triage, or Slack catch-up",
+              "Connect MCP to that workflow's tools (GitHub + Slack minimum)",
+              "Run one real task with approve/reject — compare output quality to a raw agent session",
+              "If it saves 30+ minutes, read best Claude plugins and trial stack-connected automation",
+            ],
+          },
+        ],
+      },
+    ],
+    productPitch: {
+      title: "Skip the agent spiral on client work",
+      paragraphs: [
+        "coolplugz is the post-tutorial MCP setup: Jira, Slack, GitHub, and Notion context inside Claude, CRISPE prompts, merge-ready code with CI checked, Slack drafts — you Approve & submit or Reject & redo.",
+        ctaParagraph,
       ],
     },
   },

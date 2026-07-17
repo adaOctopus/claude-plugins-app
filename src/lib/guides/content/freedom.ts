@@ -292,6 +292,7 @@ export const freedomGuides: Guide[] = [
       "multiple-clients-parallel-claude",
       "claude-plugin-for-contractors",
       "best-claude-plugins-for-developers",
+      "claude-code-after-tutorial",
     ],
     sections: [
       {
@@ -300,11 +301,11 @@ export const freedomGuides: Guide[] = [
         blocks: [
           {
             type: "p",
-            text: "YouTube Claude search: tutorials, hacks, master Claude, beginners. Learning intent — watch for an hour, maybe try once.",
+            text: "YouTube Claude search autocompletes: best practices, tutorial, code tutorial, code agents, beginners. Learning intent — watch for an hour, maybe try Claude Code once on a demo repo.",
           },
           {
             type: "p",
-            text: "Google Claude search: 'how to make money with claude,' 'best claude plugins/skills/connectors.' Shopping intent — you want the setup that actually runs client work while you focus on other things.",
+            text: "Google Claude search after that: 'how to make money with claude,' 'best claude plugins/skills/connectors,' 'claude code best practices,' 'claude MCP.' Shopping intent — you want the setup that actually runs client work while you focus on other things.",
           },
           {
             type: "p",

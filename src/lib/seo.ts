@@ -54,6 +54,10 @@ export const SEO_DEFAULTS = {
     "best claude plugins",
     "best claude skills",
     "best claude connectors",
+    "claude best practices",
+    "claude code best practices",
+    "claude code agents",
+    "claude code tutorial",
     "work less freelance developer",
   ],
 } as const;

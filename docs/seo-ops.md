@@ -10,6 +10,7 @@ Manual steps that cannot be fully automated in the repo. Work through these afte
    - `/guides/developer-freedom-with-claude`
    - `/guides/make-money-with-claude-as-a-developer`
    - `/guides/best-claude-plugins-for-developers`
+   - `/guides/claude-code-after-tutorial`
    - `/guides/multiple-clients-parallel-claude`
 4. Validate homepage FAQ rich results: [Rich Results Test](https://search.google.com/test/rich-results)
 
@@ -29,6 +30,27 @@ In Search Console → **Performance** → filter by query. Track:
 - `claude plugin for developers`
 
 Also track landing page paths under `/guides/*` and `/compare/*`.
+
+## YouTube vs Google intent (Claude searches)
+
+YouTube autocomplete for "Claude" / "Claude Code" skews **learning**: best practices, tutorial, code tutorial, code agents, beginners. Do **not** try to outrank YouTube on those terms with video — we win the **second search** on Google.
+
+| Platform | Typical autocomplete | Intent | Our page |
+|---|---|---|---|
+| YouTube | claude tutorial, claude code tutorial | Learn UI, watch demos | — (distribution only) |
+| YouTube | claude best practices, claude code agents | Learn patterns | Bridge → `/guides/claude-code-after-tutorial` |
+| Google | best claude plugins/skills/connectors | Pick tools | `/guides/best-claude-plugins-for-developers` |
+| Google | how to make money with claude | Monetize workflow | `/guides/make-money-with-claude-as-a-developer` |
+| Google | claude code best practices, claude MCP | Post-tutorial setup | `/guides/claude-code-after-tutorial` |
+
+Track in Search Console (add to weekly list):
+
+- `claude best practices`
+- `claude code best practices`
+- `claude code agents`
+- `claude code tutorial` (expect low CTR — bridge copy should say "after the tutorial")
+
+Optional Phase 5: dev.to or YouTube description links back to `/guides/claude-code-after-tutorial` with `rel=canonical` on the written guide.
 
 ## Analytics (Google Analytics 4 — free)
 
