@@ -49,6 +49,12 @@ export const SEO_DEFAULTS = {
     "AI fatigue remote engineers",
     "context engineer plugin",
     "coolplugz",
+    "make money with claude",
+    "how to make money with claude",
+    "best claude plugins",
+    "best claude skills",
+    "best claude connectors",
+    "work less freelance developer",
   ],
 } as const;
 

@@ -7,7 +7,7 @@ import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
 import { MarketplaceNotifyTrigger } from "@/components/waitlist/MarketplaceNotifyDialog";
 import { cn } from "@/lib/utils";
 
-const managePluginsClassName =
+const navButtonClassName =
   "inline-flex items-center rounded-full border border-charcoal/25 bg-transparent px-4 py-2 text-sm font-normal text-charcoal-muted transition-colors hover:border-charcoal/40 hover:text-charcoal";
 
 export function Navbar({
@@ -19,8 +19,8 @@ export function Navbar({
   isWip?: boolean;
 }) {
   const pathname = usePathname();
-  const isManagePluginsView = pathname === "/app" || pathname.startsWith("/app/");
-  const showManagePlugins = !(isLoggedIn && isManagePluginsView);
+  const isLoginPage = pathname === "/login";
+  const isAccountPage = pathname === "/app" || pathname.startsWith("/app/");
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -43,17 +43,23 @@ export function Navbar({
         <Link href="/" className="text-charcoal">
           <CoolplugzLogo markSize={46} wordmarkClassName="text-[32px]" />
         </Link>
-        {showManagePlugins &&
+        {isLoggedIn && !isAccountPage && (
+          <Link href="/app" className={navButtonClassName}>
+            Manage Account
+          </Link>
+        )}
+        {!isLoggedIn &&
+          !isLoginPage &&
           (isWip ? (
             <MarketplaceNotifyTrigger
               source="navbar-manage-plugins"
-              className={managePluginsClassName}
+              className={navButtonClassName}
             >
-              Manage Plugins
+              LOGIN
             </MarketplaceNotifyTrigger>
           ) : (
-            <Link href="/login" className={managePluginsClassName}>
-              Manage Plugins
+            <Link href="/login" className={navButtonClassName}>
+              LOGIN
             </Link>
           ))}
       </nav>

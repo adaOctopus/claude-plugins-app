@@ -1,45 +1,43 @@
-// app/api/provision-coolplugz/route.ts
-// Call this AFTER payment is confirmed (e.g. from your Stripe/payment webhook or success page).
-// Returns the unique MCP URL for the buyer to paste into Claude.
-
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { getSession } from "@/lib/auth";
+import { provisionCoolplugzForUser } from "@/lib/provision-coolplugz";
 
-const COOLPLUGZ_API = process.env.COOLPLUGZ_API_URL!; // e.g. https://api.coolplugz.com
-const ADMIN_SECRET = process.env.COOLPLUGZ_ADMIN_SECRET!;
+const schema = z.object({
+  label: z.string().max(120).optional(),
+});
 
-export async function POST(req: NextRequest) {
-  const { email, tier, label } = await req.json();
+/** Mint unique MCP URL for a signed-in paid subscriber via api.coolplugz.com. */
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  if (!email) {
-    return NextResponse.json({ error: "email is required" }, { status: 400 });
+    const body = schema.parse(await request.json().catch(() => ({})));
+    const result = await provisionCoolplugzForUser(session.id, body.label);
+
+    if (!result) {
+      return NextResponse.json(
+        { error: "No active subscription found. Subscribe at /pricing first." },
+        { status: 403 }
+      );
+    }
+
+    return NextResponse.json({
+      mcpUrl: result.mcpUrl,
+      provisioned: result.provisioned,
+      access: "pro",
+      ...(result.expiresAt ? { expiresAt: result.expiresAt.toISOString() } : {}),
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    }
+    console.error("Provision error:", error);
+    const message =
+      error instanceof Error ? error.message : "Could not generate MCP URL";
+    return NextResponse.json({ error: message }, { status: 502 });
   }
-
-  const res = await fetch(`${COOLPLUGZ_API}/admin/keys`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${ADMIN_SECRET}`,
-    },
-    body: JSON.stringify({
-      email,
-      tier: tier || "pro",
-      label: label || null,
-    }),
-  });
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    return NextResponse.json(
-      { error: "Failed to provision plugin access", detail: err },
-      { status: 500 }
-    );
-  }
-
-  const data = await res.json();
-
-  // data = { key, tier, userId, mcpUrl, label }
-  return NextResponse.json({
-    mcpUrl: data.mcpUrl,
-    tier: data.tier,
-  });
 }

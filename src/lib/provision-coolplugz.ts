@@ -42,7 +42,7 @@ function getCoolplugzApiConfig() {
 function createDummyMcpUrl(input: ProvisionCoolplugzInput): string {
   const base =
     process.env.COOLPLUGZ_DUMMY_MCP_BASE?.replace(/\/$/, "") ??
-    "https://mcp.coolplugz.run";
+    "https://api.coolplugz.com/mcp";
   const slug = createHash("sha256")
     .update(
       `${input.email.toLowerCase().trim()}:${input.tier}:${input.ttlHours ?? "permanent"}`

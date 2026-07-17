@@ -51,11 +51,11 @@ export function LoginForm() {
     <Card className="w-full max-w-md">
       <CardHeader>
         <CardTitle className="text-2xl">
-          Manage your{" "}
-          <BrandWordmark className="text-[1.08em] align-baseline" />
+          Welcome to{" "}
+          <BrandWordmark className="text-[1.3em] align-baseline" />👋
         </CardTitle>
         <p className="text-sm text-charcoal-muted">
-          Login with a magic link✨
+          Login with the magic link✨
         </p>
       </CardHeader>
       <CardContent>

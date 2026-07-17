@@ -7,17 +7,22 @@ Manual steps that cannot be fully automated in the repo. Work through these afte
 1. Verify `www.coolplugz.com` at [Google Search Console](https://search.google.com/search-console) (DNS TXT recommended).
 2. Submit sitemap: `https://www.coolplugz.com/sitemap.xml`
 3. Request indexing for high-priority URLs:
-   - `/guides/ai-fatigue-for-developers`
-   - `/guides/context-switching-remote-engineering`
-   - `/guides/ai-fatigue-developers`
-   - `/guides/slack-anxiety-remote-developers`
+   - `/guides/developer-freedom-with-claude`
+   - `/guides/make-money-with-claude-as-a-developer`
+   - `/guides/best-claude-plugins-for-developers`
+   - `/guides/multiple-clients-parallel-claude`
 4. Validate homepage FAQ rich results: [Rich Results Test](https://search.google.com/test/rich-results)
 
 ## Weekly measurement (first 8 weeks)
 
 In Search Console → **Performance** → filter by query. Track:
 
-- `AI fatigue`
+- `how to make money with claude`
+- `make money with claude`
+- `best claude plugins`
+- `best claude skills`
+- `best claude connectors`
+- `claude automation`
 - `context switching remote work`
 - `slack anxiety remote work`
 - `LLM spirals`

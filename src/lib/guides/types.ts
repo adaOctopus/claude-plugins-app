@@ -9,7 +9,7 @@ export type GuideSection = {
   blocks: GuideBlock[];
 };
 
-export type GuideCategory = "guide" | "pillar" | "compare" | "persona";
+export type GuideCategory = "guide" | "pillar" | "compare" | "persona" | "freedom";
 
 export type Guide = {
   slug: string;

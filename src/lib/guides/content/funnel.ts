@@ -7,32 +7,78 @@ const ctaParagraph =
 export const funnelGuides: Guide[] = [
   {
     slug: "best-claude-plugins-for-developers",
-    title: "Best Claude Plugins for Developers (2026)",
-    metaTitle: "Best Claude Plugins for Developers",
+    title: "Best Claude Plugins, Skills & Connectors for Developers (2026)",
+    metaTitle: "Best Claude Plugins, Skills & Connectors",
     metaDescription:
-      "An honest list of Claude plugins and MCP servers for software engineers — including coolplugz for context, CI, and Slack inside Claude.",
-    keywords: ["best claude plugins", "claude plugin for developers", "claude MCP server"],
+      "Google search guide — best Claude plugins, skills, MCP connectors, and models for developers who want production automation, not another tutorial.",
+    keywords: [
+      "best claude plugins",
+      "best claude skills",
+      "best claude connectors",
+      "best claude MCP",
+      "claude plugin for developers",
+      "claude MCP server",
+    ],
     category: "guide",
     directAnswer:
-      "The best Claude plugins for developers connect your real stack — GitHub, Jira, Slack, Notion — and reduce manual context assembly. Look for MCP servers with OAuth, clear security boundaries, and workflows that match how you ship code, not generic chat enhancements.",
+      "When you Google 'best Claude plugins' or 'best Claude skills,' you are shopping — not learning. YouTube is full of Claude tutorials and hacks; Google results skew toward skills, plugins, connectors, and models. For client work, pick stack-connected MCP tools that pull real Jira/Slack/GitHub context — not generic chat that hallucinates without it.",
     relatedSlugs: [
       "claude-plugin-mcp-explained",
       "claude-plugin-for-contractors",
-      "ai-fatigue-for-developers",
+      "make-money-with-claude-as-a-developer",
+      "developer-freedom-with-claude",
+      "multiple-clients-parallel-claude",
     ],
     sections: [
       {
-        id: "criteria",
-        title: "How to evaluate Claude plugins",
+        id: "youtube-vs-google",
+        title: "YouTube Claude vs Google Claude searches",
+        blocks: [
+          {
+            type: "p",
+            text: "Search 'Claude' on YouTube and you get tutorials — learn Claude, master Claude, beginner guides, new hacks. That is learning intent. People watch, then go build.",
+          },
+          {
+            type: "p",
+            text: "On Google, 'best Claude' autocompletes to skills, plugins, connectors, models. 'How to make money with' autocompletes to Claude. That is shopping intent — you already decided Claude might be the lever and you want the right setup.",
+          },
+          {
+            type: "p",
+            text: "This page is for Google intent: what to actually install or connect once you are done watching videos.",
+          },
+        ],
+      },
+      {
+        id: "skills-plugins-connectors",
+        title: "Skills vs plugins vs MCP connectors — plain English",
         blocks: [
           {
             type: "ul",
             items: [
-              "Stack fit — does it connect tools you already use daily?",
-              "Context depth — read-only vs orchestrated multi-step runs",
-              "Security — OAuth scopes, no long-lived secrets in chat",
-              "Output model — drafts to approve vs autonomous merges",
-              "Remote workflow — Slack, standup, async status",
+              "Skills — packaged prompt + tool patterns inside Claude; good for repeatable tasks",
+              "Plugins / connectors — OAuth links to external apps (GitHub, Slack, Jira)",
+              "MCP servers — the open standard behind many connectors; HTTP URL you paste into Claude",
+              "Models — Sonnet vs Opus; matters less than whether context is real",
+            ],
+          },
+          {
+            type: "p",
+            text: "For client delivery, connectors and MCP beat skills alone — because skills without live ticket/PR/Slack data are generic and prone to confident wrong answers.",
+          },
+        ],
+      },
+      {
+        id: "criteria",
+        title: "How to evaluate (avoid generic hallucination)",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Stack fit — Jira, GitHub, Slack, Notion connected via OAuth, not copy-paste",
+              "Grounded context — pulls live ticket, PR, CI, thread data before generating",
+              "Approve/reject — you verify output; tool does not silently ship garbage",
+              "CI verification — code checked against real pipeline, not imagined green checks",
+              "Multi-client — separate workspaces if you bill more than one client",
             ],
           },
         ],
@@ -47,7 +93,7 @@ export const funnelGuides: Guide[] = [
           },
           {
             type: "p",
-            text: "Purpose-built for remote engineers: Jira + Slack + GitHub + Notion context, CRISPE prompt generation, merge-ready code with CI checked, Slack reply and standup drafts. Approve/reject inside Claude via MCP dashboard.",
+            text: "Purpose-built for developers who want to work less on client glue: Jira + Slack + GitHub + Notion context fed into CRISPE prompts, merge-ready code with CI checked, Slack and standup drafts. Approve/reject inside Claude — grounded in your stack, not generic chat.",
           },
           {
             type: "h3",
@@ -73,7 +119,7 @@ export const funnelGuides: Guide[] = [
         blocks: [
           {
             type: "p",
-            text: "If your pain is code completion in the IDE, start with Cursor or Copilot. If your pain is Slack + tickets + CI loops + prompt assembly across tools, a Claude MCP like coolplugz targets that layer honestly.",
+            text: "If you want to learn Claude, use YouTube. If you want to work less on client delivery with quality output, pick stack-connected MCP — coolplugz for Slack/tickets/CI orchestration, Cursor or Copilot for in-editor speed. They complement each other.",
           },
         ],
       },
@@ -103,7 +149,8 @@ export const funnelGuides: Guide[] = [
     relatedSlugs: [
       "context-switching-remote-engineering",
       "slack-anxiety-remote-developers",
-      "best-claude-plugins-for-developers",
+      "work-less-client-retainers-developer",
+      "developer-freedom-with-claude",
     ],
     pillarSlug: "context-switching-remote-engineering",
     sections: [

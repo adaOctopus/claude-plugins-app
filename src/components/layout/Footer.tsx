@@ -5,13 +5,13 @@ import { FooterNav } from "@/components/layout/FooterNav";
 export function Footer() {
   return (
     <footer className="border-t border-border bg-cream-warm px-4 py-16 md:px-8">
-      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-4">
-        <div className="md:col-span-1">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 md:grid-cols-4 md:gap-8">
+        <div>
           <Link href="/" className="inline-block text-charcoal">
             <CoolplugzLogo markSize={44} wordmarkClassName="text-[22px]" />
           </Link>
           <p className="mt-3 text-sm text-charcoal-muted">
-            Ship merge-ready code faster and stop switching between tools.
+            The modern developer&apos;s best friend.
           </p>
         </div>
 

@@ -6,7 +6,7 @@ import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 export const metadata = createPageMetadata({
   title: "Guides for Remote Developers",
   description:
-    "Engineer-to-engineer guides on AI fatigue, context switching, Slack anxiety, CI debugging, and Claude plugins — from coolplugz.",
+    "Guides for remote developers — make money with Claude, automations, AI fatigue, context switching, and client-work freedom.",
   path: "/guides",
   siteUrl: CANONICAL_SITE_URL,
 });
@@ -14,6 +14,7 @@ export const metadata = createPageMetadata({
 /** Guides index — SEO hub listing all evergreen reference pages. */
 export default function GuidesIndexPage() {
   const pillars = allGuides.filter((g) => g.category === "pillar");
+  const freedom = allGuides.filter((g) => g.category === "freedom");
   const guides = allGuides.filter((g) => g.category === "guide");
   const other = allGuides.filter((g) => g.category === "persona");
 
@@ -26,10 +27,11 @@ export default function GuidesIndexPage() {
         Guides for remote developers
       </h1>
       <p className="mt-4 max-w-2xl text-charcoal-muted">
-        Problem-first writeups on AI fatigue, context switching, Slack overload, CI loops, and
-        Claude plugins — written like engineer to engineer, not marketing fluff.
+        Make money with Claude, automate client work, AI fatigue, context switching — written
+        honestly for developers who want monthly cash without living in Slack.
       </p>
 
+      <GuideGroup title="Money, freedom & Claude automation" items={freedom} />
       <GuideGroup title="Start here — pillar guides" items={pillars} />
       <GuideGroup title="Topic guides" items={guides} />
       <GuideGroup title="Personas & categories" items={other} />

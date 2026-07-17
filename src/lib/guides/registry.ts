@@ -1,9 +1,15 @@
 import { phase1Guides } from "@/lib/guides/content/phase1";
 import { pillarGuides } from "@/lib/guides/content/pillars";
 import { comparePages, funnelGuides } from "@/lib/guides/content/funnel";
+import { freedomGuides } from "@/lib/guides/content/freedom";
 import type { ComparePage, Guide } from "@/lib/guides/types";
 
-export const allGuides: Guide[] = [...phase1Guides, ...pillarGuides, ...funnelGuides];
+export const allGuides: Guide[] = [
+  ...phase1Guides,
+  ...pillarGuides,
+  ...funnelGuides,
+  ...freedomGuides,
+];
 
 export const allComparePages: ComparePage[] = comparePages;
 
@@ -70,16 +76,21 @@ export function dedupeRelatedLinks(links: RelatedLink[]): RelatedLink[] {
 }
 
 export const footerGuideLinks = [
-  { href: "/guides/ai-fatigue-for-developers", label: "AI fatigue guide" },
-  { href: "/guides/context-switching-remote-engineering", label: "Context switching" },
+  { href: "/guides", label: "All resources" },
+  { href: "/guides/developer-freedom-with-claude", label: "Freedom with Claude" },
+  { href: "/guides/make-money-with-claude-as-a-developer", label: "Make money with Claude" },
   { href: "/guides/best-claude-plugins-for-developers", label: "Best Claude plugins" },
-  { href: "/guides", label: "All guides" },
 ] as const;
 
 export const northStarQueries = [
+  "how to make money with claude",
+  "make money with claude",
+  "best claude plugins",
+  "best claude skills",
+  "best claude connectors",
+  "claude automation",
+  "work less freelance developer",
   "AI fatigue",
   "context switching remote work",
-  "slack anxiety remote work",
-  "LLM spirals",
   "claude plugin for developers",
 ] as const;
