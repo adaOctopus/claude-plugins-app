@@ -154,6 +154,9 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/install` | Claude plugin install guide |
 | `/privacy` | Privacy Policy — CoolPlugz Inc. |
 | `/terms` | Terms of Service — CoolPlugz Inc. |
+| `/guides` | SEO guides hub |
+| `/guides/[slug]` | Topic guides (AI fatigue, context switching, etc.) |
+| `/compare/[slug]` | Product comparisons (Cursor, Copilot) |
 | `/app/upload` | Upload plugin form |
 | `/app/create` | Plugin builder wizard |
 
@@ -221,6 +224,12 @@ Recommended: [Vercel](https://vercel.com)
 3. Add all env vars from `.env.example`
 4. Configure Stripe webhook to production URL
 5. Verify Resend domain for email delivery
+
+## SEO
+
+Organic SEO content lives under `/guides/` (problem-aware articles) and `/compare/` (bottom-funnel comparisons). See [docs/seo-ops.md](docs/seo-ops.md) for Search Console, analytics, and MCP directory submission checklists.
+
+Optional analytics env var: `NEXT_PUBLIC_GA_MEASUREMENT_ID` (Google Analytics 4 — free).
 
 ## License
 

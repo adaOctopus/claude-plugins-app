@@ -176,6 +176,12 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
             )}
           </div>
           <p className="text-sm leading-relaxed text-charcoal-muted">{premiumPlan.description}</p>
+          <Link
+            href="/guides/claude-plugin-for-contractors"
+            className="inline-block text-xs font-medium text-[#0D9488] underline underline-offset-2"
+          >
+            Why contractors choose Premium →
+          </Link>
         </CardHeader>
 
         <CardContent className="flex-1">

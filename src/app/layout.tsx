@@ -4,6 +4,7 @@ import { brandWordmarkFont } from "@/lib/brand-font";
 import { NavbarShell } from "@/components/layout/NavbarShell";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Analytics } from "@/components/seo/Analytics";
 import { ClientProviders } from "@/components/providers/ClientProviders";
 import { ScrollToHashOnLoad } from "@/components/waitlist/ScrollToHashOnLoad";
 import { CANONICAL_SITE_URL, createRootMetadata } from "@/lib/seo";
@@ -44,6 +45,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-cream text-charcoal">
         <ClientProviders>
           <ScrollToHashOnLoad />
+          <Analytics />
           <JsonLd />
           <NavbarShell />
           <main className="flex-1">{children}</main>

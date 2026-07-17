@@ -12,6 +12,8 @@ import {
 import { startTierCheckout } from "@/lib/start-checkout";
 import { comingSoonHref, isWipSite } from "@/lib/site-mode";
 import { LoginLink } from "@/components/auth/LoginLink";
+import { brandWordmarkFont } from "@/lib/brand-font";
+import { cn } from "@/lib/utils";
 
 function resolveBilling(planParam: string | null): BillingPeriod {
   return planParam === "monthly" || planParam === "annual" ? planParam : "annual";
@@ -43,9 +45,16 @@ function PricingContent() {
     <div className="mx-auto max-w-6xl px-4 py-32 text-center md:px-8">
       <h1 className="font-serif text-4xl text-charcoal md:text-6xl">Pricing</h1>
         <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
-          Start with a <span className="font-medium text-charcoal">card-free 1-day trial</span> — we
-          mint a unique MCP URL on our server (expires after 24 hours). Pro and Premium are paid via
-          Stripe when you&apos;re ready to keep access.
+          Start with a <span className="font-medium text-charcoal">card-free 1-day trial </span>. <br /> After that, continue with Pro or Premium to become really{" "}
+          <span
+            className={cn(
+              brandWordmarkFont.className,
+              "brand-wordmark inline-block align-baseline text-[1.5em] leading-none text-charcoal"
+            )}
+          >
+            Cool
+          </span>
+          .
         </p>
 
       <div className="mt-8 flex justify-center">

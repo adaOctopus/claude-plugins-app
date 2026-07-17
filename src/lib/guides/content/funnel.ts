@@ -1,0 +1,303 @@
+import type { Guide } from "@/lib/guides/types";
+import type { ComparePage } from "@/lib/guides/types";
+
+const ctaParagraph =
+  "coolplugz is a Claude plugin (MCP) that gathers context from Jira, Slack, GitHub, and Notion, runs CRISPE-engineered prompts automatically, ships merge-ready code with CI checked, and drafts Slack replies — you only Approve & submit or Reject & redo.";
+
+export const funnelGuides: Guide[] = [
+  {
+    slug: "best-claude-plugins-for-developers",
+    title: "Best Claude Plugins for Developers (2026)",
+    metaTitle: "Best Claude Plugins for Developers",
+    metaDescription:
+      "An honest list of Claude plugins and MCP servers for software engineers — including coolplugz for context, CI, and Slack inside Claude.",
+    keywords: ["best claude plugins", "claude plugin for developers", "claude MCP server"],
+    category: "guide",
+    directAnswer:
+      "The best Claude plugins for developers connect your real stack — GitHub, Jira, Slack, Notion — and reduce manual context assembly. Look for MCP servers with OAuth, clear security boundaries, and workflows that match how you ship code, not generic chat enhancements.",
+    relatedSlugs: [
+      "claude-plugin-mcp-explained",
+      "claude-plugin-for-contractors",
+      "ai-fatigue-for-developers",
+    ],
+    sections: [
+      {
+        id: "criteria",
+        title: "How to evaluate Claude plugins",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Stack fit — does it connect tools you already use daily?",
+              "Context depth — read-only vs orchestrated multi-step runs",
+              "Security — OAuth scopes, no long-lived secrets in chat",
+              "Output model — drafts to approve vs autonomous merges",
+              "Remote workflow — Slack, standup, async status",
+            ],
+          },
+        ],
+      },
+      {
+        id: "list",
+        title: "Plugins worth knowing",
+        blocks: [
+          {
+            type: "h3",
+            text: "coolplugz Context Engineer",
+          },
+          {
+            type: "p",
+            text: "Purpose-built for remote engineers: Jira + Slack + GitHub + Notion context, CRISPE prompt generation, merge-ready code with CI checked, Slack reply and standup drafts. Approve/reject inside Claude via MCP dashboard.",
+          },
+          {
+            type: "h3",
+            text: "Official / community MCP servers",
+          },
+          {
+            type: "p",
+            text: "GitHub, filesystem, and database MCP servers are useful building blocks. They connect data but typically require you to prompt and iterate manually — good for power users, heavier on AI fatigue at scale.",
+          },
+          {
+            type: "h3",
+            text: "IDE-native AI (Cursor, Copilot)",
+          },
+          {
+            type: "p",
+            text: "Strong inside the editor, weaker on Slack/Jira orchestration and cross-tool standups. Complementary to Claude plugins — not a replacement for communication-layer automation.",
+          },
+        ],
+      },
+      {
+        id: "pick",
+        title: "Which should you pick?",
+        blocks: [
+          {
+            type: "p",
+            text: "If your pain is code completion in the IDE, start with Cursor or Copilot. If your pain is Slack + tickets + CI loops + prompt assembly across tools, a Claude MCP like coolplugz targets that layer honestly.",
+          },
+        ],
+      },
+    ],
+    productPitch: {
+      title: "Try coolplugz",
+      paragraphs: [
+        ctaParagraph,
+        "Start with a free 1-day trial — full Pro access, no credit card.",
+      ],
+    },
+  },
+  {
+    slug: "claude-plugin-for-contractors",
+    title: "Claude Plugin for Contractors - Multiple Clients, One Workflow",
+    metaTitle: "Claude Plugin for Contractors & Freelancers",
+    metaDescription:
+      "How freelance developers use coolplugz Premium to manage multiple client Slack, Jira, and GitHub contexts without constant switching.",
+    keywords: [
+      "freelance developer multiple clients tool",
+      "contractor developer workflow",
+      "claude plugin contractors",
+    ],
+    category: "persona",
+    directAnswer:
+      "Contractors juggling multiple clients face multiplied context switching — separate Slack workspaces, Jira boards, and repos. A Claude plugin with per-client context profiles and separate integrations reduces the mental tax of being five engineers at once.",
+    relatedSlugs: [
+      "context-switching-remote-engineering",
+      "slack-anxiety-remote-developers",
+      "best-claude-plugins-for-developers",
+    ],
+    pillarSlug: "context-switching-remote-engineering",
+    sections: [
+      {
+        id: "pain",
+        title: "The contractor context problem",
+        blocks: [
+          {
+            type: "p",
+            text: "Each client adds a full stack: channels, tickets, PR conventions, standup time, tone. Wrong context in a message or commit is expensive. You spend billable hours on coordination, not delivery.",
+          },
+          {
+            type: "ul",
+            items: [
+              "Morning: figure out which client is on fire",
+              "Midday: standup for client A while client B's CI fails",
+              "Afternoon: reconstruct deliverables for three git histories",
+              "Evening: Slack guilt from the workspace you neglected",
+            ],
+          },
+        ],
+      },
+      {
+        id: "diy",
+        title: "What contractors do manually today",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Separate browser profiles per client",
+              "Client-specific note docs with branch + ticket conventions",
+              "Calendar blocks labeled by client code name",
+              "Strict Slack schedule per workspace",
+            ],
+          },
+        ],
+      },
+      {
+        id: "premium",
+        title: "What Premium adds",
+        blocks: [
+          {
+            type: "p",
+            text: "coolplugz Premium is built for contractors: multiple client workspaces, separate Slack + Jira connections, isolated context profiles per client, and priority sync so runs do not bleed context across accounts.",
+          },
+        ],
+      },
+    ],
+    productPitch: {
+      title: "coolplugz Premium for contractors",
+      paragraphs: [
+        ctaParagraph,
+        "Premium includes everything in Pro plus multiple workspaces — designed for engineers who bill across clients, not one employer.",
+      ],
+    },
+  },
+];
+
+export const comparePages: ComparePage[] = [
+  {
+    slug: "coolplugz-vs-cursor",
+    title: "coolplugz vs Cursor — Honest Comparison for Developers",
+    metaTitle: "coolplugz vs Cursor",
+    metaDescription:
+      "coolplugz vs Cursor — different layers. Cursor is IDE-native AI; coolplugz is context + Slack + CI orchestration inside Claude.",
+    competitor: "Cursor",
+    directAnswer:
+      "Cursor is an AI-native IDE focused on code completion and in-editor agents. coolplugz is a Claude MCP plugin focused on gathering Jira/Slack/GitHub/Notion context, engineering prompts, shipping merge-ready PRs, and drafting Slack communications. They solve different parts of the workflow and can complement each other.",
+    relatedSlugs: [
+      "best-claude-plugins-for-developers",
+      "claude-plugin-mcp-explained",
+      "ci-failure-debugging-ai",
+    ],
+    sections: [
+      {
+        id: "cursor",
+        title: "What Cursor is good at",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Inline code completion and refactors in the editor",
+              "Codebase-aware chat tied to your local project",
+              "Fast iteration while you type",
+              "Developers who live in the IDE all day",
+            ],
+          },
+        ],
+      },
+      {
+        id: "coolplugz",
+        title: "What coolplugz is good at",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Cross-tool context — Jira tickets, Slack threads, Notion docs, GitHub CI",
+              "Automatic CRISPE prompt generation and background execution",
+              "Slack reply and standup drafts with approve/reject",
+              "Remote engineers drowning in async communication + CI loops",
+              "Working from Claude web or mobile with @ keywords",
+            ],
+          },
+        ],
+      },
+      {
+        id: "overlap",
+        title: "Where they overlap",
+        blocks: [
+          {
+            type: "p",
+            text: "Both can help ship code faster with AI. Cursor optimizes the typing surface. coolplugz optimizes everything before and after typing — context, communication, CI verification — inside Claude.",
+          },
+        ],
+      },
+      {
+        id: "choose",
+        title: "Which to choose",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Choose Cursor if IDE speed is your main bottleneck",
+              "Choose coolplugz if Slack, tickets, CI paste loops, and standup prep drain you",
+              "Use both if you want in-editor speed plus cross-stack orchestration in Claude",
+            ],
+          },
+        ],
+      },
+    ],
+    productPitch: {
+      title: "Try coolplugz alongside your IDE",
+      paragraphs: [ctaParagraph],
+    },
+  },
+  {
+    slug: "coolplugz-vs-github-copilot",
+    title: "coolplugz vs GitHub Copilot — What Each Actually Does",
+    metaTitle: "coolplugz vs GitHub Copilot",
+    metaDescription:
+      "coolplugz vs GitHub Copilot — Copilot assists in the editor; coolplugz orchestrates Jira, Slack, CI, and prompts inside Claude.",
+    competitor: "GitHub Copilot",
+    directAnswer:
+      "GitHub Copilot is an AI pair programmer inside your editor and GitHub.com. coolplugz is a Claude plugin that automates the full remote engineering loop — context from Jira and Slack, prompt engineering, merge-ready delivery, CI awareness, and communication drafts. Not the same category.",
+    relatedSlugs: [
+      "best-claude-plugins-for-developers",
+      "ci-failure-debugging-ai",
+      "slack-anxiety-remote-developers",
+    ],
+    sections: [
+      {
+        id: "copilot",
+        title: "What GitHub Copilot is good at",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Autocomplete and inline suggestions",
+              "Copilot Chat in IDE and github.com",
+              "PR summary assistance on GitHub",
+              "Teams already standardized on GitHub + VS Code",
+            ],
+          },
+        ],
+      },
+      {
+        id: "coolplugz",
+        title: "What coolplugz is good at",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Unified context across Jira, Slack, Notion — not just the repo",
+              "Background agent runs with approve/reject, not just suggestions",
+              "Slack-specific workflows — replies, standups, thread triage",
+              "Breaking LLM spirals by engineering prompts from live ticket + CI data",
+            ],
+          },
+        ],
+      },
+      {
+        id: "choose",
+        title: "Which to choose",
+        blocks: [
+          {
+            type: "p",
+            text: "Copilot is a coding assistant. coolplugz is a workflow orchestration layer for remote engineers who lose hours to tool switching and communication overhead. Many teams will use Copilot in the IDE and coolplugz in Claude for everything around the commit.",
+          },
+        ],
+      },
+    ],
+    productPitch: {
+      title: "Add coolplugz to your stack",
+      paragraphs: [ctaParagraph],
+    },
+  },
+];

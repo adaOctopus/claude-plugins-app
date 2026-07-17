@@ -6,6 +6,8 @@ import {
 } from "@/components/ui/accordion";
 import { BrandWordmark } from "@/components/brand/CoolplugzMark";
 import { Badge } from "@/components/ui/badge";
+import { GuideReadMoreLink } from "@/components/guides/GuideDocument";
+import { getGuideSlugForFaqQuestion } from "@/lib/guides/registry";
 
 export const faqItems = [
   {
@@ -54,9 +56,9 @@ export const faqItems = [
       "The plugin monitors Slack for action items and generates reply drafts and standup updates automatically — already written, ready to send. You Approve & submit to post them. No drafting, no prompting, no iteration.",
   },
   {
-    question: "What's included in the $17/month subscription?",
+    question: "What's included in the Pro subscription?",
     answer:
-      "The Context Engineer Claude plugin with full Jira, Slack, and GitHub integration; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; your CoolPlugz MCP URL to paste into Claude; and ongoing updates. No per-task prompt writing. No LLM iteration tax.",
+      "Pro starts at $17/month or $147/year (~35% savings). It includes the Context Engineer Claude plugin with full Jira, Slack, GitHub, and Notion integration; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; your CoolPlugz MCP URL to paste into Claude; and ongoing updates. No per-task prompt writing. No LLM iteration tax.",
   },
   {
     question: "Can I add more plugins later?",
@@ -82,12 +84,23 @@ export function FAQSection() {
         </p>
 
         <Accordion type="single" collapsible className="mt-10">
-          {faqItems.map((item, i) => (
-            <AccordionItem key={item.question} value={`item-${i}`}>
-              <AccordionTrigger>{item.question}</AccordionTrigger>
-              <AccordionContent>{item.answer}</AccordionContent>
-            </AccordionItem>
-          ))}
+          {faqItems.map((item, i) => {
+            const guideSlug = getGuideSlugForFaqQuestion(item.question);
+
+            return (
+              <AccordionItem key={item.question} value={`item-${i}`}>
+                <AccordionTrigger>{item.question}</AccordionTrigger>
+                <AccordionContent>
+                  <p>{item.answer}</p>
+                  {guideSlug ? (
+                    <p className="mt-3">
+                      <GuideReadMoreLink slug={guideSlug} />
+                    </p>
+                  ) : null}
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
         </Accordion>
       </div>
     </section>

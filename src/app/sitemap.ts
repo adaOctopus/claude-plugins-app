@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getCompareSlugs, getGuideSlugs } from "@/lib/guides/registry";
 import { MARKETPLACE_CATALOG } from "@/lib/marketplace-plugins";
 import { getSiteUrl } from "@/lib/seo";
 
@@ -12,6 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/login",
     "/privacy",
     "/terms",
+    "/guides",
+    ...getGuideSlugs().map((slug) => `/guides/${slug}`),
+    ...getCompareSlugs().map((slug) => `/compare/${slug}`),
     "/app",
     "/app/upload",
     "/app/create",

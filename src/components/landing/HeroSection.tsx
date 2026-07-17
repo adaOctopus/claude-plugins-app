@@ -16,8 +16,12 @@ export function HeroSection() {
             Ships<em className="font-medium italic"> merge-ready</em> code and handles your <em className="font-medium italic">Slack</em> too😎<br />
           </h1>
 
+          <p className="mt-2 text-xs font-medium uppercase tracking-wide text-charcoal-muted/90">
+            Claude plugin for developers
+          </p>
+
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
-            A plugin that gathers context from your entire stack, writes prompts, ships merge-ready code & handles your Slack too. 
+            Gathers context from your entire stack, writes your prompts, ships merge-ready code & handles your Slack too. 
           </p>
 
           <div className="mt-8">

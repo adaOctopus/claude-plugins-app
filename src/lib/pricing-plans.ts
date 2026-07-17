@@ -64,7 +64,7 @@ export const proPlan = {
   name: "Pro",
   badge: "Recommended",
   description:
-    "A Claude plugin that automates your engineering workflow and puts you in God Mode",
+    "A Claude plugin that automates your engineering workflow — context, code, CI, and Slack inside Claude.",
   features: proPlanFeatures,
   cta: "GET PRO",
 };

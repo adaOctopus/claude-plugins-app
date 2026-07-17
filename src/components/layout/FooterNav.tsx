@@ -22,6 +22,8 @@ const footerLinks: Record<string, FooterLinkItem[]> = {
     { label: "Create Plugin", notify: true, source: "footer-create" },
   ],
   Company: [
+    { href: "/guides", label: "Guides" },
+    { href: "/guides/ai-fatigue-for-developers", label: "AI fatigue guide" },
     { href: "/#faq", label: "FAQ" },
     { href: "/login", label: "Log in" },
     { href: "mailto:hello@coolplugz.dev", label: "Contact" },
