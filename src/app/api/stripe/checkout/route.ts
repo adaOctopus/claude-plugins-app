@@ -132,9 +132,7 @@ export async function POST(request: NextRequest) {
       ...(trialPeriodDays
         ? { subscription_data: { trial_period_days: trialPeriodDays } }
         : {}),
-      ...(customerId
-        ? { customer: customerId }
-        : { customer_creation: "always" }),
+      ...(customerId ? { customer: customerId } : {}),
     });
 
     return NextResponse.json({ url: checkoutSession.url });

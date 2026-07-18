@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { resolveProductHref } from "@/lib/site-mode";
+import { comingSoonHref, isWipSite } from "@/lib/site-mode";
 
 export type HeroCtaVariantMeta = {
   id: string;
@@ -10,4 +10,5 @@ export type HeroCtaVariantMeta = {
   Component: ComponentType;
 };
 
-export const HERO_CTA_HREF = resolveProductHref("/pricing");
+/** Hero CTA — scroll to on-page pricing, not the /pricing route. */
+export const HERO_CTA_HREF = isWipSite() ? comingSoonHref : "/#pricing";
