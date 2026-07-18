@@ -14,24 +14,75 @@ export function getStripe() {
   return stripeInstance;
 }
 
+/** Vercel env names (primary) with legacy fallbacks for local `.env.local`. */
+export function getCheckoutPriceId(plan: keyof typeof PRICING_AMOUNTS_MAP): string | undefined {
+  switch (plan) {
+    case "pro_monthly":
+      return (
+        process.env.STRIPE_PRO_MONTHLY ??
+        process.env.STRIPE_PRICE_PRO_MONTHLY ??
+        process.env.STRIPE_PRICE_MONTHLY
+      );
+    case "pro_annual":
+      return (
+        process.env.STRIPE_PRICE_PRO_ANNUAL ??
+        process.env.STRIPE_PRO_ANNUAL ??
+        process.env.STRIPE_PRICE_ANNUAL
+      );
+    case "premium_monthly":
+      return (
+        process.env.STRIPE_PREMIUM_MONTHLY ?? process.env.STRIPE_PRICE_PREMIUM_MONTHLY
+      );
+    case "premium_annual":
+      return (
+        process.env.STRIPE_PREMIUM_ANNUAL ?? process.env.STRIPE_PRICE_PREMIUM_ANNUAL
+      );
+    case "addon":
+      return process.env.STRIPE_PRICE_ADDON ?? process.env.STRIPE_ADDON;
+    default:
+      return undefined;
+  }
+}
+
+const PRICING_AMOUNTS_MAP = {
+  pro_monthly: PRICING_AMOUNTS.pro.monthly,
+  pro_annual: PRICING_AMOUNTS.pro.annual,
+  premium_monthly: PRICING_AMOUNTS.premium.monthly,
+  premium_annual: PRICING_AMOUNTS.premium.annual,
+  addon: 2.5,
+} as const;
+
 export const PRICING = {
   pro_monthly: {
     amount: PRICING_AMOUNTS.pro.monthly,
-    priceId: process.env.STRIPE_PRICE_MONTHLY ?? process.env.STRIPE_PRICE_PRO_MONTHLY,
+    get priceId() {
+      return getCheckoutPriceId("pro_monthly");
+    },
   },
   pro_annual: {
     amount: PRICING_AMOUNTS.pro.annual,
-    priceId: process.env.STRIPE_PRICE_ANNUAL ?? process.env.STRIPE_PRICE_PRO_ANNUAL,
+    get priceId() {
+      return getCheckoutPriceId("pro_annual");
+    },
   },
   premium_monthly: {
     amount: PRICING_AMOUNTS.premium.monthly,
-    priceId: process.env.STRIPE_PRICE_PREMIUM_MONTHLY,
+    get priceId() {
+      return getCheckoutPriceId("premium_monthly");
+    },
   },
   premium_annual: {
     amount: PRICING_AMOUNTS.premium.annual,
-    priceId: process.env.STRIPE_PRICE_PREMIUM_ANNUAL,
+    get priceId() {
+      return getCheckoutPriceId("premium_annual");
+    },
   },
-  addon: { amount: 2.5, priceId: process.env.STRIPE_PRICE_ADDON },
+  addon: {
+    amount: 2.5,
+    get priceId() {
+      return getCheckoutPriceId("addon");
+    },
+  },
 } as const;
 
 /** @deprecated Use pro_monthly / pro_annual — kept for backward-compatible callers. */

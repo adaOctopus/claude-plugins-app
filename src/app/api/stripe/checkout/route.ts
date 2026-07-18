@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
 import { z } from "zod";
 import { connectDB } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { isWipSite } from "@/lib/site-mode";
 import {
+  getCheckoutPriceId,
   getStripe,
-  PRICING,
   getOrCreateStripeCustomer,
   normalizeCheckoutPlan,
   parseSubscriptionFromCheckout,
@@ -28,6 +29,27 @@ const schema = z.object({
   trialPeriodDays: z.number().int().min(1).max(30).optional(),
 });
 
+const PRICE_ENV_HINTS: Record<string, string> = {
+  pro_monthly: "STRIPE_PRO_MONTHLY",
+  pro_annual: "STRIPE_PRICE_PRO_ANNUAL",
+  premium_monthly: "STRIPE_PREMIUM_MONTHLY",
+  premium_annual: "STRIPE_PREMIUM_ANNUAL",
+  addon: "STRIPE_PRICE_ADDON",
+};
+
+function checkoutErrorMessage(error: unknown): string {
+  if (error instanceof z.ZodError) {
+    return "Invalid plan selected";
+  }
+  if (error instanceof Stripe.errors.StripeError) {
+    return error.message;
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "Checkout failed";
+}
+
 /** Create Stripe Checkout — no sign-in required; Stripe collects email. */
 export async function POST(request: NextRequest) {
   try {
@@ -38,16 +60,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return NextResponse.json(
+        { error: "STRIPE_SECRET_KEY is not configured on the server." },
+        { status: 500 }
+      );
+    }
+
     const body = await request.json();
     const { plan, pluginId, trialPeriodDays } = schema.parse(body);
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const checkoutKey = normalizeCheckoutPlan(plan as CheckoutPlan);
 
-    const priceId = PRICING[checkoutKey]?.priceId;
+    const priceId = getCheckoutPriceId(checkoutKey);
     if (!priceId) {
+      const hint = PRICE_ENV_HINTS[checkoutKey] ?? "STRIPE_PRICE_*";
       return NextResponse.json(
         {
-          error: `Stripe price not configured for ${checkoutKey}. Set STRIPE_PRICE_* env vars.`,
+          error: `Stripe price not configured for ${checkoutKey}. Set ${hint} in Vercel env vars (live price IDs from Stripe Dashboard → Products), then redeploy.`,
         },
         { status: 500 }
       );
@@ -61,19 +91,23 @@ export async function POST(request: NextRequest) {
     let userId = "";
 
     if (session) {
-      await connectDB();
-      const user = await User.findById(session.id);
-      if (user) {
-        userId = user._id.toString();
-        customerId = await getOrCreateStripeCustomer(
-          user.email,
-          userId,
-          user.stripeCustomerId
-        );
-        if (!user.stripeCustomerId) {
-          user.stripeCustomerId = customerId;
-          await user.save();
+      try {
+        await connectDB();
+        const user = await User.findById(session.id);
+        if (user) {
+          userId = user._id.toString();
+          customerId = await getOrCreateStripeCustomer(
+            user.email,
+            userId,
+            user.stripeCustomerId
+          );
+          if (!user.stripeCustomerId) {
+            user.stripeCustomerId = customerId;
+            await user.save();
+          }
         }
+      } catch (dbError) {
+        console.warn("Checkout continuing without linked customer — DB unavailable:", dbError);
       }
     }
 
@@ -98,12 +132,14 @@ export async function POST(request: NextRequest) {
       ...(trialPeriodDays
         ? { subscription_data: { trial_period_days: trialPeriodDays } }
         : {}),
-      ...(customerId ? { customer: customerId } : {}),
+      ...(customerId
+        ? { customer: customerId }
+        : { customer_creation: "always" }),
     });
 
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
     console.error("Checkout error:", error);
-    return NextResponse.json({ error: "Checkout failed" }, { status: 500 });
+    return NextResponse.json({ error: checkoutErrorMessage(error) }, { status: 500 });
   }
 }
