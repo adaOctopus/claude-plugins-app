@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Suspense, useCallback, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { BillingToggle } from "@/components/pricing/BillingToggle";
@@ -68,6 +69,25 @@ function PricingContent() {
       <p className="mt-10 text-sm text-charcoal-muted">
         Already a customer? <LoginLink className="text-charcoal underline" redirect="/app" />
       </p>
+
+      <div className="mx-auto mt-12 max-w-2xl border-t border-border pt-8 text-sm text-charcoal-muted">
+        <p className="font-medium text-charcoal">Not ready to buy?</p>
+        <p className="mt-2">
+          Read how developers use Claude for client work —{" "}
+          <Link href="/guides/best-claude-plugins-for-developers" className="text-charcoal underline">
+            best Claude plugins
+          </Link>
+          ,{" "}
+          <Link href="/guides/make-money-with-claude-as-a-developer" className="text-charcoal underline">
+            make money with Claude
+          </Link>
+          , and{" "}
+          <Link href="/guides/claude-code-after-tutorial" className="text-charcoal underline">
+            post-tutorial setup
+          </Link>
+          .
+        </p>
+      </div>
     </div>
   );
 }

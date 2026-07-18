@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Accordion,
   AccordionContent,
@@ -102,6 +103,14 @@ export function FAQSection() {
             );
           })}
         </Accordion>
+
+        <p className="mt-8 text-center text-sm text-charcoal-muted">
+          Explore all topics in our{" "}
+          <Link href="/guides" className="font-medium text-charcoal underline underline-offset-2">
+            developer guides
+          </Link>{" "}
+          - passive income, automation, AI-era side effects, and Claude best practices.
+        </p>
       </div>
     </section>
   );

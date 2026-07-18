@@ -37,16 +37,37 @@ export function getGuideSlugForFaqQuestion(question: string): string | undefined
 
 type RelatedLink = { href: string; label: string };
 
-/** Build deduplicated related links for a guide page (pillar may overlap relatedSlugs). */
+const GUIDE_INDEX_LINK: RelatedLink = { href: "/guides", label: "All guides" };
+
+const CATEGORY_HUBS: Partial<Record<Guide["category"], { slug: string; label: string }>> = {
+  freedom: { slug: "developer-freedom-with-claude", label: "Developer freedom hub" },
+  persona: { slug: "claude-plugin-for-contractors", label: "Contractors & freelancers" },
+};
+
+const PILLAR_HUBS: Record<string, string> = {
+  "ai-fatigue-for-developers": "Prevent AI fatigue",
+  "context-switching-remote-engineering": "Avoid Context switching",
+};
+
+/** Sitewide high-intent guides — surfaced when not already linked. */
+const FUNNEL_BOOSTERS: RelatedLink[] = [
+  { href: "/guides/best-claude-plugins-for-developers", label: "Best Claude plugins" },
+  { href: "/guides/claude-code-after-tutorial", label: "After Claude tutorials" },
+  { href: "/guides/make-money-with-claude-as-a-developer", label: "Make money with Claude" },
+];
+
+function addRelatedLink(links: RelatedLink[], seen: Set<string>, href: string, label: string) {
+  if (seen.has(href)) return;
+  seen.add(href);
+  links.push({ href, label });
+}
+
+/** Build deduplicated related links for a guide page (pillar + category hubs + funnel boosters). */
 export function buildGuideRelatedLinks(guide: Guide): RelatedLink[] {
   const links: RelatedLink[] = [];
   const seen = new Set<string>();
 
-  const add = (href: string, label: string) => {
-    if (seen.has(href)) return;
-    seen.add(href);
-    links.push({ href, label });
-  };
+  const add = (href: string, label: string) => addRelatedLink(links, seen, href, label);
 
   for (const relatedSlug of guide.relatedSlugs) {
     const related = allGuides.find((g) => g.slug === relatedSlug);
@@ -58,9 +79,57 @@ export function buildGuideRelatedLinks(guide: Guide): RelatedLink[] {
   if (guide.pillarSlug) {
     const pillar = allGuides.find((g) => g.slug === guide.pillarSlug);
     if (pillar) {
-      add(`/guides/${pillar.slug}`, pillar.metaTitle);
+      add(`/guides/${pillar.slug}`, PILLAR_HUBS[pillar.slug] ?? pillar.metaTitle);
     }
   }
+
+  const categoryHub = CATEGORY_HUBS[guide.category];
+  if (categoryHub && guide.slug !== categoryHub.slug) {
+    add(`/guides/${categoryHub.slug}`, categoryHub.label);
+  }
+
+  if (guide.category === "pillar") {
+    const otherPillar = allGuides.find(
+      (g) => g.category === "pillar" && g.slug !== guide.slug
+    );
+    if (otherPillar) {
+      add(`/guides/${otherPillar.slug}`, PILLAR_HUBS[otherPillar.slug] ?? otherPillar.metaTitle);
+    }
+  }
+
+  for (const booster of FUNNEL_BOOSTERS) {
+    if (booster.href === `/guides/${guide.slug}`) continue;
+    if (seen.has(booster.href)) continue;
+    if (links.length >= 6) break;
+    add(booster.href, booster.label);
+  }
+
+  add(GUIDE_INDEX_LINK.href, GUIDE_INDEX_LINK.label);
+
+  return links;
+}
+
+/** Related links for compare pages — cross-link guides, other comparisons, and hub. */
+export function buildCompareRelatedLinks(page: ComparePage): RelatedLink[] {
+  const links: RelatedLink[] = [];
+  const seen = new Set<string>();
+  const add = (href: string, label: string) => addRelatedLink(links, seen, href, label);
+
+  for (const relatedSlug of page.relatedSlugs) {
+    const guide = allGuides.find((g) => g.slug === relatedSlug);
+    if (guide) {
+      add(`/guides/${guide.slug}`, guide.metaTitle);
+      continue;
+    }
+    const compare = allComparePages.find((p) => p.slug === relatedSlug);
+    if (compare) {
+      add(`/compare/${compare.slug}`, compare.metaTitle);
+    }
+  }
+
+  add("/guides/best-claude-plugins-for-developers", "Best Claude plugins");
+  add("/guides/claude-plugin-mcp-explained", "Claude MCP explained");
+  add(GUIDE_INDEX_LINK.href, GUIDE_INDEX_LINK.label);
 
   return links;
 }
@@ -80,6 +149,9 @@ export const footerGuideLinks = [
   { href: "/guides/developer-freedom-with-claude", label: "Freedom with Claude" },
   { href: "/guides/make-money-with-claude-as-a-developer", label: "Make money with Claude" },
   { href: "/guides/best-claude-plugins-for-developers", label: "Best Claude plugins" },
+  { href: "/guides/claude-code-after-tutorial", label: "Claude Code best practices" },
+  { href: "/guides/ai-fatigue-for-developers", label: "Prevent AI fatigue" },
+  { href: "/guides/context-switching-remote-engineering", label: "AvoidContext switching" },
 ] as const;
 
 export const northStarQueries = [

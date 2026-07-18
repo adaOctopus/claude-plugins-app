@@ -58,6 +58,28 @@ export function GuideDocument({
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-24 md:px-8 md:py-32">
+      <nav aria-label="Breadcrumb" className="mb-4 text-sm text-charcoal-muted">
+        <ol className="flex flex-wrap items-center gap-1.5">
+          <li>
+            <Link href="/" className="hover:text-charcoal">
+              Home
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <Link href="/guides" className="hover:text-charcoal">
+              Guides
+            </Link>
+          </li>
+          {category ? (
+            <>
+              <li aria-hidden="true">/</li>
+              <li className="capitalize text-charcoal">{category}</li>
+            </>
+          ) : null}
+        </ol>
+      </nav>
+
       {category ? (
         <Badge variant="secondary" className="mb-4 capitalize">
           {category}

@@ -54,6 +54,15 @@ export default function GuidesIndexPage() {
           </li>
         </ul>
       </div>
+
+      <div className="mt-8 flex flex-wrap gap-4 text-sm">
+        <Link href="/" className="text-charcoal-muted hover:text-charcoal">
+          Back to home
+        </Link>
+        <Link href="/pricing" className="text-charcoal-muted hover:text-charcoal">
+          Pricing
+        </Link>
+      </div>
     </div>
   );
 }

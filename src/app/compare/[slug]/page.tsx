@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GuideDocument } from "@/components/guides/GuideDocument";
 import { CompareArticleJsonLd } from "@/components/seo/CompareArticleJsonLd";
-import { allGuides, allComparePages, dedupeRelatedLinks, getCompareBySlug, getCompareSlugs } from "@/lib/guides/registry";
+import { buildCompareRelatedLinks, getCompareBySlug, getCompareSlugs } from "@/lib/guides/registry";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
 type PageProps = {
@@ -32,21 +32,7 @@ export default async function ComparePage({ params }: PageProps) {
   const page = getCompareBySlug(slug);
   if (!page) notFound();
 
-  const relatedLinks = dedupeRelatedLinks(
-    page.relatedSlugs
-      .map((relatedSlug) => {
-        const guide = allGuides.find((g) => g.slug === relatedSlug);
-        if (guide) {
-          return { href: `/guides/${guide.slug}`, label: guide.metaTitle };
-        }
-        const compare = allComparePages.find((p) => p.slug === relatedSlug);
-        if (compare) {
-          return { href: `/compare/${compare.slug}`, label: compare.metaTitle };
-        }
-        return null;
-      })
-      .filter((link): link is { href: string; label: string } => link !== null)
-  ).slice(0, 4);
+  const relatedLinks = buildCompareRelatedLinks(page);
 
   return (
     <>
