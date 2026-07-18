@@ -14,6 +14,24 @@ export function getStripe() {
   return stripeInstance;
 }
 
+/** Subscription ID from Invoice — supports Stripe API before/after basil (parent.subscription_details). */
+export function getInvoiceSubscriptionId(invoice: Stripe.Invoice): string | null {
+  const parentSubscription = invoice.parent?.subscription_details?.subscription;
+  if (typeof parentSubscription === "string") return parentSubscription;
+  if (parentSubscription && typeof parentSubscription === "object" && "id" in parentSubscription) {
+    return parentSubscription.id;
+  }
+
+  const legacy = (invoice as Stripe.Invoice & {
+    subscription?: string | Stripe.Subscription | null;
+  }).subscription;
+
+  if (typeof legacy === "string") return legacy;
+  if (legacy && typeof legacy === "object" && "id" in legacy) return legacy.id;
+
+  return null;
+}
+
 /** Vercel env names (primary) with legacy fallbacks for local `.env.local`. */
 export function getCheckoutPriceId(plan: keyof typeof PRICING_AMOUNTS_MAP): string | undefined {
   switch (plan) {

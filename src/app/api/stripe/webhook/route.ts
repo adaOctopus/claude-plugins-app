@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { connectDB } from "@/lib/db";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, getInvoiceSubscriptionId } from "@/lib/stripe";
 import { Plugin } from "@/models/Plugin";
 import { Subscription } from "@/models/Subscription";
 import { Purchase } from "@/models/Purchase";
@@ -201,10 +201,7 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
     return;
   }
 
-  const subscriptionId =
-    typeof invoice.subscription === "string"
-      ? invoice.subscription
-      : invoice.subscription?.id;
+  const subscriptionId = getInvoiceSubscriptionId(invoice);
 
   if (!subscriptionId) return;
 

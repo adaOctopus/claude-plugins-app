@@ -1,6 +1,6 @@
 import type Stripe from "stripe";
 import { connectDB } from "@/lib/db";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, getInvoiceSubscriptionId } from "@/lib/stripe";
 import { PartnerPromo, type IPartnerPromo } from "@/models/PartnerPromo";
 import { PartnerPromoRedemption } from "@/models/PartnerPromoRedemption";
 
@@ -60,7 +60,10 @@ export async function createPartnerPromo(input: CreatePartnerPromoInput): Promis
   let promotionCode: Stripe.PromotionCode;
   try {
     promotionCode = await stripe.promotionCodes.create({
-      coupon: coupon.id,
+      promotion: {
+        type: "coupon",
+        coupon: coupon.id,
+      },
       code,
       active: true,
       metadata: {
@@ -173,7 +176,26 @@ export async function recordPartnerPromoRedemption(input: RecordRedemptionInput)
     input.promo.revenueSharePercent
   );
 
-  return redemption;
+  return PartnerPromoRedemption.create({
+    partnerPromoId: input.promo._id,
+    code: input.promo.code,
+    partnerName: input.promo.partnerName,
+    userId: input.userId,
+    userEmail: input.userEmail,
+    stripeSessionId: input.stripeSessionId,
+    stripeInvoiceId: input.stripeInvoiceId,
+    stripeSubscriptionId: input.stripeSubscriptionId,
+    eventType: input.eventType,
+    grossAmount: input.grossAmount,
+    discountAmount: input.discountAmount,
+    netAmount: input.netAmount,
+    discountPercent: input.promo.discountPercent,
+    revenueSharePercent: input.promo.revenueSharePercent,
+    partnerShareAmount,
+    tier: input.tier,
+    plan: input.plan,
+    currency: input.currency ?? "usd",
+  });
 }
 
 /** Resolve promo from checkout session metadata or Stripe promotion code id. */
@@ -240,10 +262,7 @@ export async function recordInvoicePartnerRedemption(
     promo,
     userEmail: invoice.customer_email ?? undefined,
     stripeInvoiceId: invoice.id,
-    stripeSubscriptionId:
-      typeof invoice.subscription === "string"
-        ? invoice.subscription
-        : invoice.subscription?.id,
+    stripeSubscriptionId: getInvoiceSubscriptionId(invoice) ?? undefined,
     eventType: "renewal",
     grossAmount: grossCents / 100,
     discountAmount: discountCents / 100,
