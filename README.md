@@ -171,6 +171,8 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/api/stripe/cancel-subscription` | POST | Cancel subscription at period end |
 | `/api/stripe/portal` | POST | Customer Portal URL |
 | `/api/stripe/webhook` | POST | Stripe event handler |
+| `/api/promo/validate` | GET | Validate partner promo code |
+| `/api/admin/partner-promos` | GET/POST/PATCH | Create/list/deactivate influencer promos (admin) |
 | `/api/plugins` | GET/POST | List / upload plugins |
 | `/api/plugins/builder` | POST | Create/publish builder drafts |
 | `/api/provision-coolplugz` | POST | Mint MCP URL (paid subscribers) |
@@ -184,6 +186,7 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 - **Premium**: $47/mo or $387/yr — multiple workspaces
 - **Add-ons**: $2.50/mo per extra marketplace plugin
 - **Creator fee**: 1% platform commission (manual payouts)
+- **Partner promos**: influencer codes (default 25% customer discount + 25% revenue share tracked in Mongo) — see `docs/partner-promos.md`
 
 Free trial flow: pricing → magic-link login → `/premium/unique-mcp-url?start=trial` → `POST /api/provision-coolplugz/free-trial` → CoolPlugz admin API with `tier: "trial"` and `ttlHours: 24`.
 

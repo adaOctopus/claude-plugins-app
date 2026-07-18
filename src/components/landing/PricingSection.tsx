@@ -1,14 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { BillingToggle } from "@/components/pricing/BillingToggle";
 import { PricingCards } from "@/components/pricing/PricingCards";
+import { PromoCodeInput } from "@/components/pricing/PromoCodeInput";
+import { PromoCodeProvider } from "@/components/pricing/PromoCodeProvider";
 import type { BillingPeriod } from "@/lib/pricing-plans";
+
+function PricingSectionContent() {
+  const [billing, setBilling] = useState<BillingPeriod>("annual");
+
+  return (
+    <>
+      <div className="mt-8 flex justify-center">
+        <BillingToggle value={billing} onChange={setBilling} />
+      </div>
+
+      <div className="mt-12">
+        <PricingCards billing={billing} />
+      </div>
+
+      <PromoCodeInput />
+    </>
+  );
+}
 
 /** Pricing section — heading, billing toggle, Free + Pro + Premium cards. */
 export function PricingSection() {
-  const [billing, setBilling] = useState<BillingPeriod>("annual");
-
   return (
     <section id="pricing" className="scroll-mt-28 border-t border-border/60 px-4 pt-12 pb-20 md:px-8 md:pt-14 md:pb-24">
       <div className="mx-auto max-w-6xl text-center">
@@ -18,13 +36,11 @@ export function PricingSection() {
           unique MCP URL from our server. Upgrade to Pro or Premium to keep access.
         </p>
 
-        <div className="mt-8 flex justify-center">
-          <BillingToggle value={billing} onChange={setBilling} />
-        </div>
-
-        <div className="mt-12">
-          <PricingCards billing={billing} />
-        </div>
+        <Suspense fallback={null}>
+          <PromoCodeProvider>
+            <PricingSectionContent />
+          </PromoCodeProvider>
+        </Suspense>
       </div>
     </section>
   );

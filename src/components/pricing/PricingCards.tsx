@@ -19,6 +19,7 @@ import { freeTrialLoginRedirect } from "@/lib/mcp-setup-paths";
 import { startTierCheckout } from "@/lib/start-checkout";
 import { isWipSite, comingSoonHref, resolveProductHref } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
+import { useOptionalPromoCode } from "@/components/pricing/PromoCodeProvider";
 
 type PricingCardsProps = {
   billing: BillingPeriod;
@@ -55,6 +56,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
   const proPrice = tierPricing.pro[billing];
   const premiumPrice = tierPricing.premium[billing];
   const freeTrialHref = resolveProductHref(freeTrialLoginRedirect());
+  const promo = useOptionalPromoCode();
 
   async function handleCheckout(tier: PaidTier) {
     if (isWipSite()) {
@@ -66,7 +68,9 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
       await onCheckout(tier, billing);
       return;
     }
-    await startTierCheckout(tier, billing);
+    await startTierCheckout(tier, billing, undefined, {
+      promoCode: promo?.promoCode ?? null,
+    });
   }
 
   function isLoading(tier: PaidTier) {

@@ -14,6 +14,7 @@ import {
 } from "@/lib/stripe";
 import { User } from "@/models/User";
 import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
+import { findActivePartnerPromo, normalizePromoCode } from "@/lib/partner-promos";
 
 const schema = z.object({
   plan: z.enum([
@@ -27,6 +28,7 @@ const schema = z.object({
   ]),
   pluginId: z.string().optional(),
   trialPeriodDays: z.number().int().min(1).max(30).optional(),
+  promoCode: z.string().min(2).max(40).optional(),
 });
 
 const PRICE_ENV_HINTS: Record<string, string> = {
@@ -68,7 +70,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { plan, pluginId, trialPeriodDays } = schema.parse(body);
+    const { plan, pluginId, trialPeriodDays, promoCode: rawPromoCode } = schema.parse(body);
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const checkoutKey = normalizeCheckoutPlan(plan as CheckoutPlan);
 
@@ -86,6 +88,14 @@ export async function POST(request: NextRequest) {
     const stripe = getStripe();
     const session = await getSession();
     const { tier, billing } = parseSubscriptionFromCheckout(plan as CheckoutPlan);
+
+    let partnerPromo = null;
+    if (rawPromoCode) {
+      partnerPromo = await findActivePartnerPromo(normalizePromoCode(rawPromoCode));
+      if (!partnerPromo) {
+        return NextResponse.json({ error: "Invalid or expired promo code" }, { status: 400 });
+      }
+    }
 
     let customerId: string | undefined;
     let userId = "";
@@ -128,11 +138,21 @@ export async function POST(request: NextRequest) {
         checkoutKey,
         pluginId: pluginId || "",
         trialPeriodDays: trialPeriodDays ? String(trialPeriodDays) : "",
+        ...(partnerPromo
+          ? {
+              promoCode: partnerPromo.code,
+              partnerPromoId: partnerPromo._id.toString(),
+              partnerName: partnerPromo.partnerName,
+            }
+          : {}),
       },
       ...(trialPeriodDays
         ? { subscription_data: { trial_period_days: trialPeriodDays } }
         : {}),
       ...(customerId ? { customer: customerId } : {}),
+      ...(partnerPromo
+        ? { discounts: [{ promotion_code: partnerPromo.stripePromotionCodeId }] }
+        : {}),
     });
 
     return NextResponse.json({ url: checkoutSession.url });

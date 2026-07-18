@@ -12,6 +12,12 @@ import {
 import { sendPurchaseConfirmationEmail } from "@/lib/email";
 import { resolveUserFromCheckoutSession } from "@/lib/checkout-user";
 import { provisionCoolplugzForUser } from "@/lib/provision-coolplugz";
+import {
+  recordCheckoutPartnerRedemption,
+  recordInvoicePartnerRedemption,
+  resolvePromoFromCheckoutSession,
+} from "@/lib/partner-promos";
+import { PartnerPromo } from "@/models/PartnerPromo";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -49,6 +55,11 @@ export async function POST(request: NextRequest) {
         await syncSubscription(subscription);
         break;
       }
+      case "invoice.paid": {
+        const invoice = event.data.object as Stripe.Invoice;
+        await handleInvoicePaid(invoice);
+        break;
+      }
       default:
         break;
     }
@@ -70,6 +81,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
 
   const userId = user._id.toString();
   const amount = (session.amount_total || 0) / 100;
+  const partnerPromo = await resolvePromoFromCheckoutSession(session);
 
   if (plan === "monthly" || plan === "annual") {
     const flagship = await Plugin.findOne({ isFlagship: true, status: "published" });
@@ -85,12 +97,27 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     if (session.subscription && typeof session.subscription === "string") {
       const stripe = getStripe();
       const sub = await stripe.subscriptions.retrieve(session.subscription);
-      await upsertSubscription(userId, sub, plan, tier, flagship?._id);
+      await upsertSubscription(userId, sub, plan, tier, flagship?._id, partnerPromo);
 
       try {
         await provisionCoolplugzForUser(userId);
       } catch (error) {
         console.error("MCP provision after webhook checkout failed:", error);
+      }
+    }
+
+    if (partnerPromo) {
+      try {
+        await recordCheckoutPartnerRedemption(
+          session,
+          partnerPromo,
+          userId,
+          user.email,
+          tier,
+          plan
+        );
+      } catch (error) {
+        console.error("Partner promo redemption record failed:", error);
       }
     }
 
@@ -138,7 +165,8 @@ async function upsertSubscription(
   stripeSub: Stripe.Subscription,
   plan: "monthly" | "annual",
   tier: "pro" | "premium" = "pro",
-  flagshipId?: { toString(): string }
+  flagshipId?: { toString(): string },
+  partnerPromo?: { _id: { toString(): string }; code: string; partnerName: string } | null
 ) {
   const includedIds = flagshipId ? [flagshipId] : [];
   const periodEnd =
@@ -156,9 +184,41 @@ async function upsertSubscription(
       status: stripeSub.status as "active" | "canceled" | "past_due" | "trialing" | "incomplete",
       currentPeriodEnd: new Date(periodEnd * 1000),
       includedPluginIds: includedIds,
+      ...(partnerPromo
+        ? {
+            partnerPromoId: partnerPromo._id,
+            partnerPromoCode: partnerPromo.code,
+            partnerName: partnerPromo.partnerName,
+          }
+        : {}),
     },
     { upsert: true, new: true }
   );
+}
+
+async function handleInvoicePaid(invoice: Stripe.Invoice) {
+  if (invoice.billing_reason === "subscription_create") {
+    return;
+  }
+
+  const subscriptionId =
+    typeof invoice.subscription === "string"
+      ? invoice.subscription
+      : invoice.subscription?.id;
+
+  if (!subscriptionId) return;
+
+  const sub = await Subscription.findOne({ stripeSubscriptionId: subscriptionId });
+  if (!sub?.partnerPromoId) return;
+
+  const promo = await PartnerPromo.findById(sub.partnerPromoId);
+  if (!promo) return;
+
+  try {
+    await recordInvoicePartnerRedemption(invoice, promo, sub.tier, sub.plan);
+  } catch (error) {
+    console.error("Partner promo renewal record failed:", error);
+  }
 }
 
 async function syncSubscription(stripeSub: Stripe.Subscription) {

@@ -19,6 +19,9 @@ export interface ISubscription {
   currentPeriodEnd: Date;
   includedPluginIds: mongoose.Types.ObjectId[];
   addonPluginIds: mongoose.Types.ObjectId[];
+  partnerPromoId?: mongoose.Types.ObjectId;
+  partnerPromoCode?: string;
+  partnerName?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -37,6 +40,9 @@ const SubscriptionSchema = new Schema<ISubscription>(
     currentPeriodEnd: { type: Date, required: true },
     includedPluginIds: [{ type: Schema.Types.ObjectId, ref: "Plugin" }],
     addonPluginIds: [{ type: Schema.Types.ObjectId, ref: "Plugin" }],
+    partnerPromoId: { type: Schema.Types.ObjectId, ref: "PartnerPromo" },
+    partnerPromoCode: String,
+    partnerName: String,
   },
   { timestamps: true }
 );

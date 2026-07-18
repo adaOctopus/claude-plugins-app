@@ -8,6 +8,7 @@ import type { BillingPeriod, PaidTier } from "@/lib/pricing-plans";
 import { getPaidPlanKey } from "@/lib/pricing-plans";
 import type { CheckoutPlan } from "@/lib/stripe";
 import { cn } from "@/lib/utils";
+import { useOptionalPromoCode } from "@/components/pricing/PromoCodeProvider";
 
 type StripeCheckoutButtonProps = {
   /** Legacy direct checkout key (e.g. pro_annual, monthly). */
@@ -37,6 +38,7 @@ export function StripeCheckoutButton({
   loadingLabel = "Redirecting...",
 }: StripeCheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
+  const promo = useOptionalPromoCode();
 
   async function handleClick() {
     if (isWipSite()) {
@@ -46,10 +48,14 @@ export function StripeCheckoutButton({
 
     setLoading(true);
     try {
+      const checkoutOptions = {
+        trialPeriodDays,
+        promoCode: promo?.promoCode ?? null,
+      };
       if (plan) {
-        await startStripeCheckout(plan, pluginId, { trialPeriodDays });
+        await startStripeCheckout(plan, pluginId, checkoutOptions);
       } else {
-        await startTierCheckout(tier, billing, pluginId, { trialPeriodDays });
+        await startTierCheckout(tier, billing, pluginId, checkoutOptions);
       }
     } catch (error) {
       alert(error instanceof Error ? error.message : "Checkout failed");

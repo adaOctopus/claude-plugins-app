@@ -6,7 +6,7 @@ import { isWipSite, comingSoonHref } from "@/lib/site-mode";
 export async function startStripeCheckout(
   plan: CheckoutPlan,
   pluginId?: string,
-  options?: { trialPeriodDays?: number }
+  options?: { trialPeriodDays?: number; promoCode?: string | null }
 ): Promise<void> {
   if (isWipSite()) {
     window.location.href = comingSoonHref;
@@ -20,6 +20,7 @@ export async function startStripeCheckout(
       plan,
       pluginId,
       trialPeriodDays: options?.trialPeriodDays,
+      ...(options?.promoCode ? { promoCode: options.promoCode } : {}),
     }),
   });
 
@@ -37,7 +38,7 @@ export async function startTierCheckout(
   tier: PaidTier,
   billing: BillingPeriod,
   pluginId?: string,
-  options?: { trialPeriodDays?: number }
+  options?: { trialPeriodDays?: number; promoCode?: string | null }
 ): Promise<void> {
   return startStripeCheckout(getPaidPlanKey(tier, billing), pluginId, options);
 }
