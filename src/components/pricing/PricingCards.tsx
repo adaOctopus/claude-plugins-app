@@ -1,15 +1,17 @@
 "use client";
 
+import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton";
 import { PriceDisplay } from "@/components/pricing/PriceDisplay";
+import { EnterpriseContactDialog } from "@/components/pricing/EnterpriseContactDialog";
 import {
+  enterprisePlan,
   freePlan,
   getPaidPlanKey,
-  premiumPlan,
   proPlan,
   tierPricing,
   type BillingPeriod,
@@ -27,34 +29,100 @@ type PricingCardsProps = {
   loadingPlan?: string | null;
 };
 
-function PlanBadge({
-  label,
-  variant,
-}: {
-  label: string;
-  variant: "muted" | "recommended" | "premium";
-}) {
+type PlanBadgeVariant = "muted" | "recommended" | "outline";
+
+function PlanBadge({ label, variant }: { label: string; variant: PlanBadgeVariant }) {
   return (
     <span
       className={cn(
-        "rounded-full px-2.5 py-0.5 text-xs font-medium",
+        "inline-flex w-fit max-w-full items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
         variant === "recommended" && "bg-charcoal text-cream",
-        variant === "premium" && "border border-border bg-white text-charcoal-muted",
+        variant === "outline" && "border border-border bg-white text-charcoal-muted",
         variant === "muted" && "bg-accent-sand text-charcoal-muted"
       )}
     >
       {variant === "recommended" && (
-        <Sparkles className="mr-1 inline h-3 w-3 -translate-y-px" aria-hidden />
+        <Sparkles className="mr-1 h-3 w-3 shrink-0 -translate-y-px" aria-hidden />
       )}
       {label}
     </span>
   );
 }
 
-/** Free, Pro (recommended), and Premium pricing cards. */
+function FeatureList({ header, features }: { header: string; features: readonly string[] }) {
+  return (
+    <div>
+      <p className="text-sm text-charcoal-muted">{header}</p>
+      <ul className="mt-3 space-y-2.5">
+        {features.map((feature) => (
+          <li key={feature} className="flex items-start gap-2 text-sm leading-snug">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+type PricingPlanCardProps = {
+  badge?: { label: string; variant: PlanBadgeVariant };
+  title: string;
+  priceSlot: ReactNode;
+  tagline?: ReactNode;
+  featureHeader: string;
+  features: readonly string[];
+  footer: ReactNode;
+  highlighted?: boolean;
+};
+
+/** Brilliance-style pricing card — left-aligned header, progressive feature list, CTA pinned bottom. */
+function PricingPlanCard({
+  badge,
+  title,
+  priceSlot,
+  tagline,
+  featureHeader,
+  features,
+  footer,
+  highlighted = false,
+}: PricingPlanCardProps) {
+  return (
+    <Card
+      className={cn(
+        "flex h-full flex-col text-left",
+        highlighted
+          ? "border-2 border-charcoal bg-cream shadow-[0_12px_40px_rgba(45,41,38,0.12)]"
+          : "border-border bg-white"
+      )}
+    >
+      <CardHeader className="space-y-3 pb-0 text-left">
+        <div className="flex min-h-[1.75rem] items-center justify-start">
+          {badge ? <PlanBadge {...badge} /> : null}
+        </div>
+
+        <CardTitle className="font-serif text-2xl">{title}</CardTitle>
+
+        <div>{priceSlot}</div>
+
+        {tagline ? (
+          <div className="text-sm leading-relaxed text-charcoal-muted">{tagline}</div>
+        ) : null}
+      </CardHeader>
+
+      <CardContent className="flex flex-1 flex-col pt-5">
+        <FeatureList header={featureHeader} features={features} />
+      </CardContent>
+
+      <CardFooter className="mt-auto pt-6">{footer}</CardFooter>
+    </Card>
+  );
+}
+
+/** Free, Pro, and Enterprise pricing cards. */
 export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsProps) {
+  const [enterpriseOpen, setEnterpriseOpen] = useState(false);
   const proPrice = tierPricing.pro[billing];
-  const premiumPrice = tierPricing.premium[billing];
   const freeTrialHref = resolveProductHref(freeTrialLoginRedirect());
   const promo = useOptionalPromoCode();
 
@@ -78,144 +146,89 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl items-stretch gap-6 lg:grid-cols-3 lg:gap-5">
-      {/* Free 1-day trial — card-free, server-managed MCP URL */}
-      <Card className="flex h-full flex-col border-border/80 bg-white/60">
-        <CardHeader className="space-y-3 pb-4">
-          <div className="flex min-h-[1.75rem] items-center">
-            {freePlan.badge && <PlanBadge label={freePlan.badge} variant="muted" />}
-          </div>
-          <CardTitle className="font-serif text-2xl">{freePlan.name}</CardTitle>
-          <div>
-            <PriceDisplay amount={freePlan.amount} />
-            <span className="text-charcoal-muted">{freePlan.period}</span>
-            <p className="mt-2 text-sm text-charcoal-muted">{freePlan.tagline}</p>
-            <p className="mt-1 text-xs font-medium text-[#0D9488]">{freePlan.durationNote}</p>
-          </div>
-        </CardHeader>
-
-        <CardContent className="flex-1">
-          <ul className="space-y-3">
-            {freePlan.features.map((feature) => (
-              <li key={feature} className="flex items-start gap-2 text-sm">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-
-        <CardFooter>
-          <Button className="w-full" variant="outline" asChild>
-            <Link href={freeTrialHref}>{freePlan.cta}</Link>
-          </Button>
-        </CardFooter>
-      </Card>
-
-      {/* Pro — recommended, center highlight */}
-      <Card
-        className={cn(
-          "relative flex h-full flex-col overflow-hidden",
-          "border-2 border-charcoal bg-cream",
-          "shadow-[0_12px_40px_rgba(45,41,38,0.14)]",
-          "lg:z-10 lg:-my-3 lg:scale-[1.04]"
-        )}
-      >
-        <div className="absolute inset-x-0 top-0 h-1 bg-charcoal" aria-hidden />
-        <CardHeader className="space-y-3 pb-4 pt-6">
-          <div className="flex min-h-[1.75rem] items-center">
-            {proPlan.badge && <PlanBadge label={proPlan.badge} variant="recommended" />}
-          </div>
-          <CardTitle className="font-serif text-2xl">{proPlan.name}</CardTitle>
-          <div>
-            <PriceDisplay amount={proPrice.amount} />
-            <span className="text-charcoal-muted">{proPrice.period}</span>
-            {"savings" in proPrice && proPrice.savings && (
-              <p className="mt-1 text-xs font-medium text-emerald-700">{proPrice.savings}</p>
-            )}
-          </div>
-          <p className="text-sm leading-relaxed text-charcoal-muted">{proPlan.description}</p>
-        </CardHeader>
-
-        <CardContent className="flex-1">
-          <ul className="space-y-3">
-            {proPlan.features.map((feature) => (
-              <li key={feature} className="flex items-start gap-2 text-sm">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-
-        <CardFooter className="pb-6">
-          {onCheckout ? (
-            <Button
-              className="w-full shadow-sm"
-              onClick={() => handleCheckout("pro")}
-              disabled={isLoading("pro")}
-            >
-              {isLoading("pro") ? "Redirecting..." : proPlan.cta}
+    <>
+      <div className="mx-auto grid max-w-5xl items-stretch gap-6 text-left md:grid-cols-3">
+        <PricingPlanCard
+          badge={freePlan.badge ? { label: freePlan.badge, variant: "muted" } : undefined}
+          title={freePlan.name}
+          priceSlot={
+            <>
+              <PriceDisplay amount={freePlan.amount} />
+              <span className="text-charcoal-muted">{freePlan.period}</span>
+            </>
+          }
+          tagline={
+            <>
+              <p>{freePlan.tagline}</p>
+              <p className="mt-1 text-xs font-medium text-[#0D9488]">{freePlan.durationNote}</p>
+            </>
+          }
+          featureHeader={freePlan.featureHeader}
+          features={freePlan.features}
+          footer={
+            <Button className="w-full" variant="outline" asChild>
+              <Link href={freeTrialHref}>{freePlan.cta}</Link>
             </Button>
-          ) : (
-            <StripeCheckoutButton tier="pro" billing={billing} className="w-full shadow-sm" size="default">
-              {proPlan.cta}
-            </StripeCheckoutButton>
-          )}
-        </CardFooter>
-      </Card>
+          }
+        />
 
-      {/* Premium */}
-      <Card className="flex h-full flex-col border-border bg-white">
-        <CardHeader className="space-y-3 pb-4">
-          <div className="flex min-h-[1.75rem] items-center">
-            {premiumPlan.badge && <PlanBadge label={premiumPlan.badge} variant="premium" />}
-          </div>
-          <CardTitle className="font-serif text-2xl">{premiumPlan.name}</CardTitle>
-          <div>
-            <PriceDisplay amount={premiumPrice.amount} />
-            <span className="text-charcoal-muted">{premiumPrice.period}</span>
-            {"savings" in premiumPrice && premiumPrice.savings && (
-              <p className="mt-1 text-xs font-medium text-emerald-700">{premiumPrice.savings}</p>
-            )}
-          </div>
-          <p className="text-sm leading-relaxed text-charcoal-muted">{premiumPlan.description}</p>
-          <Link
-            href="/guides/claude-plugin-for-contractors"
-            className="inline-block text-xs font-medium text-[#0D9488] underline underline-offset-2"
-          >
-            Why contractors choose Premium →
-          </Link>
-        </CardHeader>
+        <PricingPlanCard
+          highlighted
+          badge={proPlan.badge ? { label: proPlan.badge, variant: "recommended" } : undefined}
+          title={proPlan.name}
+          priceSlot={
+            <>
+              <PriceDisplay amount={proPrice.amount} />
+              <span className="text-charcoal-muted">{proPrice.period}</span>
+            </>
+          }
+          tagline={
+            <>
+              {"savings" in proPrice && proPrice.savings ? (
+                <p className="text-xs font-medium text-emerald-700">{proPrice.savings}</p>
+              ) : null}
+              <p className={cn("savings" in proPrice && proPrice.savings && "mt-1")}>
+                {proPlan.tagline}
+              </p>
+            </>
+          }
+          featureHeader={proPlan.featureHeader}
+          features={proPlan.features}
+          footer={
+            onCheckout ? (
+              <Button
+                className="w-full shadow-sm"
+                onClick={() => handleCheckout("pro")}
+                disabled={isLoading("pro")}
+              >
+                {isLoading("pro") ? "Redirecting..." : proPlan.cta}
+              </Button>
+            ) : (
+              <StripeCheckoutButton tier="pro" billing={billing} className="w-full shadow-sm" size="default">
+                {proPlan.cta}
+              </StripeCheckoutButton>
+            )
+          }
+        />
 
-        <CardContent className="flex-1">
-          <ul className="space-y-3">
-            {premiumPlan.features.map((feature) => (
-              <li key={feature} className="flex items-start gap-2 text-sm">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-
-        <CardFooter>
-          {onCheckout ? (
-            <Button
-              className="w-full"
-              variant="outline"
-              onClick={() => handleCheckout("premium")}
-              disabled={isLoading("premium")}
-            >
-              {isLoading("premium") ? "Redirecting..." : premiumPlan.cta}
+        <PricingPlanCard
+          badge={
+            enterprisePlan.badge ? { label: enterprisePlan.badge, variant: "outline" } : undefined
+          }
+          title={enterprisePlan.name}
+          priceSlot={<p className="font-serif text-4xl leading-none">Custom</p>}
+          tagline={<p>{enterprisePlan.tagline}</p>}
+          featureHeader={enterprisePlan.featureHeader}
+          features={enterprisePlan.features}
+          footer={
+            <Button className="w-full" variant="outline" onClick={() => setEnterpriseOpen(true)}>
+              {enterprisePlan.cta}
             </Button>
-          ) : (
-            <StripeCheckoutButton tier="premium" billing={billing} className="w-full" variant="outline">
-              {premiumPlan.cta}
-            </StripeCheckoutButton>
-          )}
-        </CardFooter>
-      </Card>
-    </div>
+          }
+        />
+      </div>
+
+      <EnterpriseContactDialog open={enterpriseOpen} onOpenChange={setEnterpriseOpen} />
+    </>
   );
 }

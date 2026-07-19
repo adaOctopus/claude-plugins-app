@@ -8,7 +8,7 @@ const schema = z.object({
   label: z.string().max(120).optional(),
 });
 
-/** Mint a card-free 1-day trial MCP URL via the CoolPlugz server. */
+/** Mint a card-free 7-day trial MCP URL via the CoolPlugz server. */
 export async function POST(request: NextRequest) {
   try {
     if (isWipSite()) {

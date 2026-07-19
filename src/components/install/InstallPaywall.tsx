@@ -35,13 +35,13 @@ export function InstallPaywall({
           {trialExpired ? (
             <>
               {" "}
-              Your 1-day MCP URL has expired on our server. Upgrade to Pro for ongoing access.
+              Your 7-day MCP URL has expired on our server. Upgrade to Pro for ongoing access.
             </>
           ) : (
             <>
               {" "}
               {plugin.title} is included with coolplugz Pro — or start a{" "}
-              <span className="font-medium text-charcoal">card-free 1-day trial</span> (unique MCP
+              <span className="font-medium text-charcoal">card-free 7-day trial</span> (unique MCP
               URL, no Stripe).
             </>
           )}
@@ -55,7 +55,7 @@ export function InstallPaywall({
       <CardContent className="space-y-3">
         {!trialExpired && (
           <Button className="w-full" variant="default" asChild>
-            <Link href={freeTrialHref}>Start free 1-day trial — no card</Link>
+            <Link href={freeTrialHref}>Start free 7-day trial — no card</Link>
           </Button>
         )}
         <StripeCheckoutButton tier="pro" billing="monthly" className="w-full" variant={trialExpired ? "default" : "outline"}>

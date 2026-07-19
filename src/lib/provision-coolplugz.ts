@@ -165,7 +165,7 @@ export async function provisionCoolplugzForUser(
   return { mcpUrl, provisioned: true, expiresAt: null };
 }
 
-/** Card-free 1-day trial — unique MCP URL from CoolPlugz server (TTL managed there). */
+/** Card-free 7-day trial — unique MCP URL from CoolPlugz server (TTL managed there). */
 export async function provisionFreeTrialForUser(
   userId: string,
   label?: string

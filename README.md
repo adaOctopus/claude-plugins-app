@@ -111,7 +111,9 @@ Flag logic: `src/lib/site-mode.ts`. Coming-soon UI: `src/components/landing/Comi
 
 While in WIP mode, emails from the coming-soon form POST to `/api/waitlist`. Signups are **saved to MongoDB** first; if `GOOGLE_SHEETS_WEBHOOK_URL` is set, they are also appended to your Google Sheet.
 
-1. Create a Google Sheet with headers: `submittedAt` | `email` | `source`
+Enterprise **Contact us** submissions from pricing POST to `/api/sales/inquiry` and append to a **`SALES`** tab in the same spreadsheet (`submittedAt` | `email` | `description` | `source`).
+
+1. Create a Google Sheet with headers on the active tab: `submittedAt` | `email` | `source`
 2. **Extensions → Apps Script** — paste `scripts/google-apps-script-waitlist.js` into **Code.gs** → **Save**
 3. Toolbar function dropdown → select **`doGet`** → **Run** → authorize when Google prompts
 4. **Deploy → New deployment → Web app**
@@ -119,8 +121,10 @@ While in WIP mode, emails from the coming-soon form POST to `/api/waitlist`. Sig
    - Who has access: **Anyone** (not “Only myself”)
 4. Copy the URL ending in **`/exec`** — e.g. `https://script.google.com/macros/s/AKfycb…/exec`
    - Do **not** use the script editor URL (`…/macros/edit?…`) or the Sheet URL — those cause “Access Denied”
-5. Open the `/exec` URL in a browser — you should see `{"ok":true,"message":"coolplugz waitlist ready"}`
+5. Open the `/exec` URL in a browser — you should see `{"ok":true,"message":"coolplugz waitlist + sales ready"}`
 6. Set `GOOGLE_SHEETS_WEBHOOK_URL` in Vercel to that `/exec` URL
+
+**After updating the Apps Script** (e.g. adding SALES support): paste the new script, **Save**, then **Deploy → Manage deployments → Edit → New version → Deploy** so the live `/exec` URL picks up changes. The script auto-creates a **`SALES`** tab if it does not exist.
 
 **Troubleshooting Google ("Unauthorized" / "does not exist")**
 
@@ -176,19 +180,22 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/api/plugins` | GET/POST | List / upload plugins |
 | `/api/plugins/builder` | POST | Create/publish builder drafts |
 | `/api/provision-coolplugz` | POST | Mint MCP URL (paid subscribers) |
-| `/api/provision-coolplugz/free-trial` | POST | Card-free 1-day trial MCP URL |
+| `/api/provision-coolplugz/free-trial` | POST | Card-free 7-day trial MCP URL |
+| `/api/waitlist` | POST | Waitlist email capture |
+| `/api/sales/inquiry` | POST | Enterprise contact form → Mongo + Google Sheets SALES tab |
 
 ## Pricing
 
-- **Free 1-day trial**: $0, no credit card — full Pro via a unique MCP URL (1-day TTL on CoolPlugz server)
+- **Free 7-day trial**: $0, no credit card — full Pro via a unique MCP URL (7-day TTL on CoolPlugz server)
 - **Pro monthly**: $17/mo — includes flagship Context Engineer plugin
 - **Pro annual**: $147/yr — ~35% savings
-- **Premium**: $47/mo or $387/yr — multiple workspaces
+- **Enterprise**: custom pricing — multi-seat teams, pipeline optimization; **Contact us** form on pricing
+- **Premium** (legacy Stripe tier): $47/mo or $387/yr — not shown on pricing; existing subscribers keep access
 - **Add-ons**: $2.50/mo per extra marketplace plugin
 - **Creator fee**: 1% platform commission (manual payouts)
 - **Partner promos**: influencer codes (default 25% customer discount + 25% revenue share tracked in Mongo) — see `docs/partner-promos.md`
 
-Free trial flow: pricing → magic-link login → `/premium/unique-mcp-url?start=trial` → `POST /api/provision-coolplugz/free-trial` → CoolPlugz admin API with `tier: "trial"` and `ttlHours: 24`.
+Free trial flow: pricing → magic-link login → `/premium/unique-mcp-url?start=trial` → `POST /api/provision-coolplugz/free-trial` → CoolPlugz admin API with `tier: "trial"` and `ttlHours: 168`.
 
 ### CoolPlugz MCP provisioning (external API)
 
@@ -208,10 +215,10 @@ Content-Type: application/json
 { "email": "user@example.com", "tier": "pro" }
 ```
 
-**Free 1-day trial** — same external endpoint with:
+**Free 7-day trial** — same external endpoint with:
 
 ```json
-{ "email": "user@example.com", "tier": "trial", "ttlHours": 24 }
+{ "email": "user@example.com", "tier": "trial", "ttlHours": 168 }
 ```
 
 Response expected: `{ "mcpUrl": "https://...", "expiresAt": "2026-07-15T12:00:00.000Z" }`.

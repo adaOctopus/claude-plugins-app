@@ -52,8 +52,8 @@ function PricingContent() {
     <div className="mx-auto max-w-6xl px-4 py-32 text-center md:px-8">
       <h1 className="font-serif text-4xl text-charcoal md:text-6xl">Pricing</h1>
       <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
-        Start with a <span className="font-medium text-charcoal">card-free 1-day trial </span>.{" "}
-        <br /> After that, continue with Pro or Premium to become really{" "}
+        Start with a <span className="font-medium text-charcoal">card-free 7-day trial </span>.{" "}
+        <br /> After that, continue with Pro or Enterprise to become really{" "}
         <span
           className={cn(
             brandWordmarkFont.className,
@@ -101,7 +101,7 @@ function PricingContent() {
   );
 }
 
-/** Pricing page — card-free 1-day trial + Stripe Checkout for Pro & Premium. */
+/** Pricing page — card-free 7-day trial + Stripe Checkout for Pro + Enterprise contact. */
 export default function PricingPage() {
   return (
     <Suspense fallback={<div className="py-32 text-center">Loading...</div>}>

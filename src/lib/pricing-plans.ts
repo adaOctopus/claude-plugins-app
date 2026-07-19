@@ -36,36 +36,63 @@ export const tierPricing = {
   },
 } as const;
 
-export const proPlanFeatures = [
+/** Base trial scope — shortest list (Free card). */
+export const trialFeatures = [
   "Scans Jira + Slack + GitHub + Notion",
-  "Automated advanced Prompt Engineering",
   "6 AI Agents working in parallel",
   "In-Claude dashboard via MCP",
-  "Slack messages handled hourly",
 ] as const;
+
+/** Added on Pro — shown after “Everything in Free trial, plus:”. */
+export const proAdditiveFeatures = [
+  "Automated Prompt Engineering",
+  "Slack messages handled hourly",
+  "Unlimited iterations till CI checks pass",
+  "Unlimited daily content refetch",
+] as const;
+
+/** Added on Premium — shown after “Everything in Pro, plus:”. */
+export const premiumAdditiveFeatures = [
+  "Multiple client workspaces",
+  "Multiple Slack + Jira connections",
+  "Separate context profiles per client",
+  "Priority sync across all accounts",
+] as const;
+
+/** Added on Enterprise — shown after “Everything in Premium, plus:”. */
+export const enterpriseAdditiveFeatures = [
+  "Multi-seat licensing for dev teams",
+  "CI/CD & automated QA checks",
+  "Org-wide rollout & onboarding",
+  "Dedicated success & custom SLAs",
+  "SSO & advanced security options",
+] as const;
+
+/** Full Pro feature set (trial + paid). */
+export const proPlanFeatures = [...trialFeatures, ...proAdditiveFeatures] as const;
 
 export const freePlan = {
   id: "free" as const,
-  name: "Free 1-Day Trial",
+  name: "Free 7-Day Trial",
   price: "$0",
   amount: 0,
   period: "",
   badge: "No card required",
-  tagline: "Full Pro for 24 hours",
-  durationNote:
-    "After 1 day upgrade to Pro for full access",
-  features: proPlanFeatures,
+  tagline: "Full Pro for 7 days",
+  durationNote: "After 7 days upgrade to Pro for full access",
+  featureHeader: "Includes:",
+  features: trialFeatures,
   cta: "START FREE TRIAL",
-  trialDays: 1,
+  trialDays: 7,
 };
 
 export const proPlan = {
   id: "pro" as const,
   name: "Pro",
   badge: "Recommended",
-  description:
-    "A Claude plugin that automates your engineering workflow — context, code, CI, and Slack inside Claude.",
-  features: proPlanFeatures,
+  tagline: "For engineers shipping every day",
+  featureHeader: "Everything in Free trial, plus:",
+  features: proAdditiveFeatures,
   cta: "GET PRO",
 };
 
@@ -73,16 +100,20 @@ export const premiumPlan = {
   id: "premium" as const,
   name: "Premium",
   badge: "For contractors",
-  description:
-    "Built for contractors with multiple clients who want to achieve 4-hour workweeks",
-  features: [
-    "Everything in Pro",
-    "Multiple client workspaces",
-    "Multiple Slack + Jira connections",
-    "Separate context profiles per client",
-    "Priority sync across all accounts",
-  ],
+  tagline: "Multiple clients, separate workspaces",
+  featureHeader: "Everything in Pro, plus:",
+  features: premiumAdditiveFeatures,
   cta: "GET PREMIUM",
+};
+
+export const enterprisePlan = {
+  id: "enterprise" as const,
+  name: "Enterprise",
+  badge: "For engineering teams",
+  tagline: "Volume seats, CI/CD & pipeline optimization",
+  featureHeader: "Everything in Pro, plus:",
+  features: enterpriseAdditiveFeatures,
+  cta: "CONTACT SALES",
 };
 
 export function getPaidPlanKey(tier: PaidTier, billing: BillingPeriod): PaidPlan {

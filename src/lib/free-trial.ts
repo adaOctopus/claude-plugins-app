@@ -40,7 +40,7 @@ export async function hasUsedFreeTrial(userId: string) {
   return status.used;
 }
 
-/** Paid subscription or active card-free 1-day trial. */
+/** Paid subscription or active card-free 7-day trial. */
 export async function canAccessMcp(userId: string) {
   if (await hasActiveSubscription(userId)) return true;
   return hasActiveFreeTrial(userId);
@@ -53,7 +53,7 @@ export async function assertCanStartFreeTrial(userId: string) {
 
   const status = await getFreeTrialStatus(userId);
   if (status.used && !status.active) {
-    throw new Error("Your free 1-day trial has already been used. Upgrade to Pro to continue.");
+    throw new Error("Your free 7-day trial has already been used. Upgrade to Pro to continue.");
   }
 
   if (status.active) {

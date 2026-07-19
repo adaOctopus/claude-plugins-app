@@ -9,7 +9,7 @@ export interface IUser {
   stripeCustomerId?: string;
   /** Unique CoolPlugz MCP URL — provisioned after payment or free trial. */
   mcpUrl?: string;
-  /** One-time 1-day trial — expiry enforced locally and on CoolPlugz server. */
+  /** One-time 7-day trial — expiry enforced locally and on CoolPlugz server. */
   freeTrialStartedAt?: Date;
   freeTrialEndsAt?: Date;
   role: UserRole;

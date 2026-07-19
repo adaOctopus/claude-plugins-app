@@ -91,7 +91,7 @@ export default async function AppDashboardPage() {
               <Link href="/pricing" className="font-medium text-charcoal underline">
                 View pricing
               </Link>{" "}
-              — or start a card-free 1-day trial from the pricing page.
+              — or start a card-free 7-day trial from the pricing page.
             </p>
           </CardContent>
         </Card>

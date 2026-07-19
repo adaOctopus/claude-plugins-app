@@ -3,6 +3,12 @@ type WaitlistRow = {
   source?: string;
 };
 
+type SalesInquiryRow = {
+  email: string;
+  description: string;
+  source?: string;
+};
+
 const EXEC_URL_PATTERN = /script\.google\.com\/macros\/s\/[^/]+\/exec/i;
 
 function sanitizeWebhookUrl(raw: string): string {
@@ -34,11 +40,7 @@ function isHtmlErrorResponse(text: string): boolean {
   return sample.includes("<!doctype html") || sample.includes("<html");
 }
 
-/** Append a waitlist signup to Google Sheets via a deployed Apps Script web app. */
-export async function appendWaitlistEmailToSheet({
-  email,
-  source = "landing",
-}: WaitlistRow): Promise<void> {
+async function postToGoogleSheets(payload: Record<string, unknown>): Promise<void> {
   const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
 
   if (!webhookUrl) {
@@ -46,16 +48,11 @@ export async function appendWaitlistEmailToSheet({
   }
 
   const url = sanitizeWebhookUrl(webhookUrl);
-  const payload = JSON.stringify({
-    email,
-    source,
-    submittedAt: new Date().toISOString(),
-  });
 
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: payload,
+    body: JSON.stringify(payload),
     redirect: "follow",
     cache: "no-store",
   });
@@ -78,10 +75,38 @@ export async function appendWaitlistEmailToSheet({
   }
 
   if (data && data.ok === false) {
-    throw new Error(data.error || "Google Sheets webhook rejected the signup.");
+    throw new Error(data.error || "Google Sheets webhook rejected the submission.");
   }
 
   if (!response.ok && data?.ok !== true) {
     throw new Error(`Google Sheets webhook failed (${response.status}).`);
   }
+}
+
+/** Append a waitlist signup to Google Sheets via a deployed Apps Script web app. */
+export async function appendWaitlistEmailToSheet({
+  email,
+  source = "landing",
+}: WaitlistRow): Promise<void> {
+  await postToGoogleSheets({
+    type: "waitlist",
+    email,
+    source,
+    submittedAt: new Date().toISOString(),
+  });
+}
+
+/** Append an enterprise sales inquiry to the SALES tab in the same Google Sheet. */
+export async function appendSalesInquiryToSheet({
+  email,
+  description,
+  source = "enterprise-pricing",
+}: SalesInquiryRow): Promise<void> {
+  await postToGoogleSheets({
+    type: "sales",
+    email,
+    description,
+    source,
+    submittedAt: new Date().toISOString(),
+  });
 }
