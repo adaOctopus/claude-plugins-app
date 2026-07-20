@@ -16,7 +16,7 @@ export function HeroSection() {
             Ships<em className="font-medium italic"> merge-ready</em> code and handles your <em className="font-medium italic">Slack</em> too😎<br />
           </h1>
 
-          <p className="mt-2 text-xs font-medium uppercase tracking-wide text-charcoal-muted/90">
+          <p className="mt-2 text-xs font-normal uppercase tracking-wide text-charcoal-muted/90">
             Claude plugin for the modern developers
           </p>
 
