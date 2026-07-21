@@ -197,7 +197,7 @@ export function ChatTagsSection() {
         </Badge>
         <RotatingTagHeadline />
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-charcoal-muted md:text-base">
-          Complete tasks, draft Slack msgs, rebase, open PRs — with just one keyword.
+          Complete tasks, draft Slack msgs, rebase, open PRs - with just one word.
           {/* No context switching.{" "} */}
           <strong className="font-semibold text-charcoal">
             <br />You can literally do the work from your phone.
