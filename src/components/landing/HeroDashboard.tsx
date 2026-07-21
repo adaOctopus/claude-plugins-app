@@ -84,7 +84,7 @@ function HeroChatBody() {
         <CoolplugzAvatar className="mt-0.5 h-6 w-6" />
         <div className="min-w-0 flex-1 space-y-2">
           <p className="text-[12px] leading-snug text-charcoal sm:text-[13px]">
-            <span className="font-semibold">coolplugz</span> — run complete ✅
+            <span className="font-semibold">coolplugz</span> - run complete ✅
           </p>
 
           <div className="overflow-hidden rounded-xl border border-[#7DD3C0]/35 bg-white shadow-sm">

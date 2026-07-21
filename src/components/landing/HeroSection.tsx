@@ -17,7 +17,7 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-2 text-xs font-normal uppercase tracking-wide text-charcoal-muted/90">
-            Claude plugin for the modern developers
+            Claude plugin for modern developers
           </p>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
