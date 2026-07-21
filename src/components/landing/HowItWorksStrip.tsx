@@ -50,19 +50,19 @@ function HowStep({
   return (
     <div
       className={cn(
-        "flex min-w-[5.5rem] flex-1 flex-col items-center gap-2 sm:min-w-0",
+        "flex min-w-0 flex-col items-center gap-2 sm:min-w-0 sm:flex-1",
         className
       )}
     >
       <div
         className={cn(
-          "flex h-[4.5rem] w-full items-center justify-center rounded-xl border border-border/80 bg-white px-2 shadow-sm sm:h-20",
+          "flex h-[5.5rem] w-full items-center justify-center overflow-hidden rounded-xl border border-border/80 bg-white px-2 shadow-sm sm:h-20",
           visualClassName
         )}
       >
         {children}
       </div>
-      <span className="text-center text-[9px] font-semibold uppercase tracking-wide text-charcoal-muted sm:text-[10px]">
+      <span className="max-w-[9rem] text-center text-[9px] font-semibold uppercase leading-tight tracking-wide text-charcoal-muted sm:max-w-none sm:text-[10px]">
         {label}
       </span>
     </div>
@@ -184,44 +184,75 @@ function CiEnvironmentVisual() {
   const ciChecks = ["lint", "test", "build"] as const;
 
   return (
-    <div className="flex w-full items-center gap-1 sm:gap-1.5">
-      <div className="flex shrink-0 flex-col items-center gap-0.5 opacity-35">
-        <UserRound className="h-3 w-3 text-charcoal" strokeWidth={2} />
-        <Ban className="h-2.5 w-2.5 text-charcoal/50" strokeWidth={2.5} />
-      </div>
-
-      <ArrowRight className="h-2.5 w-2.5 shrink-0 text-charcoal/20" strokeWidth={2} />
-
-      <div className="min-w-0 flex-1 rounded-md border border-[#7DD3C0]/45 bg-gradient-to-b from-[#E8FAF6]/90 to-white p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-        <div className="flex items-center gap-0.5">
-          <Server className="h-2.5 w-2.5 shrink-0 text-[#0D9488]" strokeWidth={2.25} />
-          <span className="truncate text-[5px] font-bold uppercase tracking-wide text-[#0D9488]">
-            coolplugz env
-          </span>
+    <>
+      {/* Mobile — stacked, no overflow */}
+      <div className="flex w-full flex-col items-center gap-1.5 sm:hidden">
+        <div className="flex items-center gap-1 text-charcoal/35">
+          <UserRound className="h-3.5 w-3.5" strokeWidth={2} />
+          <ArrowRight className="h-3 w-3 rotate-90" strokeWidth={2} />
+          <Server className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2.25} />
         </div>
-
-        <div className="mt-0.5 flex items-center gap-0.5 rounded bg-charcoal px-1 py-0.5">
-          <Terminal className="h-2 w-2 shrink-0 text-emerald-400/90" strokeWidth={2.5} />
-          <span className="truncate font-mono text-[5px] text-emerald-300/95">run &amp; execute</span>
-          <span className="ml-auto h-1 w-1 shrink-0 animate-pulse rounded-full bg-emerald-400" />
-        </div>
-
-        <div className="mt-0.5 flex flex-wrap items-center justify-center gap-0.5">
-          <GitHubMark className="h-2.5 w-2.5 shrink-0 opacity-80" />
-          {ciChecks.map((check) => (
-            <span
-              key={check}
-              className="inline-flex items-center gap-px rounded border border-emerald-200/80 bg-emerald-50 px-0.5 py-px"
-            >
-              <CheckCircle2 className="h-2 w-2 text-emerald-600" strokeWidth={2.5} />
-              <span className="font-mono text-[4px] font-semibold uppercase text-emerald-700">
-                {check}
+        <div className="w-full rounded-lg border border-[#7DD3C0]/45 bg-gradient-to-b from-[#E8FAF6]/90 to-white p-2">
+          <div className="flex flex-wrap items-center justify-center gap-1">
+            <GitHubMark className="h-4 w-4 shrink-0" />
+            {ciChecks.map((check) => (
+              <span
+                key={check}
+                className="inline-flex items-center gap-0.5 rounded-md border border-emerald-200/80 bg-emerald-50 px-1.5 py-0.5"
+              >
+                <CheckCircle2 className="h-3 w-3 text-emerald-600" strokeWidth={2.5} />
+                <span className="font-mono text-[8px] font-semibold uppercase text-emerald-700">
+                  {check}
+                </span>
               </span>
-            </span>
-          ))}
+            ))}
+          </div>
+          <p className="mt-1.5 text-center text-[8px] font-bold uppercase tracking-wide text-[#0D9488]">
+            CI checked in env
+          </p>
         </div>
       </div>
-    </div>
+
+      {/* sm+ — horizontal pipeline */}
+      <div className="hidden w-full items-center gap-1 sm:flex sm:gap-1.5">
+        <div className="flex shrink-0 flex-col items-center gap-0.5 opacity-35">
+          <UserRound className="h-3 w-3 text-charcoal" strokeWidth={2} />
+          <Ban className="h-2.5 w-2.5 text-charcoal/50" strokeWidth={2.5} />
+        </div>
+
+        <ArrowRight className="h-2.5 w-2.5 shrink-0 text-charcoal/20" strokeWidth={2} />
+
+        <div className="min-w-0 flex-1 rounded-md border border-[#7DD3C0]/45 bg-gradient-to-b from-[#E8FAF6]/90 to-white p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+          <div className="flex items-center gap-0.5">
+            <Server className="h-2.5 w-2.5 shrink-0 text-[#0D9488]" strokeWidth={2.25} />
+            <span className="truncate text-[5px] font-bold uppercase tracking-wide text-[#0D9488]">
+              coolplugz env
+            </span>
+          </div>
+
+          <div className="mt-0.5 flex items-center gap-0.5 rounded bg-charcoal px-1 py-0.5">
+            <Terminal className="h-2 w-2 shrink-0 text-emerald-400/90" strokeWidth={2.5} />
+            <span className="truncate font-mono text-[5px] text-emerald-300/95">run &amp; execute</span>
+            <span className="ml-auto h-1 w-1 shrink-0 animate-pulse rounded-full bg-emerald-400" />
+          </div>
+
+          <div className="mt-0.5 flex flex-wrap items-center justify-center gap-0.5">
+            <GitHubMark className="h-2.5 w-2.5 shrink-0 opacity-80" />
+            {ciChecks.map((check) => (
+              <span
+                key={check}
+                className="inline-flex items-center gap-px rounded border border-emerald-200/80 bg-emerald-50 px-0.5 py-px"
+              >
+                <CheckCircle2 className="h-2 w-2 text-emerald-600" strokeWidth={2.5} />
+                <span className="font-mono text-[4px] font-semibold uppercase text-emerald-700">
+                  {check}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -353,7 +384,7 @@ export function HowItWorksStrip() {
           You just approve or click redo.
         </p>
 
-        <div className="mt-8 flex items-start justify-between gap-1 overflow-x-auto pb-1 sm:gap-0 md:mt-10 md:overflow-visible">
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:flex sm:items-start sm:justify-between sm:gap-0 md:mt-10">
           <HowStep label="Gathers context automatically">
             <div className="grid grid-cols-2 gap-1">
               {integrationSources.map(({ id, Mark }) => (
@@ -389,8 +420,7 @@ export function HowItWorksStrip() {
 
           <HowStep
             label="Ships code with CI checked"
-            className="sm:min-w-[6.5rem]"
-            visualClassName="h-[5.25rem] sm:h-[5.5rem]"
+            visualClassName="h-[6.5rem] sm:h-[5.5rem]"
           >
             <CiEnvironmentVisual />
           </HowStep>
@@ -413,7 +443,7 @@ export function HowItWorksStrip() {
 
           <StepConnector />
 
-          <HowStep label="Claude panel">
+          <HowStep label="Claude panel" className="col-span-2 mx-auto w-full max-w-[12rem] sm:col-span-1 sm:max-w-none">
             <div
               className="flex w-full flex-col gap-1 rounded-lg border border-[#7DD3C0]/25 p-1.5"
               style={{
