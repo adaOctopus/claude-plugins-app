@@ -40,7 +40,7 @@ export function InstallPaywall({
           ) : (
             <>
               {" "}
-              {plugin.title} is included with coolplugz Pro — or start a{" "}
+              {plugin.title} is included with coolplugz Pro - or start a{" "}
               <span className="font-medium text-charcoal">card-free 7-day trial</span> (unique MCP
               URL, no Stripe).
             </>

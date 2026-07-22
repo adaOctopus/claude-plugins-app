@@ -17,6 +17,7 @@ import { InstallCheckoutFulfillShell } from "@/components/install/InstallCheckou
 import { InstallPaywall } from "@/components/install/InstallPaywall";
 import { InstallPluginGuide } from "@/components/install/InstallPluginGuide";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
+import { toUserFacingProvisionError } from "@/lib/user-facing-errors";
 
 const FLAGSHIP_SLUG = "context-engineer";
 
@@ -58,7 +59,7 @@ export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
       await provisionFreeTrialForUser(session.id);
       redirect(UNIQUE_MCP_URL_PATH);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Could not start free trial";
+      const message = toUserFacingProvisionError(error, "free-trial-page");
       const trialStatus = await getFreeTrialStatus(session.id);
       return (
         <div className="px-4 py-32 md:px-8">

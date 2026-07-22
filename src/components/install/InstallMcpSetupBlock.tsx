@@ -5,6 +5,7 @@ import { CopyMcpUrlButton } from "@/components/install/CopyMcpUrlButton";
 import { InstallSetupMethods } from "@/components/install/InstallSetupMethods";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GENERIC_TRY_AGAIN_MESSAGE } from "@/lib/user-facing-errors";
 
 type InstallMcpSetupBlockProps = {
   initialMcpUrl?: string | null;
@@ -54,14 +55,16 @@ export function InstallMcpSetupBlock({
         error?: string;
       };
       if (!res.ok || !data.mcpUrl) {
-        throw new Error(data.error || "Could not generate your MCP URL");
+        setStatus("error");
+        setError(data.error || GENERIC_TRY_AGAIN_MESSAGE);
+        return;
       }
       setMcpUrl(data.mcpUrl);
       if (data.expiresAt) setExpiresAt(data.expiresAt);
       setStatus("idle");
-    } catch (err) {
+    } catch {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Could not generate your MCP URL");
+      setError(GENERIC_TRY_AGAIN_MESSAGE);
     }
   }, [provisionEndpoint]);
 
@@ -109,7 +112,7 @@ export function InstallMcpSetupBlock({
               <p className="text-sm text-charcoal-muted">
                 {error ||
                   (provisionMode === "free-trial"
-                    ? "Could not mint your trial MCP URL. Try again or contact support."
+                    ? GENERIC_TRY_AGAIN_MESSAGE
                     : "Your unique MCP URL is not ready yet. This usually takes a few seconds after payment.")}
               </p>
               <Button type="button" variant="outline" size="sm" onClick={() => void provision()}>

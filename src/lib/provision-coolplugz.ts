@@ -30,8 +30,20 @@ export type ProvisionCoolplugzApiResult = {
   expiresAt: Date | null;
 };
 
+function normalizeApiBaseUrl(raw: string): string {
+  const trimmed = raw.trim().replace(/\/$/, "");
+  if (!trimmed) {
+    throw new Error("COOLPLUGZ_API_URL is empty");
+  }
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+}
+
 function getCoolplugzApiConfig() {
-  const baseUrl = process.env.COOLPLUGZ_API_URL?.replace(/\/$/, "");
+  const rawBase = process.env.COOLPLUGZ_API_URL?.trim();
+  const baseUrl = rawBase ? normalizeApiBaseUrl(rawBase) : undefined;
   const adminSecret = process.env.COOLPLUGZ_ADMIN_SECRET;
   const useDummy =
     process.env.COOLPLUGZ_PROVISION_DUMMY === "true" || !baseUrl;
@@ -49,6 +61,58 @@ function buildProvisionRequestUrl(baseUrl: string): string {
     return `${baseUrl}${path}`;
   }
   return `${baseUrl}/admin/keys`;
+}
+
+function isHttpUrl(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function buildMcpUrlFromKey(key: string, baseUrl: string): string | null {
+  const template = process.env.COOLPLUGZ_MCP_URL_TEMPLATE?.trim();
+  if (template) {
+    return template.replace("{key}", encodeURIComponent(key));
+  }
+
+  try {
+    const api = new URL(baseUrl);
+    return `${api.origin}/mcp/${encodeURIComponent(key)}`;
+  } catch {
+    return null;
+  }
+}
+
+function extractMcpUrlFromResponse(
+  data: Record<string, unknown>,
+  apiBaseUrl: string
+): string | null {
+  const direct = [data.mcpUrl, data.url, data.mcp_url].find(
+    (value) => typeof value === "string" && isHttpUrl(value)
+  );
+  if (typeof direct === "string") {
+    return direct;
+  }
+
+  const key =
+    typeof data.key === "string"
+      ? data.key
+      : typeof data.apiKey === "string"
+        ? data.apiKey
+        : null;
+
+  if (!key) {
+    return null;
+  }
+
+  if (isHttpUrl(key)) {
+    return key;
+  }
+
+  return buildMcpUrlFromKey(key, apiBaseUrl);
 }
 
 /** Stable dummy URL for local dev until the CoolPlugz server is live. */
@@ -111,29 +175,40 @@ export async function callCoolplugzProvisionApi(
     headers.Authorization = `Bearer ${adminSecret}`;
   }
 
-  const res = await fetch(buildProvisionRequestUrl(baseUrl!), {
-    method: "POST",
-    headers,
-    body: JSON.stringify(payload),
-  });
+  const provisionUrl = buildProvisionRequestUrl(baseUrl!);
+  let res: Response;
 
-  const data = (await res.json().catch(() => ({}))) as {
-    mcpUrl?: string;
-    url?: string;
-    key?: string;
-    expiresAt?: string;
+  try {
+    res = await fetch(provisionUrl, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    console.error("[CoolPlugz] Provision fetch failed:", provisionUrl, error);
+    throw new Error("CoolPlugz provision request failed");
+  }
+
+  const data = (await res.json().catch(() => ({}))) as Record<string, unknown> & {
     error?: string;
     message?: string;
+    expiresAt?: string;
   };
 
   if (!res.ok) {
+    console.error("[CoolPlugz] Provision API error:", res.status, data);
     throw new Error(
-      data.error || data.message || `CoolPlugz provision failed (${res.status})`
+      typeof data.error === "string"
+        ? data.error
+        : typeof data.message === "string"
+          ? data.message
+          : `CoolPlugz provision failed (${res.status})`
     );
   }
 
-  const mcpUrl = data.mcpUrl || data.url || data.key;
+  const mcpUrl = extractMcpUrlFromResponse(data, baseUrl!);
   if (!mcpUrl) {
+    console.error("[CoolPlugz] Provision response missing MCP URL:", data);
     throw new Error("CoolPlugz provision response missing mcpUrl");
   }
 

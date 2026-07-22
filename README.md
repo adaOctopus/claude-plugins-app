@@ -224,7 +224,9 @@ Override the path with `COOLPLUGZ_PROVISION_PATH` if your server uses a differen
 { "email": "user@example.com", "tier": "trial", "ttlHours": 168 }
 ```
 
-Response expected: `{ "mcpUrl": "https://...", "expiresAt": "2026-07-15T12:00:00.000Z" }`.
+Response expected: `{ "mcpUrl": "https://..." }` or `{ "key": "..." }` (website builds `https://{api-host}/mcp/{key}` if only a key is returned).
+
+Optional: `COOLPLUGZ_MCP_URL_TEMPLATE=https://mcp.example.com/{key}` when your server returns a key slug instead of a full URL.
 
 Optional: set `COOLPLUGZ_ADMIN_SECRET` to send `Authorization: Bearer …` if your server requires it.
 

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getSession } from "@/lib/auth";
 import { isWipSite } from "@/lib/site-mode";
 import { provisionFreeTrialForUser } from "@/lib/provision-coolplugz";
+import { toUserFacingProvisionError } from "@/lib/user-facing-errors";
 
 const schema = z.object({
   label: z.string().max(120).optional(),
@@ -37,9 +38,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
     console.error("Free trial provision error:", error);
-    const message =
+    const rawMessage =
       error instanceof Error ? error.message : "Could not start free trial";
-    const status = message.includes("already") ? 409 : 502;
+    const message = toUserFacingProvisionError(rawMessage);
+    const status = rawMessage.includes("already") ? 409 : 502;
     return NextResponse.json({ error: message }, { status });
   }
 }
