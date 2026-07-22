@@ -81,7 +81,7 @@ export function WaitlistEmailForm({
             name="email"
             autoComplete="email"
             required
-            placeholder="you@company.com"
+            placeholder="you@example.com"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             disabled={status === "loading"}
