@@ -176,10 +176,17 @@ export function createRootMetadata(options: { siteUrl?: string } = {}): Metadata
       canonical: siteUrl,
     },
     icons: {
-      icon: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
-      apple: [{ url: "/icon.png", type: "image/png", sizes: "512x512" }],
-      shortcut: "/icon.png",
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/icon-48.png", type: "image/png", sizes: "48x48" },
+        { url: "/icon-96.png", type: "image/png", sizes: "96x96" },
+        { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+        { url: "/icon.png", type: "image/png", sizes: "512x512" },
+      ],
+      apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
+      shortcut: "/favicon.ico",
     },
+    manifest: "/site.webmanifest",
     openGraph: {
       title: SEO_DEFAULTS.title,
       description: SEO_DEFAULTS.description,

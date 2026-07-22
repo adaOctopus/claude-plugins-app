@@ -14,8 +14,9 @@ const LEGACY_DIR = join(ROOT, "public/legacy");
 
 const SOURCE_CANDIDATES = [
   process.argv[2],
-  "/home/gandalf/.cursor/projects/home-gandalf-Cardano-cardano-development-quantum-claude-plugins/assets/c__Users_tasos_AppData_Roaming_Cursor_User_workspaceStorage_cc5c87cb29fca2f100b5e710c20f1cf4_images_Untitled_-_02_July_2026_at_15.22.09-10__1_-41b38dd2-9ede-423e-88aa-06109450484e.png",
-  "/home/gandalf/.cursor/projects/home-gandalf-Cardano-cardano-development-quantum-claude-plugins/assets/c__Users_tasos_AppData_Roaming_Cursor_User_workspaceStorage_cc5c87cb29fca2f100b5e710c20f1cf4_images_coolplugz-logo-4d09b4b0-6894-41e1-ae6a-92c0c2e4ce2d.png",
+  join(ROOT, "public/coolplugz-mark-hq.png"),
+  join(ROOT, "src/assets/coolplugz-mark.png"),
+  join(ROOT, "public/coolplugz-mark.png"),
 ].filter(Boolean) as string[];
 
 function resolveSource() {
@@ -98,25 +99,49 @@ async function main() {
   const mark512 = renderLogo(image, 512);
   const mark1024 = renderLogo(image, 1024);
   const icon512 = renderRoundedIcon(image, 512, 112);
+  const icon192 = renderRoundedIcon(image, 192, 42);
+  const icon96 = renderRoundedIcon(image, 96, 21);
+  const icon48 = renderRoundedIcon(image, 48, 11);
   const apple180 = renderRoundedIcon(image, 180, 40);
 
   writeFileSync(join(ROOT, "public/coolplugz-mark.png"), mark512);
   writeFileSync(join(ROOT, "public/coolplugz-mark-hq.png"), mark1024);
   writeFileSync(join(ROOT, "public/icon.png"), icon512);
+  writeFileSync(join(ROOT, "public/icon-512.png"), icon512);
+  writeFileSync(join(ROOT, "public/icon-192.png"), icon192);
+  writeFileSync(join(ROOT, "public/icon-96.png"), icon96);
+  writeFileSync(join(ROOT, "public/icon-48.png"), icon48);
+  writeFileSync(join(ROOT, "public/apple-icon.png"), apple180);
   writeFileSync(join(ROOT, "src/app/icon.png"), icon512);
   writeFileSync(join(ROOT, "src/app/apple-icon.png"), apple180);
 
-  // favicon.ico must be derived from icon.png (not a separate crop)
+  // favicon.ico — include 48px+ sizes Google uses in search results
   const iconSource = await loadImage(icon512);
-  const icoSizes = [16, 32, 48];
+  const icoSizes = [16, 32, 48, 96, 192];
   const icoPngs = icoSizes.map((size) => {
     const canvas = createCanvas(size, size);
     const ctx = canvas.getContext("2d");
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
     ctx.drawImage(iconSource, 0, 0, size, size);
     return canvas.toBuffer("image/png");
   });
   const ico = await toIco(icoPngs, { resize: false });
   writeFileSync(join(ROOT, "src/app/favicon.ico"), ico);
+  writeFileSync(join(ROOT, "public/favicon.ico"), ico);
+
+  const manifest = {
+    name: "coolplugz",
+    short_name: "coolplugz",
+    icons: [
+      { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+    ],
+  };
+  writeFileSync(
+    join(ROOT, "public/site.webmanifest"),
+    `${JSON.stringify(manifest, null, 2)}\n`
+  );
 
   // Sanity check: favicon corners must be transparent, logo corners white
   const check = createCanvas(512, 512);
