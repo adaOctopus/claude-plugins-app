@@ -99,23 +99,16 @@ async function main() {
   const mark512 = renderLogo(image, 512);
   const mark1024 = renderLogo(image, 1024);
   const icon512 = renderRoundedIcon(image, 512, 112);
-  const icon192 = renderRoundedIcon(image, 192, 42);
-  const icon96 = renderRoundedIcon(image, 96, 21);
-  const icon48 = renderRoundedIcon(image, 48, 11);
   const apple180 = renderRoundedIcon(image, 180, 40);
 
   writeFileSync(join(ROOT, "public/coolplugz-mark.png"), mark512);
   writeFileSync(join(ROOT, "public/coolplugz-mark-hq.png"), mark1024);
   writeFileSync(join(ROOT, "public/icon.png"), icon512);
-  writeFileSync(join(ROOT, "public/icon-512.png"), icon512);
-  writeFileSync(join(ROOT, "public/icon-192.png"), icon192);
-  writeFileSync(join(ROOT, "public/icon-96.png"), icon96);
-  writeFileSync(join(ROOT, "public/icon-48.png"), icon48);
   writeFileSync(join(ROOT, "public/apple-icon.png"), apple180);
   writeFileSync(join(ROOT, "src/app/icon.png"), icon512);
   writeFileSync(join(ROOT, "src/app/apple-icon.png"), apple180);
 
-  // favicon.ico — include 48px+ sizes Google uses in search results
+  // favicon.ico embeds 48–192px sizes for Google Search (no extra public PNG URLs needed)
   const iconSource = await loadImage(icon512);
   const icoSizes = [16, 32, 48, 96, 192];
   const icoPngs = icoSizes.map((size) => {
@@ -133,10 +126,7 @@ async function main() {
   const manifest = {
     name: "coolplugz",
     short_name: "coolplugz",
-    icons: [
-      { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
-    ],
+    icons: [{ src: "/icon.png", sizes: "512x512", type: "image/png", purpose: "any" }],
   };
   writeFileSync(
     join(ROOT, "public/site.webmanifest"),
