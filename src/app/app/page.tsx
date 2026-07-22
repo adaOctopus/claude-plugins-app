@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogoutButton } from "@/components/marketplace/DashboardActions";
 import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
-import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
+import { UNIQUE_MCP_URL_PATH, freeTrialSetupPath } from "@/lib/mcp-setup-paths";
 import { filterListedPlugins, requiresProSubscription } from "@/lib/marketplace-plugins";
 
 /** Logged-in account hub — subscription, plugins, sign out. */
@@ -91,7 +91,11 @@ export default async function AppDashboardPage() {
               <Link href="/pricing" className="font-medium text-charcoal underline">
                 View pricing
               </Link>{" "}
-              — or start a card-free 7-day trial from the pricing page.
+              — or{" "}
+              <Link href={freeTrialSetupPath()} className="font-medium text-charcoal underline">
+                start your free 7-day trial
+              </Link>
+              .
             </p>
           </CardContent>
         </Card>
@@ -111,7 +115,9 @@ export default async function AppDashboardPage() {
                   <Link
                     href={
                       requiresProSubscription(plugin)
-                        ? UNIQUE_MCP_URL_PATH
+                        ? subscription || trialStatus?.active
+                          ? UNIQUE_MCP_URL_PATH
+                          : `${UNIQUE_MCP_URL_PATH}?start=trial`
                         : `/install/${plugin.slug}`
                     }
                   >

@@ -206,14 +206,17 @@ COOLPLUGZ_API_URL=https://api.coolplugz.com
 COOLPLUGZ_ADMIN_SECRET=your_admin_secret_here
 ```
 
-**Paid subscription** — `POST /api/provision-coolplugz` (this app, session auth) calls your server:
+**Paid subscription** — `POST /api/provision-coolplugz` (this app, session auth) calls your MCP server:
 
 ```http
-POST ${COOLPLUGZ_API_URL}/api/provision-coolplugz
+POST ${COOLPLUGZ_API_URL}/admin/keys
+Authorization: Bearer ${COOLPLUGZ_ADMIN_SECRET}
 Content-Type: application/json
 
 { "email": "user@example.com", "tier": "pro" }
 ```
+
+Override the path with `COOLPLUGZ_PROVISION_PATH` if your server uses a different route (default: `/admin/keys`).
 
 **Free 7-day trial** — same external endpoint with:
 

@@ -17,7 +17,7 @@ import {
   type BillingPeriod,
   type PaidTier,
 } from "@/lib/pricing-plans";
-import { freeTrialLoginRedirect } from "@/lib/mcp-setup-paths";
+import { freeTrialSetupPath } from "@/lib/mcp-setup-paths";
 import { startTierCheckout } from "@/lib/start-checkout";
 import { isWipSite, comingSoonHref, resolveProductHref } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
@@ -123,7 +123,7 @@ function PricingPlanCard({
 export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsProps) {
   const [enterpriseOpen, setEnterpriseOpen] = useState(false);
   const proPrice = tierPricing.pro[billing];
-  const freeTrialHref = resolveProductHref(freeTrialLoginRedirect());
+  const freeTrialHref = resolveProductHref(freeTrialSetupPath());
   const promo = useOptionalPromoCode();
 
   async function handleCheckout(tier: PaidTier) {

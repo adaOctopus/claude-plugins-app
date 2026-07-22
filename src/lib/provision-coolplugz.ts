@@ -38,6 +38,19 @@ function getCoolplugzApiConfig() {
   return { baseUrl, adminSecret, useDummy };
 }
 
+/** External MCP server provision endpoint (api.coolplugz.com uses /admin/keys). */
+function buildProvisionRequestUrl(baseUrl: string): string {
+  const configured = process.env.COOLPLUGZ_PROVISION_PATH?.trim();
+  if (configured) {
+    if (configured.startsWith("http://") || configured.startsWith("https://")) {
+      return configured.replace(/\/$/, "");
+    }
+    const path = configured.startsWith("/") ? configured : `/${configured}`;
+    return `${baseUrl}${path}`;
+  }
+  return `${baseUrl}/admin/keys`;
+}
+
 /** Stable dummy URL for local dev until the CoolPlugz server is live. */
 function createDummyMcpUrl(input: ProvisionCoolplugzInput): string {
   const base =
@@ -98,7 +111,7 @@ export async function callCoolplugzProvisionApi(
     headers.Authorization = `Bearer ${adminSecret}`;
   }
 
-  const res = await fetch(`${baseUrl}/api/provision-coolplugz`, {
+  const res = await fetch(buildProvisionRequestUrl(baseUrl!), {
     method: "POST",
     headers,
     body: JSON.stringify(payload),
@@ -107,6 +120,7 @@ export async function callCoolplugzProvisionApi(
   const data = (await res.json().catch(() => ({}))) as {
     mcpUrl?: string;
     url?: string;
+    key?: string;
     expiresAt?: string;
     error?: string;
     message?: string;
@@ -118,7 +132,7 @@ export async function callCoolplugzProvisionApi(
     );
   }
 
-  const mcpUrl = data.mcpUrl || data.url;
+  const mcpUrl = data.mcpUrl || data.url || data.key;
   if (!mcpUrl) {
     throw new Error("CoolPlugz provision response missing mcpUrl");
   }
