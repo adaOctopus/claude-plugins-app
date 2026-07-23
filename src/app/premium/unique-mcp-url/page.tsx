@@ -55,23 +55,28 @@ export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
   }
 
   if (wantsFreeTrial) {
+    let provisionError: string | null = null;
     try {
       await provisionFreeTrialForUser(session.id);
-      redirect(UNIQUE_MCP_URL_PATH);
     } catch (error) {
-      const message = toUserFacingProvisionError(error, "free-trial-page");
-      const trialStatus = await getFreeTrialStatus(session.id);
-      return (
-        <div className="px-4 py-32 md:px-8">
-          <InstallPaywall
-            plugin={plugin}
-            email={session.email}
-            trialExpired={trialStatus.used && !trialStatus.active}
-            errorMessage={message}
-          />
-        </div>
-      );
+      provisionError = toUserFacingProvisionError(error, "free-trial-page");
     }
+
+    if (!provisionError) {
+      redirect(UNIQUE_MCP_URL_PATH);
+    }
+
+    const trialStatus = await getFreeTrialStatus(session.id);
+    return (
+      <div className="px-4 py-32 md:px-8">
+        <InstallPaywall
+          plugin={plugin}
+          email={session.email}
+          trialExpired={trialStatus.used && !trialStatus.active}
+          errorMessage={provisionError}
+        />
+      </div>
+    );
   }
 
   const hasAccess = await canAccessMcp(session.id);
