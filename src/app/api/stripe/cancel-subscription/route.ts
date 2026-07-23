@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, getSubscriptionPeriodEnd } from "@/lib/stripe";
+import { isStripeModeMismatchError, toUserFacingStripeError } from "@/lib/user-facing-errors";
 import { Subscription } from "@/models/Subscription";
 
 /** Cancel the signed-in user's active Stripe subscription at period end. */
@@ -25,13 +26,17 @@ export async function POST() {
 
     const stripe = getStripe();
     const stripeSub = await stripe.subscriptions.update(subscription.stripeSubscriptionId, {
-      cancel_at_period_end: true,
+      cancel_at: "min_period_end",
     });
 
-    const periodEnd =
-      "current_period_end" in stripeSub && typeof stripeSub.current_period_end === "number"
-        ? new Date(stripeSub.current_period_end * 1000)
-        : subscription.currentPeriodEnd;
+    const periodEndUnix =
+      stripeSub.cancel_at ??
+      getSubscriptionPeriodEnd(stripeSub) ??
+      Math.floor(subscription.currentPeriodEnd.getTime() / 1000);
+    const periodEnd = new Date(periodEndUnix * 1000);
+
+    subscription.currentPeriodEnd = periodEnd;
+    await subscription.save();
 
     return NextResponse.json({
       success: true,
@@ -39,7 +44,8 @@ export async function POST() {
       currentPeriodEnd: periodEnd.toISOString(),
     });
   } catch (error) {
-    console.error("Cancel subscription error:", error);
-    return NextResponse.json({ error: "Could not cancel subscription" }, { status: 500 });
+    const message = toUserFacingStripeError(error, "cancel-subscription");
+    const status = isStripeModeMismatchError(error) ? 409 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }

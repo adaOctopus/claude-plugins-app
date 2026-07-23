@@ -14,6 +14,19 @@ export function getStripe() {
   return stripeInstance;
 }
 
+/** Unix timestamp for subscription period end — basil stores this on items, not the subscription root. */
+export function getSubscriptionPeriodEnd(sub: Stripe.Subscription): number | null {
+  const legacy = sub as Stripe.Subscription & { current_period_end?: number };
+  if (typeof legacy.current_period_end === "number") {
+    return legacy.current_period_end;
+  }
+
+  const items = sub.items?.data ?? [];
+  if (items.length === 0) return null;
+
+  return Math.max(...items.map((item) => item.current_period_end));
+}
+
 /** Subscription ID from Invoice — supports Stripe API before/after basil (parent.subscription_details). */
 export function getInvoiceSubscriptionId(invoice: Stripe.Invoice): string | null {
   const parentSubscription = invoice.parent?.subscription_details?.subscription;

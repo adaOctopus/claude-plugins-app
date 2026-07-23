@@ -1,6 +1,6 @@
 import type Stripe from "stripe";
 import { connectDB } from "@/lib/db";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, getSubscriptionPeriodEnd } from "@/lib/stripe";
 import { createSession } from "@/lib/auth";
 import { resolveUserFromCheckoutSession } from "@/lib/checkout-user";
 import { provisionCoolplugzForUser } from "@/lib/provision-coolplugz";
@@ -17,9 +17,7 @@ async function upsertSubscriptionFromStripe(
   await connectDB();
   const flagship = await Plugin.findOne({ isFlagship: true, status: "published" });
   const periodEnd =
-    "current_period_end" in stripeSub && typeof stripeSub.current_period_end === "number"
-      ? stripeSub.current_period_end
-      : Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60;
+    getSubscriptionPeriodEnd(stripeSub) ?? Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60;
 
   await Subscription.findOneAndUpdate(
     { stripeSubscriptionId: stripeSub.id },

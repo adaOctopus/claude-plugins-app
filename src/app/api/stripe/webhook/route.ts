@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { connectDB } from "@/lib/db";
-import { getStripe, getInvoiceSubscriptionId } from "@/lib/stripe";
+import { getStripe, getInvoiceSubscriptionId, getSubscriptionPeriodEnd } from "@/lib/stripe";
 import { Plugin } from "@/models/Plugin";
 import { Subscription } from "@/models/Subscription";
 import { Purchase } from "@/models/Purchase";
@@ -170,9 +170,7 @@ async function upsertSubscription(
 ) {
   const includedIds = flagshipId ? [flagshipId] : [];
   const periodEnd =
-    "current_period_end" in stripeSub && typeof stripeSub.current_period_end === "number"
-      ? stripeSub.current_period_end
-      : Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60;
+    getSubscriptionPeriodEnd(stripeSub) ?? Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60;
 
   await Subscription.findOneAndUpdate(
     { stripeSubscriptionId: stripeSub.id },
@@ -219,10 +217,7 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
 }
 
 async function syncSubscription(stripeSub: Stripe.Subscription) {
-  const periodEnd =
-    "current_period_end" in stripeSub && typeof stripeSub.current_period_end === "number"
-      ? stripeSub.current_period_end
-      : Math.floor(Date.now() / 1000);
+  const periodEnd = getSubscriptionPeriodEnd(stripeSub) ?? Math.floor(Date.now() / 1000);
 
   await Subscription.findOneAndUpdate(
     { stripeSubscriptionId: stripeSub.id },
