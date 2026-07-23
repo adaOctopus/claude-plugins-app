@@ -54,6 +54,7 @@ const FUNNEL_BOOSTERS: RelatedLink[] = [
   { href: "/guides/best-claude-plugins-for-developers", label: "Best Claude plugins" },
   { href: "/guides/claude-code-after-tutorial", label: "After Claude tutorials" },
   { href: "/guides/make-money-with-claude-as-a-developer", label: "Make money with Claude" },
+  { href: "/#make-money", label: "Refer & earn with CoolPlugz" },
 ];
 
 function addRelatedLink(links: RelatedLink[], seen: Set<string>, href: string, label: string) {
@@ -148,6 +149,8 @@ export const footerGuideLinks = [
   { href: "/guides", label: "All resources" },
   { href: "/guides/developer-freedom-with-claude", label: "Freedom with Claude" },
   { href: "/guides/make-money-with-claude-as-a-developer", label: "Make money with Claude" },
+  { href: "/#make-money", label: "Passive income with AI" },
+  { href: "/guides/passive-income-refer-coolplugz", label: "Refer CoolPlugz" },
   { href: "/guides/best-claude-plugins-for-developers", label: "Best Claude plugins" },
   { href: "/guides/claude-code-after-tutorial", label: "Claude Code best practices" },
   { href: "/guides/ai-fatigue-for-developers", label: "Prevent AI fatigue" },
@@ -157,6 +160,11 @@ export const footerGuideLinks = [
 export const northStarQueries = [
   "how to make money with claude",
   "make money with claude",
+  "make money with AI",
+  "generate passive income with AI",
+  "generate passive income with Claude",
+  "passive income with Claude",
+  "passive income with AI",
   "best claude plugins",
   "best claude skills",
   "best claude connectors",

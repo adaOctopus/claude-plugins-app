@@ -1,5 +1,7 @@
 import mongoose, { Schema, models, model } from "mongoose";
 
+export type PartnerPromoSource = "admin" | "dev_referral";
+
 export interface IPartnerPromo {
   _id: mongoose.Types.ObjectId;
   /** Uppercase partner-facing code, e.g. ALEX25 */
@@ -13,6 +15,8 @@ export interface IPartnerPromo {
   stripeCouponId: string;
   stripePromotionCodeId: string;
   active: boolean;
+  source: PartnerPromoSource;
+  userId?: mongoose.Types.ObjectId;
   notes?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -28,6 +32,8 @@ const PartnerPromoSchema = new Schema<IPartnerPromo>(
     stripeCouponId: { type: String, required: true },
     stripePromotionCodeId: { type: String, required: true, unique: true },
     active: { type: Boolean, default: true },
+    source: { type: String, enum: ["admin", "dev_referral"], default: "admin" },
+    userId: { type: Schema.Types.ObjectId, ref: "User" },
     notes: String,
   },
   { timestamps: true }

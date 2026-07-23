@@ -1,4 +1,5 @@
 import type Stripe from "stripe";
+import mongoose from "mongoose";
 import { connectDB } from "@/lib/db";
 import { getStripe, getInvoiceSubscriptionId } from "@/lib/stripe";
 import { PartnerPromo, type IPartnerPromo } from "@/models/PartnerPromo";
@@ -27,7 +28,139 @@ export type CreatePartnerPromoInput = {
   discountPercent?: number;
   revenueSharePercent?: number;
   notes?: string;
+  source?: IPartnerPromo["source"];
+  userId?: string;
 };
+
+export function getReferralDiscountPercent(): number {
+  const raw = process.env.REFERRAL_DISCOUNT_PERCENT;
+  const parsed = raw ? Number(raw) : 15;
+  return Number.isFinite(parsed) ? parsed : 15;
+}
+
+export function getReferralRevenueSharePercent(): number {
+  const raw = process.env.REFERRAL_REVENUE_SHARE_PERCENT;
+  const parsed = raw ? Number(raw) : 20;
+  return Number.isFinite(parsed) ? parsed : 20;
+}
+
+function sanitizeEmailLocalPart(email: string): string {
+  const local = email.split("@")[0] ?? "";
+  const cleaned = local.replace(/[^a-zA-Z0-9]/g, "").slice(0, 8).toUpperCase();
+  return cleaned || "DEV";
+}
+
+export function buildDevReferralCode(email: string): string {
+  const part = sanitizeEmailLocalPart(email);
+  const seq = String(Date.now() % 10000).padStart(4, "0");
+  return normalizePromoCode(`COOLPLUGZ${part}${seq}`);
+}
+
+function partnerDisplayNameFromEmail(email: string): string {
+  const local = email.split("@")[0] ?? "developer";
+  return local.replace(/[._-]+/g, " ").trim() || "Developer";
+}
+
+export type PartnerPromoStats = {
+  redemptionCount: number;
+  totalNetRevenue: number;
+  totalPartnerShare: number;
+};
+
+export async function getPartnerPromoStats(promoId: string): Promise<PartnerPromoStats> {
+  await connectDB();
+  const promoObjectId = new mongoose.Types.ObjectId(promoId);
+  const rows = await PartnerPromoRedemption.aggregate<{
+    redemptionCount: number;
+    totalNetRevenue: number;
+    totalPartnerShare: number;
+  }>([
+    { $match: { partnerPromoId: promoObjectId } },
+    {
+      $group: {
+        _id: null,
+        redemptionCount: { $sum: 1 },
+        totalNetRevenue: { $sum: "$netAmount" },
+        totalPartnerShare: { $sum: "$partnerShareAmount" },
+      },
+    },
+  ]);
+
+  const row = rows[0];
+  return {
+    redemptionCount: row?.redemptionCount ?? 0,
+    totalNetRevenue: row?.totalNetRevenue ?? 0,
+    totalPartnerShare: row?.totalPartnerShare ?? 0,
+  };
+}
+
+export async function findDevReferralByEmail(email: string): Promise<IPartnerPromo | null> {
+  await connectDB();
+  const normalized = email.trim().toLowerCase();
+  if (!normalized) return null;
+
+  return PartnerPromo.findOne({
+    partnerEmail: normalized,
+    source: "dev_referral",
+    active: true,
+  });
+}
+
+export function buildReferralShareUrl(code: string, appUrl?: string): string {
+  const base = (appUrl ?? process.env.NEXT_PUBLIC_APP_URL ?? "https://www.coolplugz.com").replace(
+    /\/$/,
+    ""
+  );
+  return `${base}/?promo=${encodeURIComponent(code)}#pricing`;
+}
+
+/** Self-serve dev referral — one active code per email, 15% friend discount / 20% share by default. */
+export async function createDevReferralPromo(
+  email: string,
+  userId?: string
+): Promise<{ promo: IPartnerPromo; stats: PartnerPromoStats; created: boolean }> {
+  await connectDB();
+
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!normalizedEmail || !normalizedEmail.includes("@")) {
+    throw new Error("Enter a valid email address");
+  }
+
+  const existing = await findDevReferralByEmail(normalizedEmail);
+  if (existing) {
+    const stats = await getPartnerPromoStats(existing._id.toString());
+    return { promo: existing, stats, created: false };
+  }
+
+  const discountPercent = getReferralDiscountPercent();
+  const revenueSharePercent = getReferralRevenueSharePercent();
+  const partnerName = partnerDisplayNameFromEmail(normalizedEmail);
+
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    const code = buildDevReferralCode(normalizedEmail);
+    try {
+      const promo = await createPartnerPromo({
+        code,
+        partnerName,
+        partnerEmail: normalizedEmail,
+        discountPercent,
+        revenueSharePercent,
+        source: "dev_referral",
+        userId,
+        notes: "Self-serve dev referral",
+      });
+      const stats = await getPartnerPromoStats(promo._id.toString());
+      return { promo, stats, created: true };
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("already exists") && attempt < 4) {
+        continue;
+      }
+      throw error;
+    }
+  }
+
+  throw new Error("Could not generate a unique referral code. Try again.");
+}
 
 /** Create Stripe coupon + promotion code and persist partner promo in Mongo. */
 export async function createPartnerPromo(input: CreatePartnerPromoInput): Promise<IPartnerPromo> {
@@ -84,8 +217,18 @@ export async function createPartnerPromo(input: CreatePartnerPromoInput): Promis
     stripeCouponId: coupon.id,
     stripePromotionCodeId: promotionCode.id,
     active: true,
+    source: input.source ?? "admin",
+    ...(input.userId ? { userId: input.userId } : {}),
     notes: input.notes?.trim(),
   });
+}
+
+export function isSelfReferralPromo(
+  promo: IPartnerPromo,
+  customerEmail: string | undefined | null
+): boolean {
+  if (!promo.partnerEmail || !customerEmail) return false;
+  return promo.partnerEmail.trim().toLowerCase() === customerEmail.trim().toLowerCase();
 }
 
 export async function setPartnerPromoActive(code: string, active: boolean) {

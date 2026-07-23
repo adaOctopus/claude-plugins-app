@@ -1,4 +1,5 @@
 import { faqItems } from "@/components/landing/FAQSection";
+import { makeMoneyFaqItems, makeMoneyHowToSchema } from "@/lib/referral-seo-copy";
 import { CANONICAL_SITE_URL, getAbsoluteOgImageUrl, OG_TAGLINE, SEO_DEFAULTS } from "@/lib/seo";
 import { PRICING_AMOUNTS } from "@/lib/pricing-plans";
 
@@ -6,16 +7,31 @@ export function JsonLd() {
   const appUrl = CANONICAL_SITE_URL;
   const ogImageUrl = getAbsoluteOgImageUrl(appUrl);
 
+  const allFaqItems = [...faqItems, ...makeMoneyFaqItems];
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
+    mainEntity: allFaqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
         "@type": "Answer",
         text: item.answer,
       },
+    })),
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: makeMoneyHowToSchema.name,
+    description: makeMoneyHowToSchema.description,
+    step: makeMoneyHowToSchema.steps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step.name,
+      text: step.text,
     })),
   };
 
@@ -86,6 +102,10 @@ export function JsonLd() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
       <script
         type="application/ld+json"

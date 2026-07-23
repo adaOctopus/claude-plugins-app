@@ -109,7 +109,11 @@ export function FAQSection() {
           <Link href="/guides" className="font-medium text-charcoal underline underline-offset-2">
             developer guides
           </Link>{" "}
-          - passive income, automation, AI-era side effects, and Claude best practices.
+          — or{" "}
+          <Link href="/#make-money" className="font-medium text-charcoal underline underline-offset-2">
+            generate passive income with Claude
+          </Link>{" "}
+          by referring CoolPlugz.
         </p>
       </div>
     </section>

@@ -14,7 +14,7 @@ import {
 } from "@/lib/stripe";
 import { User } from "@/models/User";
 import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
-import { findActivePartnerPromo, normalizePromoCode } from "@/lib/partner-promos";
+import { findActivePartnerPromo, isSelfReferralPromo, normalizePromoCode } from "@/lib/partner-promos";
 
 const schema = z.object({
   plan: z.enum([
@@ -99,6 +99,7 @@ export async function POST(request: NextRequest) {
 
     let customerId: string | undefined;
     let userId = "";
+    let customerEmail: string | undefined;
 
     if (session) {
       try {
@@ -106,6 +107,7 @@ export async function POST(request: NextRequest) {
         const user = await User.findById(session.id);
         if (user) {
           userId = user._id.toString();
+          customerEmail = user.email;
           customerId = await getOrCreateStripeCustomer(
             user.email,
             userId,
@@ -119,6 +121,13 @@ export async function POST(request: NextRequest) {
       } catch (dbError) {
         console.warn("Checkout continuing without linked customer — DB unavailable:", dbError);
       }
+    }
+
+    if (partnerPromo && isSelfReferralPromo(partnerPromo, customerEmail)) {
+      return NextResponse.json(
+        { error: "You cannot use your own referral promo code at checkout" },
+        { status: 400 }
+      );
     }
 
     const cancelUrl =

@@ -74,3 +74,44 @@ https://www.coolplugz.com/?promo=DEVALEX25#pricing
 ```
 
 Code is validated, stored in session, and sent to Stripe on checkout.
+
+## Dev self-serve referral program (homepage)
+
+Developers generate their own code on the homepage **`/#make-money`** section — no admin API required.
+
+| Setting | Default | Env override |
+|---|---|---|
+| Friend discount | 15% | `REFERRAL_DISCOUNT_PERCENT` |
+| Partner revenue share | 20% | `REFERRAL_REVENUE_SHARE_PERCENT` |
+
+### Generate a link
+
+```bash
+curl -X POST https://www.coolplugz.com/api/referral/generate \
+  -H "Content-Type: application/json" \
+  -d '{ "email": "dev@example.com" }'
+```
+
+Response includes `code`, `shareUrl`, and `stats` (redemptions, earnings).
+
+One active code per email. Codes look like `COOLPLUGZTASOS4821` (prefix + email fragment + unique suffix).
+
+### Lookup stats
+
+```bash
+curl "https://www.coolplugz.com/api/referral/stats?email=dev@example.com"
+```
+
+### Rules
+
+- Self-referral blocked at checkout (same email as partner)
+- Renewals accrue share while subscription stays linked
+- Payouts are manual to `partnerEmail` (v1)
+
+### Share URL format
+
+```
+https://www.coolplugz.com/?promo=COOLPLUGZTASOS4821#pricing
+```
+
+Promos are stored with `source: "dev_referral"` in MongoDB (admin-created promos use `source: "admin"`).

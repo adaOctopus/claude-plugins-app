@@ -175,6 +175,8 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/api/stripe/cancel-subscription` | POST | Cancel subscription at period end |
 | `/api/stripe/portal` | POST | Customer Portal URL |
 | `/api/stripe/webhook` | POST | Stripe event handler |
+| `/api/referral/generate` | POST | Self-serve dev referral link (email → promo code) |
+| `/api/referral/stats` | GET | Referral earnings stats by partner email |
 | `/api/promo/validate` | GET | Validate partner promo code |
 | `/api/admin/partner-promos` | GET/POST/PATCH | Create/list/deactivate influencer promos (admin) |
 | `/api/plugins` | GET/POST | List / upload plugins |
@@ -193,7 +195,7 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 - **Premium** (legacy Stripe tier): $47/mo or $387/yr — not shown on pricing; existing subscribers keep access
 - **Add-ons**: $2.50/mo per extra marketplace plugin
 - **Creator fee**: 1% platform commission (manual payouts)
-- **Partner promos**: influencer codes (default 25% customer discount + 25% revenue share tracked in Mongo) — see `docs/partner-promos.md`
+- **Partner promos**: influencer codes (admin API) + **dev self-serve referrals** on homepage `#make-money` (15% friend discount, 20% revenue share) — see `docs/partner-promos.md`
 
 Free trial flow: pricing → magic-link login → `/premium/unique-mcp-url?start=trial` → `POST /api/provision-coolplugz/free-trial` → CoolPlugz admin API with `tier: "trial"` and `ttlHours: 168`.
 

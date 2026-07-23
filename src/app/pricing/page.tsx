@@ -90,6 +90,10 @@ function PricingContent() {
           <Link href="/guides/make-money-with-claude-as-a-developer" className="text-charcoal underline">
             make money with Claude
           </Link>
+          ,{" "}
+          <Link href="/#make-money" className="text-charcoal underline">
+            passive income with AI referrals
+          </Link>
           , and{" "}
           <Link href="/guides/claude-code-after-tutorial" className="text-charcoal underline">
             post-tutorial setup

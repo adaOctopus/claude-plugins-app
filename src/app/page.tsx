@@ -1,6 +1,7 @@
 import { HowItWorksStrip } from "@/components/landing/HowItWorksStrip";
 import { BenefitsSection } from "@/components/landing/BenefitsSection";
 import { HeroSection } from "@/components/landing/HeroSection";
+import { MakeMoneySection } from "@/components/landing/MakeMoneySection";
 import { DashboardSection } from "@/components/landing/DashboardSection";
 import { PluginMarketplaceSection } from "@/components/landing/PluginMarketplaceSection";
 import { MarketplaceSection } from "@/components/landing/MarketplaceSection";
@@ -23,6 +24,7 @@ export default function HomePage() {
       <HeroSection />
       <HowItWorksStrip />
       <BenefitsSection />
+      <MakeMoneySection />
       <DashboardSection />
       <ChatTagsSection />
       {/* <MarketplaceSection /> */}

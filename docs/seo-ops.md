@@ -11,7 +11,8 @@ Manual steps that cannot be fully automated in the repo. Work through these afte
    - `/guides/make-money-with-claude-as-a-developer`
    - `/guides/best-claude-plugins-for-developers`
    - `/guides/claude-code-after-tutorial`
-   - `/guides/multiple-clients-parallel-claude`
+   - `/guides/passive-income-refer-coolplugz`
+   - `/#make-money` (referral program section)
 4. Validate homepage FAQ rich results: [Rich Results Test](https://search.google.com/test/rich-results)
 
 ## Weekly measurement (first 8 weeks)
@@ -19,7 +20,11 @@ Manual steps that cannot be fully automated in the repo. Work through these afte
 In Search Console → **Performance** → filter by query. Track:
 
 - `how to make money with claude`
-- `make money with claude`
+- `make money with AI`
+- `generate passive income with AI`
+- `generate passive income with Claude`
+- `passive income with Claude`
+- `passive income with AI`
 - `best claude plugins`
 - `best claude skills`
 - `best claude connectors`
@@ -41,6 +46,7 @@ YouTube autocomplete for "Claude" / "Claude Code" skews **learning**: best pract
 | YouTube | claude best practices, claude code agents | Learn patterns | Bridge → `/guides/claude-code-after-tutorial` |
 | Google | best claude plugins/skills/connectors | Pick tools | `/guides/best-claude-plugins-for-developers` |
 | Google | how to make money with claude | Monetize workflow | `/guides/make-money-with-claude-as-a-developer` |
+| Google | make money with AI / passive income with Claude | Referral program | `/#make-money`, `/guides/passive-income-refer-coolplugz` |
 | Google | claude code best practices, claude MCP | Post-tutorial setup | `/guides/claude-code-after-tutorial` |
 
 Track in Search Console (add to weekly list):

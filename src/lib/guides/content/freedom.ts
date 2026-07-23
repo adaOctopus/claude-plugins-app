@@ -477,4 +477,96 @@ export const freedomGuides: Guide[] = [
       ],
     },
   },
+  {
+    slug: "passive-income-refer-coolplugz",
+    title: "Generate Passive Income with Claude and AI — Refer CoolPlugz to Developer Friends",
+    metaTitle: "Passive Income with Claude — Refer CoolPlugz",
+    metaDescription:
+      "Make money with Claude and AI by sharing CoolPlugz. Generate passive income with a unique referral link — 20% revenue share, 15% off for friends.",
+    keywords: [
+      "make money with AI",
+      "make money with Claude",
+      "how to make money with Claude",
+      "generate passive income with AI",
+      "generate passive income with Claude",
+      "passive income with AI",
+      "passive income with Claude",
+      "Claude referral program",
+      "AI referral program developers",
+      "CoolPlugz referral program",
+    ],
+    category: "freedom",
+    directAnswer:
+      "Developers searching how to make money with Claude or generate passive income with AI can refer CoolPlugz: enter your email on the homepage, get a unique promo code, share the link, and earn 20% on every payment and renewal while friends get 15% off.",
+    relatedSlugs: [
+      "make-money-with-claude-as-a-developer",
+      "developer-freedom-with-claude",
+      "claude-automation-for-freelancers",
+      "best-claude-plugins-for-developers",
+    ],
+    pillarSlug: "developer-freedom-with-claude",
+    sections: [
+      {
+        id: "why-refer",
+        title: "Make money with Claude without selling courses",
+        blocks: [
+          {
+            type: "p",
+            text: "Most 'make money with AI' content is affiliate noise. Referring CoolPlugz is different: you share a Claude plugin engineers actually use for Jira, Slack, GitHub, and merge-ready code — and you earn 20% when they subscribe.",
+          },
+          {
+            type: "p",
+            text: "That is passive income with Claude tooling: one link, recurring renewals, no prompt-writing side hustle.",
+          },
+        ],
+      },
+      {
+        id: "how-it-works",
+        title: "How the CoolPlugz Claude referral program works",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Enter your email on coolplugz.com/#make-money",
+              "Get a unique code like COOLPLUGZTASOS4821",
+              "Share your link — friends get 15% off at checkout",
+              "Earn 20% of net revenue on initial payment and renewals",
+              "Payouts sent manually to your email each month",
+            ],
+          },
+        ],
+      },
+      {
+        id: "who-for",
+        title: "Who should generate passive income with AI referrals",
+        blocks: [
+          {
+            type: "p",
+            text: "Freelancers, retainers, indie hackers, and staff engineers who know other devs using Claude. If you already answer 'what stack do you use for client automation?' — this is make money with AI that fits your network.",
+          },
+        ],
+      },
+      {
+        id: "honest",
+        title: "What this is not",
+        blocks: [
+          {
+            type: "ul",
+            items: [
+              "Not a get-rich-quick scheme — earnings depend on real subscriptions",
+              "Not self-referral — your own email cannot use your code",
+              "Not instant payouts — we settle manually while the program is new",
+            ],
+          },
+        ],
+      },
+    ],
+    productPitch: {
+      title: "Get your referral link",
+      paragraphs: [
+        "Scroll to Make money with CoolPlugz on the homepage, enter your email, and copy your Claude referral link in seconds.",
+        ctaParagraph,
+      ],
+    },
+  },
 ];
