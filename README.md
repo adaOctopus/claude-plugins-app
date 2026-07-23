@@ -186,7 +186,7 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 
 ## Pricing
 
-- **Free 7-day trial**: $0, no credit card — full Pro via a unique MCP URL (7-day TTL on CoolPlugz server)
+- **Free 7-day trial**: $0, no credit card - full Pro via a unique MCP URL (7-day TTL on CoolPlugz server)
 - **Pro monthly**: $17/mo — includes flagship Context Engineer plugin
 - **Pro annual**: $147/yr — ~35% savings
 - **Enterprise**: custom pricing — multi-seat teams, pipeline optimization; **Contact us** form on pricing

@@ -44,7 +44,7 @@ export function InstallPluginGuide({
           <br />
           {isFreeTrial ? (
             <>
-              <span className="font-medium text-charcoal">Free 7-day trial</span> — no credit card.
+              <span className="font-medium text-charcoal">Free 7-day trial</span> - no credit card.
               Your unique MCP URL is minted on our server and expires after 7 days.
             </>
           ) : (

@@ -86,7 +86,7 @@ export function InstallMcpSetupBlock({
     <>
       <Card className="mb-6 border-charcoal/15">
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg">Your MCP URL💎🔗</CardTitle>
+          <CardTitle className="text-lg">Your unique MCP url💎🔗</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="mb-4 text-sm text-charcoal-muted">
