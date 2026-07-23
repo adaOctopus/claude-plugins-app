@@ -10,7 +10,7 @@ export const CLAUDE_DESKTOP_EDIT_CONFIG_IMAGE = "/guides/claude-desktop-edit-con
 
 export const COOLPLUGZ_GETTING_STARTED = {
   title: "CoolPlugz — Getting Started",
-  setupHeadline: "One step process - pick your Claude app ✨",
+  setupHeadline: "One step process - from either Claude web or Desktop ✨",
   setupSubline: "",
   web: {
     emoji: "🌐",
@@ -19,7 +19,7 @@ export const COOLPLUGZ_GETTING_STARTED = {
     steps: [
       "Settings → Connectors → Add → Custom connector",
       'Name it "coolplugz"',
-      "Paste your URL above → Add",
+      "Paste your URL from above → Add",
     ],
   },
   desktop: {
@@ -37,13 +37,13 @@ export const COOLPLUGZ_GETTING_STARTED = {
   connectTitle: "Connect your tools 🔑",
   connectIntro:
     'Type "Show my dashboard" in Claude. CoolPlugz shows four Connect buttons — Jira, GitHub, Notion, Slack. Click each one, authorize, close the tab. Done.',
-  usageTitle: "What you can say ❤️",
-  usageIntro: "Plain English — no IDs, no config:",
+  usageTitle: "What to type inside Claude ❤️",
+  usageIntro: "Plain English - no IDs, no config, just chat:",
   commands: [
     {
       command: "Show my dashboard",
       description:
-        "home base — connect Jira, GitHub, Notion, Slack once, then tasks, PRs, and Slack drafts",
+        "Connects to Jira, GitHub, Notion, Slack once, then tasks, PRs, and Slack drafts",
     },
     {
       command: "Run",
@@ -65,6 +65,10 @@ export const COOLPLUGZ_GETTING_STARTED = {
     {
       command: "Refresh Slack",
       description: "pulls latest mentions and generates draft replies",
+    },
+    {
+      command: "Refetch and rerun",
+      description: "pulls latest context and reruns",
     },
   ] satisfies CoolplugzCommand[],
   usageFooter: "Works on web and desktop. Connect once, stays connected.",
