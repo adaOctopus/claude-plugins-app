@@ -26,7 +26,8 @@ export function MagicLinkSentMessage({ devLink, className }: MagicLinkSentMessag
 
   return (
     <div className={className ?? "rounded-xl bg-accent-sage p-4 text-sm text-charcoal"}>
-      Check your inbox for the link. It expires in 15 minutes.
+      Check your inbox for the link. It expires in 15 minutes. If you request another link, use
+      the latest email only.
     </div>
   );
 }

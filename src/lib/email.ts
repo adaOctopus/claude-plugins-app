@@ -40,10 +40,14 @@ export async function sendMagicLinkEmail(
   token: string,
   redirect?: string
 ): Promise<MagicLinkEmailResult> {
-  const redirectParam = redirect
-    ? `&redirect=${encodeURIComponent(redirect)}`
-    : "";
-  const verifyUrl = `${APP_URL}/api/auth/verify?token=${token}${redirectParam}`;
+  const params = new URLSearchParams({
+    token,
+    email,
+  });
+  if (redirect) {
+    params.set("redirect", redirect);
+  }
+  const verifyUrl = `${APP_URL}/login/verify?${params.toString()}`;
 
   if (!resend) {
     console.log("\n--- MAGIC LINK (dev mode) ---");

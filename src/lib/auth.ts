@@ -35,6 +35,12 @@ export async function createMagicLink(email: string) {
   const tokenHash = await hashToken(token);
   const expiresAt = new Date(Date.now() + TOKEN_EXPIRY_MINUTES * 60 * 1000);
 
+  // Only the latest link should work — avoids stale emails and narrows verify lookup.
+  await MagicLinkToken.updateMany(
+    { email: normalizedEmail, usedAt: { $exists: false } },
+    { $set: { usedAt: new Date() } }
+  );
+
   await MagicLinkToken.create({
     email: normalizedEmail,
     tokenHash,
@@ -44,18 +50,35 @@ export async function createMagicLink(email: string) {
   return { token, email: normalizedEmail };
 }
 
-export async function verifyMagicLink(token: string) {
+export async function verifyMagicLink(token: string, email?: string) {
   await connectDB();
-  const tokens = await MagicLinkToken.find({
-    usedAt: { $exists: false },
-    expiresAt: { $gt: new Date() },
-  }).sort({ createdAt: -1 });
+  const normalizedEmail = email?.toLowerCase().trim();
+  const now = new Date();
+  const query: {
+    expiresAt: { $gt: Date };
+    email?: string;
+    $or: Array<{ usedAt: { $exists: false } } | { usedAt: { $gt: Date } }>;
+  } = {
+    expiresAt: { $gt: now },
+    $or: [
+      { usedAt: { $exists: false } },
+      // Allow brief reuse for double-clicks / React Strict Mode / flaky networks.
+      { usedAt: { $gt: new Date(now.getTime() - 60_000) } },
+    ],
+  };
+  if (normalizedEmail) {
+    query.email = normalizedEmail;
+  }
+
+  const tokens = await MagicLinkToken.find(query).sort({ createdAt: -1 }).limit(10);
 
   for (const record of tokens) {
     const valid = await verifyTokenHash(token, record.tokenHash);
     if (valid) {
-      record.usedAt = new Date();
-      await record.save();
+      if (!record.usedAt) {
+        record.usedAt = now;
+        await record.save();
+      }
 
       let user = await User.findOne({ email: record.email });
       if (!user) {

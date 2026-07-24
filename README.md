@@ -169,7 +169,8 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | Endpoint | Method | Description |
 |---|---|---|
 | `/api/auth/send-link` | POST | Send magic link email |
-| `/api/auth/verify` | GET | Verify token, create session |
+| `/api/auth/verify` | POST | Verify token, create session (GET redirects to `/login/verify` without consuming token) |
+| `/login/verify` | Page | Magic link landing — verifies via POST (safe from email prefetch) |
 | `/api/auth/logout` | POST | Clear session |
 | `/api/stripe/checkout` | POST | Create Checkout Session |
 | `/api/stripe/cancel-subscription` | POST | Cancel subscription at period end |
