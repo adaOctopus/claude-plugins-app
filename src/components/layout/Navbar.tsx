@@ -5,10 +5,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
 import { MarketplaceNotifyTrigger } from "@/components/waitlist/MarketplaceNotifyDialog";
+import { isAccountRoute, isLoginRoute } from "@/lib/nav-routes";
 import { cn } from "@/lib/utils";
 
 const navButtonClassName =
   "inline-flex items-center rounded-full border border-charcoal/25 bg-transparent px-4 py-2 text-sm font-normal text-charcoal-muted transition-colors hover:border-charcoal/40 hover:text-charcoal";
+
+async function fetchAuthenticated() {
+  try {
+    const res = await fetch("/api/auth/session", {
+      credentials: "same-origin",
+      cache: "no-store",
+    });
+    if (!res.ok) return false;
+    const data = (await res.json()) as { authenticated?: boolean };
+    return !!data.authenticated;
+  } catch {
+    return false;
+  }
+}
 
 export function Navbar({
   isLoggedIn = false,
@@ -19,9 +34,24 @@ export function Navbar({
   isWip?: boolean;
 }) {
   const pathname = usePathname();
-  const isLoginPage = pathname === "/login";
-  const isAccountPage = pathname === "/app" || pathname.startsWith("/app/");
+  const onAccountPage = isAccountRoute(pathname);
+  const onLoginPage = isLoginRoute(pathname);
+  const [loggedIn, setLoggedIn] = useState(isLoggedIn);
   const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function syncAuth() {
+      const authenticated = await fetchAuthenticated();
+      if (!cancelled) setLoggedIn(authenticated);
+    }
+
+    void syncAuth();
+    return () => {
+      cancelled = true;
+    };
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -29,6 +59,9 @@ export function Navbar({
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const showManageAccount = loggedIn && !onAccountPage && !onLoginPage;
+  const showLogin = !loggedIn && !onLoginPage && !onAccountPage;
 
   return (
     <header
@@ -43,14 +76,12 @@ export function Navbar({
         <Link href="/" className="text-charcoal">
           <CoolplugzLogo markSize={46} wordmarkClassName="text-[32px]" />
         </Link>
-        {isLoggedIn && !isAccountPage && (
+        {showManageAccount ? (
           <Link href="/app" className={navButtonClassName}>
             Manage Account
           </Link>
-        )}
-        {!isLoggedIn &&
-          !isLoginPage &&
-          (isWip ? (
+        ) : showLogin ? (
+          isWip ? (
             <MarketplaceNotifyTrigger
               source="navbar-manage-plugins"
               className={navButtonClassName}
@@ -61,7 +92,8 @@ export function Navbar({
             <Link href="/login" className={navButtonClassName}>
               LOGIN
             </Link>
-          ))}
+          )
+        ) : null}
       </nav>
     </header>
   );

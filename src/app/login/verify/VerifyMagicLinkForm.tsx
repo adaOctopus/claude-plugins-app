@@ -59,6 +59,7 @@ export function VerifyMagicLinkForm() {
         }
 
         router.replace(data.redirect ?? redirect);
+        router.refresh();
       } catch {
         setStatus("error");
         setErrorMessage("We could not sign you in. Please request a new magic link.");
