@@ -91,7 +91,7 @@ export default async function AppDashboardPage() {
               <Link href="/pricing" className="font-medium text-charcoal underline">
                 View pricing
               </Link>{" "}
-              — or{" "}
+              - or{" "}
               <Link href={freeTrialSetupPath()} className="font-medium text-charcoal underline">
                 start your free 7-day trial
               </Link>

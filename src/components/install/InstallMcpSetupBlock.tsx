@@ -125,7 +125,7 @@ export function InstallMcpSetupBlock({
 
       <Card className="mb-4">
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg">Easy setup 👍</CardTitle>
+          <CardTitle className="text-lg">One step setup 👍</CardTitle>
         </CardHeader>
         <CardContent>
           <InstallSetupMethods mcpUrl={mcpUrl} />

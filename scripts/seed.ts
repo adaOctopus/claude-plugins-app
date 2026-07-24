@@ -34,7 +34,7 @@ const PLUGINS = [
     slug: "context-engineer",
     title: "Context Engineer Autopilot",
     description:
-      "Full-stack context for engineers. Jira, Slack, GitHub, Notion — code, CI, and Slack drafts in one run.",
+      "Full-stack context for engineers. Jira, Slack, GitHub, Notion - code, CI, and Slack drafts in one run.",
     category: "engineering",
     priceMonthly: 0,
     isFlagship: true,

@@ -29,7 +29,7 @@ export const MARKETPLACE_CATALOG: MarketplacePlugin[] = [
     slug: "context-engineer",
     title: "Context Engineering Autopilot",
     description:
-      "Gathers full context from Jira, Slack, GitHub, Notion — ships code with CI green, and handles Slack communications.",
+      "Gathers full context from Jira, Slack, GitHub, Notion - ships code with CI green, and handles Slack communications.",
     category: "engineering",
     priceMonthly: 0,
     isFlagship: true,

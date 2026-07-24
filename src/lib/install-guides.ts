@@ -10,11 +10,16 @@ export const CLAUDE_DESKTOP_EDIT_CONFIG_IMAGE = "/guides/claude-desktop-edit-con
 
 export const COOLPLUGZ_GETTING_STARTED = {
   title: "CoolPlugz — Getting Started",
-  setupHeadline: "One step process - from either Claude web or Desktop ✨",
+  setupHeadline: "",
   setupSubline: "",
+  companyAccountNote: {
+    title: "Quick tip ✨",
+    body:
+      "If you use Claude with your company email, it might restrict adding custom MCPs. Do not worry, if that happens we have you covered😌 Sign in to Claude with your personal email and connect Coolplugz ✨ Then connect Jira, GitHub, and Slack with your work email instead. That's it.",
+  },
   web: {
     emoji: "🌐",
-    title: "claude.ai (browser)",
+    title: "From claude.ai (browser)",
     badge: "Easiest",
     steps: [
       "Settings → Connectors → Add → Custom connector",
@@ -24,7 +29,7 @@ export const COOLPLUGZ_GETTING_STARTED = {
   },
   desktop: {
     emoji: "🖥️",
-    title: "Claude Desktop",
+    title: "From Claude Desktop",
     steps: [
       "Settings → Developer → Edit Config",
       "Choose claude_desktop_config.json — create the file if it doesn't exist",
