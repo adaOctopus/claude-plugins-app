@@ -85,7 +85,7 @@ async function seed() {
   for (const plugin of PLUGINS) {
     await Plugin.findOneAndUpdate({ slug: plugin.slug }, plugin, {
       upsert: true,
-      new: true,
+      returnDocument: "after",
     });
     console.log(`✓ ${plugin.title}`);
   }

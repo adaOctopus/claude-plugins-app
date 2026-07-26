@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
             commands: data.commands,
           },
         },
-        { new: true }
+        { returnDocument: "after" }
       );
 
       if (!plugin) {

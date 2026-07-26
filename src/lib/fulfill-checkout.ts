@@ -30,7 +30,7 @@ async function upsertSubscriptionFromStripe(
       currentPeriodEnd: new Date(periodEnd * 1000),
       includedPluginIds: flagship ? [flagship._id] : [],
     },
-    { upsert: true, new: true }
+    { upsert: true, returnDocument: "after" }
   );
 }
 

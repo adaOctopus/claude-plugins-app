@@ -13,11 +13,18 @@ import { sendPurchaseConfirmationEmail } from "@/lib/email";
 import { resolveUserFromCheckoutSession } from "@/lib/checkout-user";
 import { provisionCoolplugzForUser } from "@/lib/provision-coolplugz";
 import {
+  grantBonusRuns,
+  initializeUsageForSubscription,
+  resetIncludedRunsForPeriod,
+} from "@/lib/usage";
+import { syncUsageToCoolplugz } from "@/lib/sync-usage-to-coolplugz";
+import {
   recordCheckoutPartnerRedemption,
   recordInvoicePartnerRedemption,
   resolvePromoFromCheckoutSession,
 } from "@/lib/partner-promos";
 import { PartnerPromo } from "@/models/PartnerPromo";
+import { getSubscriptionPeriodStart } from "@/lib/stripe";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -72,6 +79,11 @@ export async function POST(request: NextRequest) {
 }
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+  if (session.metadata?.type === "credit_pack") {
+    await handleCreditPackCheckout(session);
+    return;
+  }
+
   const plan = session.metadata?.plan as "monthly" | "annual" | "addon" | undefined;
   const tier = (session.metadata?.tier as "pro" | "premium" | undefined) ?? "pro";
   const pluginId = session.metadata?.pluginId;
@@ -98,6 +110,21 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       const stripe = getStripe();
       const sub = await stripe.subscriptions.retrieve(session.subscription);
       await upsertSubscription(userId, sub, plan, tier, flagship?._id, partnerPromo);
+
+      const periodStart = getSubscriptionPeriodStart(sub);
+      const periodEnd = getSubscriptionPeriodEnd(sub);
+      if (periodStart != null && periodEnd != null) {
+        await initializeUsageForSubscription(
+          userId,
+          new Date(periodStart * 1000),
+          new Date(periodEnd * 1000)
+        );
+        try {
+          await syncUsageToCoolplugz(userId);
+        } catch (error) {
+          console.error("Usage sync after subscription checkout failed:", error);
+        }
+      }
 
       try {
         await provisionCoolplugzForUser(userId);
@@ -160,6 +187,25 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   }
 }
 
+async function handleCreditPackCheckout(session: Stripe.Checkout.Session) {
+  const userId = session.metadata?.userId;
+  const runs = Number(session.metadata?.runs ?? 0);
+  const amountUsd = Number(session.metadata?.amountUsd ?? (session.amount_total || 0) / 100);
+
+  if (!userId || !runs || !session.id) {
+    console.error("Credit pack checkout missing metadata:", session.id);
+    return;
+  }
+
+  await grantBonusRuns(userId, runs, session.id, amountUsd);
+
+  try {
+    await syncUsageToCoolplugz(userId);
+  } catch (error) {
+    console.error("Usage sync after credit purchase failed:", error);
+  }
+}
+
 async function upsertSubscription(
   userId: string,
   stripeSub: Stripe.Subscription,
@@ -190,7 +236,7 @@ async function upsertSubscription(
           }
         : {}),
     },
-    { upsert: true, new: true }
+    { upsert: true, returnDocument: "after" }
   );
 }
 
@@ -200,11 +246,30 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
   }
 
   const subscriptionId = getInvoiceSubscriptionId(invoice);
-
   if (!subscriptionId) return;
 
   const sub = await Subscription.findOne({ stripeSubscriptionId: subscriptionId });
-  if (!sub?.partnerPromoId) return;
+  if (!sub) return;
+
+  const stripe = getStripe();
+  const stripeSub = await stripe.subscriptions.retrieve(subscriptionId);
+  const periodStart = getSubscriptionPeriodStart(stripeSub);
+  const periodEnd = getSubscriptionPeriodEnd(stripeSub);
+
+  if (periodStart != null && periodEnd != null) {
+    await resetIncludedRunsForPeriod(
+      sub.userId.toString(),
+      new Date(periodStart * 1000),
+      new Date(periodEnd * 1000)
+    );
+    try {
+      await syncUsageToCoolplugz(sub.userId.toString());
+    } catch (error) {
+      console.error("Usage sync after renewal failed:", error);
+    }
+  }
+
+  if (!sub.partnerPromoId) return;
 
   const promo = await PartnerPromo.findById(sub.partnerPromoId);
   if (!promo) return;

@@ -4,7 +4,7 @@ export type PaidPlan = `${PaidTier}_${BillingPeriod}`;
 
 /** Single source of truth for displayed & checkout amounts (USD). */
 export const PRICING_AMOUNTS = {
-  pro: { monthly: 17, annual: 147 },
+  pro: { monthly: 47, annual: 397 },
   premium: { monthly: 47, annual: 387 },
 } as const;
 
@@ -13,7 +13,7 @@ export const billingOptions = {
     toggleLabel: "",
   },
   annual: {
-    toggleLabel: "Save up to 35%",
+    toggleLabel: "Save ~30%",
   },
 } as const;
 
@@ -23,7 +23,7 @@ export const tierPricing = {
     annual: {
       amount: PRICING_AMOUNTS.pro.annual,
       period: "/year",
-      savings: "Save ~35%",
+      savings: "Save ~30%",
     },
   },
   premium: {
@@ -47,8 +47,9 @@ export const trialFeatures = [
 export const proAdditiveFeatures = [
   "Automated Prompt Engineering",
   "Slack messages handled hourly",
-  "Unlimited iterations till CI checks pass",
-  "Unlimited daily content refetch",
+  "15 full task runs per month included",
+  "Up to $2 server budget per run",
+  "Top up extra runs anytime from your account",
 ] as const;
 
 /** Added on Premium — shown after “Everything in Pro, plus:”. */
@@ -78,8 +79,8 @@ export const freePlan = {
   amount: 0,
   period: "",
   badge: "No card required",
-  tagline: "Full Pro for 7 days",
-  durationNote: "After 7 days upgrade to Pro for full access",
+  tagline: "Full Pro for 7 days — 3 runs included",
+  durationNote: "After 7 days upgrade to Pro for 15 runs/month",
   featureHeader: "Includes:",
   features: trialFeatures,
   cta: "START FREE TRIAL",

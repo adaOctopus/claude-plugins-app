@@ -14,6 +14,19 @@ export function getStripe() {
   return stripeInstance;
 }
 
+/** Unix timestamp for subscription period start — basil stores this on items. */
+export function getSubscriptionPeriodStart(sub: Stripe.Subscription): number | null {
+  const legacy = sub as Stripe.Subscription & { current_period_start?: number };
+  if (typeof legacy.current_period_start === "number") {
+    return legacy.current_period_start;
+  }
+
+  const items = sub.items?.data ?? [];
+  if (items.length === 0) return null;
+
+  return Math.min(...items.map((item) => item.current_period_start));
+}
+
 /** Unix timestamp for subscription period end — basil stores this on items, not the subscription root. */
 export function getSubscriptionPeriodEnd(sub: Stripe.Subscription): number | null {
   const legacy = sub as Stripe.Subscription & { current_period_end?: number };
@@ -70,6 +83,18 @@ export function getCheckoutPriceId(plan: keyof typeof PRICING_AMOUNTS_MAP): stri
       );
     case "addon":
       return process.env.STRIPE_PRICE_ADDON ?? process.env.STRIPE_ADDON;
+    default:
+      return undefined;
+  }
+}
+
+/** One-time credit pack Stripe price IDs. */
+export function getCreditPackPriceId(packId: "pack_5" | "pack_10"): string | undefined {
+  switch (packId) {
+    case "pack_5":
+      return process.env.STRIPE_CREDIT_PACK_5 ?? process.env.STRIPE_PRICE_CREDIT_PACK_5;
+    case "pack_10":
+      return process.env.STRIPE_CREDIT_PACK_10 ?? process.env.STRIPE_PRICE_CREDIT_PACK_10;
     default:
       return undefined;
   }

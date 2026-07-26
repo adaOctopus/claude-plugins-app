@@ -59,7 +59,7 @@ export const faqItems = [
   {
     question: "What's included in the Pro subscription?",
     answer:
-      "Pro starts at $17/month or $147/year (~35% savings). It includes the Context Engineer Claude plugin with full Jira, Slack, GitHub, and Notion integration; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; your CoolPlugz MCP URL to paste into Claude; and ongoing updates. No per-task prompt writing. No LLM iteration tax.",
+      "Pro starts at $47/month or $397/year (~30% savings). It includes the Context Engineer Claude plugin with full Jira, Slack, GitHub, and Notion integration; 15 full task runs per month; top-up credits when you need more; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; your CoolPlugz MCP URL to paste into Claude; and ongoing updates.",
   },
   {
     question: "Can I add more plugins later?",

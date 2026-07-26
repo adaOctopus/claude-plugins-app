@@ -8,7 +8,7 @@ A Next.js 15 platform for selling, uploading, and creating Claude plugins. Featu
 
 - **Landing page** — earthy cream design, problem/solution sections, dashboard mockups, integrations bento grid
 - **Marketplace** — browse, buy, upload, or create plugins
-- **Stripe billing** — $17/month or $147/year base plan; $2.50/month per extra plugin
+- **Stripe billing** — $47/month or $397/year Pro plan (15 runs/mo included); one-time credit top-ups; $2.50/month per extra plugin
 - **Creator economy** — publish plugins, earn 99% (1% platform fee, manual payouts at launch)
 
 ## Tech stack
@@ -173,6 +173,7 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/login/verify` | Page | Magic link landing — verifies via POST (safe from email prefetch) |
 | `/api/auth/logout` | POST | Clear session |
 | `/api/stripe/checkout` | POST | Create Checkout Session |
+| `/api/stripe/credit-checkout` | POST | One-time credit top-up checkout (active Pro only) |
 | `/api/stripe/cancel-subscription` | POST | Cancel subscription at period end |
 | `/api/stripe/portal` | POST | Customer Portal URL |
 | `/api/stripe/webhook` | POST | Stripe event handler |
@@ -184,19 +185,24 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/api/plugins/builder` | POST | Create/publish builder drafts |
 | `/api/provision-coolplugz` | POST | Mint MCP URL (paid subscribers) |
 | `/api/provision-coolplugz/free-trial` | POST | Card-free 7-day trial MCP URL |
+| `/api/usage` | GET | Run quota summary for logged-in user |
+| `/api/usage/consume` | POST | MCP server decrements one run (Bearer `COOLPLUGZ_ADMIN_SECRET`) |
 | `/api/waitlist` | POST | Waitlist email capture |
 | `/api/sales/inquiry` | POST | Enterprise contact form → Mongo + Google Sheets SALES tab |
 
 ## Pricing
 
-- **Free 7-day trial**: $0, no credit card - full Pro via a unique MCP URL (7-day TTL on CoolPlugz server)
-- **Pro monthly**: $17/mo — includes flagship Context Engineer plugin
-- **Pro annual**: $147/yr — ~35% savings
+- **Free 7-day trial**: $0, no credit card — 3 included runs via unique MCP URL (7-day TTL on CoolPlugz server)
+- **Pro monthly**: $47/mo — 15 full task runs per month included; top-up credits from Manage Account
+- **Pro annual**: $397/yr — ~30% savings
+- **Credit top-ups** (one-time, active Pro only): $10 → 5 runs, $20 → 10 runs ($2/run server budget cap)
 - **Enterprise**: custom pricing — multi-seat teams, pipeline optimization; **Contact us** form on pricing
-- **Premium** (legacy Stripe tier): $47/mo or $387/yr — not shown on pricing; existing subscribers keep access
+- **Premium** (legacy Stripe tier): grandfathered subscribers only
 - **Add-ons**: $2.50/mo per extra marketplace plugin
 - **Creator fee**: 1% platform commission (manual payouts)
 - **Partner promos**: influencer codes (admin API) + **dev self-serve referrals** on homepage `#make-money` (15% friend discount, 20% revenue share) — see `docs/partner-promos.md`
+
+**Stripe env for credit packs:** `STRIPE_CREDIT_PACK_5`, `STRIPE_CREDIT_PACK_10` (one-time prices in Stripe Dashboard).
 
 Free trial flow: pricing → magic-link login → `/premium/unique-mcp-url?start=trial` → `POST /api/provision-coolplugz/free-trial` → CoolPlugz admin API with `tier: "trial"` and `ttlHours: 168`.
 
@@ -232,6 +238,63 @@ Response expected: `{ "mcpUrl": "https://..." }` or `{ "key": "..." }` (website 
 Optional: `COOLPLUGZ_MCP_URL_TEMPLATE=https://mcp.example.com/{key}` when your server returns a key slug instead of a full URL.
 
 Optional: set `COOLPLUGZ_ADMIN_SECRET` to send `Authorization: Bearer …` if your server requires it.
+
+### Usage limits sync (external API — MCP server)
+
+After subscription checkout, renewal, credit top-up, or trial provision, the website pushes run quotas to your MCP server (best-effort; website ledger is source of truth until MCP enforces limits):
+
+```http
+PATCH ${COOLPLUGZ_API_URL}/admin/keys/limits
+Authorization: Bearer ${COOLPLUGZ_ADMIN_SECRET}
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "includedRunsRemaining": 12,
+  "bonusRunsRemaining": 5,
+  "maxCostPerRunUsd": 2,
+  "periodEnd": "2026-08-15T00:00:00.000Z"
+}
+```
+
+Override the path with `COOLPLUGZ_LIMITS_PATH` if your server uses a different route.
+
+**Consumption order:** included runs first, then bonus runs. Included runs reset each billing period; bonus runs persist until used.
+
+### MCP → website (consume a run)
+
+When a task run **starts** on the MCP server, call the website to decrement the ledger (Manage Account stays in sync):
+
+```http
+POST https://www.coolplugz.com/api/usage/consume
+Authorization: Bearer ${COOLPLUGZ_ADMIN_SECRET}
+Content-Type: application/json
+
+{ "email": "user@example.com" }
+```
+
+**Success (200):**
+
+```json
+{
+  "success": true,
+  "usage": {
+    "includedRunsLimit": 3,
+    "includedRunsUsed": 1,
+    "includedRunsRemaining": 2,
+    "bonusRunsRemaining": 0,
+    "totalRunsRemaining": 2,
+    "periodEnd": "2026-08-01T12:00:00.000Z",
+    "maxCostPerRunUsd": 2
+  }
+}
+```
+
+**No runs left (402):** `{ "success": false, "error": "no_runs_remaining" }` — block the run on MCP and tell the user to top up or upgrade.
+
+**No usage record (404):** user never provisioned / trial not started.
+
+Use the same `COOLPLUGZ_ADMIN_SECRET` on both sides. Call consume **once per task run**, before spending LLM/compute budget (enforce `maxCostPerRunUsd: 2` locally on MCP).
 
 ## Deployment
 

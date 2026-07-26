@@ -1,12 +1,15 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getSession } from "@/lib/auth";
 import { getFreeTrialStatus } from "@/lib/free-trial";
 import { getUserSubscription } from "@/lib/entitlements";
+import { getUserUsage, initializeUsageForSubscription, initializeUsageForTrial } from "@/lib/usage";
 import { connectDB } from "@/lib/db";
 import { Plugin } from "@/models/Plugin";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { UsageCreditsCard } from "@/components/account/UsageCreditsCard";
 import { LogoutButton } from "@/components/marketplace/DashboardActions";
 import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
@@ -20,12 +23,26 @@ export default async function AppDashboardPage() {
 
   let subscription = null;
   let trialStatus = null;
+  let usage = null;
   let plugins = filterListedPlugins(await getMarketplacePlugins());
 
   try {
     await connectDB();
     subscription = await getUserSubscription(session.id);
     trialStatus = await getFreeTrialStatus(session.id);
+    usage = await getUserUsage(session.id);
+
+    if (!usage && subscription) {
+      await initializeUsageForSubscription(
+        session.id,
+        new Date(),
+        subscription.currentPeriodEnd
+      );
+      usage = await getUserUsage(session.id);
+    } else if (!usage && trialStatus?.active && trialStatus.endsAt) {
+      await initializeUsageForTrial(session.id, new Date(trialStatus.endsAt));
+      usage = await getUserUsage(session.id);
+    }
     const dbPlugins = await Plugin.find({ status: "published" });
     if (dbPlugins.length > 0) {
       plugins = filterListedPlugins(
@@ -42,6 +59,15 @@ export default async function AppDashboardPage() {
         Manage account
       </h1>
       <p className="mt-2 text-charcoal-muted">{session.email}</p>
+
+      {(subscription || trialStatus?.active) && (
+        <Suspense fallback={null}>
+          <UsageCreditsCard
+            initialUsage={usage}
+            canTopUp={!!subscription}
+          />
+        </Suspense>
+      )}
 
       {subscription && (
         <Card className="mt-8">

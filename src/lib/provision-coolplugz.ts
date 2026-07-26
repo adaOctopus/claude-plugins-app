@@ -291,6 +291,15 @@ export async function provisionFreeTrialForUser(
   user.freeTrialEndsAt = expiresAt ?? new Date(now.getTime() + FREE_TRIAL_MS);
   await user.save();
 
+  const { initializeUsageForTrial } = await import("@/lib/usage");
+  const { syncUsageToCoolplugz } = await import("@/lib/sync-usage-to-coolplugz");
+  await initializeUsageForTrial(userId, user.freeTrialEndsAt);
+  try {
+    await syncUsageToCoolplugz(userId);
+  } catch (error) {
+    console.error("Usage sync after trial provision failed:", error);
+  }
+
   return { mcpUrl, provisioned: true, expiresAt: user.freeTrialEndsAt };
 }
 

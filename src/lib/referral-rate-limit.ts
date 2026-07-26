@@ -40,7 +40,7 @@ export async function isReferralRateLimited(key: string): Promise<boolean> {
     await ReferralRateLimit.findOneAndUpdate(
       { key },
       { count: 1, windowStart: now },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: "after" }
     );
     return false;
   }
