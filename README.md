@@ -8,7 +8,7 @@ A Next.js 15 platform for selling, uploading, and creating Claude plugins. Featu
 
 - **Landing page** — earthy cream design, problem/solution sections, dashboard mockups, integrations bento grid
 - **Marketplace** — browse, buy, upload, or create plugins
-- **Stripe billing** — $47/month or $397/year Pro plan (15 runs/mo included); one-time credit top-ups; $2.50/month per extra plugin
+- **Stripe billing** — $47/month or $397/year Pro plan (10 runs/mo included); one-time credit top-ups; $2.50/month per extra plugin
 - **Creator economy** — publish plugins, earn 99% (1% platform fee, manual payouts at launch)
 
 ## Tech stack
@@ -193,7 +193,7 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 ## Pricing
 
 - **Free 7-day trial**: $0, no credit card — 3 included runs via unique MCP URL (7-day TTL on CoolPlugz server)
-- **Pro monthly**: $47/mo — 15 full task runs per month included; top-up credits from Manage Account
+- **Pro monthly**: $47/mo — 10 full task runs per month included; top-up credits from Manage Account
 - **Pro annual**: $397/yr — ~30% savings
 - **Credit top-ups** (one-time, active Pro only): $10 → 5 runs, $20 → 10 runs ($2/run server budget cap)
 - **Enterprise**: custom pricing — multi-seat teams, pipeline optimization; **Contact us** form on pricing
