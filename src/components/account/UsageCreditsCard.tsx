@@ -87,18 +87,39 @@ export function UsageCreditsCard({ initialUsage, canTopUp, usageMode }: UsageCre
                     ? "You've used your trial runs. Top up to keep going, or upgrade to Pro."
                     : "Top up for more runs, or wait for your included runs to reset."}
               </p>
-              <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-                {canTopUp ? (
-                  <Button type="button" size="sm" onClick={() => setTopUpOpen(true)}>
-                    Top up credits
-                  </Button>
-                ) : null}
-                {usageMode !== "pro" ? (
-                  <Button type="button" size="sm" variant="outline" asChild>
-                    <Link href="/pricing">Get Pro</Link>
-                  </Button>
-                ) : null}
-              </div>
+              {canTopUp ? (
+                <>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {USAGE_LIMITS.creditPacks.map((pack) => (
+                      <span
+                        key={pack.id}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-[#7DD3C0]/50 bg-[#E8FAF6] px-3 py-1.5 text-xs font-medium text-[#0D9488]"
+                      >
+                        <span className="text-charcoal">${pack.priceUsd}</span>
+                        <span className="text-charcoal-muted">→</span>
+                        <span>{pack.runs} runs</span>
+                      </span>
+                    ))}
+                    <span className="inline-flex items-center rounded-full border border-border bg-cream-warm/80 px-3 py-1.5 text-xs text-charcoal-muted">
+                      ≤ ${USAGE_LIMITS.maxCostPerRunUsd}/run
+                    </span>
+                  </div>
+                  <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                    <Button type="button" size="sm" onClick={() => setTopUpOpen(true)}>
+                      Top up credits
+                    </Button>
+                    {usageMode !== "pro" ? (
+                      <Button type="button" size="sm" variant="outline" asChild>
+                        <Link href="/pricing">Get Pro</Link>
+                      </Button>
+                    ) : null}
+                  </div>
+                </>
+              ) : usageMode !== "pro" ? (
+                <Button type="button" size="sm" variant="outline" className="mt-4" asChild>
+                  <Link href="/pricing">Get Pro</Link>
+                </Button>
+              ) : null}
             </div>
           ) : (
             <div>
@@ -138,38 +159,6 @@ export function UsageCreditsCard({ initialUsage, canTopUp, usageMode }: UsageCre
                   Included runs reset on {periodEndLabel}
                 </p>
               ) : null}
-            </div>
-          ) : null}
-
-          {canTopUp && !isZeroRuns ? (
-            <div className="rounded-xl border border-border/80 bg-white/70 p-4">
-              <p className="text-sm font-medium text-charcoal">Need more runs?</p>
-              <p className="mt-1 text-xs text-charcoal-muted">
-                Top up anytime — bonus runs never expire.
-              </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {USAGE_LIMITS.creditPacks.map((pack) => (
-                  <span
-                    key={pack.id}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-[#7DD3C0]/50 bg-[#E8FAF6] px-3 py-1.5 text-xs font-medium text-[#0D9488]"
-                  >
-                    <span className="text-charcoal">${pack.priceUsd}</span>
-                    <span className="text-charcoal-muted">→</span>
-                    <span>{pack.runs} runs</span>
-                  </span>
-                ))}
-                <span className="inline-flex items-center rounded-full border border-border bg-cream-warm/80 px-3 py-1.5 text-xs text-charcoal-muted">
-                  ≤ ${USAGE_LIMITS.maxCostPerRunUsd}/run
-                </span>
-              </div>
-              <Button
-                type="button"
-                size="sm"
-                className="mt-4 w-full sm:w-auto"
-                onClick={() => setTopUpOpen(true)}
-              >
-                Top up credits
-              </Button>
             </div>
           ) : null}
         </CardContent>
