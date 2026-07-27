@@ -49,15 +49,15 @@ export const trialFeatures = baseAccessFeatures;
 /** Added on Pro — shown after “Everything in Daily Pass, plus:”. */
 export const proAdditiveFeatures = [
   "Automated Prompt Engineering",
-  "Slack messages handled hourly",
+  "Slack web or API integration",
   "10 full task runs per month included",
-  "Up to $2 server budget per run",
+  "Up to $4 server budget per run",
   "Top up extra runs anytime from your account",
 ] as const;
 
 /** One-line Pro value vs Daily Pass on pricing card. */
 export const proValueLine =
-  "~€150/mo if you bought daily every day — Pro is $47/mo for 10 runs.";
+  "Sufficent for one month's work";
 
 /** Added on Premium — shown after “Everything in Pro, plus:”. */
 export const premiumAdditiveFeatures = [
@@ -82,20 +82,17 @@ export const proPlanFeatures = [...baseAccessFeatures, ...proAdditiveFeatures] a
 export const dailyPassPlan = {
   id: "daily" as const,
   name: "Daily Pass",
-  price: "€5",
+  price: "$5",
   amount: 5,
   period: "/day",
   badge: "Try it today",
-  tagline: "Try CoolPlugz for a day — 1 full task run",
-  durationNote: "24-hour MCP access · up to $3 server budget per run",
+  tagline: "Try CoolPlugz for a day - 1 full task run",
+  durationNote: "24-hour MCP access",
   featureHeader: "Includes:",
   features: [
     ...baseAccessFeatures,
-    "1 full task run",
-    "Up to $3 server budget",
-    "24-hour MCP access",
   ] as const,
-  cta: "BUY DAILY PASS",
+  cta: "GET DAILY PASS",
 };
 
 /** @deprecated Use dailyPassPlan */
