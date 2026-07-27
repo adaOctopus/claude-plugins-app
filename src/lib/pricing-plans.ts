@@ -38,9 +38,9 @@ export const tierPricing = {
 
 /** Core access features — shared by Daily Pass and Pro. */
 export const baseAccessFeatures = [
-  "Scans Jira + Slack + GitHub + Notion",
-  "6 AI Agents working in parallel",
-  "In-Claude dashboard via MCP",
+  "Syncs Jira + Slack + GitHub + Notion",
+  "One full task completion",
+  "Interact with Coolplugz via Claude",
 ] as const;
 
 /** @deprecated Use baseAccessFeatures */
@@ -48,11 +48,10 @@ export const trialFeatures = baseAccessFeatures;
 
 /** Added on Pro — shown after “Everything in Daily Pass, plus:”. */
 export const proAdditiveFeatures = [
-  "Automated Prompt Engineering",
-  "Slack web or API integration",
-  "10 full task runs per month included",
-  "Up to $4 server budget per run",
-  "Top up extra runs anytime from your account",
+  "Advanced Prompt Engineering",
+  "Execution Orchestration",
+  "10 Task Credits per month",
+  "Top up extra Task Credits anytime",
 ] as const;
 
 /** One-line Pro value vs Daily Pass on pricing card. */
