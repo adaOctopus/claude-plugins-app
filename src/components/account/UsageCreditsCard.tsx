@@ -82,9 +82,9 @@ export function UsageCreditsCard({ initialUsage, canTopUp, usageMode }: UsageCre
               <p className="text-sm font-medium text-charcoal">No runs remaining</p>
               <p className="mt-1 text-xs text-charcoal-muted">
                 {isExpiredDaily
-                  ? "Your daily pass has ended. Buy another pass, top up runs, or upgrade to Pro."
+                  ? "Your One Run has ended. Buy another run, top up, or upgrade to Pro."
                   : usageMode === "daily"
-                    ? "You've used your daily run. Top up to keep going, or upgrade to Pro."
+                    ? "You've used your run. Top up to keep going, or upgrade to Pro."
                     : "Top up for more runs, or wait for your included runs to reset."}
               </p>
               {canTopUp ? (
@@ -160,7 +160,7 @@ export function UsageCreditsCard({ initialUsage, canTopUp, usageMode }: UsageCre
                 </p>
               ) : periodEndLabel && usageMode === "daily" ? (
                 <p className="mt-2 text-xs text-charcoal-muted">
-                  Daily pass expires {periodEndLabel}
+                  One Run expires {periodEndLabel}
                 </p>
               ) : null}
             </div>

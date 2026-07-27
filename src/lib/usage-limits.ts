@@ -5,7 +5,7 @@ export const USAGE_LIMITS = {
   proIncludedRunsPerMonth: 10,
   dailyIncludedRuns: 1,
   dailyPassHours: 24,
-  dailyPassPriceEur: 5,
+  dailyPassPriceUsd: 5,
   /** Legacy — existing free-trial rows only; no new trials. */
   trialIncludedRuns: 3,
   creditPacks: [

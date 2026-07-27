@@ -256,7 +256,7 @@ export async function provisionCoolplugzForUser(
   return { mcpUrl, provisioned: true, expiresAt: null };
 }
 
-/** Paid daily pass — MCP URL minted after Stripe payment (24h TTL). */
+/** Paid One Run — MCP URL minted after Stripe payment (24h TTL). */
 export async function provisionDailyPassForUser(
   userId: string,
   label?: string
@@ -301,7 +301,7 @@ export async function provisionDailyPassForUser(
   try {
     await syncUsageToCoolplugz(userId);
   } catch (error) {
-    console.error("Usage sync after daily pass provision failed:", error);
+    console.error("Usage sync after One Run provision failed:", error);
   }
 
   return { mcpUrl, provisioned: true, expiresAt: user.dailyPassExpiresAt };
@@ -312,10 +312,10 @@ export async function provisionFreeTrialForUser(
   userId: string,
   label?: string
 ): Promise<ProvisionCoolplugzResult> {
-  throw new Error("Free trial is no longer available. Buy a Daily Pass or Pro subscription.");
+  throw new Error("Free trial is no longer available. Buy a One Run or Pro subscription.");
 }
 
-/** True when user is on paid daily pass (not Pro). */
+/** True when user is on paid One Run (not Pro). */
 export async function isUserOnDailyPass(userId: string) {
   if (await hasActiveSubscription(userId)) return false;
   return hasActiveDailyPass(userId);

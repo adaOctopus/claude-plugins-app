@@ -7,9 +7,9 @@ export interface IUser {
   email: string;
   name?: string;
   stripeCustomerId?: string;
-  /** Unique CoolPlugz MCP URL — provisioned after payment or daily pass. */
+  /** Unique CoolPlugz MCP URL — provisioned after payment or One Run. */
   mcpUrl?: string;
-  /** Paid daily pass — 24h MCP access window. */
+  /** Paid One Run — 24h MCP access window. */
   dailyPassStartedAt?: Date;
   dailyPassExpiresAt?: Date;
   /** Legacy free trial — existing rows only; no new trials. */

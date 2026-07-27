@@ -15,7 +15,7 @@ export function dailyPassLoginRedirect() {
   return `/login?redirect=${encodeURIComponent("/pricing")}`;
 }
 
-/** @deprecated Free trial removed — use /pricing Daily Pass checkout. */
+/** @deprecated Free trial removed — use /pricing One Run checkout. */
 export function freeTrialSetupPath() {
   return "/pricing";
 }

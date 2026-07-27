@@ -25,15 +25,14 @@ function PricingSectionContent() {
   );
 }
 
-/** Pricing section — heading, billing toggle, Daily Pass + Pro + Enterprise cards. */
+/** Pricing section — heading, billing toggle, One Run + Pro + Enterprise cards. */
 export function PricingSection() {
   return (
     <section id="pricing" className="scroll-mt-28 border-t border-border/60 px-4 pt-12 pb-20 md:px-8 md:pt-14 md:pb-24">
       <div className="mx-auto max-w-6xl text-center">
         <h2 className="font-serif text-4xl text-charcoal md:text-6xl">Pricing</h2>
         <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
-          Try CoolPlugz with a <span className="font-medium text-charcoal">€5 Daily Pass</span> (1
-          run, 24h) or go Pro for 10 runs/month. Enterprise teams — contact us.
+          Enjoy CoolPlugz with a <span className="font-medium text-charcoal">$5 One Run</span> or go Pro for 10 runs/month.
         </p>
 
         <Suspense fallback={null}>

@@ -14,7 +14,7 @@ type InstallPaywallProps = {
   errorMessage?: string;
 };
 
-/** Shown when email is verified but no active Pro subscription or daily pass. */
+/** Shown when email is verified but no active Pro subscription or One Run. */
 export function InstallPaywall({
   plugin,
   email,
@@ -25,21 +25,21 @@ export function InstallPaywall({
     <Card className="mx-auto max-w-lg">
       <CardHeader>
         <CardTitle className="text-2xl">
-          {passExpired ? "Daily pass ended" : "Get access"}
+          {passExpired ? "One Run expired" : "Get access"}
         </CardTitle>
         <p className="text-sm text-charcoal-muted">
           Signed in as <span className="font-medium text-charcoal">{email}</span>.
           {passExpired ? (
             <>
               {" "}
-              Your 24-hour MCP access has expired. Buy another Daily Pass or upgrade to Pro.
+              Your 24-hour access window has ended. Buy another One Run or upgrade to Pro.
             </>
           ) : (
             <>
               {" "}
               {plugin.title} is included with coolplugz Pro — or buy a{" "}
-              <span className="font-medium text-charcoal">Daily Pass ({dailyPassPlan.price})</span>{" "}
-              to try it for 24 hours (1 run included).
+              <span className="font-medium text-charcoal">One Run ({dailyPassPlan.price})</span> to
+              try it once (1 task, 24h access).
             </>
           )}
         </p>
@@ -51,7 +51,7 @@ export function InstallPaywall({
       </CardHeader>
       <CardContent className="space-y-3">
         <DailyPassCheckoutButton variant="default">
-          {passExpired ? "Buy another Daily Pass" : `Buy Daily Pass — ${dailyPassPlan.price}`}
+          {passExpired ? "Buy another One Run" : `Buy One Run — ${dailyPassPlan.price}`}
         </DailyPassCheckoutButton>
         <StripeCheckoutButton tier="pro" billing="monthly" className="w-full" variant="outline">
           Subscribe to Pro — {formatTierPrice("pro", "monthly")}/mo

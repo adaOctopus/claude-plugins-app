@@ -13,7 +13,7 @@ type DailyPassCheckoutButtonProps = {
   children: React.ReactNode;
 };
 
-/** Starts Stripe Checkout for the €5 Daily Pass. */
+/** Starts Stripe Checkout for the $5 One Run. */
 export function DailyPassCheckoutButton({
   className,
   variant = "outline",

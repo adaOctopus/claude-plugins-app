@@ -18,7 +18,7 @@ function checkoutErrorMessage(error: unknown): string {
   return "Checkout failed";
 }
 
-/** Create Stripe Checkout for a one-time Daily Pass (€5, 1 run, 24h). */
+/** Create Stripe Checkout for a one-time One Run ($5, 1 run, 24h). */
 export async function POST(_request: NextRequest) {
   try {
     if (isWipSite()) {
@@ -45,7 +45,7 @@ export async function POST(_request: NextRequest) {
     const priceId = getDailyPassPriceId();
     if (!priceId) {
       return NextResponse.json(
-        { error: "Daily Pass price is not configured. Set COOLPLUGZ_DAILY." },
+        { error: "One Run price is not configured. Set COOLPLUGZ_DAILY." },
         { status: 500 }
       );
     }
@@ -78,7 +78,7 @@ export async function POST(_request: NextRequest) {
       metadata: {
         type: "daily_pass",
         userId: user._id.toString(),
-        amountEur: String(USAGE_LIMITS.dailyPassPriceEur),
+        amountUsd: String(USAGE_LIMITS.dailyPassPriceUsd),
       },
     });
 
@@ -88,7 +88,7 @@ export async function POST(_request: NextRequest) {
 
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
-    console.error("Daily pass checkout error:", error);
+    console.error("One Run checkout error:", error);
     const message = checkoutErrorMessage(error);
     const status = message.includes("already") ? 409 : 500;
     return NextResponse.json({ error: message }, { status });

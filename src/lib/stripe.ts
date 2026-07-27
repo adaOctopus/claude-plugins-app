@@ -88,7 +88,7 @@ export function getCheckoutPriceId(plan: keyof typeof PRICING_AMOUNTS_MAP): stri
   }
 }
 
-/** One-time Daily Pass Stripe price ID (EUR) — matches Stripe product name COOLPLUGZ_DAILY. */
+/** One-time One Run Stripe price ID — env `COOLPLUGZ_DAILY`. */
 export function getDailyPassPriceId(): string | undefined {
   return (
     process.env.COOLPLUGZ_DAILY ??

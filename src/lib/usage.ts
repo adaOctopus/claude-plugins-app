@@ -123,7 +123,7 @@ export async function initializeUsageForSubscription(
   return usage;
 }
 
-/** Paid daily pass — one included run for the 24h window. */
+/** Paid One Run — one included run for the 24h window. */
 export async function initializeUsageForDailyPass(userId: string, periodEnd: Date) {
   const now = new Date();
   return initializeUsageForSubscription(
@@ -301,13 +301,13 @@ export async function ensureUsageSyncedToMcp(
 }
 
 /**
- * Record a daily pass purchase (idempotent via stripeSessionId).
+ * Record a One Run purchase (idempotent via stripeSessionId).
  * MCP provision is handled separately by provisionDailyPassForUser.
  */
 export async function recordDailyPassPurchase(
   userId: string,
   stripeSessionId: string,
-  amountEur: number
+  amountUsd: number
 ) {
   await connectDB();
 
@@ -319,7 +319,7 @@ export async function recordDailyPassPurchase(
   await Purchase.create({
     userId,
     stripeSessionId,
-    amount: amountEur,
+    amount: amountUsd,
     type: "one_time",
   });
 

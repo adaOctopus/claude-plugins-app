@@ -36,7 +36,7 @@ export const tierPricing = {
   },
 } as const;
 
-/** Core access features — shared by Daily Pass and Pro. */
+/** Core access features — shared by One Run and Pro. */
 export const baseAccessFeatures = [
   "Syncs Jira + Slack + GitHub + Notion",
   "One full task completion",
@@ -46,7 +46,7 @@ export const baseAccessFeatures = [
 /** @deprecated Use baseAccessFeatures */
 export const trialFeatures = baseAccessFeatures;
 
-/** Added on Pro — shown after “Everything in Daily Pass, plus:”. */
+/** Added on Pro — shown after “Everything in One Run, plus:”. */
 export const proAdditiveFeatures = [
   "Advanced Prompt Engineering",
   "Execution Orchestration",
@@ -54,9 +54,9 @@ export const proAdditiveFeatures = [
   "Top up extra Task Credits anytime",
 ] as const;
 
-/** One-line Pro value vs Daily Pass on pricing card. */
+/** One-line Pro value vs One Run on pricing card. */
 export const proValueLine =
-  "Sufficent for one month's work";
+  "30 One Runs = $150/mo — Pro is $47 for 10 runs.";
 
 /** Added on Premium — shown after “Everything in Pro, plus:”. */
 export const premiumAdditiveFeatures = [
@@ -75,23 +75,23 @@ export const enterpriseAdditiveFeatures = [
   "SSO & advanced security options",
 ] as const;
 
-/** Full Pro feature set (daily pass + paid). */
+/** Full Pro feature set (One Run + paid). */
 export const proPlanFeatures = [...baseAccessFeatures, ...proAdditiveFeatures] as const;
 
 export const dailyPassPlan = {
   id: "daily" as const,
-  name: "Daily Pass",
+  name: "One Run",
   price: "$5",
   amount: 5,
-  period: "/day",
-  badge: "Try it today",
-  tagline: "Try CoolPlugz for a day - 1 full task run",
-  durationNote: "24-hour MCP access",
+  period: "/run",
+  badge: "Try it first",
+  tagline: "Try CoolPlugz — 1 full task run",
+  durationNote: "One run MCP access",
   featureHeader: "Includes:",
   features: [
     ...baseAccessFeatures,
   ] as const,
-  cta: "GET DAILY PASS",
+  cta: "BUY ONE RUN",
 };
 
 /** @deprecated Use dailyPassPlan */
@@ -102,7 +102,7 @@ export const proPlan = {
   name: "Pro",
   badge: "Recommended",
   tagline: "For engineers shipping every day",
-  featureHeader: "Everything in Daily Pass, plus:",
+  featureHeader: "Everything in One Run, plus:",
   features: proAdditiveFeatures,
   cta: "GET PRO",
 };

@@ -214,16 +214,18 @@ async function handleCreditPackCheckout(session: Stripe.Checkout.Session) {
 
 async function handleDailyPassCheckout(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.userId;
-  const amountEur = Number(
-    session.metadata?.amountEur ?? (session.amount_total || 0) / 100
+  const amountUsd = Number(
+    session.metadata?.amountUsd ??
+      session.metadata?.amountEur ??
+      (session.amount_total || 0) / 100
   );
 
   if (!userId || !session.id) {
-    console.error("Daily pass checkout missing metadata:", session.id);
+    console.error("One Run checkout missing metadata:", session.id);
     return;
   }
 
-  const existing = await recordDailyPassPurchase(userId, session.id, amountEur);
+  const existing = await recordDailyPassPurchase(userId, session.id, amountUsd);
   if (existing) {
     return;
   }
@@ -231,13 +233,13 @@ async function handleDailyPassCheckout(session: Stripe.Checkout.Session) {
   try {
     await provisionDailyPassForUser(userId);
   } catch (error) {
-    console.error("Daily pass MCP provision failed:", error);
+    console.error("One Run MCP provision failed:", error);
   }
 
   try {
     await syncUsageToCoolplugz(userId);
   } catch (error) {
-    console.error("Usage sync after daily pass purchase failed:", error);
+    console.error("Usage sync after One Run purchase failed:", error);
   }
 }
 

@@ -50,7 +50,7 @@ function PricingContent() {
     <div className="mx-auto max-w-6xl px-4 py-32 text-center md:px-8">
       <h1 className="font-serif text-4xl text-charcoal md:text-6xl">Pricing</h1>
       <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
-        Try CoolPlugz with a <span className="font-medium text-charcoal">€5 Daily Pass</span> (1 run,
+        Try CoolPlugz with a <span className="font-medium text-charcoal">$5 One Run</span> (1 task,
         24h) or go Pro for 10 runs/month. Enterprise teams — contact us.
       </p>
 
@@ -94,7 +94,7 @@ function PricingContent() {
   );
 }
 
-/** Pricing page — Daily Pass + Stripe Checkout for Pro + Enterprise contact. */
+/** Pricing page — One Run + Stripe Checkout for Pro + Enterprise contact. */
 export default function PricingPage() {
   return (
     <Suspense fallback={<div className="py-32 text-center">Loading...</div>}>

@@ -39,6 +39,6 @@ export async function assertCanPurchaseDailyPass(userId: string) {
   }
 
   if (await hasActiveDailyPass(userId)) {
-    throw new Error("Your Daily Pass is still active. Wait until it expires to buy another.");
+    throw new Error("Your One Run is still active. Wait until it expires to buy another.");
   }
 }
