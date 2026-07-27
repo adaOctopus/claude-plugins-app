@@ -7,7 +7,7 @@ import { isWipSite } from "@/lib/site-mode";
 import { getCreditPack, type CreditPackId } from "@/lib/usage-limits";
 import { getCreditPackPriceId, getOrCreateStripeCustomer, getStripe } from "@/lib/stripe";
 import { User } from "@/models/User";
-import { hasActiveSubscription } from "@/lib/entitlements";
+import { canPurchaseTopUp } from "@/lib/mcp-access";
 
 const schema = z.object({
   packId: z.enum(["pack_5", "pack_10"]),
@@ -26,7 +26,7 @@ function checkoutErrorMessage(error: unknown): string {
   return "Checkout failed";
 }
 
-/** Create Stripe Checkout for a one-time credit top-up (active Pro subscribers only). */
+/** Create Stripe Checkout for a one-time credit top-up (trial or Pro users with MCP). */
 export async function POST(request: NextRequest) {
   try {
     if (isWipSite()) {
@@ -41,10 +41,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Sign in required" }, { status: 401 });
     }
 
-    const subscribed = await hasActiveSubscription(session.id);
-    if (!subscribed) {
+    const allowed = await canPurchaseTopUp(session.id);
+    if (!allowed) {
       return NextResponse.json(
-        { error: "An active Pro subscription is required to top up credits." },
+        { error: "Start your free trial first to unlock run top-ups." },
         { status: 403 }
       );
     }

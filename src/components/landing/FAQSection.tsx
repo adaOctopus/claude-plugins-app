@@ -57,6 +57,11 @@ export const faqItems = [
       "The plugin monitors Slack for action items and generates reply drafts and standup updates automatically — already written, ready to send. You Approve & submit to post them. No drafting, no prompting, no iteration.",
   },
   {
+    question: "Can I buy extra runs without a Pro subscription?",
+    answer:
+      "Yes. After you start your free trial, you can buy pay-as-you-go run top-ups from Manage Account — $10 for 5 runs or $20 for 10 runs — even if your 7-day trial has expired. Bonus runs never expire. Pro ($47/month or $397/year) adds 10 included runs each month plus the same top-up options.",
+  },
+  {
     question: "What's included in the Pro subscription?",
     answer:
       "Pro starts at $47/month or $397/year (~30% savings). It includes the Context Engineer Claude plugin with full Jira, Slack, GitHub, and Notion integration; 10 full task runs per month; top-up credits when you need more; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; your CoolPlugz MCP URL to paste into Claude; and ongoing updates.",

@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/db";
 import { User } from "@/models/User";
 import { hasActiveSubscription } from "@/lib/entitlements";
+import { hasMcpUsageAccess } from "@/lib/mcp-access";
 import { freePlan } from "@/lib/pricing-plans";
 
 export const FREE_TRIAL_MS = freePlan.trialDays * 24 * 60 * 60 * 1000;
@@ -40,10 +41,9 @@ export async function hasUsedFreeTrial(userId: string) {
   return status.used;
 }
 
-/** Paid subscription or active card-free 7-day trial. */
+/** Paid subscription, active trial, or pay-as-you-go runs remaining. */
 export async function canAccessMcp(userId: string) {
-  if (await hasActiveSubscription(userId)) return true;
-  return hasActiveFreeTrial(userId);
+  return hasMcpUsageAccess(userId);
 }
 
 export async function assertCanStartFreeTrial(userId: string) {

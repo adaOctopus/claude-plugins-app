@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Suspense } from "react";
 import { getSession } from "@/lib/auth";
-import { getFreeTrialStatus } from "@/lib/free-trial";
+import { getMcpAccessContext } from "@/lib/mcp-access";
 import { getUserSubscription } from "@/lib/entitlements";
 import { getUserUsage, ensureUsageSyncedToMcp } from "@/lib/usage";
 import { connectDB } from "@/lib/db";
@@ -24,12 +24,15 @@ export default async function AppDashboardPage() {
   let subscription = null;
   let trialStatus = null;
   let usage = null;
+  let accessContext = null;
   let plugins = filterListedPlugins(await getMarketplacePlugins());
 
   try {
     await connectDB();
     subscription = await getUserSubscription(session.id);
+    const { getFreeTrialStatus } = await import("@/lib/free-trial");
     trialStatus = await getFreeTrialStatus(session.id);
+    accessContext = await getMcpAccessContext(session.id);
     usage = await getUserUsage(session.id);
 
     if (subscription) {
@@ -37,7 +40,7 @@ export default async function AppDashboardPage() {
         subscriptionPeriodEnd: subscription.currentPeriodEnd,
       });
       usage = await getUserUsage(session.id);
-    } else if (trialStatus?.active && trialStatus.endsAt) {
+    } else if (trialStatus?.used && trialStatus.endsAt) {
       await ensureUsageSyncedToMcp(session.id, {
         trialEnd: new Date(trialStatus.endsAt),
       });
@@ -60,11 +63,12 @@ export default async function AppDashboardPage() {
       </h1>
       <p className="mt-2 text-charcoal-muted">{session.email}</p>
 
-      {(subscription || trialStatus?.active) && (
+      {accessContext?.showUsageCard && (
         <Suspense fallback={null}>
           <UsageCreditsCard
             initialUsage={usage}
-            canTopUp={!!subscription}
+            canTopUp={accessContext.canPurchaseTopUp}
+            usageMode={accessContext.mode}
           />
         </Suspense>
       )}
@@ -109,7 +113,37 @@ export default async function AppDashboardPage() {
         </Card>
       )}
 
-      {!subscription && !trialStatus?.active && (
+      {!subscription && trialStatus?.used && !trialStatus?.active && (
+        <Card className="mt-8 border-amber-200/60 bg-amber-50/40">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Trial ended</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-charcoal-muted">
+              Your 7-day trial has expired.{" "}
+              {(accessContext?.totalRunsRemaining ?? 0) > 0 ? (
+                <>
+                  You still have runs left —{" "}
+                  <Link href={UNIQUE_MCP_URL_PATH} className="font-medium text-charcoal underline">
+                    open MCP setup
+                  </Link>
+                  .
+                </>
+              ) : (
+                <>
+                  Top up runs to keep using MCP, or{" "}
+                  <Link href="/pricing" className="font-medium text-charcoal underline">
+                    upgrade to Pro
+                  </Link>
+                  .
+                </>
+              )}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {!subscription && !trialStatus?.active && !trialStatus?.used && (
         <Card className="mt-8">
           <CardContent className="pt-6">
             <p className="text-sm text-charcoal-muted">

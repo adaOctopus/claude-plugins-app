@@ -49,7 +49,7 @@ export const proAdditiveFeatures = [
   "Slack messages handled hourly",
   "10 full task runs per month included",
   "Up to $2 server budget per run",
-  "Top up extra runs anytime from your account",
+  "Top up extra runs anytime from your account (trial & Pro)",
 ] as const;
 
 /** Added on Premium — shown after “Everything in Pro, plus:”. */
@@ -80,7 +80,7 @@ export const freePlan = {
   period: "",
   badge: "No card required",
   tagline: "Full Pro for 7 days — 3 runs included",
-  durationNote: "After 7 days upgrade to Pro for 10 runs/month",
+  durationNote: "After 7 days, top up runs or upgrade to Pro for 10 runs/month",
   featureHeader: "Includes:",
   features: trialFeatures,
   cta: "START FREE TRIAL",

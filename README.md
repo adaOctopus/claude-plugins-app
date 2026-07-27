@@ -173,7 +173,7 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/login/verify` | Page | Magic link landing — verifies via POST (safe from email prefetch) |
 | `/api/auth/logout` | POST | Clear session |
 | `/api/stripe/checkout` | POST | Create Checkout Session |
-| `/api/stripe/credit-checkout` | POST | One-time credit top-up checkout (active Pro only) |
+| `/api/stripe/credit-checkout` | POST | One-time credit top-up checkout (trial or Pro users with MCP) |
 | `/api/stripe/cancel-subscription` | POST | Cancel subscription at period end |
 | `/api/stripe/portal` | POST | Customer Portal URL |
 | `/api/stripe/webhook` | POST | Stripe event handler |
@@ -192,10 +192,10 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 
 ## Pricing
 
-- **Free 7-day trial**: $0, no credit card — 3 included runs via unique MCP URL (7-day TTL on CoolPlugz server)
+- **Free 7-day trial**: $0, no credit card — 3 included runs via unique MCP URL (7-day TTL on CoolPlugz server); pay-as-you-go top-ups available after trial starts
 - **Pro monthly**: $47/mo — 10 full task runs per month included; top-up credits from Manage Account
 - **Pro annual**: $397/yr — ~30% savings
-- **Credit top-ups** (one-time, active Pro only): $10 → 5 runs, $20 → 10 runs ($2/run server budget cap)
+- **Credit top-ups** (one-time, after free trial started): $10 → 5 runs, $20 → 10 runs ($2/run server budget cap). Works during trial, after trial expires, or on Pro.
 - **Enterprise**: custom pricing — multi-seat teams, pipeline optimization; **Contact us** form on pricing
 - **Premium** (legacy Stripe tier): grandfathered subscribers only
 - **Add-ons**: $2.50/mo per extra marketplace plugin
@@ -291,6 +291,8 @@ Content-Type: application/json
 ```
 
 **No runs left (402):** `{ "success": false, "error": "no_runs_remaining" }` — block the run on MCP and tell the user to top up or upgrade.
+
+**Expired trial with bonus runs:** if `totalRunsRemaining > 0` from PATCH or a successful consume response, allow runs even when the local trial TTL has expired. Block only on consume **402**.
 
 **No usage record (404):** user never provisioned / trial not started.
 

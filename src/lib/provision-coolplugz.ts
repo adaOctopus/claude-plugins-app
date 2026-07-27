@@ -325,5 +325,11 @@ export async function getUserMcpUrl(userId: string): Promise<string | null> {
     return user.mcpUrl;
   }
 
+  const { getUserUsage } = await import("@/lib/usage");
+  const usage = await getUserUsage(userId);
+  if (usage && usage.totalRunsRemaining > 0) {
+    return user.mcpUrl;
+  }
+
   return null;
 }

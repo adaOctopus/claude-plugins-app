@@ -94,6 +94,28 @@ export async function initializeUsageForTrial(userId: string, periodEnd: Date) {
   );
 }
 
+/** Expired trial top-up — zero included quota, bonus runs only. */
+export async function initializeUsageForExpiredTrialTopUp(userId: string) {
+  await connectDB();
+  const { User } = await import("@/models/User");
+  const user = await User.findById(userId).select("freeTrialEndsAt");
+  const periodEnd = user?.freeTrialEndsAt ?? new Date();
+
+  const usage = await UserUsage.findOneAndUpdate(
+    { userId },
+    {
+      userId,
+      includedRunsUsed: 0,
+      includedRunsLimit: 0,
+      periodStart: periodEnd,
+      periodEnd,
+    },
+    { upsert: true, returnDocument: "after", setDefaultsOnInsert: true }
+  );
+
+  return usage;
+}
+
 /** Reset included runs at subscription renewal — bonus balance is preserved. */
 export async function resetIncludedRunsForPeriod(
   userId: string,
@@ -137,11 +159,7 @@ export async function grantBonusRuns(
 
   const usage =
     (await UserUsage.findOne({ userId })) ??
-    (await initializeUsageForSubscription(
-      userId,
-      new Date(),
-      new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-    ));
+    (await initializeUsageForExpiredTrialTopUp(userId));
 
   usage.bonusRunsRemaining += runs;
   await usage.save();
