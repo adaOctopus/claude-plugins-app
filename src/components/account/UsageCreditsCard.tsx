@@ -108,14 +108,14 @@ export function UsageCreditsCard({ initialUsage, canTopUp, usageMode }: UsageCre
                   run{usage.totalRunsRemaining === 1 ? "" : "s"} remaining
                 </span>
               </p>
-              <p className="mt-1 text-sm text-charcoal-muted">
+              {/* <p className="mt-1 text-sm text-charcoal-muted">
                 {usage.includedRunsLimit > 0
                   ? `${usage.includedRunsRemaining} of ${usage.includedRunsLimit} included`
                   : "No included runs this period"}
                 {usage.bonusRunsRemaining > 0
                   ? `${usage.includedRunsLimit > 0 ? " + " : ""}${usage.bonusRunsRemaining} bonus`
                   : ""}
-              </p>
+              </p> */}
             </div>
           )}
 

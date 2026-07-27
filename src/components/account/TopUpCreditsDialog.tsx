@@ -92,7 +92,7 @@ export function TopUpCreditsDialog({ open, onOpenChange }: TopUpCreditsDialogPro
           </h2>
           <p className="mt-2 text-center text-sm text-charcoal-muted">
             Each run uses up to ${USAGE_LIMITS.maxCostPerRunUsd} of server budget. Bonus runs never
-            expire — included runs reset each billing month.
+            expire - included runs reset each billing month.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
