@@ -100,7 +100,7 @@ export function InstallMcpSetupBlock({
           {status !== "loading" && mcpUrl && (
             <div className="space-y-3">
               <CopyMcpUrlButton url={mcpUrl} />
-              {provisionMode === "free-trial" && expiresAt && (
+              {expiresAt && (
                 <p className="text-sm text-[#0D9488]">
                   Expires: <span className="font-semibold">{formatExpiresAt(expiresAt)}</span>
                 </p>

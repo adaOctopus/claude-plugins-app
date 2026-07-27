@@ -11,8 +11,8 @@ type InstallPluginGuideProps = {
   plugin: MarketplacePlugin;
   email: string;
   mcpUrl?: string | null;
-  accessMode?: "pro" | "free-trial";
-  freeTrialEndsAt?: string | null;
+  accessMode?: "pro" | "daily";
+  passExpiresAt?: string | null;
 };
 
 /** CoolPlugz MCP URL setup — web Connectors or Desktop JSON, then connect tools. */
@@ -21,13 +21,13 @@ export function InstallPluginGuide({
   email,
   mcpUrl = null,
   accessMode = "pro",
-  freeTrialEndsAt = null,
+  passExpiresAt = null,
 }: InstallPluginGuideProps) {
   const guide = COOLPLUGZ_GETTING_STARTED;
   const needsProvision = requiresProSubscription(plugin);
-  const isFreeTrial = accessMode === "free-trial";
-  const trialEndLabel = freeTrialEndsAt
-    ? new Date(freeTrialEndsAt).toLocaleString(undefined, {
+  const isDailyPass = accessMode === "daily";
+  const passEndLabel = passExpiresAt
+    ? new Date(passExpiresAt).toLocaleString(undefined, {
         dateStyle: "medium",
         timeStyle: "short",
       })
@@ -42,28 +42,28 @@ export function InstallPluginGuide({
         <p className="mt-2 text-charcoal-muted">
           Access verified for {email} ✅
           <br />
-          {isFreeTrial ? (
+          {isDailyPass ? (
             <>
-              <span className="font-medium text-charcoal">Free 7-day trial</span> - no credit card.
-              Your unique MCP URL expires after 7 days.
+              <span className="font-medium text-charcoal">Daily Pass</span> — your MCP URL is
+              valid for 24 hours (1 run included).
             </>
           ) : (
             <>Add your unique MCP URL to Claude — one step, either web or desktop.</>
           )}
         </p>
-        {isFreeTrial && trialEndLabel && (
+        {isDailyPass && passEndLabel && (
           <p className="mt-2 rounded-lg border border-[#7DD3C0]/35 bg-white/80 px-3 py-2 text-sm text-[#0D9488]">
-            Trial active until <span className="font-semibold">{trialEndLabel}</span>. Upgrade to Pro
-            before then to keep your MCP URL.
+            Pass active until <span className="font-semibold">{passEndLabel}</span>. Upgrade to Pro
+            for monthly included runs.
           </p>
         )}
       </div>
 
       <InstallMcpSetupBlock
         initialMcpUrl={mcpUrl}
-        initialExpiresAt={freeTrialEndsAt}
-        autoProvision={needsProvision}
-        provisionMode={isFreeTrial ? "free-trial" : "subscription"}
+        initialExpiresAt={passExpiresAt}
+        autoProvision={needsProvision && !isDailyPass}
+        provisionMode="subscription"
       />
 
       <Card className="mb-4">
@@ -94,13 +94,13 @@ export function InstallPluginGuide({
         </CardContent>
       </Card>
 
-      {isFreeTrial && (
+      {isDailyPass && (
         <div className="mb-6 rounded-xl border border-border bg-cream-warm/60 p-4 text-sm text-charcoal-muted">
-          When your trial ends, this MCP URL stops working on our server.{" "}
+          When your daily pass ends, this MCP URL stops working.{" "}
           <Link href="/pricing" className="font-medium text-charcoal underline">
             Get Pro
           </Link>{" "}
-          to keep a permanent MCP URL — no card was required for the trial.
+          for 10 runs/month — far cheaper than buying daily every day.
         </div>
       )}
 

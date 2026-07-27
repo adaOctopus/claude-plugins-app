@@ -88,6 +88,16 @@ export function getCheckoutPriceId(plan: keyof typeof PRICING_AMOUNTS_MAP): stri
   }
 }
 
+/** One-time Daily Pass Stripe price ID (EUR) — matches Stripe product name COOLPLUGZ_DAILY. */
+export function getDailyPassPriceId(): string | undefined {
+  return (
+    process.env.COOLPLUGZ_DAILY ??
+    process.env.STRIPE_COOLPLUGZ_DAILY ??
+    process.env.STRIPE_PRICE_COOLPLUGZ_DAILY ??
+    process.env.STRIPE_DAILY_PASS
+  );
+}
+
 /** One-time credit pack Stripe price IDs. */
 export function getCreditPackPriceId(packId: "pack_5" | "pack_10"): string | undefined {
   switch (packId) {

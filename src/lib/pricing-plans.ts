@@ -36,21 +36,28 @@ export const tierPricing = {
   },
 } as const;
 
-/** Base trial scope — shortest list (Free card). */
-export const trialFeatures = [
+/** Core access features — shared by Daily Pass and Pro. */
+export const baseAccessFeatures = [
   "Scans Jira + Slack + GitHub + Notion",
   "6 AI Agents working in parallel",
   "In-Claude dashboard via MCP",
 ] as const;
 
-/** Added on Pro — shown after “Everything in Free trial, plus:”. */
+/** @deprecated Use baseAccessFeatures */
+export const trialFeatures = baseAccessFeatures;
+
+/** Added on Pro — shown after “Everything in Daily Pass, plus:”. */
 export const proAdditiveFeatures = [
   "Automated Prompt Engineering",
   "Slack messages handled hourly",
   "10 full task runs per month included",
   "Up to $2 server budget per run",
-  "Top up extra runs anytime from your account (trial & Pro)",
+  "Top up extra runs anytime from your account",
 ] as const;
+
+/** One-line Pro value vs Daily Pass on pricing card. */
+export const proValueLine =
+  "~€150/mo if you bought daily every day — Pro is $47/mo for 10 runs.";
 
 /** Added on Premium — shown after “Everything in Pro, plus:”. */
 export const premiumAdditiveFeatures = [
@@ -69,30 +76,37 @@ export const enterpriseAdditiveFeatures = [
   "SSO & advanced security options",
 ] as const;
 
-/** Full Pro feature set (trial + paid). */
-export const proPlanFeatures = [...trialFeatures, ...proAdditiveFeatures] as const;
+/** Full Pro feature set (daily pass + paid). */
+export const proPlanFeatures = [...baseAccessFeatures, ...proAdditiveFeatures] as const;
 
-export const freePlan = {
-  id: "free" as const,
-  name: "Free 7-Day Trial",
-  price: "$0",
-  amount: 0,
-  period: "",
-  badge: "No card required",
-  tagline: "Full Pro for 7 days — 3 runs included",
-  durationNote: "After 7 days, top up runs or upgrade to Pro for 10 runs/month",
+export const dailyPassPlan = {
+  id: "daily" as const,
+  name: "Daily Pass",
+  price: "€5",
+  amount: 5,
+  period: "/day",
+  badge: "Try it today",
+  tagline: "Try CoolPlugz for a day — 1 full task run",
+  durationNote: "24-hour MCP access · up to $3 server budget per run",
   featureHeader: "Includes:",
-  features: trialFeatures,
-  cta: "START FREE TRIAL",
-  trialDays: 7,
+  features: [
+    ...baseAccessFeatures,
+    "1 full task run",
+    "Up to $3 server budget",
+    "24-hour MCP access",
+  ] as const,
+  cta: "BUY DAILY PASS",
 };
+
+/** @deprecated Use dailyPassPlan */
+export const freePlan = dailyPassPlan;
 
 export const proPlan = {
   id: "pro" as const,
   name: "Pro",
   badge: "Recommended",
   tagline: "For engineers shipping every day",
-  featureHeader: "Everything in Free trial, plus:",
+  featureHeader: "Everything in Daily Pass, plus:",
   features: proAdditiveFeatures,
   cta: "GET PRO",
 };

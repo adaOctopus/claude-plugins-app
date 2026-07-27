@@ -59,15 +59,15 @@ export default function TermsPage() {
         </p>
       </LegalSection>
 
-      <LegalSection title="4. Subscriptions, Billing, and Trials">
+      <LegalSection title="4. Subscriptions, Billing, and Daily Pass">
         <p>
-          Paid plans, free trials, and add-ons are described on our pricing page. By subscribing,
-          you authorize us and our payment processor, Stripe, to charge applicable fees on a
-          recurring basis until you cancel.
+          Paid plans, Daily Pass purchases, and add-ons are described on our pricing page. By
+          subscribing, you authorize us and our payment processor, Stripe, to charge applicable fees
+          on a recurring basis until you cancel.
         </p>
         <ul>
-          <li>Fees are billed in advance according to the plan you select</li>
-          <li>Free trials convert to paid plans unless canceled before the trial ends, where applicable</li>
+          <li>Subscription fees are billed in advance according to the plan you select</li>
+          <li>Daily Pass is a one-time charge for 24-hour access — no automatic renewal</li>
           <li>Taxes may apply depending on your location</li>
           <li>Except where required by law, fees are non-refundable</li>
         </ul>

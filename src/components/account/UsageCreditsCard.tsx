@@ -62,7 +62,7 @@ export function UsageCreditsCard({ initialUsage, canTopUp, usageMode }: UsageCre
       ? Math.min(100, Math.round((usage.includedRunsUsed / usage.includedRunsLimit) * 100))
       : 0;
   const periodEndLabel = formatPeriodEnd(usage.periodEnd);
-  const isExpiredTrial = usageMode === "expired_trial";
+  const isExpiredDaily = usageMode === "expired_daily";
 
   return (
     <>
@@ -81,10 +81,10 @@ export function UsageCreditsCard({ initialUsage, canTopUp, usageMode }: UsageCre
             <div className="rounded-xl border border-amber-200/70 bg-amber-50/60 p-4">
               <p className="text-sm font-medium text-charcoal">No runs remaining</p>
               <p className="mt-1 text-xs text-charcoal-muted">
-                {isExpiredTrial
-                  ? "Your trial has ended. Top up to keep using MCP, or upgrade to Pro for monthly included runs."
-                  : usageMode === "trial"
-                    ? "You've used your trial runs. Top up to keep going, or upgrade to Pro."
+                {isExpiredDaily
+                  ? "Your daily pass has ended. Buy another pass, top up runs, or upgrade to Pro."
+                  : usageMode === "daily"
+                    ? "You've used your daily run. Top up to keep going, or upgrade to Pro."
                     : "Top up for more runs, or wait for your included runs to reset."}
               </p>
               {canTopUp ? (
@@ -157,6 +157,10 @@ export function UsageCreditsCard({ initialUsage, canTopUp, usageMode }: UsageCre
               {periodEndLabel && usageMode === "pro" ? (
                 <p className="mt-2 text-xs text-charcoal-muted">
                   Included runs reset on {periodEndLabel}
+                </p>
+              ) : periodEndLabel && usageMode === "daily" ? (
+                <p className="mt-2 text-xs text-charcoal-muted">
+                  Daily pass expires {periodEndLabel}
                 </p>
               ) : null}
             </div>

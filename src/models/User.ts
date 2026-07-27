@@ -7,9 +7,12 @@ export interface IUser {
   email: string;
   name?: string;
   stripeCustomerId?: string;
-  /** Unique CoolPlugz MCP URL — provisioned after payment or free trial. */
+  /** Unique CoolPlugz MCP URL — provisioned after payment or daily pass. */
   mcpUrl?: string;
-  /** One-time 7-day trial — expiry enforced locally and on CoolPlugz server. */
+  /** Paid daily pass — 24h MCP access window. */
+  dailyPassStartedAt?: Date;
+  dailyPassExpiresAt?: Date;
+  /** Legacy free trial — existing rows only; no new trials. */
   freeTrialStartedAt?: Date;
   freeTrialEndsAt?: Date;
   role: UserRole;
@@ -23,6 +26,8 @@ const UserSchema = new Schema<IUser>(
     name: String,
     stripeCustomerId: String,
     mcpUrl: String,
+    dailyPassStartedAt: Date,
+    dailyPassExpiresAt: Date,
     freeTrialStartedAt: Date,
     freeTrialEndsAt: Date,
     role: {

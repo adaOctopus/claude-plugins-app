@@ -2,9 +2,9 @@ import { connectDB } from "@/lib/db";
 import { User } from "@/models/User";
 import { hasActiveSubscription } from "@/lib/entitlements";
 import { hasMcpUsageAccess } from "@/lib/mcp-access";
-import { freePlan } from "@/lib/pricing-plans";
 
-export const FREE_TRIAL_MS = freePlan.trialDays * 24 * 60 * 60 * 1000;
+/** Legacy constant — existing free-trial rows in Mongo only. */
+export const FREE_TRIAL_MS = 7 * 24 * 60 * 60 * 1000;
 
 export type FreeTrialStatus = {
   active: boolean;

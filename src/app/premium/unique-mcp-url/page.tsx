@@ -1,29 +1,27 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
-import { canAccessMcp, getFreeTrialStatus } from "@/lib/free-trial";
+import { getDailyPassStatus } from "@/lib/daily-pass";
+import { getFreeTrialStatus } from "@/lib/free-trial";
+import { canAccessMcp } from "@/lib/free-trial";
 import { hasActiveSubscription, getUserSubscription } from "@/lib/entitlements";
+import { fulfillDailyPassSession } from "@/lib/fulfill-daily-pass";
 import {
   getUserMcpUrl,
-  isUserOnFreeTrial,
-  provisionFreeTrialForUser,
+  isUserOnDailyPass,
 } from "@/lib/provision-coolplugz";
 import { ensureUsageSyncedToMcp } from "@/lib/usage";
-import {
-  UNIQUE_MCP_URL_PATH,
-  freeTrialLoginRedirect,
-} from "@/lib/mcp-setup-paths";
+import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 import { getMarketplacePluginBySlug } from "@/lib/marketplace-plugins.server";
 import { InstallCheckoutFulfillShell } from "@/components/install/InstallCheckoutFulfillShell";
 import { InstallPaywall } from "@/components/install/InstallPaywall";
 import { InstallPluginGuide } from "@/components/install/InstallPluginGuide";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
-import { toUserFacingProvisionError } from "@/lib/user-facing-errors";
 
 const FLAGSHIP_SLUG = "context-engineer";
 
 type PageProps = {
-  searchParams: Promise<{ session_id?: string; start?: string }>;
+  searchParams: Promise<{ session_id?: string; daily?: string }>;
 };
 
 export const metadata: Metadata = createPageMetadata({
@@ -34,13 +32,13 @@ export const metadata: Metadata = createPageMetadata({
   siteUrl: CANONICAL_SITE_URL,
 });
 
-/** Post-purchase or free-trial page — unique MCP URL + minimal getting started guide. */
+/** Post-purchase or daily-pass page — unique MCP URL + minimal getting started guide. */
 export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
-  const { session_id: checkoutSessionId, start } = await searchParams;
+  const { session_id: checkoutSessionId, daily } = await searchParams;
   const plugin = await getMarketplacePluginBySlug(FLAGSHIP_SLUG);
   if (!plugin) notFound();
 
-  if (checkoutSessionId) {
+  if (checkoutSessionId && !daily) {
     return (
       <div className="px-4 py-32 md:px-8">
         <InstallCheckoutFulfillShell />
@@ -49,55 +47,38 @@ export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
   }
 
   const session = await getSession();
-  const wantsFreeTrial = start === "trial";
-
   if (!session) {
-    redirect(wantsFreeTrial ? freeTrialLoginRedirect() : `/login?redirect=${encodeURIComponent(UNIQUE_MCP_URL_PATH)}`);
+    redirect(`/login?redirect=${encodeURIComponent(UNIQUE_MCP_URL_PATH)}`);
   }
 
-  if (wantsFreeTrial) {
-    let provisionError: string | null = null;
-    try {
-      await provisionFreeTrialForUser(session.id);
-    } catch (error) {
-      provisionError = toUserFacingProvisionError(error, "free-trial-page");
-    }
-
-    if (!provisionError) {
-      redirect(UNIQUE_MCP_URL_PATH);
-    }
-
-    const trialStatus = await getFreeTrialStatus(session.id);
-    return (
-      <div className="px-4 py-32 md:px-8">
-        <InstallPaywall
-          plugin={plugin}
-          email={session.email}
-          trialExpired={trialStatus.used && !trialStatus.active}
-          errorMessage={provisionError}
-        />
-      </div>
-    );
+  if (daily === "success" && checkoutSessionId) {
+    await fulfillDailyPassSession(checkoutSessionId);
+    redirect(UNIQUE_MCP_URL_PATH);
   }
 
   const hasAccess = await canAccessMcp(session.id);
   if (!hasAccess) {
+    const dailyStatus = await getDailyPassStatus(session.id);
     const trialStatus = await getFreeTrialStatus(session.id);
+    const passExpired =
+      (dailyStatus.startedAt && !dailyStatus.active) ||
+      (trialStatus.used && !trialStatus.active);
+
     return (
       <div className="px-4 py-32 md:px-8">
         <InstallPaywall
           plugin={plugin}
           email={session.email}
-          trialExpired={trialStatus.used && !trialStatus.active}
+          passExpired={passExpired}
         />
       </div>
     );
   }
 
   const mcpUrl = await getUserMcpUrl(session.id);
-  const onFreeTrial = await isUserOnFreeTrial(session.id);
   const subscribed = await hasActiveSubscription(session.id);
-  const trialStatus = onFreeTrial ? await getFreeTrialStatus(session.id) : null;
+  const onDailyPass = await isUserOnDailyPass(session.id);
+  const dailyStatus = onDailyPass ? await getDailyPassStatus(session.id) : null;
 
   if (subscribed) {
     const subscription = await getUserSubscription(session.id);
@@ -106,8 +87,15 @@ export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
         subscriptionPeriodEnd: subscription.currentPeriodEnd,
       });
     }
-  } else if (trialStatus?.active && trialStatus.endsAt) {
-    await ensureUsageSyncedToMcp(session.id, { trialEnd: new Date(trialStatus.endsAt) });
+  } else if (dailyStatus?.active && dailyStatus.expiresAt) {
+    await ensureUsageSyncedToMcp(session.id, {
+      dailyPassEnd: new Date(dailyStatus.expiresAt),
+    });
+  } else {
+    const trialStatus = await getFreeTrialStatus(session.id);
+    if (trialStatus?.active && trialStatus.endsAt) {
+      await ensureUsageSyncedToMcp(session.id, { trialEnd: new Date(trialStatus.endsAt) });
+    }
   }
 
   return (
@@ -116,8 +104,8 @@ export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
         plugin={plugin}
         email={session.email}
         mcpUrl={mcpUrl}
-        accessMode={subscribed ? "pro" : "free-trial"}
-        freeTrialEndsAt={trialStatus?.endsAt?.toISOString() ?? null}
+        accessMode={subscribed ? "pro" : "daily"}
+        passExpiresAt={dailyStatus?.expiresAt?.toISOString() ?? null}
       />
     </div>
   );

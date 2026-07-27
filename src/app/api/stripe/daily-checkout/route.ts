@@ -1,22 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { z } from "zod";
 import { getSession } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
+import { assertCanPurchaseDailyPass } from "@/lib/daily-pass";
 import { isWipSite } from "@/lib/site-mode";
-import { getCreditPack, type CreditPackId } from "@/lib/usage-limits";
-import { getCreditPackPriceId, getOrCreateStripeCustomer, getStripe } from "@/lib/stripe";
+import { USAGE_LIMITS } from "@/lib/usage-limits";
+import { getDailyPassPriceId, getOrCreateStripeCustomer, getStripe } from "@/lib/stripe";
 import { User } from "@/models/User";
-import { canPurchaseTopUp } from "@/lib/mcp-access";
-
-const schema = z.object({
-  packId: z.enum(["pack_5", "pack_10"]),
-});
 
 function checkoutErrorMessage(error: unknown): string {
-  if (error instanceof z.ZodError) {
-    return "Invalid credit pack selected";
-  }
   if (error instanceof Stripe.errors.StripeError) {
     return error.message;
   }
@@ -26,8 +18,8 @@ function checkoutErrorMessage(error: unknown): string {
   return "Checkout failed";
 }
 
-/** Create Stripe Checkout for a one-time credit top-up (Daily Pass or Pro users with MCP). */
-export async function POST(request: NextRequest) {
+/** Create Stripe Checkout for a one-time Daily Pass (€5, 1 run, 24h). */
+export async function POST(_request: NextRequest) {
   try {
     if (isWipSite()) {
       return NextResponse.json(
@@ -41,13 +33,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Sign in required" }, { status: 401 });
     }
 
-    const allowed = await canPurchaseTopUp(session.id);
-    if (!allowed) {
-      return NextResponse.json(
-        { error: "Buy a Daily Pass or Pro subscription first to unlock run top-ups." },
-        { status: 403 }
-      );
-    }
+    await assertCanPurchaseDailyPass(session.id);
 
     if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json(
@@ -56,19 +42,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
-    const { packId } = schema.parse(body) as { packId: CreditPackId };
-    const pack = getCreditPack(packId);
-    if (!pack) {
-      return NextResponse.json({ error: "Unknown credit pack" }, { status: 400 });
-    }
-
-    const priceId = getCreditPackPriceId(packId);
+    const priceId = getDailyPassPriceId();
     if (!priceId) {
       return NextResponse.json(
-        {
-          error: `Credit pack price is not configured. Set STRIPE_CREDIT_PACK_${packId === "pack_5" ? "5" : "10"}.`,
-        },
+        { error: "Daily Pass price is not configured. Set COOLPLUGZ_DAILY." },
         { status: 500 }
       );
     }
@@ -96,14 +73,12 @@ export async function POST(request: NextRequest) {
       mode: "payment",
       customer: customerId,
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${appUrl}/app?credits=success`,
-      cancel_url: `${appUrl}/app?credits=cancel`,
+      success_url: `${appUrl}/premium/unique-mcp-url?daily=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${appUrl}/pricing?daily=cancel`,
       metadata: {
-        type: "credit_pack",
-        packId: pack.id,
-        runs: String(pack.runs),
+        type: "daily_pass",
         userId: user._id.toString(),
-        amountUsd: String(pack.priceUsd),
+        amountEur: String(USAGE_LIMITS.dailyPassPriceEur),
       },
     });
 
@@ -113,7 +88,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ url: checkoutSession.url });
   } catch (error) {
-    console.error("Credit checkout error:", error);
-    return NextResponse.json({ error: checkoutErrorMessage(error) }, { status: 500 });
+    console.error("Daily pass checkout error:", error);
+    const message = checkoutErrorMessage(error);
+    const status = message.includes("already") ? 409 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }

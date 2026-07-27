@@ -3,16 +3,18 @@ import { connectDB } from "@/lib/db";
 import { Subscription } from "@/models/Subscription";
 import { User } from "@/models/User";
 import {
-  assertCanStartFreeTrial,
-  FREE_TRIAL_MS,
-  getFreeTrialStatus,
+  DAILY_PASS_MS,
+  getDailyPassStatus,
+  hasActiveDailyPass,
+} from "@/lib/daily-pass";
+import {
   hasActiveFreeTrial,
 } from "@/lib/free-trial";
 import { hasActiveSubscription } from "@/lib/entitlements";
 
 export type ProvisionCoolplugzInput = {
   email: string;
-  tier: "pro" | "premium" | "trial";
+  tier: "pro" | "premium" | "trial" | "daily";
   label?: string;
   /** Hours the MCP URL stays valid — used for card-free trial (server-side TTL). */
   ttlHours?: number;
@@ -126,7 +128,7 @@ function createDummyMcpUrl(input: ProvisionCoolplugzInput): string {
     )
     .digest("hex")
     .slice(0, 16);
-  const segment = input.tier === "trial" ? "trial" : input.tier;
+  const segment = input.tier === "trial" || input.tier === "daily" ? input.tier : input.tier;
   return `${base}/${segment}/${slug}`;
 }
 
@@ -254,8 +256,8 @@ export async function provisionCoolplugzForUser(
   return { mcpUrl, provisioned: true, expiresAt: null };
 }
 
-/** Card-free 7-day trial — unique MCP URL from CoolPlugz server (TTL managed there). */
-export async function provisionFreeTrialForUser(
+/** Paid daily pass — MCP URL minted after Stripe payment (24h TTL). */
+export async function provisionDailyPassForUser(
   userId: string,
   label?: string
 ): Promise<ProvisionCoolplugzResult> {
@@ -266,60 +268,79 @@ export async function provisionFreeTrialForUser(
     throw new Error("User not found");
   }
 
-  await assertCanStartFreeTrial(userId);
-
-  const trialStatus = await getFreeTrialStatus(userId);
-  if (trialStatus.active && user.mcpUrl) {
+  const dailyStatus = await getDailyPassStatus(userId);
+  if (dailyStatus.active && user.mcpUrl) {
     const { ensureUsageSyncedToMcp } = await import("@/lib/usage");
-    if (trialStatus.endsAt) {
-      await ensureUsageSyncedToMcp(userId, { trialEnd: new Date(trialStatus.endsAt) });
+    if (dailyStatus.expiresAt) {
+      await ensureUsageSyncedToMcp(userId, { dailyPassEnd: new Date(dailyStatus.expiresAt) });
     }
     return {
       mcpUrl: user.mcpUrl,
       provisioned: false,
-      expiresAt: trialStatus.endsAt,
+      expiresAt: dailyStatus.expiresAt,
     };
   }
 
-  const ttlHours = FREE_TRIAL_MS / (60 * 60 * 1000);
+  const ttlHours = DAILY_PASS_MS / (60 * 60 * 1000);
   const { mcpUrl, expiresAt } = await callCoolplugzProvisionApi({
     email: user.email,
-    tier: "trial",
+    tier: "daily",
     label,
     ttlHours,
   });
 
   const now = new Date();
   user.mcpUrl = mcpUrl;
-  user.freeTrialStartedAt = now;
-  user.freeTrialEndsAt = expiresAt ?? new Date(now.getTime() + FREE_TRIAL_MS);
+  user.dailyPassStartedAt = now;
+  user.dailyPassExpiresAt = expiresAt ?? new Date(now.getTime() + DAILY_PASS_MS);
   await user.save();
 
-  const { initializeUsageForTrial } = await import("@/lib/usage");
+  const { initializeUsageForDailyPass } = await import("@/lib/usage");
   const { syncUsageToCoolplugz } = await import("@/lib/sync-usage-to-coolplugz");
-  await initializeUsageForTrial(userId, user.freeTrialEndsAt);
+  await initializeUsageForDailyPass(userId, user.dailyPassExpiresAt);
   try {
     await syncUsageToCoolplugz(userId);
   } catch (error) {
-    console.error("Usage sync after trial provision failed:", error);
+    console.error("Usage sync after daily pass provision failed:", error);
   }
 
-  return { mcpUrl, provisioned: true, expiresAt: user.freeTrialEndsAt };
+  return { mcpUrl, provisioned: true, expiresAt: user.dailyPassExpiresAt };
 }
 
-/** True when user is on card-free trial (not Stripe). */
+/** @deprecated Legacy free trial — no longer offered; existing rows only. */
+export async function provisionFreeTrialForUser(
+  userId: string,
+  label?: string
+): Promise<ProvisionCoolplugzResult> {
+  throw new Error("Free trial is no longer available. Buy a Daily Pass or Pro subscription.");
+}
+
+/** True when user is on paid daily pass (not Pro). */
+export async function isUserOnDailyPass(userId: string) {
+  if (await hasActiveSubscription(userId)) return false;
+  return hasActiveDailyPass(userId);
+}
+
+/** @deprecated Use isUserOnDailyPass — legacy alias for existing trial rows. */
 export async function isUserOnFreeTrial(userId: string) {
   if (await hasActiveSubscription(userId)) return false;
+  if (await hasActiveDailyPass(userId)) return false;
   return hasActiveFreeTrial(userId);
 }
 
 export async function getUserMcpUrl(userId: string): Promise<string | null> {
   await connectDB();
-  const user = await User.findById(userId).select("mcpUrl freeTrialEndsAt");
+  const user = await User.findById(userId).select(
+    "mcpUrl freeTrialEndsAt dailyPassExpiresAt"
+  );
   if (!user?.mcpUrl) return null;
 
   const subscribed = await hasActiveSubscription(userId);
   if (subscribed) return user.mcpUrl;
+
+  if (user.dailyPassExpiresAt && user.dailyPassExpiresAt.getTime() > Date.now()) {
+    return user.mcpUrl;
+  }
 
   if (user.freeTrialEndsAt && user.freeTrialEndsAt.getTime() > Date.now()) {
     return user.mcpUrl;

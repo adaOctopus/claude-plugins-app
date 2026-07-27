@@ -57,9 +57,14 @@ export const faqItems = [
       "The plugin monitors Slack for action items and generates reply drafts and standup updates automatically — already written, ready to send. You Approve & submit to post them. No drafting, no prompting, no iteration.",
   },
   {
+    question: "What is the Daily Pass?",
+    answer:
+      "The Daily Pass is €5 for 24 hours of MCP access and 1 full task run (up to $3 server budget per run). It is the pay-to-try option — no free trial. If you use CoolPlugz regularly, Pro at $47/month for 10 runs is far cheaper than buying daily every day (~€150/month).",
+  },
+  {
     question: "Can I buy extra runs without a Pro subscription?",
     answer:
-      "Yes. After you start your free trial, you can buy pay-as-you-go run top-ups from Manage Account — $10 for 5 runs or $20 for 10 runs — even if your 7-day trial has expired. Bonus runs never expire. Pro ($47/month or $397/year) adds 10 included runs each month plus the same top-up options.",
+      "Yes. After you buy a Daily Pass or subscribe to Pro, you can buy pay-as-you-go run top-ups from Manage Account — $10 for 5 runs or $20 for 10 runs. Bonus runs never expire. Pro ($47/month or $397/year) adds 10 included runs each month plus the same top-up options.",
   },
   {
     question: "What's included in the Pro subscription?",

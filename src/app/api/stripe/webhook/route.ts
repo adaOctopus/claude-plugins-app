@@ -11,10 +11,11 @@ import {
 } from "@/models/CreatorEarning";
 import { sendPurchaseConfirmationEmail } from "@/lib/email";
 import { resolveUserFromCheckoutSession } from "@/lib/checkout-user";
-import { provisionCoolplugzForUser } from "@/lib/provision-coolplugz";
+import { provisionCoolplugzForUser, provisionDailyPassForUser } from "@/lib/provision-coolplugz";
 import {
   grantBonusRuns,
   initializeUsageForSubscription,
+  recordDailyPassPurchase,
   resetIncludedRunsForPeriod,
 } from "@/lib/usage";
 import { syncUsageToCoolplugz } from "@/lib/sync-usage-to-coolplugz";
@@ -81,6 +82,11 @@ export async function POST(request: NextRequest) {
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   if (session.metadata?.type === "credit_pack") {
     await handleCreditPackCheckout(session);
+    return;
+  }
+
+  if (session.metadata?.type === "daily_pass") {
+    await handleDailyPassCheckout(session);
     return;
   }
 
@@ -203,6 +209,35 @@ async function handleCreditPackCheckout(session: Stripe.Checkout.Session) {
     await syncUsageToCoolplugz(userId);
   } catch (error) {
     console.error("Usage sync after credit purchase failed:", error);
+  }
+}
+
+async function handleDailyPassCheckout(session: Stripe.Checkout.Session) {
+  const userId = session.metadata?.userId;
+  const amountEur = Number(
+    session.metadata?.amountEur ?? (session.amount_total || 0) / 100
+  );
+
+  if (!userId || !session.id) {
+    console.error("Daily pass checkout missing metadata:", session.id);
+    return;
+  }
+
+  const existing = await recordDailyPassPurchase(userId, session.id, amountEur);
+  if (existing) {
+    return;
+  }
+
+  try {
+    await provisionDailyPassForUser(userId);
+  } catch (error) {
+    console.error("Daily pass MCP provision failed:", error);
+  }
+
+  try {
+    await syncUsageToCoolplugz(userId);
+  } catch (error) {
+    console.error("Usage sync after daily pass purchase failed:", error);
   }
 }
 

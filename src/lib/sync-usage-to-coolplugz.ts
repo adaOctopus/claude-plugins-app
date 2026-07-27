@@ -1,6 +1,5 @@
 import { connectDB } from "@/lib/db";
-import { USAGE_LIMITS } from "@/lib/usage-limits";
-import { getUserUsage, markUsageSynced } from "@/lib/usage";
+import { resolveMaxCostPerRunUsd, getUserUsage, markUsageSynced } from "@/lib/usage";
 import { User } from "@/models/User";
 import { UserUsage } from "@/models/UserUsage";
 
@@ -45,6 +44,8 @@ export async function syncUsageToCoolplugz(userId: string): Promise<void> {
   const summary = await getUserUsage(userId);
   if (!summary) return;
 
+  const maxCostPerRunUsd = await resolveMaxCostPerRunUsd(userId);
+
   const payload = {
     email: user.email.toLowerCase().trim(),
     includedRunsLimit: summary.includedRunsLimit,
@@ -52,7 +53,7 @@ export async function syncUsageToCoolplugz(userId: string): Promise<void> {
     includedRunsRemaining: summary.includedRunsRemaining,
     bonusRunsRemaining: summary.bonusRunsRemaining,
     totalRunsRemaining: summary.totalRunsRemaining,
-    maxCostPerRunUsd: USAGE_LIMITS.maxCostPerRunUsd,
+    maxCostPerRunUsd,
     periodEnd: summary.periodEnd,
   };
 

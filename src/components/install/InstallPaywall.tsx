@@ -2,47 +2,44 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton";
+import { DailyPassCheckoutButton } from "@/components/pricing/DailyPassCheckoutButton";
 import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
-import { formatTierPrice } from "@/lib/pricing-plans";
-import { freeTrialSetupPath } from "@/lib/mcp-setup-paths";
+import { dailyPassPlan, formatTierPrice } from "@/lib/pricing-plans";
 import { LoginLink } from "@/components/auth/LoginLink";
-import { resolveProductHref } from "@/lib/site-mode";
 
 type InstallPaywallProps = {
   plugin: MarketplacePlugin;
   email: string;
-  trialExpired?: boolean;
+  passExpired?: boolean;
   errorMessage?: string;
 };
 
-/** Shown when email is verified but no active Pro subscription or free trial. */
+/** Shown when email is verified but no active Pro subscription or daily pass. */
 export function InstallPaywall({
   plugin,
   email,
-  trialExpired = false,
+  passExpired = false,
   errorMessage,
 }: InstallPaywallProps) {
-  const freeTrialHref = resolveProductHref(freeTrialSetupPath());
-
   return (
     <Card className="mx-auto max-w-lg">
       <CardHeader>
         <CardTitle className="text-2xl">
-          {trialExpired ? "Free trial ended" : "Get access"}
+          {passExpired ? "Daily pass ended" : "Get access"}
         </CardTitle>
         <p className="text-sm text-charcoal-muted">
           Signed in as <span className="font-medium text-charcoal">{email}</span>.
-          {trialExpired ? (
+          {passExpired ? (
             <>
               {" "}
-              Your 7-day MCP URL has expired on our server. Upgrade to Pro for ongoing access.
+              Your 24-hour MCP access has expired. Buy another Daily Pass or upgrade to Pro.
             </>
           ) : (
             <>
               {" "}
-              {plugin.title} is included with coolplugz Pro - or start a{" "}
-              <span className="font-medium text-charcoal">card-free 7-day trial</span> (unique MCP
-              URL, no Stripe).
+              {plugin.title} is included with coolplugz Pro — or buy a{" "}
+              <span className="font-medium text-charcoal">Daily Pass ({dailyPassPlan.price})</span>{" "}
+              to try it for 24 hours (1 run included).
             </>
           )}
         </p>
@@ -53,12 +50,10 @@ export function InstallPaywall({
         )}
       </CardHeader>
       <CardContent className="space-y-3">
-        {!trialExpired && (
-          <Button className="w-full" variant="default" asChild>
-            <Link href={freeTrialHref}>Start free 7-day trial — no card</Link>
-          </Button>
-        )}
-        <StripeCheckoutButton tier="pro" billing="monthly" className="w-full" variant={trialExpired ? "default" : "outline"}>
+        <DailyPassCheckoutButton variant="default">
+          {passExpired ? "Buy another Daily Pass" : `Buy Daily Pass — ${dailyPassPlan.price}`}
+        </DailyPassCheckoutButton>
+        <StripeCheckoutButton tier="pro" billing="monthly" className="w-full" variant="outline">
           Subscribe to Pro — {formatTierPrice("pro", "monthly")}/mo
         </StripeCheckoutButton>
         <Button variant="outline" className="w-full" asChild>

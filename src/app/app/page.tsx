@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { getSession } from "@/lib/auth";
 import { getMcpAccessContext } from "@/lib/mcp-access";
+import { getDailyPassStatus } from "@/lib/daily-pass";
+import { getFreeTrialStatus } from "@/lib/free-trial";
 import { getUserSubscription } from "@/lib/entitlements";
 import { getUserUsage, ensureUsageSyncedToMcp } from "@/lib/usage";
 import { connectDB } from "@/lib/db";
@@ -13,7 +15,7 @@ import { UsageCreditsCard } from "@/components/account/UsageCreditsCard";
 import { LogoutButton } from "@/components/marketplace/DashboardActions";
 import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
-import { UNIQUE_MCP_URL_PATH, freeTrialSetupPath } from "@/lib/mcp-setup-paths";
+import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 import { filterListedPlugins, requiresProSubscription } from "@/lib/marketplace-plugins";
 
 /** Logged-in account hub — subscription, plugins, sign out. */
@@ -22,6 +24,7 @@ export default async function AppDashboardPage() {
   if (!session) redirect("/login?redirect=/app");
 
   let subscription = null;
+  let dailyStatus = null;
   let trialStatus = null;
   let usage = null;
   let accessContext = null;
@@ -30,7 +33,7 @@ export default async function AppDashboardPage() {
   try {
     await connectDB();
     subscription = await getUserSubscription(session.id);
-    const { getFreeTrialStatus } = await import("@/lib/free-trial");
+    dailyStatus = await getDailyPassStatus(session.id);
     trialStatus = await getFreeTrialStatus(session.id);
     accessContext = await getMcpAccessContext(session.id);
     usage = await getUserUsage(session.id);
@@ -38,6 +41,11 @@ export default async function AppDashboardPage() {
     if (subscription) {
       await ensureUsageSyncedToMcp(session.id, {
         subscriptionPeriodEnd: subscription.currentPeriodEnd,
+      });
+      usage = await getUserUsage(session.id);
+    } else if (dailyStatus?.active && dailyStatus.expiresAt) {
+      await ensureUsageSyncedToMcp(session.id, {
+        dailyPassEnd: new Date(dailyStatus.expiresAt),
       });
       usage = await getUserUsage(session.id);
     } else if (trialStatus?.used && trialStatus.endsAt) {
@@ -55,6 +63,9 @@ export default async function AppDashboardPage() {
   } catch {
     // catalog fallback
   }
+
+  const hasMcpAccess =
+    !!subscription || dailyStatus?.active || trialStatus?.active;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-32 md:px-8">
@@ -90,16 +101,16 @@ export default async function AppDashboardPage() {
         </Card>
       )}
 
-      {!subscription && trialStatus?.active && (
+      {!subscription && dailyStatus?.active && (
         <Card className="mt-8 border-[#7DD3C0]/40 bg-[#E8FAF6]/40">
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Free trial</CardTitle>
+            <CardTitle className="text-lg">Daily Pass</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-charcoal-muted">
               Your MCP URL expires{" "}
-              {trialStatus.endsAt
-                ? new Date(trialStatus.endsAt).toLocaleString(undefined, {
+              {dailyStatus.expiresAt
+                ? new Date(dailyStatus.expiresAt).toLocaleString(undefined, {
                     dateStyle: "medium",
                     timeStyle: "short",
                   })
@@ -113,14 +124,14 @@ export default async function AppDashboardPage() {
         </Card>
       )}
 
-      {!subscription && trialStatus?.used && !trialStatus?.active && (
+      {!subscription && dailyStatus?.startedAt && !dailyStatus?.active && (
         <Card className="mt-8 border-amber-200/60 bg-amber-50/40">
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Trial ended</CardTitle>
+            <CardTitle className="text-lg">Daily pass ended</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-charcoal-muted">
-              Your 7-day trial has expired.{" "}
+              Your 24-hour pass has expired.{" "}
               {(accessContext?.totalRunsRemaining ?? 0) > 0 ? (
                 <>
                   You still have runs left —{" "}
@@ -131,11 +142,10 @@ export default async function AppDashboardPage() {
                 </>
               ) : (
                 <>
-                  Top up runs to keep using MCP, or{" "}
                   <Link href="/pricing" className="font-medium text-charcoal underline">
-                    upgrade to Pro
-                  </Link>
-                  .
+                    Buy another Daily Pass
+                  </Link>{" "}
+                  or upgrade to Pro.
                 </>
               )}
             </p>
@@ -143,17 +153,13 @@ export default async function AppDashboardPage() {
         </Card>
       )}
 
-      {!subscription && !trialStatus?.active && !trialStatus?.used && (
+      {!subscription && !dailyStatus?.startedAt && !dailyStatus?.active && !trialStatus?.used && (
         <Card className="mt-8">
           <CardContent className="pt-6">
             <p className="text-sm text-charcoal-muted">
               No paid plan yet.{" "}
               <Link href="/pricing" className="font-medium text-charcoal underline">
-                View pricing
-              </Link>{" "}
-              - or{" "}
-              <Link href={freeTrialSetupPath()} className="font-medium text-charcoal underline">
-                start your free 7-day trial
+                Buy a Daily Pass or get Pro
               </Link>
               .
             </p>
@@ -175,9 +181,9 @@ export default async function AppDashboardPage() {
                   <Link
                     href={
                       requiresProSubscription(plugin)
-                        ? subscription || trialStatus?.active
+                        ? hasMcpAccess
                           ? UNIQUE_MCP_URL_PATH
-                          : `${UNIQUE_MCP_URL_PATH}?start=trial`
+                          : "/pricing"
                         : `/install/${plugin.slug}`
                     }
                   >

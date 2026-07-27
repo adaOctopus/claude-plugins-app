@@ -6,20 +6,21 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Check, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton";
+import { DailyPassCheckoutButton } from "@/components/pricing/DailyPassCheckoutButton";
 import { PriceDisplay } from "@/components/pricing/PriceDisplay";
 import { EnterpriseContactDialog } from "@/components/pricing/EnterpriseContactDialog";
 import {
+  dailyPassPlan,
   enterprisePlan,
-  freePlan,
   getPaidPlanKey,
   proPlan,
+  proValueLine,
   tierPricing,
   type BillingPeriod,
   type PaidTier,
 } from "@/lib/pricing-plans";
-import { freeTrialSetupPath } from "@/lib/mcp-setup-paths";
 import { startTierCheckout } from "@/lib/start-checkout";
-import { isWipSite, comingSoonHref, resolveProductHref } from "@/lib/site-mode";
+import { isWipSite, comingSoonHref } from "@/lib/site-mode";
 import { cn } from "@/lib/utils";
 import { useOptionalPromoCode } from "@/components/pricing/PromoCodeProvider";
 
@@ -119,11 +120,10 @@ function PricingPlanCard({
   );
 }
 
-/** Free, Pro, and Enterprise pricing cards. */
+/** Daily Pass, Pro, and Enterprise pricing cards. */
 export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsProps) {
   const [enterpriseOpen, setEnterpriseOpen] = useState(false);
   const proPrice = tierPricing.pro[billing];
-  const freeTrialHref = resolveProductHref(freeTrialSetupPath());
   const promo = useOptionalPromoCode();
 
   async function handleCheckout(tier: PaidTier) {
@@ -149,27 +149,23 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
     <>
       <div className="mx-auto grid max-w-5xl items-stretch gap-6 text-left md:grid-cols-3">
         <PricingPlanCard
-          badge={freePlan.badge ? { label: freePlan.badge, variant: "muted" } : undefined}
-          title={freePlan.name}
+          badge={dailyPassPlan.badge ? { label: dailyPassPlan.badge, variant: "muted" } : undefined}
+          title={dailyPassPlan.name}
           priceSlot={
             <>
-              <PriceDisplay amount={freePlan.amount} />
-              <span className="text-charcoal-muted">{freePlan.period}</span>
+              <span className="font-serif text-4xl leading-none">{dailyPassPlan.price}</span>
+              <span className="text-charcoal-muted">{dailyPassPlan.period}</span>
             </>
           }
           tagline={
             <>
-              <p>{freePlan.tagline}</p>
-              <p className="mt-1 text-xs font-medium text-[#0D9488]">{freePlan.durationNote}</p>
+              <p>{dailyPassPlan.tagline}</p>
+              <p className="mt-1 text-xs font-medium text-[#0D9488]">{dailyPassPlan.durationNote}</p>
             </>
           }
-          featureHeader={freePlan.featureHeader}
-          features={freePlan.features}
-          footer={
-            <Button className="w-full" variant="outline" asChild>
-              <Link href={freeTrialHref}>{freePlan.cta}</Link>
-            </Button>
-          }
+          featureHeader={dailyPassPlan.featureHeader}
+          features={dailyPassPlan.features}
+          footer={<DailyPassCheckoutButton>{dailyPassPlan.cta}</DailyPassCheckoutButton>}
         />
 
         <PricingPlanCard
@@ -190,6 +186,7 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
               <p className={cn("savings" in proPrice && proPrice.savings && "mt-1")}>
                 {proPlan.tagline}
               </p>
+              <p className="mt-2 text-xs font-medium text-[#0D9488]">{proValueLine}</p>
             </>
           }
           featureHeader={proPlan.featureHeader}

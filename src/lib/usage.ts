@@ -1,4 +1,6 @@
 import { connectDB } from "@/lib/db";
+import { hasActiveSubscription } from "@/lib/entitlements";
+import { hasActiveDailyPass } from "@/lib/daily-pass";
 import { USAGE_LIMITS } from "@/lib/usage-limits";
 import { Purchase } from "@/models/Purchase";
 import { UserUsage } from "@/models/UserUsage";
@@ -23,6 +25,44 @@ function computeRemaining(
   return {
     includedRunsRemaining,
     totalRunsRemaining: includedRunsRemaining + bonusRunsRemaining,
+  };
+}
+
+export async function resolveMaxCostPerRunUsd(userId: string): Promise<number> {
+  if (await hasActiveSubscription(userId)) {
+    return USAGE_LIMITS.maxCostPerRunUsd;
+  }
+  if (await hasActiveDailyPass(userId)) {
+    return USAGE_LIMITS.dailyMaxCostPerRunUsd;
+  }
+  return USAGE_LIMITS.maxCostPerRunUsd;
+}
+
+export async function toUsageSummaryAsync(
+  usage: {
+    includedRunsLimit: number;
+    includedRunsUsed: number;
+    bonusRunsRemaining: number;
+    periodStart: Date;
+    periodEnd: Date;
+  },
+  userId: string
+): Promise<UsageSummary> {
+  const { includedRunsRemaining, totalRunsRemaining } = computeRemaining(
+    usage.includedRunsLimit,
+    usage.includedRunsUsed,
+    usage.bonusRunsRemaining
+  );
+
+  return {
+    includedRunsLimit: usage.includedRunsLimit,
+    includedRunsUsed: usage.includedRunsUsed,
+    includedRunsRemaining,
+    bonusRunsRemaining: usage.bonusRunsRemaining,
+    totalRunsRemaining,
+    periodStart: usage.periodStart.toISOString(),
+    periodEnd: usage.periodEnd.toISOString(),
+    maxCostPerRunUsd: await resolveMaxCostPerRunUsd(userId),
   };
 }
 
@@ -56,7 +96,7 @@ export async function getUserUsage(userId: string): Promise<UsageSummary | null>
   await connectDB();
   const usage = await UserUsage.findOne({ userId });
   if (!usage) return null;
-  return toUsageSummary(usage);
+  return toUsageSummaryAsync(usage, userId);
 }
 
 /** Create or refresh included-run quota for a billing period (Pro subscription). */
@@ -83,7 +123,18 @@ export async function initializeUsageForSubscription(
   return usage;
 }
 
-/** Card-free trial — smaller included quota for the trial window. */
+/** Paid daily pass — one included run for the 24h window. */
+export async function initializeUsageForDailyPass(userId: string, periodEnd: Date) {
+  const now = new Date();
+  return initializeUsageForSubscription(
+    userId,
+    now,
+    periodEnd,
+    USAGE_LIMITS.dailyIncludedRuns
+  );
+}
+
+/** Card-free trial — legacy rows only. */
 export async function initializeUsageForTrial(userId: string, periodEnd: Date) {
   const now = new Date();
   return initializeUsageForSubscription(
@@ -205,7 +256,8 @@ export async function consumeRun(userId: string): Promise<ConsumeRunResult> {
   }
 
   await usage.save();
-  return { ok: true, summary: toUsageSummary(usage) };
+  const summary = await toUsageSummaryAsync(usage, userId);
+  return { ok: true as const, summary };
 }
 
 /** Resolve user by email and consume one run (MCP server entry point). */
@@ -227,13 +279,15 @@ export async function markUsageSynced(userId: string) {
 /** Ensure Mongo usage exists and push latest quotas to MCP (fixes stale MCP cache). */
 export async function ensureUsageSyncedToMcp(
   userId: string,
-  options?: { trialEnd?: Date; subscriptionPeriodEnd?: Date }
+  options?: { trialEnd?: Date; subscriptionPeriodEnd?: Date; dailyPassEnd?: Date }
 ) {
   await connectDB();
   const existing = await UserUsage.findOne({ userId });
 
   if (!existing) {
-    if (options?.trialEnd) {
+    if (options?.dailyPassEnd) {
+      await initializeUsageForDailyPass(userId, options.dailyPassEnd);
+    } else if (options?.trialEnd) {
       await initializeUsageForTrial(userId, options.trialEnd);
     } else if (options?.subscriptionPeriodEnd) {
       await initializeUsageForSubscription(userId, new Date(), options.subscriptionPeriodEnd);
@@ -244,4 +298,30 @@ export async function ensureUsageSyncedToMcp(
 
   const { syncUsageToCoolplugz } = await import("@/lib/sync-usage-to-coolplugz");
   await syncUsageToCoolplugz(userId);
+}
+
+/**
+ * Record a daily pass purchase (idempotent via stripeSessionId).
+ * MCP provision is handled separately by provisionDailyPassForUser.
+ */
+export async function recordDailyPassPurchase(
+  userId: string,
+  stripeSessionId: string,
+  amountEur: number
+) {
+  await connectDB();
+
+  const existing = await Purchase.findOne({ stripeSessionId, type: "one_time" });
+  if (existing) {
+    return existing;
+  }
+
+  await Purchase.create({
+    userId,
+    stripeSessionId,
+    amount: amountEur,
+    type: "one_time",
+  });
+
+  return null;
 }

@@ -1,7 +1,12 @@
 /** Run quotas, credit packs, and server budget caps — single source of truth. */
 export const USAGE_LIMITS = {
   maxCostPerRunUsd: 2,
+  dailyMaxCostPerRunUsd: 3,
   proIncludedRunsPerMonth: 10,
+  dailyIncludedRuns: 1,
+  dailyPassHours: 24,
+  dailyPassPriceEur: 5,
+  /** Legacy — existing free-trial rows only; no new trials. */
   trialIncludedRuns: 3,
   creditPacks: [
     { id: "pack_5", runs: 5, priceUsd: 10 },

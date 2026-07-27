@@ -129,7 +129,7 @@ export const funnelGuides: Guide[] = [
       title: "Try coolplugz",
       paragraphs: [
         ctaParagraph,
-        "Start with a free 7-day trial — full Pro access, no credit card.",
+        "Start with a €5 Daily Pass — 1 run, 24 hours — or get Pro for 10 runs/month.",
       ],
     },
   },

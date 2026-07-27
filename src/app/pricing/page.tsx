@@ -15,8 +15,6 @@ import {
 import { startTierCheckout } from "@/lib/start-checkout";
 import { comingSoonHref, isWipSite } from "@/lib/site-mode";
 import { LoginLink } from "@/components/auth/LoginLink";
-import { brandWordmarkFont } from "@/lib/brand-font";
-import { cn } from "@/lib/utils";
 
 function resolveBilling(planParam: string | null): BillingPeriod {
   return planParam === "monthly" || planParam === "annual" ? planParam : "annual";
@@ -52,17 +50,8 @@ function PricingContent() {
     <div className="mx-auto max-w-6xl px-4 py-32 text-center md:px-8">
       <h1 className="font-serif text-4xl text-charcoal md:text-6xl">Pricing</h1>
       <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
-        Start with a <span className="font-medium text-charcoal">card-free 7-day trial </span>.{" "}
-        <br /> After that, continue with Pro or Enterprise to become really{" "}
-        <span
-          className={cn(
-            brandWordmarkFont.className,
-            "brand-wordmark inline-block align-baseline text-[1.5em] leading-none text-charcoal"
-          )}
-        >
-          Cool
-        </span>
-        .
+        Try CoolPlugz with a <span className="font-medium text-charcoal">€5 Daily Pass</span> (1 run,
+        24h) or go Pro for 10 runs/month. Enterprise teams — contact us.
       </p>
 
       <div className="mt-8 flex justify-center">
@@ -105,7 +94,7 @@ function PricingContent() {
   );
 }
 
-/** Pricing page — card-free 7-day trial + Stripe Checkout for Pro + Enterprise contact. */
+/** Pricing page — Daily Pass + Stripe Checkout for Pro + Enterprise contact. */
 export default function PricingPage() {
   return (
     <Suspense fallback={<div className="py-32 text-center">Loading...</div>}>
