@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { canAccessMcp, getFreeTrialStatus } from "@/lib/free-trial";
-import { hasActiveSubscription } from "@/lib/entitlements";
+import { hasActiveSubscription, getUserSubscription } from "@/lib/entitlements";
 import {
   getUserMcpUrl,
   isUserOnFreeTrial,
   provisionFreeTrialForUser,
 } from "@/lib/provision-coolplugz";
+import { ensureUsageSyncedToMcp } from "@/lib/usage";
 import {
   UNIQUE_MCP_URL_PATH,
   freeTrialLoginRedirect,
@@ -97,6 +98,17 @@ export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
   const onFreeTrial = await isUserOnFreeTrial(session.id);
   const subscribed = await hasActiveSubscription(session.id);
   const trialStatus = onFreeTrial ? await getFreeTrialStatus(session.id) : null;
+
+  if (subscribed) {
+    const subscription = await getUserSubscription(session.id);
+    if (subscription) {
+      await ensureUsageSyncedToMcp(session.id, {
+        subscriptionPeriodEnd: subscription.currentPeriodEnd,
+      });
+    }
+  } else if (trialStatus?.active && trialStatus.endsAt) {
+    await ensureUsageSyncedToMcp(session.id, { trialEnd: new Date(trialStatus.endsAt) });
+  }
 
   return (
     <div className="px-4 py-32 md:px-8">

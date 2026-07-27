@@ -205,3 +205,25 @@ export async function markUsageSynced(userId: string) {
   await connectDB();
   await UserUsage.updateOne({ userId }, { lastSyncedAt: new Date() });
 }
+
+/** Ensure Mongo usage exists and push latest quotas to MCP (fixes stale MCP cache). */
+export async function ensureUsageSyncedToMcp(
+  userId: string,
+  options?: { trialEnd?: Date; subscriptionPeriodEnd?: Date }
+) {
+  await connectDB();
+  const existing = await UserUsage.findOne({ userId });
+
+  if (!existing) {
+    if (options?.trialEnd) {
+      await initializeUsageForTrial(userId, options.trialEnd);
+    } else if (options?.subscriptionPeriodEnd) {
+      await initializeUsageForSubscription(userId, new Date(), options.subscriptionPeriodEnd);
+    } else {
+      return;
+    }
+  }
+
+  const { syncUsageToCoolplugz } = await import("@/lib/sync-usage-to-coolplugz");
+  await syncUsageToCoolplugz(userId);
+}

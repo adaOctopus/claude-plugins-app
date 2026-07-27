@@ -36,6 +36,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    try {
+      const { User } = await import("@/models/User");
+      const user = await User.findOne({ email: email.toLowerCase().trim() });
+      if (user) {
+        const { syncUsageToCoolplugz } = await import("@/lib/sync-usage-to-coolplugz");
+        await syncUsageToCoolplugz(user._id.toString());
+      }
+    } catch (syncError) {
+      console.warn("Usage sync after consume failed:", syncError);
+    }
+
     return NextResponse.json({
       success: true,
       usage: result.summary,

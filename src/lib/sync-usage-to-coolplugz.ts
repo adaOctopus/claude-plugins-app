@@ -47,8 +47,11 @@ export async function syncUsageToCoolplugz(userId: string): Promise<void> {
 
   const payload = {
     email: user.email.toLowerCase().trim(),
+    includedRunsLimit: summary.includedRunsLimit,
+    includedRunsUsed: summary.includedRunsUsed,
     includedRunsRemaining: summary.includedRunsRemaining,
     bonusRunsRemaining: summary.bonusRunsRemaining,
+    totalRunsRemaining: summary.totalRunsRemaining,
     maxCostPerRunUsd: USAGE_LIMITS.maxCostPerRunUsd,
     periodEnd: summary.periodEnd,
   };

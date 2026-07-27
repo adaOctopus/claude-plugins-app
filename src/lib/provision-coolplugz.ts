@@ -270,6 +270,10 @@ export async function provisionFreeTrialForUser(
 
   const trialStatus = await getFreeTrialStatus(userId);
   if (trialStatus.active && user.mcpUrl) {
+    const { ensureUsageSyncedToMcp } = await import("@/lib/usage");
+    if (trialStatus.endsAt) {
+      await ensureUsageSyncedToMcp(userId, { trialEnd: new Date(trialStatus.endsAt) });
+    }
     return {
       mcpUrl: user.mcpUrl,
       provisioned: false,

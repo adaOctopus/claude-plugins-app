@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { getSession } from "@/lib/auth";
 import { getFreeTrialStatus } from "@/lib/free-trial";
 import { getUserSubscription } from "@/lib/entitlements";
-import { getUserUsage, initializeUsageForSubscription, initializeUsageForTrial } from "@/lib/usage";
+import { getUserUsage, ensureUsageSyncedToMcp } from "@/lib/usage";
 import { connectDB } from "@/lib/db";
 import { Plugin } from "@/models/Plugin";
 import { Button } from "@/components/ui/button";
@@ -32,15 +32,15 @@ export default async function AppDashboardPage() {
     trialStatus = await getFreeTrialStatus(session.id);
     usage = await getUserUsage(session.id);
 
-    if (!usage && subscription) {
-      await initializeUsageForSubscription(
-        session.id,
-        new Date(),
-        subscription.currentPeriodEnd
-      );
+    if (subscription) {
+      await ensureUsageSyncedToMcp(session.id, {
+        subscriptionPeriodEnd: subscription.currentPeriodEnd,
+      });
       usage = await getUserUsage(session.id);
-    } else if (!usage && trialStatus?.active && trialStatus.endsAt) {
-      await initializeUsageForTrial(session.id, new Date(trialStatus.endsAt));
+    } else if (trialStatus?.active && trialStatus.endsAt) {
+      await ensureUsageSyncedToMcp(session.id, {
+        trialEnd: new Date(trialStatus.endsAt),
+      });
       usage = await getUserUsage(session.id);
     }
     const dbPlugins = await Plugin.find({ status: "published" });
