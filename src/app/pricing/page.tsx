@@ -51,7 +51,7 @@ function PricingContent() {
       <h1 className="font-serif text-4xl text-charcoal md:text-6xl">Pricing</h1>
       <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
         Try CoolPlugz with a <span className="font-medium text-charcoal">$5 One Run</span> (1 task,
-        24h) or go Pro for 10 runs/month. Enterprise teams — contact us.
+        24h) or go Pro for daily code shipping.
       </p>
 
       <div className="mt-8 flex justify-center">

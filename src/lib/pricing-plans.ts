@@ -56,7 +56,7 @@ export const proAdditiveFeatures = [
 
 /** One-line Pro value vs One Run on pricing card. */
 export const proValueLine =
-  "30 One Runs = $150/mo — Pro is $47 for 10 runs.";
+  "";
 
 /** Added on Premium — shown after “Everything in Pro, plus:”. */
 export const premiumAdditiveFeatures = [

@@ -32,7 +32,7 @@ export function PricingSection() {
       <div className="mx-auto max-w-6xl text-center">
         <h2 className="font-serif text-4xl text-charcoal md:text-6xl">Pricing</h2>
         <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
-          Enjoy CoolPlugz with a <span className="font-medium text-charcoal">$5 One Run</span> or go Pro for 10 runs/month.
+          Enjoy CoolPlugz with a <span className="font-medium text-charcoal">$5 One Run</span> or go Pro for <span className="font-medium text-charcoal">daily code shipping.</span>
         </p>
 
         <Suspense fallback={null}>
