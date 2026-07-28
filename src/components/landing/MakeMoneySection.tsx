@@ -72,8 +72,7 @@ export function MakeMoneySection() {
               id="make-money-heading"
               className="font-serif text-3xl text-charcoal md:text-4xl lg:text-[2.65rem] lg:leading-[1.15]"
             >
-              Make money with{" "}
-              <span style={{ fontStyle: "italic", fontWeight: "600" }}>CoolPlugz</span>💰
+              Make money with us💰
             </h2>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-charcoal-muted md:text-[15px]">
               Share CoolPlugz with engineers you know - we pay{" "}
