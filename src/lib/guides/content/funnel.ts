@@ -129,7 +129,7 @@ export const funnelGuides: Guide[] = [
       title: "Try coolplugz",
       paragraphs: [
         ctaParagraph,
-        "Start with a $5 One Run — 1 task, 24 hours — or get Pro for 10 runs/month.",
+        "Start with Starter — $5, 1 task, 24 hours — or get Pro for 10 runs/month.",
       ],
     },
   },

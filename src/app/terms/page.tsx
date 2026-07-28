@@ -59,15 +59,15 @@ export default function TermsPage() {
         </p>
       </LegalSection>
 
-      <LegalSection title="4. Subscriptions, Billing, and One Run">
+      <LegalSection title="4. Subscriptions, Billing, and Starter">
         <p>
-          Paid plans, One Run purchases, and add-ons are described on our pricing page. By
+          Paid plans, Starter purchases, and add-ons are described on our pricing page. By
           subscribing, you authorize us and our payment processor, Stripe, to charge applicable fees
           on a recurring basis until you cancel.
         </p>
         <ul>
           <li>Subscription fees are billed in advance according to the plan you select</li>
-          <li>One Run is a one-time $5 charge for 1 task run and 24-hour access — no automatic renewal</li>
+          <li>Starter is a one-time $5 charge for 1 task completion and 24-hour access — no automatic renewal</li>
           <li>Taxes may apply depending on your location</li>
           <li>Except where required by law, fees are non-refundable</li>
         </ul>

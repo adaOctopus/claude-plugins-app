@@ -36,17 +36,17 @@ export const tierPricing = {
   },
 } as const;
 
-/** Core access features — shared by One Run and Pro. */
+/** Core access features — shared by Starter and Pro. */
 export const baseAccessFeatures = [
   "Syncs Jira + Slack + GitHub + Notion",
-  "One full task completion",
-  "Interact with Coolplugz via Claude",
+  "One task completed end-to-end",
+  "Stay in Claude - CoolPlugz does the work",
 ] as const;
 
 /** @deprecated Use baseAccessFeatures */
 export const trialFeatures = baseAccessFeatures;
 
-/** Added on Pro — shown after “Everything in One Run, plus:”. */
+/** Added on Pro — shown after “Everything in Starter, plus:”. */
 export const proAdditiveFeatures = [
   "Advanced Prompt Engineering",
   "Execution Orchestration",
@@ -54,7 +54,7 @@ export const proAdditiveFeatures = [
   "Top up extra Task Credits anytime",
 ] as const;
 
-/** One-line Pro value vs One Run on pricing card. */
+/** One-line Pro value vs Starter on pricing card. */
 export const proValueLine =
   "";
 
@@ -75,23 +75,23 @@ export const enterpriseAdditiveFeatures = [
   "SSO & advanced security options",
 ] as const;
 
-/** Full Pro feature set (One Run + paid). */
+/** Full Pro feature set (Starter + paid). */
 export const proPlanFeatures = [...baseAccessFeatures, ...proAdditiveFeatures] as const;
 
 export const dailyPassPlan = {
   id: "daily" as const,
-  name: "One Run",
+  name: "Starter",
   price: "$5",
   amount: 5,
-  period: "/run",
-  badge: "Try it first",
-  tagline: "Try CoolPlugz — 1 full task run",
-  durationNote: "One run MCP access",
+  period: "/task",
+  badge: "Try it now",
+  tagline: "Finish one real task in minutes",
+  durationNote: "zero hassle",
   featureHeader: "Includes:",
   features: [
     ...baseAccessFeatures,
   ] as const,
-  cta: "BUY ONE RUN",
+  cta: "TRY STARTER",
 };
 
 /** @deprecated Use dailyPassPlan */
@@ -102,7 +102,7 @@ export const proPlan = {
   name: "Pro",
   badge: "Recommended",
   tagline: "For engineers shipping every day",
-  featureHeader: "Everything in One Run, plus:",
+  featureHeader: "Everything in Starter, plus:",
   features: proAdditiveFeatures,
   cta: "GET PRO",
 };

@@ -44,7 +44,7 @@ export function InstallPluginGuide({
           <br />
           {isDailyPass ? (
             <>
-              <span className="font-medium text-charcoal">One Run</span> — your MCP URL is
+              <span className="font-medium text-charcoal">Starter</span> — your MCP URL is
               valid for 24 hours (1 task included).
             </>
           ) : (
@@ -96,11 +96,11 @@ export function InstallPluginGuide({
 
       {isDailyPass && (
         <div className="mb-6 rounded-xl border border-border bg-cream-warm/60 p-4 text-sm text-charcoal-muted">
-          When your One Run window ends, this MCP URL stops working.{" "}
+          When your Starter access ends, this MCP URL stops working.{" "}
           <Link href="/pricing" className="font-medium text-charcoal underline">
             Get Pro
           </Link>{" "}
-          for 10 runs/month — far cheaper than buying One Run every day.
+          for 10 tasks/month.
         </div>
       )}
 

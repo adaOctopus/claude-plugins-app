@@ -120,7 +120,7 @@ function PricingPlanCard({
   );
 }
 
-/** One Run, Pro, and Enterprise pricing cards. */
+/** Starter, Pro, and Enterprise pricing cards. */
 export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsProps) {
   const [enterpriseOpen, setEnterpriseOpen] = useState(false);
   const proPrice = tierPricing.pro[billing];

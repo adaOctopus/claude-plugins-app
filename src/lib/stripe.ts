@@ -88,7 +88,7 @@ export function getCheckoutPriceId(plan: keyof typeof PRICING_AMOUNTS_MAP): stri
   }
 }
 
-/** One-time One Run Stripe price ID — env `COOLPLUGZ_DAILY`. */
+/** One-time Starter Stripe price ID — env `COOLPLUGZ_DAILY`. */
 export function getDailyPassPriceId(): string | undefined {
   return (
     process.env.COOLPLUGZ_DAILY ??

@@ -312,7 +312,7 @@ export async function provisionFreeTrialForUser(
   userId: string,
   label?: string
 ): Promise<ProvisionCoolplugzResult> {
-  throw new Error("Free trial is no longer available. Buy a One Run or Pro subscription.");
+  throw new Error("Free trial is no longer available. Buy Starter or a Pro subscription.");
 }
 
 /** True when user is on paid One Run (not Pro). */

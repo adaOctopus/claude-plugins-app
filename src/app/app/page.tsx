@@ -104,7 +104,7 @@ export default async function AppDashboardPage() {
       {!subscription && dailyStatus?.active && (
         <Card className="mt-8 border-[#7DD3C0]/40 bg-[#E8FAF6]/40">
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">One Run</CardTitle>
+            <CardTitle className="text-lg">Starter</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-charcoal-muted">
@@ -127,7 +127,7 @@ export default async function AppDashboardPage() {
       {!subscription && dailyStatus?.startedAt && !dailyStatus?.active && (
         <Card className="mt-8 border-amber-200/60 bg-amber-50/40">
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">One Run used</CardTitle>
+            <CardTitle className="text-lg">Starter used</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-charcoal-muted">
@@ -143,7 +143,7 @@ export default async function AppDashboardPage() {
               ) : (
                 <>
                   <Link href="/pricing" className="font-medium text-charcoal underline">
-                    Buy another One Run
+                    Buy Starter again
                   </Link>{" "}
                   or upgrade to Pro.
                 </>
@@ -159,7 +159,7 @@ export default async function AppDashboardPage() {
             <p className="text-sm text-charcoal-muted">
               No paid plan yet.{" "}
               <Link href="/pricing" className="font-medium text-charcoal underline">
-                Buy a One Run or get Pro
+                Try Starter or get Pro
               </Link>
               .
             </p>

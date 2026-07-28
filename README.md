@@ -173,8 +173,8 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 | `/login/verify` | Page | Magic link landing — verifies via POST (safe from email prefetch) |
 | `/api/auth/logout` | POST | Clear session |
 | `/api/stripe/checkout` | POST | Create Checkout Session |
-| `/api/stripe/daily-checkout` | POST | One-time One Run checkout ($5, 24h) |
-| `/api/stripe/credit-checkout` | POST | One-time credit top-up checkout (One Run or Pro users with MCP) |
+| `/api/stripe/daily-checkout` | POST | One-time Starter checkout ($5, 24h) |
+| `/api/stripe/credit-checkout` | POST | One-time credit top-up checkout (Starter or Pro users with MCP) |
 | `/api/stripe/cancel-subscription` | POST | Cancel subscription at period end |
 | `/api/stripe/portal` | POST | Customer Portal URL |
 | `/api/stripe/webhook` | POST | Stripe event handler |
@@ -193,19 +193,19 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 
 ## Pricing
 
-- **One Run**: $5 one-time — 1 full task run, 24-hour MCP access, up to $3 server budget per run
+- **Starter**: $5 one-time — 1 task completed end-to-end, 24-hour MCP access, up to $3 server budget per task
 - **Pro monthly**: $47/mo — 10 full task runs per month included; top-up credits from Manage Account
-- **Pro annual**: $397/yr — ~30% savings ($150/mo if you bought One Run every day)
-- **Credit top-ups** (one-time, after One Run or Pro): $10 → 5 runs, $20 → 10 runs ($2/run server budget cap on Pro)
+- **Pro annual**: $397/yr — ~30% savings
+- **Credit top-ups** (one-time, after Starter or Pro): $10 → 5 runs, $20 → 10 runs ($2/run server budget cap on Pro)
 - **Enterprise**: custom pricing — multi-seat teams, pipeline optimization; **Contact us** form on pricing
 - **Premium** (legacy Stripe tier): grandfathered subscribers only
 - **Add-ons**: $2.50/mo per extra marketplace plugin
 - **Creator fee**: 1% platform commission (manual payouts)
 - **Partner promos**: influencer codes (admin API) + **dev self-serve referrals** on homepage `#make-money` (15% friend discount, 20% revenue share) — see `docs/partner-promos.md`
 
-**Stripe env:** `COOLPLUGZ_DAILY` (One Run Stripe price), `STRIPE_CREDIT_PACK_5`, `STRIPE_CREDIT_PACK_10`
+**Stripe env:** `COOLPLUGZ_DAILY` (Starter Stripe price — rename product to "CoolPlugz Starter" in Stripe Dashboard), `STRIPE_CREDIT_PACK_5`, `STRIPE_CREDIT_PACK_10`
 
-One Run flow: pricing → sign in → Stripe Checkout → webhook/`fulfillDailyPassSession` → CoolPlugz `tier: "daily"`, `ttlHours: 24` → MCP setup page.
+Starter flow: pricing → sign in → Stripe Checkout → webhook/`fulfillDailyPassSession` → CoolPlugz `tier: "daily"`, `ttlHours: 24` → MCP setup page.
 
 Legacy free-trial rows in Mongo keep access until `freeTrialEndsAt`; no new free trials are provisioned.
 
@@ -230,7 +230,7 @@ Content-Type: application/json
 
 Override the path with `COOLPLUGZ_PROVISION_PATH` if your server uses a different route (default: `/admin/keys`).
 
-**One Run** — same external endpoint with:
+**Starter** — same external endpoint with:
 
 ```json
 { "email": "user@example.com", "tier": "daily", "ttlHours": 24 }

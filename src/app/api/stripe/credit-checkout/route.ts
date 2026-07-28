@@ -26,7 +26,7 @@ function checkoutErrorMessage(error: unknown): string {
   return "Checkout failed";
 }
 
-/** Create Stripe Checkout for a one-time credit top-up (One Run or Pro users with MCP). */
+/** Create Stripe Checkout for a one-time credit top-up (Starter or Pro users with MCP). */
 export async function POST(request: NextRequest) {
   try {
     if (isWipSite()) {
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     const allowed = await canPurchaseTopUp(session.id);
     if (!allowed) {
       return NextResponse.json(
-        { error: "Buy a One Run or Pro subscription first to unlock run top-ups." },
+        { error: "Buy Starter or a Pro subscription first to unlock run top-ups." },
         { status: 403 }
       );
     }

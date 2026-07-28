@@ -160,7 +160,7 @@ function HeroRunSummaryBody() {
     <div className="flex flex-col gap-3">
       {/* <div>
         <p className="text-[10px] font-bold uppercase tracking-wide text-charcoal">What happened</p>
-        <p className="text-[9px] text-charcoal-muted">Under the hood · one run</p>
+        <p className="text-[9px] text-charcoal-muted">Under the hood · one task</p>
       </div> */}
 
       {/* <div className="grid grid-cols-3 gap-2">
