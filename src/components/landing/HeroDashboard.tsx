@@ -75,8 +75,12 @@ function HeroChatBody() {
   return (
     <div className="flex flex-col gap-2.5">
       <div className="flex justify-end">
-        <div className="rounded-2xl rounded-tr-sm bg-charcoal px-3 py-2 text-[12px] leading-snug text-cream sm:text-[13px]">
-          Hi <span className="font-semibold">Cooplugz👋</span> Show my dashboard & <span className="font-semibold" style={{ fontStyle: "italic" }}>@RUN</span> my tasks. Thnx
+        <div className="max-w-[88%] rounded-xl rounded-tr-sm border border-border/50 bg-accent-sand px-2.5 py-1.5 text-[11px] font-normal leading-tight text-charcoal-muted sm:text-[12px]">
+          Hi <span className="font-medium text-charcoal">Cooplugz👋</span> Show my dashboard &{" "}
+          <span className="font-medium text-charcoal" style={{ fontStyle: "italic" }}>
+            @RUN
+          </span>{" "}
+          my tasks. Thnx
         </div>
       </div>
 
