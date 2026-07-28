@@ -201,7 +201,7 @@ Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
 - **Premium** (legacy Stripe tier): grandfathered subscribers only
 - **Add-ons**: $2.50/mo per extra marketplace plugin
 - **Creator fee**: 1% platform commission (manual payouts)
-- **Partner promos**: influencer codes (admin API) + **dev self-serve referrals** on homepage `#make-money` (15% friend discount, 20% revenue share) — see `docs/partner-promos.md`
+- **Partner promos**: influencer codes (admin API) + **dev self-serve referrals** on homepage `#make-money` (15% friend discount, 15% revenue share) — see `docs/partner-promos.md`
 
 **Stripe env:** `COOLPLUGZ_DAILY` (Starter Stripe price — rename product to "CoolPlugz Starter" in Stripe Dashboard), `STRIPE_CREDIT_PACK_5`, `STRIPE_CREDIT_PACK_10`
 

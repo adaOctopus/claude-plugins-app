@@ -6,10 +6,10 @@ export const makeMoneyHeadline =
   "Make money with Claude and AI — generate passive income referring CoolPlugz";
 
 export const makeMoneySubcopy =
-  "Developers earn 20% revenue share when friends subscribe with your Claude referral link. Friends get 15% off. Share once — earn on renewals.";
+  "Developers earn 15% revenue share when friends subscribe with your Claude referral link. Friends get 15% off. Share once — earn on renewals.";
 
 export const makeMoneyDirectAnswer =
-  "If you searched how to make money with Claude or generate passive income with AI, this is the realistic path: share CoolPlugz with developer friends, give them 15% off, and earn 20% of what they pay — including renewals. No courses. No guru templates. Just a referral link tied to your email.";
+  "If you searched how to make money with Claude or generate passive income with AI, this is the realistic path: share CoolPlugz with developer friends, give them 15% off, and earn 15% of what they pay — including renewals. No courses. No guru templates. Just a referral link tied to your email.";
 
 export const makeMoneyBodyParagraphs = [
   "Make money with AI as a developer by referring a tool your friends already need — Claude connected to Jira, Slack, GitHub, and Notion. Your unique promo code applies automatically at checkout.",
@@ -28,7 +28,7 @@ export const makeMoneySteps = [
   },
   {
     title: "Earn passive income",
-    text: "Collect 20% revenue share on every payment and renewal while they stay subscribed.",
+    text: "Collect 15% revenue share on every payment and renewal while they stay subscribed.",
   },
 ];
 
@@ -38,7 +38,7 @@ export const makeMoneyFaqItems: MakeMoneyFaqItem[] = [
   {
     question: "Can developers make money with Claude by referring CoolPlugz?",
     answer:
-      "Yes. Enter your email on this page to get a unique Claude referral link. When developer friends subscribe with your code, you earn 20% of what they pay — on the first checkout and on renewals.",
+      "Yes. Enter your email on this page to get a unique Claude referral link. When developer friends subscribe with your code, you earn 15% of what they pay — on the first checkout and on renewals.",
   },
   {
     question: "How do I generate passive income with AI as a developer?",
@@ -53,7 +53,7 @@ export const makeMoneyFaqItems: MakeMoneyFaqItem[] = [
   {
     question: "How much can I earn sharing my make-money-with-AI referral link?",
     answer:
-      "You earn 20% of net subscription revenue from each referral — initial payment plus renewals while they stay subscribed. Payouts are processed manually to your email each month.",
+      "You earn 15% of net subscription revenue from each referral — initial payment plus renewals while they stay subscribed. Payouts are processed manually to your email each month.",
   },
   {
     question: "Do friends get a discount when I share my Claude promo code?",
@@ -63,7 +63,7 @@ export const makeMoneyFaqItems: MakeMoneyFaqItem[] = [
   {
     question: "Is this passive income with Claude on renewals?",
     answer:
-      "Yes. Renewals count. As long as your referral stays subscribed, you keep earning 20% on each invoice — true passive income with Claude tooling, not a single commission.",
+      "Yes. Renewals count. As long as your referral stays subscribed, you keep earning 15% on each invoice — true passive income with Claude tooling, not a single commission.",
   },
 ];
 

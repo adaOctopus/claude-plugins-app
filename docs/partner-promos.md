@@ -82,7 +82,7 @@ Developers generate their own code on the homepage **`/#make-money`** section â€
 | Setting | Default | Env override |
 |---|---|---|
 | Friend discount | 15% | `REFERRAL_DISCOUNT_PERCENT` |
-| Partner revenue share | 20% | `REFERRAL_REVENUE_SHARE_PERCENT` |
+| Partner revenue share | 15% | `REFERRAL_REVENUE_SHARE_PERCENT` |
 
 ### Generate a link
 

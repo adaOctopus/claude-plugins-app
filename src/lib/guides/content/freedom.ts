@@ -482,7 +482,7 @@ export const freedomGuides: Guide[] = [
     title: "Generate Passive Income with Claude and AI — Refer CoolPlugz to Developer Friends",
     metaTitle: "Passive Income with Claude — Refer CoolPlugz",
     metaDescription:
-      "Make money with Claude and AI by sharing CoolPlugz. Generate passive income with a unique referral link — 20% revenue share, 15% off for friends.",
+      "Make money with Claude and AI by sharing CoolPlugz. Generate passive income with a unique referral link — 15% revenue share, 15% off for friends.",
     keywords: [
       "make money with AI",
       "make money with Claude",
@@ -497,7 +497,7 @@ export const freedomGuides: Guide[] = [
     ],
     category: "freedom",
     directAnswer:
-      "Developers searching how to make money with Claude or generate passive income with AI can refer CoolPlugz: enter your email on the homepage, get a unique promo code, share the link, and earn 20% on every payment and renewal while friends get 15% off.",
+      "Developers searching how to make money with Claude or generate passive income with AI can refer CoolPlugz: enter your email on the homepage, get a unique promo code, share the link, and earn 15% on every payment and renewal while friends get 15% off.",
     relatedSlugs: [
       "make-money-with-claude-as-a-developer",
       "developer-freedom-with-claude",
@@ -512,7 +512,7 @@ export const freedomGuides: Guide[] = [
         blocks: [
           {
             type: "p",
-            text: "Most 'make money with AI' content is affiliate noise. Referring CoolPlugz is different: you share a Claude plugin engineers actually use for Jira, Slack, GitHub, and merge-ready code — and you earn 20% when they subscribe.",
+            text: "Most 'make money with AI' content is affiliate noise. Referring CoolPlugz is different: you share a Claude plugin engineers actually use for Jira, Slack, GitHub, and merge-ready code — and you earn 15% when they subscribe.",
           },
           {
             type: "p",
@@ -530,7 +530,7 @@ export const freedomGuides: Guide[] = [
               "Enter your email on coolplugz.com/#make-money",
               "Get a unique code like COOLPLUGZTASOS4821",
               "Share your link — friends get 15% off at checkout",
-              "Earn 20% of net revenue on initial payment and renewals",
+              "Earn 15% of net revenue on initial payment and renewals",
               "Payouts sent manually to your email each month",
             ],
           },

@@ -40,8 +40,8 @@ export function getReferralDiscountPercent(): number {
 
 export function getReferralRevenueSharePercent(): number {
   const raw = process.env.REFERRAL_REVENUE_SHARE_PERCENT;
-  const parsed = raw ? Number(raw) : 20;
-  return Number.isFinite(parsed) ? parsed : 20;
+  const parsed = raw ? Number(raw) : 15;
+  return Number.isFinite(parsed) ? parsed : 15;
 }
 
 function sanitizeEmailLocalPart(email: string): string {
@@ -114,7 +114,7 @@ export function buildReferralShareUrl(code: string, appUrl?: string): string {
   return `${base}/?promo=${encodeURIComponent(code)}#pricing`;
 }
 
-/** Self-serve dev referral — one active code per email, 15% friend discount / 20% share by default. */
+/** Self-serve dev referral — one active code per email, 15% friend discount / 15% share by default. */
 export async function createDevReferralPromo(
   email: string,
   userId?: string

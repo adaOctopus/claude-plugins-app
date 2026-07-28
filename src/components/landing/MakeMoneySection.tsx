@@ -5,8 +5,8 @@ import { TrendingUp } from "lucide-react";
 
 const perks = [
   { emoji: "🔗", text: "Unique referral link tied to your email" },
-  { emoji: "💰", text: "20% revenue share on every subscription & renewal" },
-  { emoji: "🎁", text: "Friends get 15% off when they join through you" },
+  { emoji: "💰", text: "15% revenue share on every subscription & renewal" },
+  { emoji: "🎁", text: "They also get 15% off when they join through you" },
   { emoji: "📈", text: "Earn as long as your referrals stay subscribed" },
 ];
 
@@ -77,7 +77,7 @@ export function MakeMoneySection() {
             </h2>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-charcoal-muted md:text-[15px]">
               Share CoolPlugz with engineers you know - we pay{" "}
-              <span className="font-medium text-charcoal">20% revenue share</span> when they
+              <span className="font-medium text-charcoal">15% revenue share</span> when they
               subscribe, including every renewal.
             </p>
             <ul className="mt-6 space-y-2.5 text-sm text-charcoal">
