@@ -7,15 +7,15 @@ CoolPlugz is an MCP (Model Context Protocol) server for engineers who are tired 
 **Website:** [coolplugz.com](https://www.coolplugz.com)
 
 <p align="center">
-  <img src="public/og-coolplugz.jpg" alt="CoolPlugz — ship merge-ready code and handle your Slack from Claude" width="720" />
+  <img src="public/onepreview.jpg" alt="CoolPlugz - ship merge-ready code and handle your Slack from Claude" width="720" />
   <br />
-  <em>Social preview — same thumbnail used for link shares (Open Graph)</em>
+  <em>Coolplugz - Ships merge-ready code and handles your Slack</em>
 </p>
 
 <p align="center">
   <img src="public/marketing/dashboard-preview.png" alt="CoolPlugz live dashboard — Jira tasks, PRs, execution log, Slack updates" width="720" />
   <br />
-  <em>Live dashboard — tasks, PRs, execution log, and updates to share</em>
+  <em>Live dashboard - tasks, PRs, execution log, and updates to share</em>
 </p>
 
 ---
