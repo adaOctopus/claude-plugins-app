@@ -13,7 +13,7 @@ CoolPlugz is an MCP (Model Context Protocol) server for engineers who are tired 
 </p>
 
 <p align="center">
-  <img src="public/marketing/dashboard.png" alt="CoolPlugz live dashboard - Jira tasks, PRs, execution log, Slack updates" width="720" />
+  <img src="public/marketing/dashboard.jpg" alt="CoolPlugz live dashboard - Jira tasks, PRs, execution log, Slack updates" width="720" />
   <br />
   <em>Live dashboard - tasks, PRs, execution log, and updates to share</em>
 </p>
@@ -278,7 +278,7 @@ Use this README as the **single source of truth** for external messaging. Align 
 | File | Use |
 |------|-----|
 | `public/og-coolplugz.jpg` | **Social / OG thumbnail** — Twitter, LinkedIn, Slack link previews |
-| `public/marketing/dashboard.png` | Live dashboard UI |
+| `public/marketing/dashboard.jpg` | Live dashboard UI |
 | `public/guides/claude-web-connector.png` | Web MCP setup |
 | `public/guides/claude-desktop-edit-config.png` | Desktop JSON setup |
 
