@@ -53,7 +53,7 @@ export function FooterSocialLinks() {
     <div className="flex items-center gap-3">
       {socialLinks.map(({ label, href, icon: Icon }) => (
         <Link
-          key href
+          key={href}
           href={href}
           target="_blank"
           rel="noopener noreferrer"
