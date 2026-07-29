@@ -1,1 +1,1 @@
-coolplugz — Ship merge-ready code without tool switching
+coolplugz - Ships merge-ready code & handles your Slack

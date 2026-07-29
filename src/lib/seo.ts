@@ -11,7 +11,7 @@ export const OG_IMAGE = {
   version: "2",
   width: 1200,
   height: 630,
-  alt: "coolplugz — Ship merge-ready code without tool switching",
+  alt: "coolplugz - Ships merge-ready code & handles your Slack",
   type: "image/jpeg" as const,
 } as const;
 
@@ -20,7 +20,7 @@ export const TWITTER_CARD_DESCRIPTION =
   "Claude plugin for devs: Jira, Slack, GitHub & Notion context, advanced prompting, merge-ready code, and Slack handling inside Claude.";
 
 export const SEO_DEFAULTS = {
-  title: "coolplugz — Ship merge-ready code without switching tools",
+  title: "coolplugz - Ships merge-ready code & handles your Slack",
   description:
     "Claude plugin for devs: gathers context from Jira, Slack, GitHub & Notion, writes great prompts, ships merge-ready code & handles your Slack.",
   keywords: [
