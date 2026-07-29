@@ -1,328 +1,290 @@
-# coolplugz — Claude Plugin Marketplace
+# CoolPlugz
 
-A Next.js 15 platform for selling, uploading, and creating Claude plugins. Features an SEO-optimized landing page, Stripe subscriptions, MongoDB persistence, and email magic-link authentication.
+**Ship merge-ready code and handle your Slack — from inside Claude.**
 
-## Product overview
+CoolPlugz is an MCP (Model Context Protocol) server for engineers who are tired of tab-hopping, re-prompting, and babysitting AI. Stay in Claude. CoolPlugz gathers context from **Jira, Slack, GitHub, and Notion**, engineers the prompt, runs the task, and delivers PRs, CI fixes, and Slack drafts — so you work less, save mental energy, and avoid AI fatigue and context-switching spirals.
 
-**coolplugz** helps remote engineers work less by gathering context from Jira, Slack, and GitHub into Claude plugins. The platform includes:
+**Website:** [coolplugz.com](https://www.coolplugz.com)
 
-- **Landing page** — earthy cream design, problem/solution sections, dashboard mockups, integrations bento grid
-- **Marketplace** — browse, buy, upload, or create plugins
-- **Stripe billing** — $47/month or $397/year Pro plan (10 runs/mo included); one-time credit top-ups; $2.50/month per extra plugin
-- **Creator economy** — publish plugins, earn 99% (1% platform fee, manual payouts at launch)
-
-## Tech stack
-
-| Layer | Technology |
+| | |
 |---|---|
-| Framework | Next.js 15 (App Router), TypeScript |
-| Styling | Tailwind CSS v4, shadcn/ui, Framer Motion |
-| Charts | Recharts |
-| Database | MongoDB + Mongoose |
-| Auth | Email magic link (JWT session cookie) |
-| Payments | Stripe Checkout + Customer Portal + Webhooks |
-| Email | Resend |
-| File storage | Vercel Blob |
+| ![CoolPlugz hero — Claude chat with task delivery mockup](/marketing/hero-preview.jpg) | ![CoolPlugz live dashboard — tasks, PRs, execution log](/marketing/dashboard-preview.png) |
+| *Hero — one `@RUN` in Claude, tasks delivered* | *Dashboard — Jira, GitHub, Slack synced in one view* |
 
-## Project structure
+---
+
+## What CoolPlugz is
+
+CoolPlugz is **not** another chat wrapper. It is a **paid MCP connector** that:
+
+1. Gives each customer a **unique MCP URL** (minted after purchase)
+2. **Fetches live context** from your engineering tools
+3. **Builds structured prompts** (CRISPE-style) so Claude gets trustworthy inputs
+4. **Executes end-to-end** — code, PRs, CI, Slack replies — from a single conversation
+
+You connect once in Claude (web or desktop). After that, plain-English commands replace hours of manual context gathering.
+
+---
+
+## Who it is for
+
+- **Senior / staff engineers** shipping daily across Jira + GitHub + Slack
+- **Remote devs** drowning in notifications and standup prep
+- **Solopreneurs & contractors** who need merge-ready output without brain fry from constant context switching
+- **Teams** evaluating MCP workflows before rolling out org-wide (Enterprise)
+
+If you spend more time **feeding context to AI** than doing the work, CoolPlugz is built for you.
+
+---
+
+## The problem we solve
+
+| Pain | CoolPlugz answer |
+|------|------------------|
+| AI fatigue — endless prompt → fix → re-prompt loops | One `@RUN` completes a full ticket hands-off |
+| Context switching — Jira tab, Slack tab, GitHub tab | One dashboard, one MCP, one chat |
+| AI spirals — model drifts without grounded context | Context fetched from your real tools before every run |
+| Mental load — “what was I doing on PROJ-124?” | Live task board + execution log in Claude |
+| Low-quality AI output | CRISPE prompt engineering baked in per task |
+
+**Goal:** deliver high-quality code and updates **by working less** — not by typing more prompts.
+
+---
+
+## How it works (high level)
 
 ```
-claude-plugins/
-├── docs/ui-reference/       # UI design reference images
-├── public/                  # Static assets
-├── scripts/
-│   └── seed.ts              # Seed flagship plugin
-├── src/
-│   ├── app/
-│   │   ├── api/             # Auth, Stripe, plugin APIs
-│   │   ├── app/             # Authenticated dashboard, upload, create
-│   │   ├── install/         # Post-purchase install guide
-│   │   ├── login/           # Magic link sign-in
-│   │   ├── plugins/         # Marketplace browse + detail
-│   │   ├── pricing/         # Subscription checkout
-│   │   ├── privacy/         # Privacy Policy (CoolPlugz Inc.)
-│   │   ├── terms/           # Terms of Service (CoolPlugz Inc.)
-│   │   ├── layout.tsx       # Root layout + SEO
-│   │   └── page.tsx         # Landing page
-│   ├── components/
-│   │   ├── landing/         # Hero, Problem, Solution, Dashboard, etc.
-│   │   ├── layout/          # Navbar, Footer
-│   │   ├── marketplace/     # Purchase buttons, dashboard actions
-│   │   ├── seo/             # JSON-LD structured data
-│   │   └── ui/              # shadcn/ui components
-│   ├── lib/                 # db, auth, stripe, email, entitlements
-│   └── models/              # Mongoose models
-├── .env.example
-└── README.md
+You (Claude)          CoolPlugz MCP              Your tools
+    │                      │                        │
+    │  "Show my dashboard" │── fetch ──────────────►│ Jira · GitHub · Slack · Notion
+    │                      │◄── context ────────────│
+    │◄── dashboard UI ─────│                        │
+    │                      │                        │
+    │  "Run"               │── sync + execute ─────►│ tickets → PRs → CI → Slack drafts
+    │◄── results ──────────│                        │
 ```
 
-## Getting started
+### 1. Unique MCP URL per user
 
-### 1. Install dependencies
+After checkout, each customer receives a **private MCP endpoint**, for example:
 
-```bash
-npm install
+```
+https://api.coolplugz.com/mcp/your-unique-key-here
 ```
 
-### 2. Configure environment
+- **Starter** — 24-hour access, 1 full task
+- **Pro** — persistent URL for the billing period, 10 tasks/month included
+- URLs are **not shared** — one key per account
 
-Copy `.env.example` to `.env.local` and fill in values:
+### 2. Context fetching
 
-```bash
-cp .env.example .env.local
-```
+When you say **“Show my dashboard”** or **“Run”**, CoolPlugz:
 
-### 3. Start MongoDB
+- Pulls open Jira tickets assigned to you
+- Scans linked GitHub repos, open PRs, and CI status
+- Reads Slack mentions and threads that need replies
+- Optionally syncs Notion docs linked to projects
 
-Use MongoDB Atlas or local MongoDB. Set `MONGODB_URI` in `.env.local`.
+All of this lands in a **single dashboard view** inside the MCP response — no copy-paste between tools.
 
-### 4. Seed flagship plugin
+### 3. Prompt creation (CRISPE)
 
-```bash
-MONGODB_URI=your_uri npx tsx scripts/seed.ts
-```
+Before execution, CoolPlugz builds a **structured prompt** from fetched context:
 
-### 5. Run development server
+- **Context** — ticket description, acceptance criteria, related PRs
+- **Role** — senior engineer executing the ticket
+- **Instructions** — implementation steps derived from ticket + repo state
+- **Style** — your repo conventions, stack, and patterns
+- **Parameters** — scope limits, files to touch, CI constraints
+- **Examples** — similar merged PRs when available
 
-```bash
-npm run dev
-```
+You never write this prompt manually. CoolPlugz assembles it so Claude (or the execution layer) works from **ground truth**, not guesswork.
 
-Open [http://localhost:3000](http://localhost:3000).
+### 4. Task execution & delivery
 
-## Site mode (WIP / LIVE)
+On **“Run”**, CoolPlugz orchestrates:
 
-The launch flag lives in `NEXT_PUBLIC_SITE_MODE`:
+- Code changes and branch/PR creation
+- CI awareness and fix suggestions
+- Slack draft replies for stakeholders
+- Status updates ready to approve and send
 
-| Value | Behavior |
-|---|---|
-| `WIP` (default) | Navbar shows **WIP** badge. Payments, `/plugins`, `/pricing`, `/install`, and creator upload routes redirect to `/#coming-soon` on the landing page. |
-| `LIVE` | Full marketplace, Stripe checkout, and install flows are enabled. |
+You stay in Claude. Approve & submit when ready.
 
-To go live, set in Vercel (and `.env.local`):
-
-```bash
-NEXT_PUBLIC_SITE_MODE=LIVE
-```
-
-Flag logic: `src/lib/site-mode.ts`. Coming-soon UI: `src/components/landing/ComingSoonSection.tsx`.
-
-### Waitlist → Google Sheets
-
-While in WIP mode, emails from the coming-soon form POST to `/api/waitlist`. Signups are **saved to MongoDB** first; if `GOOGLE_SHEETS_WEBHOOK_URL` is set, they are also appended to your Google Sheet.
-
-Enterprise **Contact us** submissions from pricing POST to `/api/sales/inquiry` and append to a **`SALES`** tab in the same spreadsheet (`submittedAt` | `email` | `description` | `source`).
-
-1. Create a Google Sheet with headers on the active tab: `submittedAt` | `email` | `source`
-2. **Extensions → Apps Script** — paste `scripts/google-apps-script-waitlist.js` into **Code.gs** → **Save**
-3. Toolbar function dropdown → select **`doGet`** → **Run** → authorize when Google prompts
-4. **Deploy → New deployment → Web app**
-   - Execute as: **Me**
-   - Who has access: **Anyone** (not “Only myself”)
-4. Copy the URL ending in **`/exec`** — e.g. `https://script.google.com/macros/s/AKfycb…/exec`
-   - Do **not** use the script editor URL (`…/macros/edit?…`) or the Sheet URL — those cause “Access Denied”
-5. Open the `/exec` URL in a browser — you should see `{"ok":true,"message":"coolplugz waitlist + sales ready"}`
-6. Set `GOOGLE_SHEETS_WEBHOOK_URL` in Vercel to that `/exec` URL
-
-**After updating the Apps Script** (e.g. adding SALES support): paste the new script, **Save**, then **Deploy → Manage deployments → Edit → New version → Deploy** so the live `/exec` URL picks up changes. The script auto-creates a **`SALES`** tab if it does not exist.
-
-**Troubleshooting Google ("Unauthorized" / "does not exist")**
-
-| Symptom | Fix |
-|---|---|
-| Unauthorized in browser | Select **`doGet`** in Apps Script → **Run** → authorize, then redeploy Web app |
-| Does not exist after login | URL is stale or wrong ID — **Deploy → Manage deployments → copy fresh `/exec` URL** |
-| Access Denied HTML | Access is not **Anyone**, or you copied the script editor link |
-| Works logged in, not in incognito | Redeploy with **Who has access: Anyone** (test in incognito) |
-
-**Skip Google for now:** if `MONGODB_URI` is set in Vercel, emails save to MongoDB even when Sheets fails. You can remove `GOOGLE_SHEETS_WEBHOOK_URL` temporarily and fix Sheets later.
-
-### 6. Stripe webhook (local)
-
-```bash
-stripe listen --forward-to localhost:3000/api/stripe/webhook
-```
-
-Copy the webhook signing secret to `STRIPE_WEBHOOK_SECRET`.
-
-## Routes
-
-| Route | Description |
-|---|---|
-| `/` | Landing page |
-| `/pricing` | Subscription plans |
-| `/app` | User dashboard (after email login) |
-| `/login` | Email login |
-| `/plugins` | Marketplace browse |
-| `/plugins/[slug]` | Plugin detail |
-| `/install` | Claude plugin install guide |
-| `/privacy` | Privacy Policy — CoolPlugz Inc. |
-| `/terms` | Terms of Service — CoolPlugz Inc. |
-| `/guides` | SEO guides hub |
-| `/guides/[slug]` | Topic guides (AI fatigue, context switching, etc.) |
-| `/compare/[slug]` | Product comparisons (Cursor, Copilot) |
-| `/app/upload` | Upload plugin form |
-| `/app/create` | Plugin builder wizard |
-
-## API routes
-
-| Endpoint | Method | Description |
-|---|---|---|
-| `/api/auth/send-link` | POST | Send magic link email |
-| `/api/auth/verify` | POST | Verify token, create session (GET redirects to `/login/verify` without consuming token) |
-| `/login/verify` | Page | Magic link landing — verifies via POST (safe from email prefetch) |
-| `/api/auth/logout` | POST | Clear session |
-| `/api/stripe/checkout` | POST | Create Checkout Session |
-| `/api/stripe/daily-checkout` | POST | One-time Starter checkout ($5, 24h) |
-| `/api/stripe/credit-checkout` | POST | One-time credit top-up checkout (Starter or Pro users with MCP) |
-| `/api/stripe/cancel-subscription` | POST | Cancel subscription at period end |
-| `/api/stripe/portal` | POST | Customer Portal URL |
-| `/api/stripe/webhook` | POST | Stripe event handler |
-| `/api/referral/generate` | POST | Self-serve dev referral link (email → promo code) |
-| `/api/referral/stats` | GET | Referral earnings stats by partner email |
-| `/api/promo/validate` | GET | Validate partner promo code |
-| `/api/admin/partner-promos` | GET/POST/PATCH | Create/list/deactivate influencer promos (admin) |
-| `/api/plugins` | GET/POST | List / upload plugins |
-| `/api/plugins/builder` | POST | Create/publish builder drafts |
-| `/api/provision-coolplugz` | POST | Mint MCP URL (paid subscribers) |
-| `/api/provision-coolplugz/free-trial` | POST | Card-free 7-day trial MCP URL |
-| `/api/usage` | GET | Run quota summary for logged-in user |
-| `/api/usage/consume` | POST | MCP server decrements one run (Bearer `COOLPLUGZ_ADMIN_SECRET`) |
-| `/api/waitlist` | POST | Waitlist email capture |
-| `/api/sales/inquiry` | POST | Enterprise contact form → Mongo + Google Sheets SALES tab |
+---
 
 ## Pricing
 
-- **Starter**: $5 one-time — 1 task completed end-to-end, 24-hour MCP access, up to $3 server budget per task
-- **Pro monthly**: $47/mo — 10 full task runs per month included; top-up credits from Manage Account
-- **Pro annual**: $397/yr — ~30% savings
-- **Credit top-ups** (one-time, after Starter or Pro): $10 → 5 runs, $20 → 10 runs ($2/run server budget cap on Pro)
-- **Enterprise**: custom pricing — multi-seat teams, pipeline optimization; **Contact us** form on pricing
-- **Premium** (legacy Stripe tier): grandfathered subscribers only
-- **Add-ons**: $2.50/mo per extra marketplace plugin
-- **Creator fee**: 1% platform commission (manual payouts)
-- **Partner promos**: influencer codes (admin API) + **dev self-serve referrals** on homepage `#make-money` (15% friend discount, 15% revenue share) — see `docs/partner-promos.md`
+| Plan | Price | What you get |
+|------|-------|----------------|
+| **Starter** | $5 / task | 1 full task end-to-end, 24h MCP access — try CoolPlugz hands-off |
+| **Pro** | $47 / mo | 10 task credits / month, persistent MCP URL, top-ups available |
+| **Pro annual** | $397 / yr | Same as Pro, ~30% savings |
+| **Enterprise** | Custom | Multi-seat, CI/CD rollout, SSO — [contact sales](https://www.coolplugz.com/pricing) |
 
-**Stripe env:** `COOLPLUGZ_DAILY` (Starter Stripe price — rename product to "CoolPlugz Starter" in Stripe Dashboard), `STRIPE_CREDIT_PACK_5`, `STRIPE_CREDIT_PACK_10`
+### Credit top-ups (Pro & Starter customers)
 
-Starter flow: pricing → sign in → Stripe Checkout → webhook/`fulfillDailyPassSession` → CoolPlugz `tier: "daily"`, `ttlHours: 24` → MCP setup page.
+| Pack | Price | Runs |
+|------|-------|------|
+| Small | $10 | 5 bonus runs |
+| Large | $20 | 10 bonus runs |
 
-Legacy free-trial rows in Mongo keep access until `freeTrialEndsAt`; no new free trials are provisioned.
+Bonus runs **never expire**. Top-ups appear in Manage Account after your first purchase.
 
-### CoolPlugz MCP provisioning (external API)
+### Referral program
 
-Set on Vercel / `.env.local` when your server is ready:
+Developers can earn **15% revenue share** when friends subscribe — friends get **15% off**. Details on the homepage [Make money with CoolPlugz](https://www.coolplugz.com/#make-money) section.
 
-```bash
-COOLPLUGZ_API_URL=https://api.coolplugz.com
-COOLPLUGZ_ADMIN_SECRET=your_admin_secret_here
-```
+---
 
-**Paid subscription** — `POST /api/provision-coolplugz` (this app, session auth) calls your MCP server:
+## Usage & task credits
 
-```http
-POST ${COOLPLUGZ_API_URL}/admin/keys
-Authorization: Bearer ${COOLPLUGZ_ADMIN_SECRET}
-Content-Type: application/json
+- Each **“Run”** that executes a full task counts as **one run**
+- **Starter:** 1 included run, 24h window
+- **Pro:** 10 included runs per billing period (resets monthly/annually)
+- **Top-ups:** bonus balance used after included runs are consumed
+- Runs are tracked in **Manage Account** on [coolplugz.com/app](https://www.coolplugz.com/app)
 
-{ "email": "user@example.com", "tier": "pro" }
-```
+CoolPlugz enforces fair-use server budgets per run so quality stays high without runaway cost.
 
-Override the path with `COOLPLUGZ_PROVISION_PATH` if your server uses a different route (default: `/admin/keys`).
+---
 
-**Starter** — same external endpoint with:
+## MCP setup — connect CoolPlugz to Claude
 
-```json
-{ "email": "user@example.com", "tier": "daily", "ttlHours": 24 }
-```
+After purchase, open your **install page** (linked from account email or `/premium/unique-mcp-url`). Copy your unique URL, then choose **web** or **desktop**.
 
-**Legacy free trial** (existing users only — deprecated):
+### Option A — Claude web (easiest)
 
-```json
-{ "email": "user@example.com", "tier": "trial", "ttlHours": 168 }
-```
+1. Go to [claude.ai](https://claude.ai) → **Settings → Connectors → Add → Custom connector**
+2. Name it `coolplugz`
+3. Paste your unique MCP URL → **Add**
 
-Response expected: `{ "mcpUrl": "https://..." }` or `{ "key": "..." }` (website builds `https://{api-host}/mcp/{key}` if only a key is returned).
+![Claude web connector setup](/guides/claude-web-connector.png)
 
-Optional: `COOLPLUGZ_MCP_URL_TEMPLATE=https://mcp.example.com/{key}` when your server returns a key slug instead of a full URL.
+### Option B — Claude Desktop (JSON config)
 
-Optional: set `COOLPLUGZ_ADMIN_SECRET` to send `Authorization: Bearer …` if your server requires it.
-
-### Usage limits sync (external API — MCP server)
-
-After subscription checkout, renewal, credit top-up, or trial provision, the website pushes run quotas to your MCP server (best-effort; website ledger is source of truth until MCP enforces limits):
-
-```http
-PATCH ${COOLPLUGZ_API_URL}/admin/keys/limits
-Authorization: Bearer ${COOLPLUGZ_ADMIN_SECRET}
-Content-Type: application/json
-
-{
-  "email": "user@example.com",
-  "includedRunsRemaining": 12,
-  "bonusRunsRemaining": 5,
-  "maxCostPerRunUsd": 2,
-  "periodEnd": "2026-08-15T00:00:00.000Z"
-}
-```
-
-Override the path with `COOLPLUGZ_LIMITS_PATH` if your server uses a different route.
-
-**Consumption order:** included runs first, then bonus runs. Included runs reset each billing period; bonus runs persist until used.
-
-### MCP → website (consume a run)
-
-When a task run **starts** on the MCP server, call the website to decrement the ledger (Manage Account stays in sync):
-
-```http
-POST https://www.coolplugz.com/api/usage/consume
-Authorization: Bearer ${COOLPLUGZ_ADMIN_SECRET}
-Content-Type: application/json
-
-{ "email": "user@example.com" }
-```
-
-**Success (200):**
+1. **Settings → Developer → Edit Config**
+2. Open `claude_desktop_config.json`:
+   - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+3. Paste this JSON (replace the URL with yours):
 
 ```json
 {
-  "success": true,
-  "usage": {
-    "includedRunsLimit": 3,
-    "includedRunsUsed": 1,
-    "includedRunsRemaining": 2,
-    "bonusRunsRemaining": 0,
-    "totalRunsRemaining": 2,
-    "periodEnd": "2026-08-01T12:00:00.000Z",
-    "maxCostPerRunUsd": 2
+  "mcpServers": {
+    "coolplugz": {
+      "url": "https://api.coolplugz.com/mcp/your-unique-key-here",
+      "transport": "http"
+    }
   }
 }
 ```
 
-**No runs left (402):** `{ "success": false, "error": "no_runs_remaining" }` — block the run on MCP and tell the user to top up or upgrade.
+4. Save, **quit Claude Desktop completely**, then reopen
 
-**Expired trial with bonus runs:** if `totalRunsRemaining > 0` from PATCH or a successful consume response, allow runs even when the local trial TTL has expired. Block only on consume **402**.
+![Claude Desktop config editor](/guides/claude-desktop-edit-config.png)
 
-**No usage record (404):** user never provisioned / trial not started.
+> **Company email on Claude?** If your org blocks custom MCPs on a work Claude account, sign in with a personal Claude email, connect CoolPlugz there, then authorize Jira/GitHub/Slack with your work accounts when prompted.
 
-Use the same `COOLPLUGZ_ADMIN_SECRET` on both sides. Call consume **once per task run**, before spending LLM/compute budget (enforce `maxCostPerRunUsd: 2` locally on MCP).
+---
 
-## Deployment
+## Connect your tools
 
-Recommended: [Vercel](https://vercel.com)
+Type in Claude:
 
-1. Push to GitHub
-2. Import project in Vercel
-3. Add all env vars from `.env.example`
-4. Configure Stripe webhook to production URL
-5. Verify Resend domain for email delivery
+```
+Show my dashboard
+```
 
-## SEO
+CoolPlugz shows **Connect** buttons for **Jira, GitHub, Notion, and Slack**. Click each, authorize in the popup, close the tab. Done — one time per tool.
 
-Organic SEO content lives under `/guides/` (problem-aware articles) and `/compare/` (bottom-funnel comparisons). See [docs/seo-ops.md](docs/seo-ops.md) for Search Console, analytics, and MCP directory submission checklists.
+---
 
-Optional analytics env var: `NEXT_PUBLIC_GA_MEASUREMENT_ID` (Google Analytics 4 — free).
+## Commands to use in Claude
+
+Plain English — no ticket IDs required for most flows:
+
+| Say this | What happens |
+|----------|----------------|
+| `Show my dashboard` | Syncs tools; shows tasks, PRs, Slack drafts |
+| `Run` | Works your incomplete Jira tickets — PRs, CI, Slack |
+| `What's blocking my tasks?` | Re-analyzes stuck or failing work |
+| `Show task PROJ-42` | Deep dive on one ticket |
+| `Reject PROJ-42 and redo it` | Re-run with your feedback |
+| `Refresh Slack` | Latest mentions + draft replies |
+| `Refetch and rerun` | Pull fresh context and execute again |
+
+Works on **Claude web and desktop**. Connect once, stays connected.
+
+---
+
+## What the dashboard shows
+
+From your MCP-connected Claude session (and the CoolPlugz dashboard UI):
+
+- **All tasks** — Jira tickets with status, CI, linked PRs
+- **Execution log** — live feed while a run is in progress
+- **Updates to share** — standup-ready summary for calls
+- **Pull requests** — open PRs with CI pass/fail
+- **Slack** — mentions scanned, replies drafted
+
+See the dashboard screenshot at the top of this README.
+
+---
+
+## Architecture (public overview)
+
+| Piece | Role |
+|-------|------|
+| **coolplugz.com** (this repo) | Marketing, auth, Stripe billing, MCP URL provisioning, usage ledger |
+| **CoolPlugz MCP server** | Context sync, prompt engineering, task execution, per-user keys |
+| **Claude** | Your interface — you chat; CoolPlugz is the connector |
+| **Jira · GitHub · Slack · Notion** | Source-of-truth context |
+
+Each paying user gets a **unique MCP key**. The website provisions the key after payment; the MCP server enforces run limits and TTL.
+
+---
+
+## Marketing & content hub
+
+Use this README as the **single source of truth** for external messaging. Align all copy with:
+
+- **Tagline:** Ships merge-ready code and handles your Slack in minutes
+- **Starter pitch:** Finish one real task hands-off — $5 to try
+- **Pro pitch:** 10 tasks/month for engineers shipping every day
+- **Emotional hooks:** less context switching, less AI fatigue, more mental energy
+- **Proof points:** CRISPE prompts, live Jira/GitHub/Slack sync, approve & submit workflow
+
+### Official links
+
+| Channel | URL |
+|---------|-----|
+| Website | [coolplugz.com](https://www.coolplugz.com) |
+| Pricing | [coolplugz.com/pricing](https://www.coolplugz.com/pricing) |
+| Guides (SEO) | [coolplugz.com/guides](https://www.coolplugz.com/guides) |
+| LinkedIn | [linkedin.com/company/coolplugz](https://www.linkedin.com/company/coolplugz/) |
+| GitHub | [github.com/adaOctopus/claude-plugins-app](https://github.com/adaOctopus/claude-plugins-app) |
+| X | [@CryptoSympozium](https://x.com/CryptoSympozium) |
+
+### Screenshot assets (for posts & docs)
+
+| File | Use |
+|------|-----|
+| `/public/marketing/hero-preview.jpg` | Hero / Claude chat mockup |
+| `/public/marketing/dashboard-preview.png` | Live dashboard UI |
+| `/public/guides/claude-web-connector.png` | Web MCP setup |
+| `/public/guides/claude-desktop-edit-config.png` | Desktop JSON setup |
+
+---
+
+## Repository note
+
+This repository is the **CoolPlugz marketing & billing website** (Next.js 15, App Router, TypeScript). The MCP execution server is a separate deployment. Operational runbooks and internal configuration are **not** published in this public README.
+
+For SEO operations and partner promo internals, see `docs/seo-ops.md` and `docs/partner-promos.md` (no secrets — admin access required at runtime).
+
+---
 
 ## License
 
-Private — coolplugz
+© CoolPlugz Inc. All rights reserved.

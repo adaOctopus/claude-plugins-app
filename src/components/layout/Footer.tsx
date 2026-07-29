@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CoolplugzLogo } from "@/components/brand/CoolplugzMark";
 import { FooterNav } from "@/components/layout/FooterNav";
+import { FooterSocialLinks } from "@/components/layout/FooterSocialLinks";
 
 export function Footer() {
   return (
@@ -13,6 +14,9 @@ export function Footer() {
           <p className="mt-3 text-sm text-charcoal-muted">
             The modern developer&apos;s best friend.
           </p>
+          <div className="mt-5">
+            <FooterSocialLinks />
+          </div>
         </div>
 
         <FooterNav />
@@ -22,7 +26,7 @@ export function Footer() {
         <p suppressHydrationWarning>
           &copy; {new Date().getFullYear()} CoolPlugz Inc. All rights reserved.
         </p>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-6">
           <Link href="/privacy" className="hover:text-charcoal">
             Privacy
           </Link>
