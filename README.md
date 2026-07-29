@@ -6,10 +6,17 @@ CoolPlugz is an MCP (Model Context Protocol) server for engineers who are tired 
 
 **Website:** [coolplugz.com](https://www.coolplugz.com)
 
-| | |
-|---|---|
-| ![CoolPlugz hero — Claude chat with task delivery mockup](/marketing/hero-preview.jpg) | ![CoolPlugz live dashboard — tasks, PRs, execution log](/marketing/dashboard-preview.png) |
-| *Hero — one `@RUN` in Claude, tasks delivered* | *Dashboard — Jira, GitHub, Slack synced in one view* |
+<p align="center">
+  <img src="public/og-coolplugz.jpg" alt="CoolPlugz — ship merge-ready code and handle your Slack from Claude" width="720" />
+  <br />
+  <em>Social preview — same thumbnail used for link shares (Open Graph)</em>
+</p>
+
+<p align="center">
+  <img src="public/marketing/dashboard-preview.png" alt="CoolPlugz live dashboard — Jira tasks, PRs, execution log, Slack updates" width="720" />
+  <br />
+  <em>Live dashboard — tasks, PRs, execution log, and updates to share</em>
+</p>
 
 ---
 
@@ -159,7 +166,7 @@ After purchase, open your **install page** (linked from account email or `/premi
 2. Name it `coolplugz`
 3. Paste your unique MCP URL → **Add**
 
-![Claude web connector setup](/guides/claude-web-connector.png)
+![Claude web connector setup](public/guides/claude-web-connector.png)
 
 ### Option B — Claude Desktop (JSON config)
 
@@ -182,7 +189,7 @@ After purchase, open your **install page** (linked from account email or `/premi
 
 4. Save, **quit Claude Desktop completely**, then reopen
 
-![Claude Desktop config editor](/guides/claude-desktop-edit-config.png)
+![Claude Desktop config editor](public/guides/claude-desktop-edit-config.png)
 
 > **Company email on Claude?** If your org blocks custom MCPs on a work Claude account, sign in with a personal Claude email, connect CoolPlugz there, then authorize Jira/GitHub/Slack with your work accounts when prompted.
 
@@ -270,10 +277,10 @@ Use this README as the **single source of truth** for external messaging. Align 
 
 | File | Use |
 |------|-----|
-| `/public/marketing/hero-preview.jpg` | Hero / Claude chat mockup |
-| `/public/marketing/dashboard-preview.png` | Live dashboard UI |
-| `/public/guides/claude-web-connector.png` | Web MCP setup |
-| `/public/guides/claude-desktop-edit-config.png` | Desktop JSON setup |
+| `public/og-coolplugz.jpg` | **Social / OG thumbnail** — Twitter, LinkedIn, Slack link previews |
+| `public/marketing/dashboard-preview.png` | Live dashboard UI |
+| `public/guides/claude-web-connector.png` | Web MCP setup |
+| `public/guides/claude-desktop-edit-config.png` | Desktop JSON setup |
 
 ---
 
