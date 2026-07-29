@@ -271,6 +271,33 @@ export async function consumeRunByEmail(email: string): Promise<ConsumeRunResult
   return consumeRun(user._id.toString());
 }
 
+export type UsageCheckResult =
+  | { ok: true; totalRunsRemaining: number }
+  | { ok: false; reason: "not_found" };
+
+/** Read-only run balance by email (MCP dashboard sync). */
+export async function getUsageCheckByEmail(email: string): Promise<UsageCheckResult> {
+  await connectDB();
+  const { User } = await import("@/models/User");
+  const user = await User.findOne({ email: email.toLowerCase().trim() });
+  if (!user) {
+    return { ok: false, reason: "not_found" };
+  }
+
+  const usage = await UserUsage.findOne({ userId: user._id });
+  if (!usage) {
+    return { ok: true, totalRunsRemaining: 0 };
+  }
+
+  const { totalRunsRemaining } = computeRemaining(
+    usage.includedRunsLimit,
+    usage.includedRunsUsed,
+    usage.bonusRunsRemaining
+  );
+
+  return { ok: true, totalRunsRemaining };
+}
+
 export async function markUsageSynced(userId: string) {
   await connectDB();
   await UserUsage.updateOne({ userId }, { lastSyncedAt: new Date() });
