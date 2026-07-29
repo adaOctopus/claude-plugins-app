@@ -48,10 +48,11 @@ export const trialFeatures = baseAccessFeatures;
 
 /** Added on Pro — shown after “Everything in Starter, plus:”. */
 export const proAdditiveFeatures = [
+  "10 Task Completions per month",
+  "Full-stack Context Fetching",
   "Advanced Prompt Engineering",
-  "Execution Orchestration",
-  "10 Task Credits per month",
-  "Top up extra Task Credits anytime",
+  "Customizable Task Execution",
+  "Top up Task Credits anytime",
 ] as const;
 
 /** One-line Pro value vs Starter on pricing card. */
@@ -101,8 +102,8 @@ export const proPlan = {
   id: "pro" as const,
   name: "Pro",
   badge: "Recommended",
-  tagline: "For engineers shipping every day",
-  featureHeader: "Everything in Starter, plus:",
+  tagline: "Sufficient for one month's work",
+  featureHeader: "Includes:",
   features: proAdditiveFeatures,
   cta: "GET PRO",
 };
