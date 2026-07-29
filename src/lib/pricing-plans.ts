@@ -102,7 +102,7 @@ export const proPlan = {
   id: "pro" as const,
   name: "Pro",
   badge: "Recommended",
-  tagline: "Sufficient for one month's work",
+  tagline: "Stay on top of your work effortlessly",
   featureHeader: "Includes:",
   features: proAdditiveFeatures,
   cta: "GET PRO",
