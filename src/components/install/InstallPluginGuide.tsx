@@ -48,7 +48,7 @@ export function InstallPluginGuide({
               valid for 24 hours (1 task included).
             </>
           ) : (
-            <>Add your unique MCP URL to Claude — one step, either web or desktop.</>
+            <>Add your unique MCP URL to Claude - one step, either web or desktop.</>
           )}
         </p>
         {isDailyPass && passEndLabel && (
