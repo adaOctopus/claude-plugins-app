@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { ClaudeMark } from "@/components/icons/ClaudeMark";
-import { CoolplugzMark } from "@/components/brand/CoolplugzMark";
+import { CoolplugzChatAvatar } from "@/components/brand/CoolplugzMark";
 import {
   BarChart,
   Bar,
@@ -89,7 +89,7 @@ function ClaudeChatMock() {
 
         {/* Claude response */}
         <div className="flex gap-2.5">
-          <CoolplugzMark className="h-4 w-4" />
+          <CoolplugzChatAvatar className="mt-0.5 h-6 w-6 shrink-0" />
           <div className="min-w-0 flex-1 space-y-3">
             <p className="text-sm leading-relaxed text-charcoal">
               <strong>coolplugz</strong> finished the run 🎉 Everything is structured, CI-checked, and

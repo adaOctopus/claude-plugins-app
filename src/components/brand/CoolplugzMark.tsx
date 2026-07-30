@@ -23,7 +23,7 @@ export function CoolplugzMark({
       alt=""
       width={size}
       height={size}
-      className={cn("block h-full w-full object-cover", className)}
+      className={cn("block h-full w-full object-contain", className)}
     />
   );
 
@@ -31,10 +31,25 @@ export function CoolplugzMark({
 
   return (
     <span
-      className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-[#FFF4E8] shadow-[0_1px_2px_rgba(45,41,38,0.08)]"
+      className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-white p-1.5 shadow-[0_1px_2px_rgba(45,41,38,0.08)]"
       style={{ width: size, height: size }}
     >
       {image}
+    </span>
+  );
+}
+
+/** Small mark for Claude chat mocks — padded so the logo is not clipped. */
+export function CoolplugzChatAvatar({ className }: { className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-white p-1 shadow-sm",
+        className ?? "h-6 w-6"
+      )}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={COOLPLUGZ_MARK} alt="" className="h-full w-full object-contain" />
     </span>
   );
 }
