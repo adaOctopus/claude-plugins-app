@@ -1,4 +1,9 @@
 import { faqItems } from "@/components/landing/FAQSection";
+import {
+  engineerProblemsSectionSchema,
+  engineerProblemsSeoItems,
+  ENGINEER_PROBLEMS_SECTION_ID,
+} from "@/lib/engineer-problems-seo-copy";
 import { makeMoneyFaqItems, makeMoneyHowToSchema } from "@/lib/referral-seo-copy";
 import { CANONICAL_SITE_URL, getAbsoluteOgImageUrl, OG_TAGLINE, SEO_DEFAULTS } from "@/lib/seo";
 import { PRICING_AMOUNTS } from "@/lib/pricing-plans";
@@ -32,6 +37,21 @@ export function JsonLd() {
       position: index + 1,
       name: step.name,
       text: step.text,
+    })),
+  };
+
+  const engineerProblemsSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: engineerProblemsSectionSchema.name,
+    description: engineerProblemsSectionSchema.description,
+    url: `${appUrl}/#${ENGINEER_PROBLEMS_SECTION_ID}`,
+    itemListElement: engineerProblemsSeoItems.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      description: item.description,
+      url: `${appUrl}/#${item.id}`,
     })),
   };
 
@@ -106,6 +126,10 @@ export function JsonLd() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(engineerProblemsSchema) }}
       />
       <script
         type="application/ld+json"

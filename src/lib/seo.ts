@@ -45,6 +45,9 @@ export const SEO_DEFAULTS = {
     "Claude MCP dashboard",
     "automatic standup updates Slack",
     "CI failure debugging AI",
+    "CI trial and error loops",
+    "GitHub review comments AI assistant",
+    "Slack anxiety remote developers",
     "LLM spirals",
     "AI fatigue remote engineers",
     "context engineer plugin",
@@ -185,6 +188,8 @@ export function createRootMetadata(options: { siteUrl?: string } = {}): Metadata
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "any" },
+        { url: "/icon-32.png", type: "image/png", sizes: "32x32" },
+        { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
         { url: "/icon.png", type: "image/png", sizes: "512x512" },
       ],
       apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],

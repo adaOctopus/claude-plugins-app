@@ -1,6 +1,9 @@
 /**
- * Install CoolPlugz favicon + icon assets — animal only, transparent background.
- * Run: npx tsx scripts/update-brand-logo.ts [optional-source-path]
+ * Install CoolPlugz favicon + tab icon assets ONLY.
+ * Does NOT modify public/coolplugz-mark.png or coolplugz-mark-hq.png (navbar brand).
+ *
+ * Favicon source: src/assets/favicon-source.png (512×512 pug, black bg)
+ * Run: npx tsx scripts/update-brand-logo.ts [optional-favicon-source-path]
  */
 import { createCanvas, loadImage } from "@napi-rs/canvas";
 import { copyFileSync, existsSync, mkdirSync, writeFileSync } from "fs";
@@ -11,18 +14,17 @@ import toIco from "to-ico";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const LEGACY_DIR = join(ROOT, "public/legacy");
 
-const SOURCE_CANDIDATES = [
+const FAVICON_SOURCE_CANDIDATES = [
   process.argv[2],
-  join(ROOT, "public/coolplugz-mark-hq.png"),
+  join(ROOT, "src/assets/favicon-source.png"),
   join(ROOT, "src/assets/coolplugz-mark.png"),
-  join(ROOT, "public/coolplugz-mark.png"),
 ].filter(Boolean) as string[];
 
-function resolveSource() {
-  for (const path of SOURCE_CANDIDATES) {
+function resolveFaviconSource() {
+  for (const path of FAVICON_SOURCE_CANDIDATES) {
     if (existsSync(path)) return path;
   }
-  throw new Error("Logo source image not found");
+  throw new Error("Favicon source not found (expected src/assets/favicon-source.png)");
 }
 
 function backupIfExists(from: string, to: string) {
@@ -35,8 +37,8 @@ function colorDistance(r1: number, g1: number, b1: number, r2: number, g2: numbe
   return Math.hypot(r1 - r2, g1 - g2, b1 - b2);
 }
 
-/** Flood-fill corner-connected background (white / cream) to transparent. */
-function stripBackground(imageData: ImageData, threshold = 36) {
+/** Flood-fill corner-connected background (black / white / cream) to transparent. */
+function stripBackground(imageData: ImageData, threshold = 48) {
   const { width, height, data } = imageData;
   const seeds: [number, number][] = [
     [0, 0],
@@ -88,7 +90,7 @@ function stripBackground(imageData: ImageData, threshold = 36) {
   return imageData;
 }
 
-async function loadTransparentMark(sourcePath: string) {
+async function loadTransparentFavicon(sourcePath: string) {
   const image = await loadImage(sourcePath);
   const canvas = createCanvas(image.width, image.height);
   const ctx = canvas.getContext("2d");
@@ -100,67 +102,147 @@ async function loadTransparentMark(sourcePath: string) {
   return canvas;
 }
 
-/** Scale transparent mark to square PNG with padding for favicon legibility. */
-function renderTransparentIcon(sourceCanvas: ReturnType<typeof createCanvas>, size: number, paddingRatio = 0.08) {
-  const canvas = createCanvas(size, size);
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, size, size);
+function getAlphaBounds(imageData: ImageData, alphaMin = 10) {
+  const { width, height, data } = imageData;
+  let minX = width;
+  let minY = height;
+  let maxX = 0;
+  let maxY = 0;
 
-  const padding = size * paddingRatio;
-  const inner = size - padding * 2;
-  ctx.drawImage(sourceCanvas as unknown as import("@napi-rs/canvas").Image, padding, padding, inner, inner);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const alpha = data[(y * width + x) * 4 + 3];
+      if (alpha >= alphaMin) {
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+      }
+    }
+  }
 
-  return canvas.toBuffer("image/png");
+  if (maxX < minX) return null;
+
+  return {
+    minX,
+    minY,
+    width: maxX - minX + 1,
+    height: maxY - minY + 1,
+  };
 }
 
-/** Navbar mark tile — transparent animal, optional cream tile applied in CSS when framed. */
-function renderMarkTile(sourceCanvas: ReturnType<typeof createCanvas>, size: number) {
+type CanvasLike = ReturnType<typeof createCanvas>;
+
+function cropCanvasToContent(sourceCanvas: CanvasLike) {
+  const ctx = sourceCanvas.getContext("2d");
+  const imageData = ctx.getImageData(0, 0, sourceCanvas.width, sourceCanvas.height);
+  const bounds = getAlphaBounds(imageData);
+  if (!bounds) return sourceCanvas;
+
+  const cropped = createCanvas(bounds.width, bounds.height);
+  const croppedCtx = cropped.getContext("2d");
+  croppedCtx.drawImage(
+    sourceCanvas as unknown as import("@napi-rs/canvas").Image,
+    bounds.minX,
+    bounds.minY,
+    bounds.width,
+    bounds.height,
+    0,
+    0,
+    bounds.width,
+    bounds.height
+  );
+  return cropped;
+}
+
+/** Fit cropped mark into a square — cover mode, tiny inset for browser tab rounding. */
+function renderFaviconSquare(cropped: CanvasLike, size: number, insetRatio = 0.03) {
   const canvas = createCanvas(size, size);
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, size, size);
-  const padding = size * 0.06;
-  const inner = size - padding * 2;
-  ctx.drawImage(sourceCanvas as unknown as import("@napi-rs/canvas").Image, padding, padding, inner, inner);
-  return canvas.toBuffer("image/png");
+
+  const inset = size * insetRatio;
+  const inner = size - inset * 2;
+  const scale = Math.max(inner / cropped.width, inner / cropped.height);
+  const drawW = cropped.width * scale;
+  const drawH = cropped.height * scale;
+  const offsetX = (size - drawW) / 2;
+  const offsetY = (size - drawH) / 2;
+
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(
+    cropped as unknown as import("@napi-rs/canvas").Image,
+    offsetX,
+    offsetY,
+    drawW,
+    drawH
+  );
+
+  return canvas;
+}
+
+function downscaleCanvas(source: CanvasLike, targetSize: number) {
+  const canvas = createCanvas(targetSize, targetSize);
+  const ctx = canvas.getContext("2d");
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(source as unknown as import("@napi-rs/canvas").Image, 0, 0, targetSize, targetSize);
+  return canvas;
+}
+
+/** Halving steps preserve crisp vector edges when shrinking. */
+function downscaleStepped(source: CanvasLike, targetSize: number) {
+  let current = source;
+  let currentSize = source.width;
+
+  while (currentSize / 2 >= targetSize) {
+    currentSize = Math.floor(currentSize / 2);
+    current = downscaleCanvas(current, currentSize);
+  }
+
+  if (currentSize !== targetSize) {
+    current = downscaleCanvas(current, targetSize);
+  }
+
+  return current;
 }
 
 async function main() {
   mkdirSync(LEGACY_DIR, { recursive: true });
 
-  const stamp = "v3-white-bg";
+  const stamp = `favicon-${Date.now()}`;
   backupIfExists(join(ROOT, "public/icon.png"), join(LEGACY_DIR, `icon-${stamp}.png`));
   backupIfExists(join(ROOT, "src/app/icon.png"), join(LEGACY_DIR, `app-icon-${stamp}.png`));
   backupIfExists(join(ROOT, "src/app/apple-icon.png"), join(LEGACY_DIR, `apple-icon-${stamp}.png`));
   backupIfExists(join(ROOT, "src/app/favicon.ico"), join(LEGACY_DIR, `favicon-${stamp}.ico`));
   backupIfExists(join(ROOT, "public/favicon.ico"), join(LEGACY_DIR, `public-favicon-${stamp}.ico`));
 
-  const sourcePath = resolveSource();
-  console.log(`Source: ${sourcePath}`);
-  const transparentMark = await loadTransparentMark(sourcePath);
+  const sourcePath = resolveFaviconSource();
+  console.log(`Favicon source: ${sourcePath}`);
+  console.log("Brand marks (coolplugz-mark.png) are NOT modified.");
 
-  const mark512 = renderMarkTile(transparentMark, 512);
-  const mark1024 = renderMarkTile(transparentMark, 1024);
-  const icon512 = renderTransparentIcon(transparentMark, 512);
-  const apple180 = renderTransparentIcon(transparentMark, 180);
+  const transparent = await loadTransparentFavicon(sourcePath);
+  const cropped = cropCanvasToContent(transparent);
 
-  writeFileSync(join(ROOT, "public/coolplugz-mark.png"), mark512);
-  writeFileSync(join(ROOT, "public/coolplugz-mark-hq.png"), mark1024);
+  // 512 master — never upscale above source quality
+  const master512 = renderFaviconSquare(cropped, 512);
+  console.log(`Master: 512px from crop ${cropped.width}x${cropped.height}`);
+
+  const icon512 = master512.toBuffer("image/png");
+  const icon192 = downscaleStepped(master512, 192).toBuffer("image/png");
+  const icon32 = downscaleStepped(master512, 32).toBuffer("image/png");
+  const apple180 = downscaleStepped(master512, 180).toBuffer("image/png");
+
   writeFileSync(join(ROOT, "public/icon.png"), icon512);
+  writeFileSync(join(ROOT, "public/icon-192.png"), icon192);
+  writeFileSync(join(ROOT, "public/icon-32.png"), icon32);
   writeFileSync(join(ROOT, "public/apple-icon.png"), apple180);
   writeFileSync(join(ROOT, "src/app/icon.png"), icon512);
   writeFileSync(join(ROOT, "src/app/apple-icon.png"), apple180);
 
-  const iconSource = await loadImage(icon512);
-  const icoSizes = [16, 32, 48, 96, 192];
-  const icoPngs = icoSizes.map((size) => {
-    const canvas = createCanvas(size, size);
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, size, size);
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(iconSource, 0, 0, size, size);
-    return canvas.toBuffer("image/png");
-  });
+  const icoSizes = [16, 24, 32, 48, 64, 128, 256];
+  const icoPngs = icoSizes.map((size) => downscaleStepped(master512, size).toBuffer("image/png"));
   const ico = await toIco(icoPngs, { resize: false });
   writeFileSync(join(ROOT, "src/app/favicon.ico"), ico);
   writeFileSync(join(ROOT, "public/favicon.ico"), ico);
@@ -168,21 +250,18 @@ async function main() {
   const manifest = {
     name: "coolplugz",
     short_name: "coolplugz",
-    icons: [{ src: "/icon.png", sizes: "512x512", type: "image/png", purpose: "any" }],
+    icons: [
+      { src: "/icon.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/icon-32.png", sizes: "32x32", type: "image/png", purpose: "any" },
+    ],
   };
   writeFileSync(
     join(ROOT, "public/site.webmanifest"),
     `${JSON.stringify(manifest, null, 2)}\n`
   );
 
-  const check = createCanvas(512, 512);
-  const c = check.getContext("2d");
-  const iconImg = await loadImage(icon512);
-  c.drawImage(iconImg, 0, 0);
-  const corner = c.getImageData(0, 0, 1, 1).data;
-  const center = c.getImageData(256, 256, 1, 1).data;
-  console.log(`Favicon corner alpha: ${corner[3]} (want 0), center alpha: ${center[3]} (want 255)`);
-  console.log("Installed transparent favicon + icon assets.");
+  console.log("Installed favicon + tab icons only.");
 }
 
 main().catch((error) => {

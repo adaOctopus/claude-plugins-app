@@ -287,8 +287,9 @@ const benefits: Benefit[] = [
 /** Benefits section — merged visuals tying payoff to prompt, CI, and Slack pain. */
 export function BenefitsSection() {
   return (
-    <section id="benefits" className="px-4 py-16 md:px-8 md:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section id="benefits" className="scroll-mt-28 border-t border-border/60 px-4 py-16 md:px-8 md:py-20">
+      <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-border/80 bg-gradient-to-br from-accent-sage via-cream to-amber-50/90 shadow-[0_8px_40px_rgba(45,41,38,0.06)]">
+        <div className="p-8 md:p-14 lg:p-16">
         <Badge variant="secondary" className="mb-4">
           The Benefits
         </Badge>
@@ -321,6 +322,7 @@ export function BenefitsSection() {
               {label}
             </span>
           ))}
+        </div>
         </div>
       </div>
     </section>
