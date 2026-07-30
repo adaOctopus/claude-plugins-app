@@ -219,7 +219,7 @@ export function ChatTagsSection() {
           <div className="order-1 flex flex-col items-center lg:order-2 lg:items-end">
             <PhoneChatMock />
             <p className="mt-4 max-w-[280px] text-center text-xs text-charcoal-muted lg:text-right">
-              Initiate runs, send Slack, approve PRs — all from chat. Tags do the heavy lifting.
+              One keyword does the heavy lifting
             </p>
           </div>
         </div>

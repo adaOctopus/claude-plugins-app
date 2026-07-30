@@ -159,8 +159,13 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
           }
           tagline={
             <>
-              <p>{dailyPassPlan.tagline}</p>
-              <p className="mt-1 text-xs font-medium text-[#0D9488]">{dailyPassPlan.durationNote}</p>
+              {dailyPassPlan.highlightLabel ? (
+                <p className="text-xs font-medium text-emerald-700">{dailyPassPlan.highlightLabel}</p>
+              ) : null}
+              <p className={cn(dailyPassPlan.highlightLabel && "mt-1")}>{dailyPassPlan.tagline}</p>
+              {dailyPassPlan.durationNote ? (
+                <p className="mt-1 text-xs font-medium text-[#0D9488]">{dailyPassPlan.durationNote}</p>
+              ) : null}
             </>
           }
           featureHeader={dailyPassPlan.featureHeader}

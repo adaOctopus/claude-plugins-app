@@ -10,7 +10,7 @@ export const PRICING_AMOUNTS = {
 
 export const billingOptions = {
   monthly: {
-    toggleLabel: "Zero hassle",
+    toggleLabel: "",
   },
   annual: {
     toggleLabel: "Save ~30%",
@@ -86,7 +86,8 @@ export const dailyPassPlan = {
   amount: 5,
   period: "/task",
   badge: "Try it now",
-  tagline: "Completes one real work task in minutes",
+  highlightLabel: "Zero Hassle",
+  tagline: "Completes one JIRA ticket in minutes",
   durationNote: "",
   featureHeader: "Includes:",
   features: [
