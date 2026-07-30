@@ -1,7 +1,11 @@
 import { brandWordmarkFont } from "@/lib/brand-font";
 import { cn } from "@/lib/utils";
 
-const COOLPLUGZ_MARK = "/coolplugz-mark.png";
+/** Navbar / footer lockup — pre-sized asset with padding baked in. */
+const APP_LOGO = "/app-logo.png";
+
+/** Chat mock avatars. */
+const CHAT_AVATAR_MARK = "/cooldog.png";
 
 const wordmarkStyles = cn(brandWordmarkFont.className, "brand-wordmark");
 
@@ -19,7 +23,7 @@ export function CoolplugzMark({
   const image = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={COOLPLUGZ_MARK}
+      src={APP_LOGO}
       alt=""
       width={size}
       height={size}
@@ -31,7 +35,7 @@ export function CoolplugzMark({
 
   return (
     <span
-      className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-white p-1.5 shadow-[0_1px_2px_rgba(45,41,38,0.08)]"
+      className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border bg-white p-0.5 shadow-[0_1px_2px_rgba(45,41,38,0.08)]"
       style={{ width: size, height: size }}
     >
       {image}
@@ -39,17 +43,17 @@ export function CoolplugzMark({
   );
 }
 
-/** Small mark for Claude chat mocks — padded so the logo is not clipped. */
+/** Small mark for Claude chat mocks — full dog visible, never clipped. */
 export function CoolplugzChatAvatar({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-white p-1 shadow-sm",
-        className ?? "h-6 w-6"
+        "inline-flex shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/60 bg-white p-0.5 shadow-sm",
+        className ?? "h-7 w-7"
       )}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={COOLPLUGZ_MARK} alt="" className="h-full w-full object-contain" />
+      <img src={CHAT_AVATAR_MARK} alt="" className="h-full w-full object-contain" />
     </span>
   );
 }

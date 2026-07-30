@@ -74,7 +74,7 @@ export function Navbar({
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between">
         <Link href="/" className="text-charcoal">
-          <CoolplugzLogo markSize={46} wordmarkClassName="text-[32px]" />
+          <CoolplugzLogo markSize={42} wordmarkClassName="text-[32px]" />
         </Link>
         {showManageAccount ? (
           <Link href="/app" className={navButtonClassName}>

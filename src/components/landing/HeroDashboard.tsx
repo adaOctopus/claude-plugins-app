@@ -85,7 +85,7 @@ function HeroChatBody() {
       </div>
 
       <div className="flex gap-2">
-        <CoolplugzChatAvatar className="mt-0.5 h-6 w-6" />
+        <CoolplugzChatAvatar className="mt-0.5 h-7 w-7" />
         <div className="min-w-0 flex-1 space-y-2">
           <p className="text-[12px] leading-snug text-charcoal sm:text-[13px]">
             <span className="font-semibold">coolplugz</span> - run complete ✅

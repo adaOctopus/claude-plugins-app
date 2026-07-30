@@ -9,7 +9,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 md:grid-cols-4 md:gap-8">
         <div>
           <Link href="/" className="inline-block text-charcoal">
-            <CoolplugzLogo markSize={44} wordmarkClassName="text-[22px]" />
+            <CoolplugzLogo markSize={38} wordmarkClassName="text-[22px]" />
           </Link>
           <p className="mt-3 text-sm text-charcoal-muted">
             The modern developer&apos;s best friend.

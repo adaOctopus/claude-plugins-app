@@ -89,7 +89,7 @@ function ClaudeChatMock() {
 
         {/* Claude response */}
         <div className="flex gap-2.5">
-          <CoolplugzChatAvatar className="mt-0.5 h-6 w-6 shrink-0" />
+          <CoolplugzChatAvatar className="mt-0.5 h-7 w-7 shrink-0" />
           <div className="min-w-0 flex-1 space-y-3">
             <p className="text-sm leading-relaxed text-charcoal">
               <strong>coolplugz</strong> finished the run 🎉 Everything is structured, CI-checked, and
