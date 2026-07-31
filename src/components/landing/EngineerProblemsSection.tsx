@@ -362,16 +362,16 @@ const problems: ProblemCard[] = engineerProblemsSeoItems.map((item, index) => {
   ];
 
   const titles = [
-    "Tab-hopping kills focus",
+    "Context switching kills focus",
     "CI trial-and-error loops",
     "GitHub ↔ assistant back-and-forth",
-    "Slack anxiety, always on",
+    "Eliminates Slack anxiety",
   ];
   const fixes = [
-    "GitHub, Slack, Jira, CI - gathered in one Claude panel. No more context switching.",
-    "CI checks run in the CoolPlugz env until green - no copy-paste spirals.",
-    "Review comments and failed checks fixed inside the same run.",
-    "Mentions surfaced; tone-matched drafts-you approve and send.",
+    "GitHub, Slack, Jira, CI - now all gathered inside Claude ❋",
+    "CI checks tested in the CoolPlugz env until green✅",
+    "Reviews comments and failed CI checks fixed inside the same run.",
+    "Thread mentions scanned; tone-matched drafted messages.",
   ];
 
   return {
@@ -408,7 +408,7 @@ export function EngineerProblemsSection() {
           <strong style={{ fontStyle: "italic", fontWeight: "600" }}>hidden AI tax</strong>.
         </h2>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-charcoal-muted sm:max-w-lg">
-          Save time & energy with less tab-hopping - ship from inside Claude without experiencing AI fatigue.
+          Save time & energy with less tab-hopping - no more AI fatigue.
         </p>
 
         <ul

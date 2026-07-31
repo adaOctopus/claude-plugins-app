@@ -1,5 +1,5 @@
 /**
- * Generate 1500×500 Twitter header — cream bg, dog face + wordmark, tagline.
+ * Generate 1500×500 Twitter header — Make Money gradient bg, dog face + wordmark, tagline.
  * Run: npx tsx scripts/generate-twitter-banner.ts
  */
 import { createCanvas, GlobalFonts, loadImage } from "@napi-rs/canvas";
@@ -14,8 +14,21 @@ const OUT_FILE = join(OUT_DIR, "coolplugz-twitter-header-1500x500.png");
 const WIDTH = 1500;
 const HEIGHT = 500;
 const RENDER_SCALE = 2;
-const BG = "#f9f8f6";
 const TEXT = "#2d2926";
+
+/** Matches MakeMoneySection: bg-gradient-to-br from-accent-sage via-cream to-amber-50/90 */
+function fillMakeMoneyGradient(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number
+) {
+  const gradient = ctx.createLinearGradient(0, 0, width, height);
+  gradient.addColorStop(0, "#e8ede6"); // accent-sage
+  gradient.addColorStop(0.5, "#f9f8f6"); // cream
+  gradient.addColorStop(1, "#fffbeb"); // amber-50 (~90% on light bg)
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, width, height);
+}
 
 const GEIST_PATH = join(
   ROOT,
@@ -136,8 +149,7 @@ async function main() {
   const ctx = canvas.getContext("2d");
   enableSharpScaling(ctx);
 
-  ctx.fillStyle = BG;
-  ctx.fillRect(0, 0, renderW, renderH);
+  fillMakeMoneyGradient(ctx, renderW, renderH);
 
   const { dogHeight, lockupGap, wordmarkHeight, taglineSize, taglineGap, tagline } =
     drawBanner(ctx, RENDER_SCALE);

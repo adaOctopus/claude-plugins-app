@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const keywords = [
   { text: "Refetch", emoji: "🔀" },
-  { text: "FullRun", emoji: "🚀" },
+  { text: "Run", emoji: "🚀" },
   { text: "WTF", emoji: "😂" },
   { text: "Slack", emoji: "💬" },
 ] as const;

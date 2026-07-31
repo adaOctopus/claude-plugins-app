@@ -150,7 +150,7 @@ export const funnelGuides: Guide[] = [
     ],
     category: "guide",
     directAnswer:
-      "YouTube Claude searches skew toward tutorials and 'code agents' demos — learning intent. Production best practices mean connecting Claude to real Jira, Slack, GitHub, and Notion via MCP, scoping agents to grounded context, and approving output before it ships — not running open-ended agent loops on client repos.",
+      "YouTube Claude searches skew toward tutorials and 'code agents' demos — learning intent. Production best practices mean connecting Claude to real Jira, Slack, GitHub, and Notion via MCP, scoping agents to grounded context, and approving output before it ships - not running open-ended agent loops on client repos.",
     relatedSlugs: [
       "best-claude-plugins-for-developers",
       "claude-plugin-mcp-explained",

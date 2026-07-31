@@ -373,15 +373,14 @@ export function HowItWorksStrip() {
     >
       <div className="mx-auto max-w-6xl">
         <Badge variant="secondary" className="mb-4">
-          What&apos;s So Cool About It?
+          The Real Benefit
         </Badge>
         <h2 className="max-w-2xl font-serif text-3xl text-charcoal md:text-4xl">
-          A Claude plugin that puts you in{" "}
+          Engineers in{" "}
           <strong style={{ fontStyle: "italic", fontWeight: "600" }}>God Mode</strong>.
         </h2>
         <p className="mt-2 max-w-xl text-sm text-charcoal-muted">
-          6 Agents working in parallel to fetch context, engineer prompts, and handle both CI & Slack.
-          You just approve or click redo.
+          Instead of context switching you just say RUN in Claude. That's it. Saves dozens of hrs🔥
         </p>
 
         <div className="mt-8 grid grid-cols-2 gap-4 sm:flex sm:items-start sm:justify-between sm:gap-0 md:mt-10">
@@ -400,7 +399,7 @@ export function HowItWorksStrip() {
 
           <StepConnector />
 
-          <HowStep label="Engineers prompts for you">
+          <HowStep label="WRITES FULL-CONTEXT PROMPTS">
             <div className="flex flex-col items-center gap-1">
               <Wand2 className="h-3.5 w-3.5 text-[#0D9488]" strokeWidth={2} />
               <div className="flex gap-px">
@@ -427,7 +426,7 @@ export function HowItWorksStrip() {
 
           <StepConnector />
 
-          <HowStep label="Message Drafts tone-matched">
+          <HowStep label="Drafts tone-matched messages">
             <div className="flex flex-col items-center gap-1">
               <SlackMark className="h-3.5 w-3.5" />
               <div className="space-y-0.5">

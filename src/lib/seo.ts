@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const CANONICAL_SITE_URL = "https://www.coolplugz.com";
 
 export const OG_TAGLINE =
-  "Ship merge-ready code without tool switching.";
+  "Get engineering work done without AI fatigue.";
 
 export const OG_IMAGE = {
   path: "/og-coolplugz.jpg",
@@ -11,7 +11,7 @@ export const OG_IMAGE = {
   version: "2",
   width: 1200,
   height: 630,
-  alt: "coolplugz - Ships merge-ready code & handles your Slack",
+  alt: "coolplugz - Get engineering work done without AI fatigue",
   type: "image/jpeg" as const,
 } as const;
 
@@ -20,7 +20,7 @@ export const TWITTER_CARD_DESCRIPTION =
   "Claude plugin for devs: Jira, Slack, GitHub & Notion context, advanced prompting, merge-ready code, and Slack handling inside Claude.";
 
 export const SEO_DEFAULTS = {
-  title: "coolplugz - Ships merge-ready code & handles your Slack",
+  title: "coolplugz - Get engineering work done without AI fatigue",
   description:
     "Claude plugin for devs: gathers context from Jira, Slack, GitHub & Notion, writes great prompts, ships merge-ready code & handles your Slack.",
   keywords: [

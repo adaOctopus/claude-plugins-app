@@ -183,6 +183,7 @@ export const phase1Guides: Guide[] = [
       "ai-fatigue-developers",
       "ci-failure-debugging-ai",
       "context-engineering-vs-gathering-context",
+      "coolplugz-integration-troubleshooting",
     ],
     pillarSlug: "ai-fatigue-for-developers",
     sections: [
@@ -330,6 +331,7 @@ export const phase1Guides: Guide[] = [
       "automate-daily-standup-slack",
       "context-switching-developers",
       "ai-fatigue-for-developers",
+      "coolplugz-integration-troubleshooting",
     ],
     pillarSlug: "ai-fatigue-for-developers",
     sections: [
@@ -398,6 +400,7 @@ export const phase1Guides: Guide[] = [
       "llm-spirals-coding",
       "context-engineering-vs-gathering-context",
       "claude-plugin-mcp-explained",
+      "coolplugz-integration-troubleshooting",
     ],
     pillarSlug: "ai-fatigue-for-developers",
     sections: [

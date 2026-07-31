@@ -8,9 +8,31 @@ import {
 import { BrandWordmark } from "@/components/brand/CoolplugzMark";
 import { Badge } from "@/components/ui/badge";
 import { GuideReadMoreLink } from "@/components/guides/GuideDocument";
-import { getGuideSlugForFaqQuestion } from "@/lib/guides/registry";
+import { getGuideSlugForFaqQuestion, TROUBLESHOOTING_GUIDE_SLUG } from "@/lib/guides/registry";
 
-export const faqItems = [
+export const faqItems: {
+  question: string;
+  answer: string;
+  guideSlug?: string;
+}[] = [
+  {
+    question: "Why does the GitHub ↔ CI ↔ LLM back-and-forth destroy mental energy?",
+    answer:
+      "Each CI iteration forces a hard context switch: chat → GitHub Actions → copy logs → chat → push → wait → refresh. You juggle three mental models at once — how the model reasons, what the pipeline actually ran, and what changed in git — while CI latency fragments your attention. The bug might take twenty minutes; the loop takes two hours and leaves you more drained than coding from scratch. That switch tax is a major driver of AI fatigue for developers.",
+    guideSlug: TROUBLESHOOTING_GUIDE_SLUG,
+  },
+  {
+    question: "What if my company blocks the Slack API for Coolplugz?",
+    answer:
+      "Common at larger companies — admins often restrict third-party Slack apps. Switch to Claude Cowork, enable the Claude in Chrome extension, and keep Coolplugz connected in parallel. Sign in to Slack in your browser when prompted; Cowork reads thread DOM data while Coolplugz still orchestrates drafts and dashboard commands. You approve before anything posts.",
+    guideSlug: TROUBLESHOOTING_GUIDE_SLUG,
+  },
+  {
+    question: "What if GitHub repos require SSO or a personal access token (PAT)?",
+    answer:
+      "Org repos behind GitHub SSO need SSO authorized under GitHub Settings → Applications before Coolplugz can read them. If OAuth still cannot reach a repo, create a fine-grained PAT scoped to the repos you need and paste it in the GitHub connect flow inside the Coolplugz dashboard (Show my dashboard → Connect GitHub). Use minimal scopes and rotate on your company schedule.",
+    guideSlug: TROUBLESHOOTING_GUIDE_SLUG,
+  },
   {
     question: "Do I write or copy prompts myself?",
     answer:
@@ -22,12 +44,12 @@ export const faqItems = [
       "Approve & submit ships the work: merge the PR, post the Slack message, send the standup update — whatever was generated. Reject & redo sends the task back through the automatic pipeline for another run. In both cases, you never write prompts, gather context, or iterate manually with the LLM. You're out of the loop until that final decision.",
   },
   {
-    question: "What is context switching — and why does it drain engineers?",
+    question: "What is context switching - and why does it drain engineers?",
     answer:
       "Context switching is the mental cost of jumping between tools and modes: Slack messages, Jira tickets, GitHub PRs, CI logs, and docs — each requiring you to reload a different thread of thought. Research on knowledge work consistently shows that every switch adds recovery time and error risk. For remote engineers, this isn’t occasional — it’s the default state of the day. coolplugz removes you as the integration layer by pulling everything into one context engine before AI acts.",
   },
   {
-    question: "What is AI fatigue — and what causes it?",
+    question: "What is AI fatigue - and what causes it?",
     answer:
       "AI fatigue is the exhaustion that comes from endlessly prompting, correcting, re-prompting, and copy-pasting outputs between tools — what we call LLM spirals. You spend more energy steering the model than doing the work. Anthropic’s research on how people use AI (including findings from the Anthropic Economic Index) highlights that adoption is soaring, but the burden of crafting effective prompts and iterating for accuracy still falls heavily on the user. That cognitive load is AI fatigue — and it’s why ‘just use ChatGPT’ isn’t enough for real engineering work.",
   },
@@ -37,7 +59,7 @@ export const faqItems = [
       "The plugin runs the entire loop for you in the background: gather context from Jira, Slack, GitHub, and docs → generate CRISPE prompts → execute them → produce finished output. You never prompt, iterate, or copy-paste. You only Approve & submit or Reject & redo. No spirals because you're not in the loop until the work is already done.",
   },
   {
-    question: "What is a Claude plugin — and what does Context Engineer do?",
+    question: "What is a Claude plugin - and what does Context Engineer do?",
     answer:
       "A Claude plugin extends Claude with custom workflows. Context Engineer is our plugin for software engineers: it automatically gathers all context, generates and runs advanced prompts, completes tasks (code, CI fixes, messages), and puts finished output on your screen. You Approve & submit or Reject & redo. You never write a prompt.",
   },
@@ -49,7 +71,8 @@ export const faqItems = [
   {
     question: "Can coolplugz help with CI failure debugging?",
     answer:
-      "Yes. Instead of copying CI logs into a chat window and spiraling through failed fixes, the plugin feeds full repo context, PR history, and CI output into an engineered prompt — so fixes are targeted, verified against requirements, and delivered without iteration loops.",
+      "Yes. Instead of copying CI logs into a chat window and spiraling through failed fixes, the plugin feeds full repo context, PR history, and CI output into an engineered prompt — so fixes are targeted, verified against requirements, and delivered without iteration loops. See our integration troubleshooting guide for the mental-energy cost of manual GitHub ↔ CI ↔ LLM loops and how to escape them.",
+    guideSlug: TROUBLESHOOTING_GUIDE_SLUG,
   },
   {
     question: "How do I reduce Slack anxiety as a remote worker?",
@@ -96,7 +119,8 @@ export function FAQSection() {
 
         <Accordion type="single" collapsible className="mt-10">
           {faqItems.map((item, i) => {
-            const guideSlug = getGuideSlugForFaqQuestion(item.question);
+            const guideSlug =
+              item.guideSlug ?? getGuideSlugForFaqQuestion(item.question);
 
             return (
               <AccordionItem key={item.question} value={`item-${i}`}>

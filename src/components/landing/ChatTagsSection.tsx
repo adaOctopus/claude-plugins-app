@@ -17,7 +17,7 @@ type TagCommand = {
 
 const tagCommands: TagCommand[] = [
   {
-    tag: "@FullRun",
+    tag: "@Run",
     emoji: "🚀",
     title: "Full Run",
     blurb: "Commits, push, PR opened & description included.",

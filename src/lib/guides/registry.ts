@@ -2,13 +2,20 @@ import { phase1Guides } from "@/lib/guides/content/phase1";
 import { pillarGuides } from "@/lib/guides/content/pillars";
 import { comparePages, funnelGuides } from "@/lib/guides/content/funnel";
 import { freedomGuides } from "@/lib/guides/content/freedom";
+import {
+  troubleshootingGuides,
+  TROUBLESHOOTING_GUIDE_SLUG,
+} from "@/lib/guides/content/troubleshooting";
 import type { ComparePage, Guide } from "@/lib/guides/types";
+
+export { TROUBLESHOOTING_GUIDE_SLUG };
 
 export const allGuides: Guide[] = [
   ...phase1Guides,
   ...pillarGuides,
   ...funnelGuides,
   ...freedomGuides,
+  ...troubleshootingGuides,
 ];
 
 export const allComparePages: ComparePage[] = comparePages;
@@ -147,6 +154,7 @@ export function dedupeRelatedLinks(links: RelatedLink[]): RelatedLink[] {
 
 export const footerGuideLinks = [
   { href: "/guides", label: "All resources" },
+  { href: `/guides/${TROUBLESHOOTING_GUIDE_SLUG}`, label: "Integration troubleshooting" },
   { href: "/guides/developer-freedom-with-claude", label: "Freedom with Claude" },
   { href: "/guides/make-money-with-claude-as-a-developer", label: "Make money with Claude" },
   { href: "/#make-money", label: "Passive income with AI" },
@@ -177,4 +185,7 @@ export const northStarQueries = [
   "AI fatigue",
   "context switching remote work",
   "claude plugin for developers",
+  "github ci llm loop",
+  "slack api blocked enterprise",
+  "github sso personal access token",
 ] as const;

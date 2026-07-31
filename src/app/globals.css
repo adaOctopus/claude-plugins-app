@@ -73,6 +73,23 @@ body {
   line-height: 1.25;
 }
 
+/* Hero h1 — overrides .font-serif / .text-3xl tracking for tighter lockup */
+h1.hero-headline.font-serif {
+  letter-spacing: -0.05em;
+}
+
+@media (min-width: 768px) {
+  h1.hero-headline.font-serif {
+    letter-spacing: -0.05em;
+  }
+}
+
+@media (min-width: 1024px) {
+  h1.hero-headline.font-serif {
+    letter-spacing: -0.05em;
+  }
+}
+
 .brand-wordmark {
   font-family: var(--font-brand-wordmark), "Milk Peach Clean", system-ui, sans-serif;
   font-weight: 400;

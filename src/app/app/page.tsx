@@ -16,6 +16,7 @@ import { LogoutButton } from "@/components/marketplace/DashboardActions";
 import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
 import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
+import { TROUBLESHOOTING_GUIDE_SLUG } from "@/lib/guides/registry";
 import { filterListedPlugins, requiresProSubscription } from "@/lib/marketplace-plugins";
 
 /** Logged-in account hub — subscription, plugins, sign out. */
@@ -195,6 +196,21 @@ export default async function AppDashboardPage() {
           ))}
         </div>
       </div>
+
+      <p className="mt-10 rounded-xl border border-border/80 bg-accent-sage/50 px-4 py-3 text-sm leading-relaxed text-charcoal-muted">
+        Hitting any blockers with Coolplugz — Slack API, GitHub SSO, or CI loops?{" "}
+        <Link
+          href={`/guides/${TROUBLESHOOTING_GUIDE_SLUG}`}
+          className="font-medium text-charcoal underline underline-offset-2"
+        >
+          Check our troubleshooting guide
+        </Link>{" "}
+        or browse{" "}
+        <Link href="/guides" className="font-medium text-charcoal underline underline-offset-2">
+          all developer guides
+        </Link>
+        .
+      </p>
 
       <div className="mt-10 border-t border-border pt-8">
         <LogoutButton />
