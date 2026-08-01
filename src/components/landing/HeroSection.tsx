@@ -12,13 +12,13 @@ export function HeroSection() {
 
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-8 md:grid-cols-2 md:gap-10 lg:gap-12 xl:gap-16">
         <div className="text-left">
-          <h1 className="hero-headline max-w-xl font-serif text-[1.875rem] leading-[1.15] text-charcoal max-sm:max-w-none sm:text-[2rem] md:text-3xl md:leading-[1.12] lg:text-[2.65em] lg:leading-[1.1]">
-            <span className="block whitespace-nowrap">Babysitting coding agents</span>
+          <h1 className="hero-headline max-w-xl font-serif text-[1.555rem] leading-[1.15] text-charcoal max-sm:max-w-none sm:text-[2rem] md:text-3xl md:leading-[1.12] lg:text-[2.65em] lg:leading-[1.1]">
+            <span className="block whitespace-nowrap">Feeling drained from</span>
             <span className="block whitespace-nowrap">
-            and switching tools all day
+            babysitting coding agents
             </span>
             <span className="block whitespace-nowrap">
-            leaving you drained?<span style={{ fontSize: '0.9em', marginLeft: '-0.00em' }}>😮‍💨</span>
+            and switching tools all day?<span style={{ fontSize: '0.9em', marginLeft: '-0.15em' }}>😮‍💨</span>
             {/* Try Coolplugz<span style={{ fontSize: '0.9em', marginLeft: '-0.2em' }}>😎</span> */}
             {/* <span style={{ fontSize: '1.0em', marginLeft: '-0.3em' }}>🔌</span> */}
             </span>
