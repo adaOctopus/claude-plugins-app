@@ -408,7 +408,7 @@ export function EngineerProblemsSection() {
           <strong style={{ fontStyle: "italic", fontWeight: "600" }}>hidden AI tax</strong>.
         </h2>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-charcoal-muted sm:max-w-lg">
-          Save time & energy with less tab-hopping - no more AI fatigue.
+          Deliver work in minutes without AI fatigue and zero context switching.
         </p>
 
         <ul

@@ -380,7 +380,7 @@ export function HowItWorksStrip() {
           <strong style={{ fontStyle: "italic", fontWeight: "600" }}>God Mode</strong>.
         </h2>
         <p className="mt-2 max-w-xl text-sm text-charcoal-muted">
-          Instead of context switching you just say RUN in Claude. That's it. Saves dozens of hrs🔥
+          Instead of gathering context from multiple sources you type RUN in Claude🔥
         </p>
 
         <div className="mt-8 grid grid-cols-2 gap-4 sm:flex sm:items-start sm:justify-between sm:gap-0 md:mt-10">
@@ -442,7 +442,7 @@ export function HowItWorksStrip() {
 
           <StepConnector />
 
-          <HowStep label="Claude panel" className="col-span-2 mx-auto w-full max-w-[12rem] sm:col-span-1 sm:max-w-none">
+          <HowStep label="Saves 10+ hours/week" className="col-span-2 mx-auto w-full max-w-[12rem] sm:col-span-1 sm:max-w-none">
             <div
               className="flex w-full flex-col gap-1 rounded-lg border border-[#7DD3C0]/25 p-1.5"
               style={{
