@@ -75,18 +75,18 @@ body {
 
 /* Hero h1 — overrides .font-serif / .text-3xl tracking for tighter lockup */
 h1.hero-headline.font-serif {
-  letter-spacing: -0.05em;
+  letter-spacing: -0.025em;
 }
 
 @media (min-width: 768px) {
   h1.hero-headline.font-serif {
-    letter-spacing: -0.05em;
+    letter-spacing: -0.025em;
   }
 }
 
 @media (min-width: 1024px) {
   h1.hero-headline.font-serif {
-    letter-spacing: -0.05em;
+    letter-spacing: -0.025em;
   }
 }
 
