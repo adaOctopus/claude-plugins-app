@@ -15,16 +15,16 @@ export function HeroSection() {
           <h1 className="hero-headline max-w-xl font-serif text-[1.875rem] leading-[1.15] text-charcoal max-sm:max-w-none sm:text-[2rem] md:text-3xl md:leading-[1.12] lg:text-[2.9em] lg:leading-[1.1]">
             <span className="block whitespace-nowrap">Tired of AI fatigue and</span>
             <span className="block whitespace-nowrap">
-               context switching?
+               gathering context from
             </span>
             <span className="block whitespace-nowrap">
-               Try Coolplugz😎
+           multiple sources?
             </span>
             {/* <span className="inline text-[0.8em] -ml-[0.2em]">🔋</span> */}
           </h1>
 {/* <span style={{ fontSize: '0.8em', marginLeft: '-0.2em' }}>🍼</span> */}
           <p className="mt-2 text-xs font-normal uppercase tracking-wide text-charcoal-muted/90">
-          #1 Claude plugin for devs · save +10hrs/week
+          TRY COOLPLUGZ · THE BEST CLAUDE PLUGIN FOR DEVS✨
           </p>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
