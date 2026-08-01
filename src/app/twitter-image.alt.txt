@@ -1,1 +1,1 @@
-coolplugz - Ships merge-ready code & handles your Slack
+coolplugz - Claude plugin for developers

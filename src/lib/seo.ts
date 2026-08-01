@@ -6,13 +6,13 @@ export const OG_TAGLINE =
   "Get engineering work done without AI fatigue.";
 
 export const OG_IMAGE = {
-  path: "/og-coolplugz.jpg",
+  path: "/coolpreview.png",
   /** Bump when replacing the social preview asset so X/FB re-fetch. */
-  version: "2",
-  width: 1200,
-  height: 630,
-  alt: "coolplugz - Get engineering work done without AI fatigue",
-  type: "image/jpeg" as const,
+  version: "3",
+  width: 1430,
+  height: 794,
+  alt: "coolplugz - Claude plugin for developers",
+  type: "image/png" as const,
 } as const;
 
 /** X/Twitter card descriptions should stay under ~200 chars. */

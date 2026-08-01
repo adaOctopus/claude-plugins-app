@@ -277,7 +277,7 @@ Use this README as the **single source of truth** for external messaging. Align 
 
 | File | Use |
 |------|-----|
-| `public/og-coolplugz.jpg` | **Social / OG thumbnail** — Twitter, LinkedIn, Slack link previews |
+| `src/assets/coolpreview.png` → `public/coolpreview.png` | **Social / OG thumbnail** — Twitter, LinkedIn, Slack, iMessage link previews |
 | `public/marketing/dashboard.jpg` | Live dashboard UI |
 | `public/guides/claude-web-connector.png` | Web MCP setup |
 | `public/guides/claude-desktop-edit-config.png` | Desktop JSON setup |
