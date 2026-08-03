@@ -51,8 +51,8 @@ export const proAdditiveFeatures = [
   "10 Task Completions per month",
   "Full-stack Context Fetching",
   "Advanced Prompt Engineering",
-  "Customizable Task Execution",
-  "Top up Task Credits anytime",
+  "Custom Task Execution",
+  "Proof Of AI Work Artifacts",
 ] as const;
 
 /** One-line Pro value vs Starter on pricing card. */
