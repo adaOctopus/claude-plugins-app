@@ -58,29 +58,17 @@ export function getInvoiceSubscriptionId(invoice: Stripe.Invoice): string | null
   return null;
 }
 
-/** Vercel env names (primary) with legacy fallbacks for local `.env.local`. */
+/** Canonical Stripe price IDs — Pro subscription only. */
 export function getCheckoutPriceId(plan: keyof typeof PRICING_AMOUNTS_MAP): string | undefined {
   switch (plan) {
     case "pro_monthly":
-      return (
-        process.env.STRIPE_PRO_MONTHLY ??
-        process.env.STRIPE_PRICE_PRO_MONTHLY ??
-        process.env.STRIPE_PRICE_MONTHLY
-      );
+      return process.env.STRIPE_PRO_MONTHLY;
     case "pro_annual":
-      return (
-        process.env.STRIPE_PRICE_PRO_ANNUAL ??
-        process.env.STRIPE_PRO_ANNUAL ??
-        process.env.STRIPE_PRICE_ANNUAL
-      );
+      return process.env.STRIPE_PRO_ANNUAL;
     case "premium_monthly":
-      return (
-        process.env.STRIPE_PREMIUM_MONTHLY ?? process.env.STRIPE_PRICE_PREMIUM_MONTHLY
-      );
+      return process.env.STRIPE_PREMIUM_MONTHLY;
     case "premium_annual":
-      return (
-        process.env.STRIPE_PREMIUM_ANNUAL ?? process.env.STRIPE_PRICE_PREMIUM_ANNUAL
-      );
+      return process.env.STRIPE_PREMIUM_ANNUAL;
     case "addon":
       return process.env.STRIPE_PRICE_ADDON ?? process.env.STRIPE_ADDON;
     default:
@@ -88,7 +76,7 @@ export function getCheckoutPriceId(plan: keyof typeof PRICING_AMOUNTS_MAP): stri
   }
 }
 
-/** One-time Starter Stripe price ID — env `COOLPLUGZ_DAILY`. */
+/** @deprecated Paid Starter removed — legacy webhook rows only. */
 export function getDailyPassPriceId(): string | undefined {
   return (
     process.env.COOLPLUGZ_DAILY ??
@@ -98,7 +86,7 @@ export function getDailyPassPriceId(): string | undefined {
   );
 }
 
-/** One-time credit pack Stripe price IDs. */
+/** @deprecated Credit top-ups removed from app UI — legacy webhook rows only. */
 export function getCreditPackPriceId(packId: "pack_5" | "pack_10"): string | undefined {
   switch (packId) {
     case "pack_5":

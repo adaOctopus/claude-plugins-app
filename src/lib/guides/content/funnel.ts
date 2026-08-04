@@ -1,8 +1,8 @@
 import type { Guide } from "@/lib/guides/types";
 import type { ComparePage } from "@/lib/guides/types";
+import { ORCHESTRATION_CTA } from "@/lib/product-positioning";
 
-const ctaParagraph =
-  "coolplugz is a Claude plugin (MCP) that gathers context from Jira, Slack, GitHub, and Notion, runs CRISPE-engineered prompts automatically, ships merge-ready code with CI checked, and drafts Slack replies — you only Approve & submit or Reject & redo.";
+const ctaParagraph = ORCHESTRATION_CTA;
 
 export const funnelGuides: Guide[] = [
   {
@@ -129,7 +129,7 @@ export const funnelGuides: Guide[] = [
       title: "Try coolplugz",
       paragraphs: [
         ctaParagraph,
-        "Start with Starter — $5, 1 task, 24 hours — or get Pro for 10 runs/month.",
+        "Start with a 7-day free trial — or get Pro for unlimited usage and multi-repo tasks.",
       ],
     },
   },

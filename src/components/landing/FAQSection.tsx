@@ -24,19 +24,19 @@ export const faqItems: {
   {
     question: "What if my company blocks the Slack API for Coolplugz?",
     answer:
-      "Common at larger companies — admins often restrict third-party Slack apps. Switch to Claude Cowork, enable the Claude in Chrome extension, and keep Coolplugz connected in parallel. Sign in to Slack in your browser when prompted; Cowork reads thread DOM data while Coolplugz still orchestrates drafts and dashboard commands. You approve before anything posts.",
+      "Common at larger companies — admins often restrict third-party Slack apps. Switch to Claude Cowork, enable the Claude in Chrome extension, and keep Coolplugz connected in parallel. Sign in to Slack in your browser when prompted; Cowork reads thread DOM data while Coolplugz still orchestrates your Claude Code session. You approve before anything posts.",
     guideSlug: TROUBLESHOOTING_GUIDE_SLUG,
   },
   {
     question: "What if GitHub repos require SSO or a personal access token (PAT)?",
     answer:
-      "Org repos behind GitHub SSO need SSO authorized under GitHub Settings → Applications before Coolplugz can read them. If OAuth still cannot reach a repo, create a fine-grained PAT scoped to the repos you need and paste it in the GitHub connect flow inside the Coolplugz dashboard (Show my dashboard → Connect GitHub). Use minimal scopes and rotate on your company schedule.",
+      "Org repos behind GitHub SSO need SSO authorized under GitHub Settings → Applications before Coolplugz can read them. If OAuth still cannot reach a repo, create a fine-grained PAT scoped to the repos you need and paste it in the GitHub connect flow when Coolplugz prompts you inside Claude Code. Use minimal scopes and rotate on your company schedule.",
     guideSlug: TROUBLESHOOTING_GUIDE_SLUG,
   },
   {
     question: "Do I write or copy prompts myself?",
     answer:
-      "No. Prompts are never handed to you. The plugin generates CRISPE-engineered prompts and runs them automatically in the background using all gathered context. You don't see the prompt layer — you see finished output: code, fixes, Slack drafts, standup updates. Your only interaction is Approve & submit or Reject & redo.",
+      "No. CoolPlugz is an orchestration layer — it gathers context, structures workflows, and guides your Claude Code session. You don't write prompts or copy-paste between tools. Claude Code executes in your environment; CoolPlugz keeps the session on track.",
   },
   {
     question: "What does Approve & submit vs Reject & redo actually mean?",
@@ -56,12 +56,12 @@ export const faqItems: {
   {
     question: "How does coolplugz eliminate LLM spirals?",
     answer:
-      "The plugin runs the entire loop for you in the background: gather context from Jira, Slack, GitHub, and docs → generate CRISPE prompts → execute them → produce finished output. You never prompt, iterate, or copy-paste. You only Approve & submit or Reject & redo. No spirals because you're not in the loop until the work is already done.",
+      "CoolPlugz orchestrates your Claude Code session: it syncs Jira, Slack, GitHub, and Notion, guides workflow steps, and helps Claude Code deliver finished work. You're not babysitting agents or switching tools — CoolPlugz keeps the session structured until tasks are done.",
   },
   {
     question: "What is a Claude plugin - and what does Context Engineer do?",
     answer:
-      "A Claude plugin extends Claude with custom workflows. Context Engineer is our plugin for software engineers: it automatically gathers all context, generates and runs advanced prompts, completes tasks (code, CI fixes, messages), and puts finished output on your screen. You Approve & submit or Reject & redo. You never write a prompt.",
+      "A Claude plugin extends Claude with custom workflows. CoolPlugz is an orchestration layer for Claude Code: it gathers context from Jira, Slack, GitHub, and Notion, guides your session with structured prompts and workflow steps, and helps Claude Code deliver tasks end-to-end — without you supervising every step.",
   },
   {
     question: "How does context engineering differ from ‘just gathering context’?",
@@ -80,19 +80,14 @@ export const faqItems: {
       "The plugin monitors Slack for action items and generates reply drafts and standup updates automatically — already written, ready to send. You Approve & submit to post them. No drafting, no prompting, no iteration.",
   },
   {
-    question: "What is Starter?",
+    question: "What is the free trial?",
     answer:
-      "Starter is $5 for one real task completed end-to-end — finish it in minutes, hands off — plus 24 hours of MCP access. It is the pay-to-try option with no free trial. If you use CoolPlugz regularly, Pro at $47/month includes 10 tasks per month.",
-  },
-  {
-    question: "Can I buy extra runs without a Pro subscription?",
-    answer:
-      "Yes. After you buy Starter or subscribe to Pro, you can buy pay-as-you-go run top-ups from Manage Account — $10 for 5 runs or $20 for 10 runs. Bonus runs never expire. Pro ($47/month or $397/year) adds 10 included runs each month plus the same top-up options.",
+      "The free trial gives you 7 days of CoolPlugz with full Jira, GitHub, Notion, and Slack integration — smart branch detection, push verification, PR creation, CI checks, and PR review resolution. No credit card required. Upgrade to Pro ($17/month or $147/year) for unlimited usage, multi-repo tasks, and developer insights.",
   },
   {
     question: "What's included in the Pro subscription?",
     answer:
-      "Pro starts at $47/month or $397/year (~30% savings). It includes the Context Engineer Claude plugin with full Jira, Slack, GitHub, and Notion integration; 10 full task runs per month; top-up credits when you need more; automatic CRISPE-based context engineering; in-Claude dashboard via MCP; your CoolPlugz MCP URL to paste into Claude; and ongoing updates.",
+      "Pro is $17/month or $147/year (~28% savings on annual). It includes everything in the free trial plus unlimited usage, tasks spanning multiple repos, and developer insights. CoolPlugz orchestrates your Claude Code session — Claude Code executes in your environment.",
   },
   {
     question: "Can I add more plugins later?",

@@ -4,13 +4,12 @@ import { getSession } from "@/lib/auth";
 import { getDailyPassStatus } from "@/lib/daily-pass";
 import { getFreeTrialStatus } from "@/lib/free-trial";
 import { canAccessMcp } from "@/lib/free-trial";
-import { hasActiveSubscription, getUserSubscription } from "@/lib/entitlements";
+import { hasActiveSubscription } from "@/lib/entitlements";
 import { fulfillDailyPassSession } from "@/lib/fulfill-daily-pass";
 import {
   getUserMcpUrl,
   isUserOnDailyPass,
 } from "@/lib/provision-coolplugz";
-import { ensureUsageSyncedToMcp } from "@/lib/usage";
 import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 import { getMarketplacePluginBySlug } from "@/lib/marketplace-plugins.server";
 import { InstallCheckoutFulfillShell } from "@/components/install/InstallCheckoutFulfillShell";
@@ -32,7 +31,7 @@ export const metadata: Metadata = createPageMetadata({
   siteUrl: CANONICAL_SITE_URL,
 });
 
-/** Post-purchase or daily-pass page — unique MCP URL + minimal getting started guide. */
+/** Post-purchase or trial page — unique MCP URL + minimal getting started guide. */
 export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
   const { session_id: checkoutSessionId, daily } = await searchParams;
   const plugin = await getMarketplacePluginBySlug(FLAGSHIP_SLUG);
@@ -79,24 +78,13 @@ export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
   const subscribed = await hasActiveSubscription(session.id);
   const onDailyPass = await isUserOnDailyPass(session.id);
   const dailyStatus = onDailyPass ? await getDailyPassStatus(session.id) : null;
+  const trialStatus = subscribed ? null : await getFreeTrialStatus(session.id);
 
-  if (subscribed) {
-    const subscription = await getUserSubscription(session.id);
-    if (subscription) {
-      await ensureUsageSyncedToMcp(session.id, {
-        subscriptionPeriodEnd: subscription.currentPeriodEnd,
-      });
-    }
-  } else if (dailyStatus?.active && dailyStatus.expiresAt) {
-    await ensureUsageSyncedToMcp(session.id, {
-      dailyPassEnd: new Date(dailyStatus.expiresAt),
-    });
-  } else {
-    const trialStatus = await getFreeTrialStatus(session.id);
-    if (trialStatus?.active && trialStatus.endsAt) {
-      await ensureUsageSyncedToMcp(session.id, { trialEnd: new Date(trialStatus.endsAt) });
-    }
-  }
+  const accessMode = subscribed ? "pro" : trialStatus?.active ? "trial" : "daily";
+  const passExpiresAt =
+    trialStatus?.active && trialStatus.endsAt
+      ? trialStatus.endsAt.toISOString()
+      : dailyStatus?.expiresAt?.toISOString() ?? null;
 
   return (
     <div className="px-4 py-32 md:px-8">
@@ -104,8 +92,8 @@ export default async function UniqueMcpUrlPage({ searchParams }: PageProps) {
         plugin={plugin}
         email={session.email}
         mcpUrl={mcpUrl}
-        accessMode={subscribed ? "pro" : "daily"}
-        passExpiresAt={dailyStatus?.expiresAt?.toISOString() ?? null}
+        accessMode={accessMode}
+        passExpiresAt={passExpiresAt}
       />
     </div>
   );

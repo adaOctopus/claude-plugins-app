@@ -15,14 +15,12 @@ export function dailyPassLoginRedirect() {
   return `/login?redirect=${encodeURIComponent("/pricing")}`;
 }
 
-/** @deprecated Free trial removed — use /pricing Starter checkout. */
 export function freeTrialSetupPath() {
-  return "/pricing";
+  return UNIQUE_MCP_URL_PATH;
 }
 
-/** @deprecated */
 export function freeTrialLoginRedirect() {
-  return dailyPassLoginRedirect();
+  return `/login?redirect=${encodeURIComponent("/pricing")}`;
 }
 
 export const FREE_TRIAL_START_PARAM = "start=trial";

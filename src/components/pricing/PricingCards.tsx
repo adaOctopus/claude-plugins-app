@@ -3,21 +3,21 @@
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, Sparkles } from "lucide-react";
-import Link from "next/link";
+import { Check, Sparkles, X } from "lucide-react";
 import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton";
-import { DailyPassCheckoutButton } from "@/components/pricing/DailyPassCheckoutButton";
+import { StartFreeTrialButton } from "@/components/pricing/StartFreeTrialButton";
 import { PriceDisplay } from "@/components/pricing/PriceDisplay";
 import { EnterpriseContactDialog } from "@/components/pricing/EnterpriseContactDialog";
 import {
-  dailyPassPlan,
   enterprisePlan,
   getPaidPlanKey,
   proPlan,
   proValueLine,
   tierPricing,
+  trialPlan,
   type BillingPeriod,
   type PaidTier,
+  type PricingFeature,
 } from "@/lib/pricing-plans";
 import { startTierCheckout } from "@/lib/start-checkout";
 import { isWipSite, comingSoonHref } from "@/lib/site-mode";
@@ -50,17 +50,37 @@ function PlanBadge({ label, variant }: { label: string; variant: PlanBadgeVarian
   );
 }
 
-function FeatureList({ header, features }: { header: string; features: readonly string[] }) {
+function FeatureList({
+  header,
+  features,
+}: {
+  header: string;
+  features: readonly (string | PricingFeature)[];
+}) {
   return (
     <div>
       <p className="text-sm text-charcoal-muted">{header}</p>
       <ul className="mt-3 space-y-2.5">
-        {features.map((feature) => (
-          <li key={feature} className="flex items-start gap-2 text-sm leading-snug">
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
-            <span>{feature}</span>
-          </li>
-        ))}
+        {features.map((feature) => {
+          const item = typeof feature === "string" ? { label: feature } : feature;
+          const key = item.label;
+
+          if (item.excluded) {
+            return (
+              <li key={key} className="flex items-start gap-2 text-sm leading-snug">
+                <X className="mt-0.5 h-4 w-4 shrink-0 text-charcoal-muted/50" aria-hidden />
+                <span className="text-charcoal-muted/60 line-through">{item.label}</span>
+              </li>
+            );
+          }
+
+          return (
+            <li key={key} className="flex items-start gap-2 text-sm leading-snug">
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
+              <span>{item.label}</span>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -72,7 +92,7 @@ type PricingPlanCardProps = {
   priceSlot: ReactNode;
   tagline?: ReactNode;
   featureHeader: string;
-  features: readonly string[];
+  features: readonly (string | PricingFeature)[];
   footer: ReactNode;
   highlighted?: boolean;
 };
@@ -120,7 +140,7 @@ function PricingPlanCard({
   );
 }
 
-/** Starter, Pro, and Enterprise pricing cards. */
+/** Trial, Pro, and Enterprise pricing cards. */
 export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsProps) {
   const [enterpriseOpen, setEnterpriseOpen] = useState(false);
   const proPrice = tierPricing.pro[billing];
@@ -149,28 +169,28 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
     <>
       <div className="mx-auto grid max-w-5xl items-stretch gap-6 text-left md:grid-cols-3">
         <PricingPlanCard
-          badge={dailyPassPlan.badge ? { label: dailyPassPlan.badge, variant: "muted" } : undefined}
-          title={dailyPassPlan.name}
+          badge={trialPlan.badge ? { label: trialPlan.badge, variant: "muted" } : undefined}
+          title={trialPlan.name}
           priceSlot={
             <>
-              <span className="font-serif text-4xl leading-none">{dailyPassPlan.price}</span>
-              <span className="text-charcoal-muted">{dailyPassPlan.period}</span>
+              <span className="font-serif text-4xl leading-none">{trialPlan.price}</span>
+              <span className="text-charcoal-muted">{trialPlan.period}</span>
             </>
           }
           tagline={
             <>
-              {dailyPassPlan.highlightLabel ? (
-                <p className="text-xs font-medium text-emerald-700">{dailyPassPlan.highlightLabel}</p>
+              {trialPlan.highlightLabel ? (
+                <p className="text-xs font-medium text-emerald-700">{trialPlan.highlightLabel}</p>
               ) : null}
-              <p className={cn(dailyPassPlan.highlightLabel && "mt-1")}>{dailyPassPlan.tagline}</p>
-              {dailyPassPlan.durationNote ? (
-                <p className="mt-1 text-xs font-medium text-[#0D9488]">{dailyPassPlan.durationNote}</p>
+              <p className={cn(trialPlan.highlightLabel && "mt-1")}>{trialPlan.tagline}</p>
+              {trialPlan.durationNote ? (
+                <p className="mt-1 text-xs font-medium text-[#0D9488]">{trialPlan.durationNote}</p>
               ) : null}
             </>
           }
-          featureHeader={dailyPassPlan.featureHeader}
-          features={dailyPassPlan.features}
-          footer={<DailyPassCheckoutButton>{dailyPassPlan.cta}</DailyPassCheckoutButton>}
+          featureHeader={trialPlan.featureHeader}
+          features={trialPlan.features}
+          footer={<StartFreeTrialButton>{trialPlan.cta}</StartFreeTrialButton>}
         />
 
         <PricingPlanCard

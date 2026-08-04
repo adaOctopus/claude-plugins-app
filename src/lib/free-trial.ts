@@ -3,7 +3,7 @@ import { User } from "@/models/User";
 import { hasActiveSubscription } from "@/lib/entitlements";
 import { hasMcpUsageAccess } from "@/lib/mcp-access";
 
-/** Legacy constant — existing free-trial rows in Mongo only. */
+/** 7-day card-free trial for new users. */
 export const FREE_TRIAL_MS = 7 * 24 * 60 * 60 * 1000;
 
 export type FreeTrialStatus = {

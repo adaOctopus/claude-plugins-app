@@ -11,7 +11,7 @@ type InstallPluginGuideProps = {
   plugin: MarketplacePlugin;
   email: string;
   mcpUrl?: string | null;
-  accessMode?: "pro" | "daily";
+  accessMode?: "pro" | "trial" | "daily";
   passExpiresAt?: string | null;
 };
 
@@ -25,7 +25,8 @@ export function InstallPluginGuide({
 }: InstallPluginGuideProps) {
   const guide = COOLPLUGZ_GETTING_STARTED;
   const needsProvision = requiresProSubscription(plugin);
-  const isDailyPass = accessMode === "daily";
+  const isTrial = accessMode === "trial";
+  const isLegacyDaily = accessMode === "daily";
   const passEndLabel = passExpiresAt
     ? new Date(passExpiresAt).toLocaleString(undefined, {
         dateStyle: "medium",
@@ -42,19 +43,24 @@ export function InstallPluginGuide({
         <p className="mt-2 text-charcoal-muted">
           Access verified for {email} ✅
           <br />
-          {isDailyPass ? (
+          {isTrial ? (
             <>
-              <span className="font-medium text-charcoal">Starter</span> — your MCP URL is
-              valid for 24 hours (1 task included).
+              <span className="font-medium text-charcoal">Free trial</span> — your MCP URL is valid
+              for 7 days.
+            </>
+          ) : isLegacyDaily ? (
+            <>
+              <span className="font-medium text-charcoal">Legacy access</span> — your MCP URL is
+              valid until expiry.
             </>
           ) : (
-            <>Add your unique MCP URL to Claude - one step, either web or desktop.</>
+            <>Add your unique MCP URL to Claude — one step, either web or desktop.</>
           )}
         </p>
-        {isDailyPass && passEndLabel && (
+        {(isTrial || isLegacyDaily) && passEndLabel && (
           <p className="mt-2 rounded-lg border border-[#7DD3C0]/35 bg-white/80 px-3 py-2 text-sm text-[#0D9488]">
-            Pass active until <span className="font-semibold">{passEndLabel}</span>. Upgrade to Pro
-            for monthly included runs.
+            Access active until <span className="font-semibold">{passEndLabel}</span>. Upgrade to
+            Pro for unlimited usage.
           </p>
         )}
       </div>
@@ -62,7 +68,7 @@ export function InstallPluginGuide({
       <InstallMcpSetupBlock
         initialMcpUrl={mcpUrl}
         initialExpiresAt={passExpiresAt}
-        autoProvision={needsProvision && !isDailyPass}
+        autoProvision={needsProvision && accessMode === "pro"}
         provisionMode="subscription"
       />
 
@@ -94,13 +100,13 @@ export function InstallPluginGuide({
         </CardContent>
       </Card>
 
-      {isDailyPass && (
+      {(isTrial || isLegacyDaily) && (
         <div className="mb-6 rounded-xl border border-border bg-cream-warm/60 p-4 text-sm text-charcoal-muted">
-          When your Starter access ends, this MCP URL stops working.{" "}
+          When your access ends, this MCP URL stops working.{" "}
           <Link href="/pricing" className="font-medium text-charcoal underline">
             Get Pro
           </Link>{" "}
-          for 10 tasks/month.
+          for unlimited usage and multi-repo tasks.
         </div>
       )}
 

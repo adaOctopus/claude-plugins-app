@@ -18,7 +18,7 @@ export function HeroSection() {
              agents and switching tools
             </span>
             <span className="block whitespace-nowrap">
-            all day?<span style={{ fontSize: '0.9em', marginLeft: '-0.1em' }}>😮‍💨</span>
+            all day?<span style={{ fontSize: '0.9em', marginLeft: '-0.15em' }}>😮‍💨</span>
             {/* Try Coolplugz<span style={{ fontSize: '0.9em', marginLeft: '-0.2em' }}>😎</span> */}
             {/* <span style={{ fontSize: '1.0em', marginLeft: '-0.3em' }}>🔌</span> */}
             </span>
@@ -26,15 +26,13 @@ export function HeroSection() {
           </h1>
 {/* <span style={{ fontSize: '0.8em', marginLeft: '-0.2em' }}>🍼</span> */}
           <p className="mt-2 text-xs font-normal uppercase tracking-wide text-charcoal-muted/90">
-          TRY COOLPLUGZ · THE BEST CLAUDE PLUGIN FOR DEVS
+          TRY COOLPLUGZ · THE BEST TOOL FOR DEVS
           {/* <span className="inline text-[0.8em] -ml-[0.5em]">🔋</span> */}
           
           </p>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
-            Fetches context from your entire stack, writes excellent prompts, ships merge-ready code & handles your Slack too.
-          </p>
-
+           An orchestration layer that ensures Claude Code delivers your coding tasks without your supervision.</p>
           <div className="mt-8">
             <CtaMonoBadge />
           </div>

@@ -84,6 +84,14 @@ export function JsonLd() {
     offers: [
       {
         "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
+        name: "Free trial — 7 days",
+      },
+      {
+        "@type": "Offer",
         price: String(PRICING_AMOUNTS.pro.monthly),
         priceCurrency: "USD",
         priceValidUntil: "2027-12-31",
@@ -97,22 +105,6 @@ export function JsonLd() {
         priceValidUntil: "2027-12-31",
         availability: "https://schema.org/InStock",
         name: "Pro annual",
-      },
-      {
-        "@type": "Offer",
-        price: String(PRICING_AMOUNTS.premium.monthly),
-        priceCurrency: "USD",
-        priceValidUntil: "2027-12-31",
-        availability: "https://schema.org/InStock",
-        name: "Premium monthly",
-      },
-      {
-        "@type": "Offer",
-        price: String(PRICING_AMOUNTS.premium.annual),
-        priceCurrency: "USD",
-        priceValidUntil: "2027-12-31",
-        availability: "https://schema.org/InStock",
-        name: "Premium annual",
       },
     ],
   };

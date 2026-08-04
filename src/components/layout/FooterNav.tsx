@@ -13,7 +13,7 @@ type FooterLinkItem = {
 };
 
 const productLinks: FooterLinkItem[] = [
-  { label: "The Plugins", notify: true, source: "footer-plugins" },
+  // { label: "The Plugins", notify: true, source: "footer-plugins" },
   { href: resolveProductHref("/pricing"), label: "Pricing" },
   { href: resolveProductHref("/install"), label: "Getting started" },
 ];

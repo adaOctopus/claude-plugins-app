@@ -4,16 +4,22 @@ export type PaidPlan = `${PaidTier}_${BillingPeriod}`;
 
 /** Single source of truth for displayed & checkout amounts (USD). */
 export const PRICING_AMOUNTS = {
-  pro: { monthly: 47, annual: 397 },
+  pro: { monthly: 17, annual: 147 },
   premium: { monthly: 47, annual: 387 },
 } as const;
+
+export type PricingFeature = {
+  label: string;
+  /** Trial card: show as crossed-out / not included on free tier */
+  excluded?: boolean;
+};
 
 export const billingOptions = {
   monthly: {
     toggleLabel: "",
   },
   annual: {
-    toggleLabel: "Save ~30%",
+    toggleLabel: "Save ~28%",
   },
 } as const;
 
@@ -23,7 +29,7 @@ export const tierPricing = {
     annual: {
       amount: PRICING_AMOUNTS.pro.annual,
       period: "/year",
-      savings: "Save ~30%",
+      savings: "Save ~28%",
     },
   },
   premium: {
@@ -36,30 +42,45 @@ export const tierPricing = {
   },
 } as const;
 
-/** Core access features — shared by Starter and Pro. */
-export const baseAccessFeatures = [
-  "Syncs Jira + Slack + GitHub + Notion",
-  "One task completed end-to-end",
-  "Stay in Claude - CoolPlugz does the work",
+export const trialPlanFeatures: PricingFeature[] = [
+  { label: "Jira + GitHub + Notion + Slack integration" },
+  { label: "PR workflow: branches, CI checks & review comments" },
+  { label: "Unlimited usage", excluded: true },
+];
+
+/** Full Pro card list — every trial feature plus paid-only items. */
+export const proPlanFeatures: PricingFeature[] = [
+  { label: "Jira + GitHub + Notion + Slack integration" },
+  { label: "Smart branch detection" },
+  { label: "Push verification via GitHub API" },
+  { label: "PR creation & CI status checks" },
+  { label: "PR review comment resolution" },
+  { label: "Unlimited usage" },
+  { label: "Tasks with multiple repos covered" },
+  { label: "Developer insights" },
+  // { label: "Persistent MCP access while subscribed" },
+  // { label: "Priority Claude Code session orchestration" },
+];
+
+/** @deprecated Use proPlanFeatures on the pricing card */
+export const proAdditiveFeatures = [
+  "Unlimited usage",
+  "Tasks with multiple repos covered",
+  "Developer insights",
 ] as const;
 
-/** @deprecated Use baseAccessFeatures */
+/** @deprecated Legacy — use trialPlanFeatures */
+export const baseAccessFeatures = trialPlanFeatures
+  .filter((f) => !f.excluded)
+  .map((f) => f.label);
+
+/** @deprecated Use trialPlanFeatures */
 export const trialFeatures = baseAccessFeatures;
 
-/** Added on Pro — shown after “Everything in Starter, plus:”. */
-export const proAdditiveFeatures = [
-  "10 Task Completions per month",
-  "Full-stack Context Fetching",
-  "Advanced Prompt Engineering",
-  "Custom Task Execution",
-  "Proof Of AI Work Artifacts",
-] as const;
+/** One-line Pro value vs Trial on pricing card. */
+export const proValueLine = "";
 
-/** One-line Pro value vs Starter on pricing card. */
-export const proValueLine =
-  "";
-
-/** Added on Premium — shown after “Everything in Pro, plus:”. */
+/** Added on Premium — legacy internal tier only. */
 export const premiumAdditiveFeatures = [
   "Multiple client workspaces",
   "Multiple Slack + Jira connections",
@@ -67,7 +88,7 @@ export const premiumAdditiveFeatures = [
   "Priority sync across all accounts",
 ] as const;
 
-/** Added on Enterprise — shown after “Everything in Premium, plus:”. */
+/** Added on Enterprise — shown after “Everything in Pro, plus:”. */
 export const enterpriseAdditiveFeatures = [
   "Multi-seat licensing for dev teams",
   "CI/CD & automated QA checks",
@@ -76,28 +97,29 @@ export const enterpriseAdditiveFeatures = [
   "SSO & advanced security options",
 ] as const;
 
-/** Full Pro feature set (Starter + paid). */
-export const proPlanFeatures = [...baseAccessFeatures, ...proAdditiveFeatures] as const;
+/** Full Pro feature set for SEO and docs. */
+export const proPlanFeaturesFlat = proPlanFeatures.map((f) => f.label);
 
-export const dailyPassPlan = {
-  id: "daily" as const,
-  name: "Starter",
-  price: "$5",
-  amount: 5,
-  period: "/task",
-  badge: "Try it now",
-  highlightLabel: "Zero Hassle",
-  tagline: "Completes one JIRA ticket in minutes",
+export const trialPlan = {
+  id: "trial" as const,
+  name: "Free Trial",
+  price: "$0",
+  amount: 0,
+  period: "/7 days",
+  badge: "No Card Required",
+  highlightLabel: "",
+  tagline: "Guide Claude Code through your stack — no card required",
   durationNote: "",
   featureHeader: "Includes:",
-  features: [
-    ...baseAccessFeatures,
-  ] as const,
-  cta: "TRY STARTER",
+  features: trialPlanFeatures,
+  cta: "START FREE TRIAL",
 };
 
-/** @deprecated Use dailyPassPlan */
-export const freePlan = dailyPassPlan;
+/** @deprecated Use trialPlan */
+export const dailyPassPlan = trialPlan;
+
+/** @deprecated Use trialPlan */
+export const freePlan = trialPlan;
 
 export const proPlan = {
   id: "pro" as const,
@@ -105,7 +127,7 @@ export const proPlan = {
   badge: "Recommended",
   tagline: "Stay on top of your work effortlessly",
   featureHeader: "Includes:",
-  features: proAdditiveFeatures,
+  features: proPlanFeatures,
   cta: "GET PRO",
 };
 

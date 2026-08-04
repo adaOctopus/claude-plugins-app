@@ -33,7 +33,7 @@ const schema = z.object({
 
 const PRICE_ENV_HINTS: Record<string, string> = {
   pro_monthly: "STRIPE_PRO_MONTHLY",
-  pro_annual: "STRIPE_PRICE_PRO_ANNUAL",
+  pro_annual: "STRIPE_PRO_ANNUAL",
   premium_monthly: "STRIPE_PREMIUM_MONTHLY",
   premium_annual: "STRIPE_PREMIUM_ANNUAL",
   addon: "STRIPE_PRICE_ADDON",

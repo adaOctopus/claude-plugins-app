@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StripeCheckoutButton } from "@/components/pricing/StripeCheckoutButton";
-import { DailyPassCheckoutButton } from "@/components/pricing/DailyPassCheckoutButton";
+import { StartFreeTrialButton } from "@/components/pricing/StartFreeTrialButton";
 import type { MarketplacePlugin } from "@/lib/marketplace-plugins";
-import { dailyPassPlan, formatTierPrice } from "@/lib/pricing-plans";
+import { formatTierPrice } from "@/lib/pricing-plans";
 import { LoginLink } from "@/components/auth/LoginLink";
 
 type InstallPaywallProps = {
@@ -14,7 +14,7 @@ type InstallPaywallProps = {
   errorMessage?: string;
 };
 
-/** Shown when email is verified but no active Pro subscription or Starter. */
+/** Shown when email is verified but no active Pro subscription or free trial. */
 export function InstallPaywall({
   plugin,
   email,
@@ -25,21 +25,21 @@ export function InstallPaywall({
     <Card className="mx-auto max-w-lg">
       <CardHeader>
         <CardTitle className="text-2xl">
-          {passExpired ? "Starter expired" : "Get access"}
+          {passExpired ? "Trial expired" : "Get access"}
         </CardTitle>
         <p className="text-sm text-charcoal-muted">
           Signed in as <span className="font-medium text-charcoal">{email}</span>.
           {passExpired ? (
             <>
               {" "}
-              Your 24-hour access window has ended. Buy Starter again or upgrade to Pro.
+              Your free trial has ended. Upgrade to Pro to keep using CoolPlugz.
             </>
           ) : (
             <>
               {" "}
-              {plugin.title} is included with coolplugz Pro — or buy a{" "}
-              <span className="font-medium text-charcoal">Starter ({dailyPassPlan.price})</span> to
-              try it once (1 task, 24h access).
+              {plugin.title} is included with CoolPlugz — start a{" "}
+              <span className="font-medium text-charcoal">7-day free trial</span> or subscribe to
+              Pro.
             </>
           )}
         </p>
@@ -50,9 +50,9 @@ export function InstallPaywall({
         )}
       </CardHeader>
       <CardContent className="space-y-3">
-        <DailyPassCheckoutButton variant="default">
-          {passExpired ? "Buy Starter again" : `Try Starter — ${dailyPassPlan.price}`}
-        </DailyPassCheckoutButton>
+        <StartFreeTrialButton variant="default">
+          {passExpired ? "Trial already used" : "Start free trial — 7 days"}
+        </StartFreeTrialButton>
         <StripeCheckoutButton tier="pro" billing="monthly" className="w-full" variant="outline">
           Subscribe to Pro — {formatTierPrice("pro", "monthly")}/mo
         </StripeCheckoutButton>

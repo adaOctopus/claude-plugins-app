@@ -79,44 +79,41 @@ After checkout, each customer receives a **private MCP endpoint**, for example:
 https://api.coolplugz.com/mcp/your-unique-key-here
 ```
 
-- **Starter** — 24-hour access, 1 full task
-- **Pro** — persistent URL for the billing period, 10 tasks/month included
+- **Free trial** — 7-day access, full integration stack
+- **Pro** — persistent URL for the billing period, unlimited orchestration
 - URLs are **not shared** — one key per account
 
 ### 2. Context fetching
 
-When you say **“Show my dashboard”** or **“Run”**, CoolPlugz:
+When you say **"Hi Coolplugz, run my tasks for the day"**, CoolPlugz:
 
 - Pulls open Jira tickets assigned to you
 - Scans linked GitHub repos, open PRs, and CI status
 - Reads Slack mentions and threads that need replies
 - Optionally syncs Notion docs linked to projects
 
-All of this lands in a **single dashboard view** inside the MCP response — no copy-paste between tools.
+All of this feeds into your **Claude Code session** — no copy-paste between tools.
 
-### 3. Prompt creation (CRISPE)
+### 3. Session orchestration
 
-Before execution, CoolPlugz builds a **structured prompt** from fetched context:
+CoolPlugz guides your Claude Code session with structured context and workflow steps:
 
 - **Context** — ticket description, acceptance criteria, related PRs
-- **Role** — senior engineer executing the ticket
-- **Instructions** — implementation steps derived from ticket + repo state
-- **Style** — your repo conventions, stack, and patterns
-- **Parameters** — scope limits, files to touch, CI constraints
-- **Examples** — similar merged PRs when available
+- **Workflow** — implementation steps derived from ticket + repo state
+- **Conventions** — your repo patterns, stack, and CI constraints
 
-You never write this prompt manually. CoolPlugz assembles it so Claude (or the execution layer) works from **ground truth**, not guesswork.
+You never assemble this manually. CoolPlugz orchestrates so Claude Code works from **ground truth**, not guesswork.
 
-### 4. Task execution & delivery
+### 4. Task delivery
 
-On **“Run”**, CoolPlugz orchestrates:
+CoolPlugz orchestrates Claude Code through:
 
 - Code changes and branch/PR creation
 - CI awareness and fix suggestions
 - Slack draft replies for stakeholders
 - Status updates ready to approve and send
 
-You stay in Claude. Approve & submit when ready.
+You stay in Claude Code. CoolPlugz keeps the session on track.
 
 ---
 
@@ -124,19 +121,10 @@ You stay in Claude. Approve & submit when ready.
 
 | Plan | Price | What you get |
 |------|-------|----------------|
-| **Starter** | $5 / task | 1 full task end-to-end, 24h MCP access — try CoolPlugz hands-off |
-| **Pro** | $47 / mo | 10 task credits / month, persistent MCP URL, top-ups available |
-| **Pro annual** | $397 / yr | Same as Pro, ~30% savings |
+| **Free trial** | $0 / 7 days | Full integration stack — Jira, GitHub, Notion, Slack, PR & CI workflow |
+| **Pro** | $17 / mo | Unlimited usage, multi-repo tasks, developer insights |
+| **Pro annual** | $147 / yr | Same as Pro, ~28% savings |
 | **Enterprise** | Custom | Multi-seat, CI/CD rollout, SSO — [contact sales](https://www.coolplugz.com/pricing) |
-
-### Credit top-ups (Pro & Starter customers)
-
-| Pack | Price | Runs |
-|------|-------|------|
-| Small | $10 | 5 bonus runs |
-| Large | $20 | 10 bonus runs |
-
-Bonus runs **never expire**. Top-ups appear in Manage Account after your first purchase.
 
 ### Referral program
 
@@ -144,21 +132,19 @@ Developers can earn **15% revenue share** when friends subscribe — friends get
 
 ---
 
-## Usage & task credits
+## Access model
 
-- Each **“Run”** that executes a full task counts as **one run**
-- **Starter:** 1 included run, 24h window
-- **Pro:** 10 included runs per billing period (resets monthly/annually)
-- **Top-ups:** bonus balance used after included runs are consumed
-- Runs are tracked in **Manage Account** on [coolplugz.com/app](https://www.coolplugz.com/app)
+- **Free trial:** 7 days, no credit card — one trial per account
+- **Pro:** unlimited orchestration while subscribed
+- Manage your plan and MCP setup at [coolplugz.com/app](https://www.coolplugz.com/app)
 
-CoolPlugz enforces fair-use server budgets per run so quality stays high without runaway cost.
+Usage caps (if any) are enforced by the MCP service — not tracked as credits in the web app.
 
 ---
 
 ## MCP setup — connect CoolPlugz to Claude
 
-After purchase, open your **install page** (linked from account email or `/premium/unique-mcp-url`). Copy your unique URL, then choose **web** or **desktop**.
+After starting your trial or subscribing, open your **install page** (linked from account or `/premium/unique-mcp-url`). Copy your unique URL, then choose **web** or **desktop**.
 
 ### Option A — Claude web (easiest)
 
@@ -257,7 +243,7 @@ Each paying user gets a **unique MCP key**. The website provisions the key after
 Use this README as the **single source of truth** for external messaging. Align all copy with:
 
 - **Tagline:** Ships merge-ready code and handles your Slack in minutes
-- **Starter pitch:** Finish one real task hands-off — $5 to try
+- **Trial pitch:** 7-day free trial — full integration stack, no card required
 - **Pro pitch:** 10 tasks/month for engineers shipping every day
 - **Emotional hooks:** less context switching, less AI fatigue, more mental energy
 - **Proof points:** CRISPE prompts, live Jira/GitHub/Slack sync, approve & submit workflow

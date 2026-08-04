@@ -76,11 +76,11 @@ function HeroChatBody() {
     <div className="flex flex-col gap-2.5">
       <div className="flex justify-end">
         <div className="max-w-[88%] rounded-xl rounded-tr-sm border border-border/50 bg-accent-sand px-2.5 py-1.5 text-[11px] font-normal leading-tight text-charcoal-muted sm:text-[12px]">
-          Hi <span className="font-medium text-charcoal">Cooplugz👋</span> Show my dashboard &{" "}
-          <span className="font-medium text-charcoal" style={{ fontStyle: "italic" }}>
+          Hi <span className="font-medium text-charcoal">Cooplugz👋</span> Please{" "}
+          {/* <span className="font-medium text-charcoal" style={{ fontStyle: "italic" }}>
             @RUN
-          </span>{" "}
-          my tasks. Thnx
+          </span>{" "} */}
+          run my tasks for today. Thnx
         </div>
       </div>
 
@@ -106,7 +106,7 @@ function HeroChatBody() {
             </div>
 
             <div className="space-y-2 p-3">
-              <RunLine icon={ShieldCheck} label="4 sources scanned, context fetched">
+              <RunLine icon={ShieldCheck} label="Context fetched - Jira, Github, Slack, Noti..">
                 <div className="flex gap-1">
                   {integrationSources.map(({ id, Mark }) => (
                     <span
@@ -119,24 +119,32 @@ function HeroChatBody() {
                 </div>
               </RunLine>
 
-              <RunLine icon={Wand2} label="Prompts written">
+              <RunLine icon={Wand2} label="Advanced Prompt Engineering Done">
                 <span className="rounded border border-[#7DD3C0]/40 bg-[#E8FAF6] px-2 py-0.5 text-[9px] font-bold text-[#0D9488]">
                   CRISPE
                 </span>
               </RunLine>
 
-              <RunLine icon={Zap} label="Github synced & CI pass">
+              
+
+              <RunLine icon={Zap} label="Github Repos/Branches found & CI pass">
                 <span className="text-[9px] font-semibold text-emerald-700">PR #847 open</span>
+              </RunLine>
+
+              <RunLine icon={GitPullRequest} label="Github Comments Reviewed and Resolved">
+                <span className="rounded border border-[#7DD3C0]/40 bg-[#E8FAF6] px-2 py-0.5 text-[9px] font-bold text-[#0D9488]">
+                  MERGE READY✅
+                </span>
               </RunLine>
 
               <SlackHandledCard compact />
 
-              <div className="flex items-center gap-1.5 pt-1">
+              {/* <div className="flex items-center gap-1.5 pt-1">
                 <ArrowRight className="h-3 w-3 shrink-0 text-[#0D9488]" strokeWidth={2.5} />
                 <DashboardShortlink />
-              </div>
+              </div> */}
 
-              <div className="flex gap-1.5 pt-1">
+              {/* <div className="flex gap-1.5 pt-1">
                 <button
                   type="button"
                   className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-emerald-500 px-3 py-2 text-[11px] font-semibold text-white shadow-sm"
@@ -150,7 +158,7 @@ function HeroChatBody() {
                 >
                   <XCircle className="h-3.5 w-3.5" strokeWidth={2} />
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

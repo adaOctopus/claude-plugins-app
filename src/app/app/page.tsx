@@ -1,17 +1,13 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Suspense } from "react";
 import { getSession } from "@/lib/auth";
-import { getMcpAccessContext } from "@/lib/mcp-access";
 import { getDailyPassStatus } from "@/lib/daily-pass";
 import { getFreeTrialStatus } from "@/lib/free-trial";
 import { getUserSubscription } from "@/lib/entitlements";
-import { getUserUsage, ensureUsageSyncedToMcp } from "@/lib/usage";
 import { connectDB } from "@/lib/db";
 import { Plugin } from "@/models/Plugin";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { UsageCreditsCard } from "@/components/account/UsageCreditsCard";
 import { LogoutButton } from "@/components/marketplace/DashboardActions";
 import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
@@ -19,7 +15,7 @@ import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 import { TROUBLESHOOTING_GUIDE_SLUG } from "@/lib/guides/registry";
 import { filterListedPlugins, requiresProSubscription } from "@/lib/marketplace-plugins";
 
-/** Logged-in account hub — subscription, plugins, sign out. */
+/** Logged-in account hub — subscription, MCP setup, plugins, sign out. */
 export default async function AppDashboardPage() {
   const session = await getSession();
   if (!session) redirect("/login?redirect=/app");
@@ -27,8 +23,6 @@ export default async function AppDashboardPage() {
   let subscription = null;
   let dailyStatus = null;
   let trialStatus = null;
-  let usage = null;
-  let accessContext = null;
   let plugins = filterListedPlugins(await getMarketplacePlugins());
 
   try {
@@ -36,25 +30,7 @@ export default async function AppDashboardPage() {
     subscription = await getUserSubscription(session.id);
     dailyStatus = await getDailyPassStatus(session.id);
     trialStatus = await getFreeTrialStatus(session.id);
-    accessContext = await getMcpAccessContext(session.id);
-    usage = await getUserUsage(session.id);
 
-    if (subscription) {
-      await ensureUsageSyncedToMcp(session.id, {
-        subscriptionPeriodEnd: subscription.currentPeriodEnd,
-      });
-      usage = await getUserUsage(session.id);
-    } else if (dailyStatus?.active && dailyStatus.expiresAt) {
-      await ensureUsageSyncedToMcp(session.id, {
-        dailyPassEnd: new Date(dailyStatus.expiresAt),
-      });
-      usage = await getUserUsage(session.id);
-    } else if (trialStatus?.used && trialStatus.endsAt) {
-      await ensureUsageSyncedToMcp(session.id, {
-        trialEnd: new Date(trialStatus.endsAt),
-      });
-      usage = await getUserUsage(session.id);
-    }
     const dbPlugins = await Plugin.find({ status: "published" });
     if (dbPlugins.length > 0) {
       plugins = filterListedPlugins(
@@ -75,43 +51,16 @@ export default async function AppDashboardPage() {
       </h1>
       <p className="mt-2 text-charcoal-muted">{session.email}</p>
 
-      {accessContext?.showUsageCard && (
-        <Suspense fallback={null}>
-          <UsageCreditsCard
-            initialUsage={usage}
-            canTopUp={accessContext.canPurchaseTopUp}
-            usageMode={accessContext.mode}
-          />
-        </Suspense>
-      )}
-
-      {subscription && (
-        <Card className="mt-8">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Subscription</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-charcoal-muted">
-              {subscription.tier} · {subscription.plan} · active until{" "}
-              {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
-            </p>
-            <CancelSubscriptionButton
-              currentPeriodEnd={subscription.currentPeriodEnd.toISOString()}
-            />
-          </CardContent>
-        </Card>
-      )}
-
-      {!subscription && dailyStatus?.active && (
+      {!subscription && trialStatus?.active && (
         <Card className="mt-8 border-[#7DD3C0]/40 bg-[#E8FAF6]/40">
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Starter</CardTitle>
+            <CardTitle className="text-lg">Free trial</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-charcoal-muted">
-              Your MCP URL expires{" "}
-              {dailyStatus.expiresAt
-                ? new Date(dailyStatus.expiresAt).toLocaleString(undefined, {
+              Your trial ends{" "}
+              {trialStatus.endsAt
+                ? new Date(trialStatus.endsAt).toLocaleString(undefined, {
                     dateStyle: "medium",
                     timeStyle: "short",
                   })
@@ -125,42 +74,30 @@ export default async function AppDashboardPage() {
         </Card>
       )}
 
-      {!subscription && dailyStatus?.startedAt && !dailyStatus?.active && (
+      {!subscription && trialStatus?.used && !trialStatus?.active && (
         <Card className="mt-8 border-amber-200/60 bg-amber-50/40">
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg">Starter used</CardTitle>
+            <CardTitle className="text-lg">Trial ended</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-charcoal-muted">
-              Your 24-hour access window has expired.{" "}
-              {(accessContext?.totalRunsRemaining ?? 0) > 0 ? (
-                <>
-                  You still have runs left —{" "}
-                  <Link href={UNIQUE_MCP_URL_PATH} className="font-medium text-charcoal underline">
-                    open MCP setup
-                  </Link>
-                  .
-                </>
-              ) : (
-                <>
-                  <Link href="/pricing" className="font-medium text-charcoal underline">
-                    Buy Starter again
-                  </Link>{" "}
-                  or upgrade to Pro.
-                </>
-              )}
+              Your 7-day free trial has ended.{" "}
+              <Link href="/pricing" className="font-medium text-charcoal underline">
+                Upgrade to Pro
+              </Link>{" "}
+              to keep orchestrating Claude Code.
             </p>
           </CardContent>
         </Card>
       )}
 
-      {!subscription && !dailyStatus?.startedAt && !dailyStatus?.active && !trialStatus?.used && (
+      {!subscription && !trialStatus?.used && !trialStatus?.active && (
         <Card className="mt-8">
           <CardContent className="pt-6">
             <p className="text-sm text-charcoal-muted">
-              No paid plan yet.{" "}
+              No plan yet.{" "}
               <Link href="/pricing" className="font-medium text-charcoal underline">
-                Try Starter or get Pro
+                Start your free trial or get Pro
               </Link>
               .
             </p>
@@ -198,22 +135,34 @@ export default async function AppDashboardPage() {
       </div>
 
       <p className="mt-10 rounded-xl border border-border/80 bg-accent-sage/50 px-4 py-3 text-sm leading-relaxed text-charcoal-muted">
-        Hitting any blockers with Coolplugz — Slack API, GitHub SSO, or CI loops?{" "}
+        Hitting any blockers with Coolplugz?{" "}
         <Link
           href={`/guides/${TROUBLESHOOTING_GUIDE_SLUG}`}
           className="font-medium text-charcoal underline underline-offset-2"
         >
           Check our troubleshooting guide
-        </Link>{" "}
-        or browse{" "}
+        </Link>
+        , browse{" "}
         <Link href="/guides" className="font-medium text-charcoal underline underline-offset-2">
           all developer guides
         </Link>
+        , or{" "}
+        <a
+          href="mailto:cto@coolplugz.com"
+          className="font-medium text-charcoal underline underline-offset-2"
+        >
+          reach out
+        </a>
         .
       </p>
 
-      <div className="mt-10 border-t border-border pt-8">
+      <div className="mt-10 flex flex-col gap-6 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
         <LogoutButton />
+        {subscription ? (
+          <CancelSubscriptionButton
+            currentPeriodEnd={subscription.currentPeriodEnd.toISOString()}
+          />
+        ) : null}
       </div>
     </div>
   );

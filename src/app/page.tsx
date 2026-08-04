@@ -23,13 +23,13 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <HowItWorksStrip />
+      {/* <HowItWorksStrip /> */}
       <EngineerProblemsSection />
       {/* <BenefitsSection /> */}
       <DashboardSection />
       <MakeMoneySection />
      
-      <ChatTagsSection />
+      {/* <ChatTagsSection /> */}
       {/* <MarketplaceSection /> */}
       {/* <PluginMarketplaceSection /> */}
       <ComingSoonSection />

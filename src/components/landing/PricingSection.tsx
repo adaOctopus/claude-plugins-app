@@ -25,15 +25,15 @@ function PricingSectionContent() {
   );
 }
 
-/** Pricing section — heading, billing toggle, Starter + Pro + Enterprise cards. */
+/** Pricing section — heading, billing toggle, Trial + Pro + Enterprise cards. */
 export function PricingSection() {
   return (
     <section id="pricing" className="scroll-mt-28 border-t border-border/60 px-4 pt-12 pb-20 md:px-8 md:pt-14 md:pb-24">
       <div className="mx-auto max-w-6xl text-center">
         <h2 className="font-serif text-4xl text-charcoal md:text-6xl">Pricing</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
+        {/* <p className="mx-auto mt-4 max-w-2xl text-sm text-charcoal-muted md:text-base">
           Enjoy CoolPlugz with the <span className="font-medium text-charcoal">$5 Starter</span> or go <span className="font-medium text-charcoal">Pro</span> for daily code shipping.
-        </p>
+        </p> */}
 
         <Suspense fallback={null}>
           <PromoCodeProvider>

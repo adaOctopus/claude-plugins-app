@@ -1,7 +1,7 @@
 import type { Guide } from "@/lib/guides/types";
+import { ORCHESTRATION_CTA } from "@/lib/product-positioning";
 
-const ctaParagraph =
-  "coolplugz is a Claude plugin (MCP) that gathers context from Jira, Slack, GitHub, and Notion, runs CRISPE-engineered prompts automatically, ships merge-ready code with CI checked, and drafts Slack replies — you only Approve & submit or Reject & redo.";
+const ctaParagraph = ORCHESTRATION_CTA;
 
 export const phase1Guides: Guide[] = [
   {

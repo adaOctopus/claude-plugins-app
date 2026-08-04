@@ -8,6 +8,9 @@ import {
   hasActiveDailyPass,
 } from "@/lib/daily-pass";
 import {
+  assertCanStartFreeTrial,
+  FREE_TRIAL_MS,
+  getFreeTrialStatus,
   hasActiveFreeTrial,
 } from "@/lib/free-trial";
 import { hasActiveSubscription } from "@/lib/entitlements";
@@ -307,12 +310,44 @@ export async function provisionDailyPassForUser(
   return { mcpUrl, provisioned: true, expiresAt: user.dailyPassExpiresAt };
 }
 
-/** @deprecated Legacy free trial — no longer offered; existing rows only. */
+/** Card-free 7-day trial — provisions MCP URL without usage quotas. */
 export async function provisionFreeTrialForUser(
   userId: string,
   label?: string
 ): Promise<ProvisionCoolplugzResult> {
-  throw new Error("Free trial is no longer available. Buy Starter or a Pro subscription.");
+  await connectDB();
+
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  await assertCanStartFreeTrial(userId);
+
+  const trialStatus = await getFreeTrialStatus(userId);
+  if (trialStatus.active && user.mcpUrl) {
+    return {
+      mcpUrl: user.mcpUrl,
+      provisioned: false,
+      expiresAt: trialStatus.endsAt,
+    };
+  }
+
+  const ttlHours = FREE_TRIAL_MS / (60 * 60 * 1000);
+  const { mcpUrl, expiresAt } = await callCoolplugzProvisionApi({
+    email: user.email,
+    tier: "trial",
+    label,
+    ttlHours,
+  });
+
+  const now = new Date();
+  user.mcpUrl = mcpUrl;
+  user.freeTrialStartedAt = now;
+  user.freeTrialEndsAt = expiresAt ?? new Date(now.getTime() + FREE_TRIAL_MS);
+  await user.save();
+
+  return { mcpUrl, provisioned: true, expiresAt: user.freeTrialEndsAt };
 }
 
 /** True when user is on paid One Run (not Pro). */
@@ -343,12 +378,6 @@ export async function getUserMcpUrl(userId: string): Promise<string | null> {
   }
 
   if (user.freeTrialEndsAt && user.freeTrialEndsAt.getTime() > Date.now()) {
-    return user.mcpUrl;
-  }
-
-  const { getUserUsage } = await import("@/lib/usage");
-  const usage = await getUserUsage(userId);
-  if (usage && usage.totalRunsRemaining > 0) {
     return user.mcpUrl;
   }
 

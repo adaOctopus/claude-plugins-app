@@ -363,13 +363,13 @@ const problems: ProblemCard[] = engineerProblemsSeoItems.map((item, index) => {
 
   const titles = [
     "Context switching kills focus",
-    "CI trial-and-error loops",
+    "CI fails and trial-and-error loops",
     "GitHub ↔ assistant back-and-forth",
     "Eliminates Slack anxiety",
   ];
   const fixes = [
     "GitHub, Slack, Jira, CI - now all gathered inside Claude ❋",
-    "CI checks tested in the CoolPlugz env until green✅",
+    "Claude Code pointed to CI checks until green✅",
     "Reviews comments and failed CI checks fixed inside the same run.",
     "Thread mentions scanned; tone-matched drafted messages.",
   ];

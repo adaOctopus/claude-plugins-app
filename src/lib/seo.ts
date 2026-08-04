@@ -17,12 +17,12 @@ export const OG_IMAGE = {
 
 /** X/Twitter card descriptions should stay under ~200 chars. */
 export const TWITTER_CARD_DESCRIPTION =
-  "Claude plugin for devs: Jira, Slack, GitHub & Notion context, advanced prompting, merge-ready code, and Slack handling inside Claude.";
+  "Orchestration layer for Claude Code: Jira, Slack, GitHub & Notion context, guided workflows — Claude Code executes in your environment.";
 
 export const SEO_DEFAULTS = {
   title: "coolplugz - Get engineering work done without AI fatigue",
   description:
-    "Claude plugin for devs: gathers context from Jira, Slack, GitHub & Notion, writes great prompts, ships merge-ready code & handles your Slack.",
+    "Orchestration layer for Claude Code: gathers context from Jira, Slack, GitHub & Notion and guides your session — Claude Code executes in your environment.",
   keywords: [
     "Claude plugin for developers",
     "Claude plugin for engineers",
