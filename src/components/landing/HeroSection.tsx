@@ -15,10 +15,10 @@ export function HeroSection() {
           <h1 className="hero-headline max-w-xl font-serif text-[1.555rem] leading-[1.15] text-charcoal max-sm:max-w-none sm:text-[2rem] md:text-3xl md:leading-[1.12] lg:text-[2.65em] lg:leading-[1.1]">
             <span className="block whitespace-nowrap">Tired of babysitting coding</span>
             <span className="block whitespace-nowrap">
-             agents and switching tools
+             agents, fixing CI and
             </span>
             <span className="block whitespace-nowrap">
-            all day?<span style={{ fontSize: '0.9em', marginLeft: '-0.1em' }}>😮‍💨</span>
+            switching tools all day?<span style={{ fontSize: '0.9em', marginLeft: '-0.1em' }}>😮‍💨</span>
             {/* Try Coolplugz<span style={{ fontSize: '0.9em', marginLeft: '-0.2em' }}>😎</span> */}
             {/* <span style={{ fontSize: '1.0em', marginLeft: '-0.3em' }}>🔌</span> */}
             </span>
@@ -32,7 +32,7 @@ export function HeroSection() {
           </p>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
-           An orchestrator that ensures Claude Code delivers your coding tasks without your constant supervision.</p>
+           An orchestrator that ensures Claude Code completes your coding tasks without your constant supervision.</p>
           <div className="mt-8">
             <CtaMonoBadge />
           </div>
