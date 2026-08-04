@@ -108,7 +108,7 @@ export const trialPlan = {
   period: "/7 days",
   badge: "No Card Required",
   highlightLabel: "",
-  tagline: "Guide Claude Code through your stack — no card required",
+  tagline: "No more babysitting Claude Code",
   durationNote: "",
   featureHeader: "Includes:",
   features: trialPlanFeatures,

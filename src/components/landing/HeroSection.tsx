@@ -26,13 +26,13 @@ export function HeroSection() {
           </h1>
 {/* <span style={{ fontSize: '0.8em', marginLeft: '-0.2em' }}>🍼</span> */}
           <p className="mt-2 text-xs font-normal uppercase tracking-wide text-charcoal-muted/90">
-          TRY COOLPLUGZ · THE BEST TOOL FOR DEVS
+          TRY THE BEST CLAUDE CODE TOOL FOR DEVS
           {/* <span className="inline text-[0.8em] -ml-[0.5em]">🔋</span> */}
           
           </p>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
-           An orchestration layer that ensures Claude Code delivers your coding tasks without your supervision.</p>
+           An orchestrator that ensures Claude Code delivers your coding tasks without your constant supervision.</p>
           <div className="mt-8">
             <CtaMonoBadge />
           </div>
