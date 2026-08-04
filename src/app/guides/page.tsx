@@ -27,7 +27,7 @@ export default function GuidesIndexPage() {
         Guides for remote developers
       </h1>
       <p className="mt-4 max-w-2xl text-charcoal-muted">
-        Make money with Claude, automate client work, AI fatigue, context switching — written
+        Make money with Claude, automate client work, AI fatigue, context switching - written
         honestly for developers who want monthly cash without living in Slack.
       </p>
 
