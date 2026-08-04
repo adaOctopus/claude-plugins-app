@@ -17,12 +17,12 @@ export const OG_IMAGE = {
 
 /** X/Twitter card descriptions should stay under ~200 chars. */
 export const TWITTER_CARD_DESCRIPTION =
-  "Orchestration layer for Claude Code: Jira, Slack, GitHub & Notion context, guided workflows — Claude Code executes in your environment.";
+  "An orchestration layer that guides Claude Code to deliver your coding tasks - context, workflows, and CI without your constant supervision.";
 
 export const SEO_DEFAULTS = {
   title: "coolplugz - Get engineering work done without AI fatigue",
   description:
-    "Orchestration layer for Claude Code: gathers context from Jira, Slack, GitHub & Notion and guides your session — Claude Code executes in your environment.",
+    "An orchestration layer that guides Claude Code to deliver your coding tasks - context, workflows, and CI without your constant supervision.",
   keywords: [
     "Claude plugin for developers",
     "Claude plugin for engineers",
@@ -55,6 +55,11 @@ export const SEO_DEFAULTS = {
     "make money with claude",
     "how to make money with claude",
     "make money with AI",
+    "orchestration layer for Claude Code",
+    "deliver coding tasks with Claude Code",
+    "no babysitting Claude Code",
+    "Claude Code without supervision",
+    "Claude Code without my constant supervision",
     "generate passive income with AI",
     "generate passive income with Claude",
     "passive income with AI",

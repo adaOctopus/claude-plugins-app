@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 const flagship = {
   title: "Context Engineer",
   description:
-    "One Claude plugin for engineers. An orchestration layer that guides Claude Code through your stack - context, workflows, and delivery without babysitting.",
+    "An orchestration layer that guides Claude Code to deliver your coding tasks - context, workflows, and delivery without babysitting.",
   price: "Included in $17/mo plan",
 };
 

@@ -36,7 +36,7 @@ export const faqItems: {
   {
     question: "Do I write or copy prompts myself?",
     answer:
-      "No. CoolPlugz is an orchestration layer — it gathers context, structures workflows, and guides your Claude Code session. You don't write prompts or copy-paste between tools. Claude Code executes in your environment; CoolPlugz keeps the session on track.",
+      "No. CoolPlugz is an orchestration layer - it gathers context, structures workflows, and guides your Claude Code session. You don't write prompts or copy-paste between tools. Claude Code executes in your environment; CoolPlugz keeps the session on track.",
   },
   {
     question: "What does Approve & submit vs Reject & redo actually mean?",
