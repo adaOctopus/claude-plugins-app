@@ -10,7 +10,7 @@ export const freedomGuides: Guide[] = [
     title: "How to Make Money with Claude as a Developer (Without the Guru BS)",
     metaTitle: "Make Money with Claude as a Developer",
     metaDescription:
-      "Honest guide — how developers actually use Claude to keep client retainers, ship faster, and buy back hours. Not passive income fantasy.",
+      "Honest guide - how developers actually use Claude to keep client retainers, ship faster, and buy back hours. Not passive income fantasy.",
     keywords: [
       "make money with claude",
       "make money with AI developer",
@@ -97,10 +97,10 @@ export const freedomGuides: Guide[] = [
   },
   {
     slug: "claude-automation-for-freelancers",
-    title: "Claude Automation for Freelancers — What Actually Works",
+    title: "Claude Automation for Freelancers - What Actually Works",
     metaTitle: "Claude Automation for Freelancers",
     metaDescription:
-      "Claude automation for freelance developers — beyond prompt templates. Stack-connected MCP workflows that run client delivery in the background.",
+      "Claude automation for freelance developers - beyond prompt templates. Stack-connected MCP workflows that run client delivery in the background.",
     keywords: [
       "claude automation",
       "automate with claude",
@@ -386,8 +386,8 @@ export const freedomGuides: Guide[] = [
   },
   {
     slug: "multiple-clients-parallel-claude",
-    title: "Multiple Clients in Parallel with Claude — Break the Time-for-Money Cap",
-    metaTitle: "Multiple Clients with Claude — Work Less, Earn More",
+    title: "Multiple Clients in Parallel with Claude - Break the Time-for-Money Cap",
+    metaTitle: "Multiple Clients with Claude - Work Less, Earn More",
     metaDescription:
       "Run multiple client retainers in parallel without bottlenecks — stack-connected Claude automation that delivers quality work without tying your hours to each client.",
     keywords: [
@@ -479,8 +479,8 @@ export const freedomGuides: Guide[] = [
   },
   {
     slug: "passive-income-refer-coolplugz",
-    title: "Generate Passive Income with Claude and AI — Refer CoolPlugz to Developer Friends",
-    metaTitle: "Passive Income with Claude — Refer CoolPlugz",
+    title: "Generate Passive Income with Claude and AI - Refer CoolPlugz to Developer Friends",
+    metaTitle: "Passive Income with Claude - Refer CoolPlugz",
     metaDescription:
       "Make money with Claude and AI by sharing CoolPlugz. Generate passive income with a unique referral link — 15% revenue share, 15% off for friends.",
     keywords: [
@@ -553,9 +553,9 @@ export const freedomGuides: Guide[] = [
           {
             type: "ul",
             items: [
-              "Not a get-rich-quick scheme — earnings depend on real subscriptions",
-              "Not self-referral — your own email cannot use your code",
-              "Not instant payouts — we settle manually while the program is new",
+              "Not a get-rich-quick scheme - earnings depend on real subscriptions",
+              "Not self-referral - your own email cannot use your code",
+              "Not instant payouts - we settle manually while the program is new",
             ],
           },
         ],

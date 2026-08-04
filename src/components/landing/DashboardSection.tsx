@@ -42,7 +42,7 @@ export function DashboardSection() {
         <Badge variant="secondary" className="mb-4">
           Everything From Inside Claude
         </Badge>
-        <h2 className="max-w-2xl font-serif text-[1.375rem] leading-[1.12] text-charcoal max-sm:whitespace-nowrap sm:text-3xl sm:leading-tight md:text-5xl">
+        <h2 className="max-w-2xl font-serif text-[1.395rem] leading-[1.12] text-charcoal max-sm:whitespace-nowrap sm:text-3xl sm:leading-tight md:text-5xl">
           <span style={{ fontStyle: "italic", fontWeight: "600" }}>Bye-bye</span> context switching👋
         </h2>
 

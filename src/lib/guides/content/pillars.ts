@@ -9,7 +9,7 @@ export const pillarGuides: Guide[] = [
     title: "AI Fatigue for Developers: Causes, Symptoms, and Fixes",
     metaTitle: "AI Fatigue for Developers — Causes and Fixes",
     metaDescription:
-      "A complete guide to AI fatigue for remote engineers — Slack overload, CI loops, LLM spirals, prompt overhead, and systemic fixes.",
+      "A complete guide to AI fatigue for remote engineers - Slack overload, CI loops, LLM spirals, prompt overhead, and systemic fixes.",
     keywords: ["AI fatigue", "AI fatigue remote engineers", "AI fatigue developers"],
     category: "pillar",
     directAnswer:
@@ -137,9 +137,9 @@ export const pillarGuides: Guide[] = [
   {
     slug: "context-switching-remote-engineering",
     title: "Context Switching in Remote Engineering Teams",
-    metaTitle: "Context Switching Remote Work — Engineering",
+    metaTitle: "Context Switching Remote Work - Engineering",
     metaDescription:
-      "What context switching costs remote engineering teams — by tool (Slack, Jira, GitHub, CI) and how to fix it without willpower alone.",
+      "What context switching costs remote engineering teams - by tool (Slack, Jira, GitHub, CI) and how to fix it without willpower alone.",
     keywords: [
       "context switching remote work",
       "context switching cost developers",

@@ -32,7 +32,7 @@ export default function GuidesIndexPage() {
       </p>
 
       <GuideGroup title="Money, freedom & Claude automation" items={freedom} />
-      <GuideGroup title="Start here — pillar guides" items={pillars} />
+      <GuideGroup title="Start here - pillar guides" items={pillars} />
       <GuideGroup title="Topic guides" items={guides} />
       <GuideGroup title="Personas & categories" items={other} />
 
