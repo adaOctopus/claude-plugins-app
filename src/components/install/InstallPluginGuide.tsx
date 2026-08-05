@@ -54,7 +54,7 @@ export function InstallPluginGuide({
               valid until expiry.
             </>
           ) : (
-            <>Add your unique MCP URL to Claude — one step, either web or desktop.</>
+            <>Add your unique MCP URL to Claude Code and follow the quick setup instructions.</>
           )}
         </p>
         {(isTrial || isLegacyDaily) && passEndLabel && (
@@ -91,7 +91,7 @@ export function InstallPluginGuide({
             {guide.commands.map((item) => (
               <li key={item.command} className="text-sm text-charcoal-muted">
                 <span className="font-medium text-charcoal">&quot;{item.command}&quot;</span>
-                {" — "}
+                {" - "}
                 {item.description}
               </li>
             ))}

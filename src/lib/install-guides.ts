@@ -42,13 +42,13 @@ export const COOLPLUGZ_GETTING_STARTED = {
   connectTitle: "Connect your tools 🔑",
   connectIntro:
     "On first use, CoolPlugz will walk you through connecting Jira, GitHub, Notion, and Slack inside Claude Code when needed.",
-  usageTitle: "What to type inside Claude ❤️",
-  usageIntro: "Plain English — one phrase to get started:",
+  usageTitle: "What to do inside Claude after setup⚡",
+  usageIntro: "Plain English - one phrase to get started:",
   commands: [
     {
-      command: "Hi Coolplugz, run my tasks for the day",
+      command: "Hi Coolplugz, complete my tasks for the day",
       description:
-        "Syncs your tools and guides Claude Code through your open work — no IDs, no config.",
+        "Syncs your tools and guides Claude Code through your open work - no IDs, no config.",
     },
   ] satisfies CoolplugzCommand[],
   usageFooter: "Connect once when prompted; CoolPlugz orchestrates from there.",
