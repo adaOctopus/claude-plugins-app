@@ -6,13 +6,14 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   AtSign,
-  Ban,
   CheckCircle2,
-  ClipboardPaste,
+  FolderOpen,
   GitPullRequest,
+  Layers,
   LayoutDashboard,
   MessageSquare,
   Mic,
+  Repeat,
   XCircle,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -130,46 +131,55 @@ function ContextSwitchVisual() {
   );
 }
 
-/** CI fail → copy-paste loop vs checks green in env. */
-function CiLoopVisual() {
-  const GitHubMark = integrationSources.find((s) => s.id === "github")!.Mark;
+/** New project → re-brief Claude vs one orchestration across repos. */
+function ProjectOrchestrationVisual() {
+  const projects = ["A", "B", "C"];
 
   return (
     <BeforeAfterShell
       before={
         <div className="flex w-full min-w-0 flex-col items-center gap-1">
-          <GitHubMark className="h-3.5 w-3.5 opacity-70" aria-hidden />
-          <div className="flex flex-wrap items-center justify-center gap-0.5">
-            <XCircle className="h-3 w-3 text-red-500" strokeWidth={2.5} aria-hidden />
-            <span className="rounded bg-red-50 px-1 py-0.5 text-[7px] font-mono text-red-600 min-[375px]:text-[6px]">
-              test fail
-            </span>
+          <div className="flex w-full max-w-full flex-col gap-0.5">
+            {projects.map((label) => (
+              <div
+                key={label}
+                className="flex items-center gap-1 rounded border border-border/70 bg-white/70 px-1 py-0.5"
+              >
+                <FolderOpen className="h-2.5 w-2.5 shrink-0 text-charcoal/45" strokeWidth={2} aria-hidden />
+                <span className="text-[6px] font-semibold text-charcoal-muted min-[375px]:text-[5px]">
+                  Proj {label}
+                </span>
+                <span className="ml-auto truncate text-[6px] italic text-charcoal/90 min-[375px]:text-[5px]">
+                  explain stack again…
+                </span>
+              </div>
+            ))}
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-0.5 text-charcoal/30">
-            <ClipboardPaste className="h-2.5 w-2.5 shrink-0" strokeWidth={2} aria-hidden />
-            <span className="text-center text-[7px] min-[375px]:text-[6px]">→ fix → push → repeat</span>
-          </div>
-          <Ban className="h-3 w-3 text-charcoal/25" strokeWidth={2} aria-hidden />
+          <Repeat className="h-3 w-3 text-charcoal/30" strokeWidth={2} aria-hidden />
+          <span className="text-center uppercase text-[7px] font-medium text-charcoal-muted min-[375px]:text-[6px]">
+            Repeating yourself every new project
+          </span>
         </div>
       }
       after={
         <div className="flex w-full min-w-0 flex-col items-center gap-1">
-          <GitHubMark className="h-3.5 w-3.5" aria-hidden />
-          <div className="flex flex-wrap items-center justify-center gap-0.5">
-            {["lint", "test", "build"].map((check) => (
+          <div className="flex items-center gap-0.5 rounded-full border border-[#7DD3C0]/40 bg-[#E8FAF6] px-1.5 py-0.5">
+            <Layers className="h-2.5 w-2.5 text-[#0D9488]" strokeWidth={2} aria-hidden />
+            <span className="text-[7px] font-bold text-[#0D9488] min-[375px]:text-[6px]">coolplugz</span>
+          </div>
+          <div className="flex w-full max-w-full items-center justify-center gap-0.5">
+            {projects.map((label) => (
               <span
-                key={check}
-                className="inline-flex items-center gap-px rounded border border-emerald-200/80 bg-emerald-50 px-0.5 py-px"
+                key={label}
+                className="flex flex-col items-center gap-px rounded border border-[#7DD3C0]/30 bg-white/80 px-1 py-0.5"
               >
-                <CheckCircle2 className="h-2 w-2 text-emerald-600" strokeWidth={2.5} aria-hidden />
-                <span className="font-mono text-[5px] font-semibold uppercase text-emerald-700 min-[375px]:text-[4px]">
-                  {check}
-                </span>
+                <FolderOpen className="h-2 w-2 text-[#0D9488]" strokeWidth={2} aria-hidden />
+                <span className="text-[5px] font-semibold text-charcoal min-[375px]:text-[4px]">{label}</span>
               </span>
             ))}
           </div>
           <span className="text-[8px] font-bold uppercase text-[#0D9488] min-[375px]:text-[7px]">
-            Green in env
+            PERSISTENT ORCHESTRATION
           </span>
         </div>
       }
@@ -344,7 +354,7 @@ function GlassProblemCard({
 const problems: ProblemCard[] = engineerProblemsSeoItems.map((item, index) => {
   const visuals = [
     <ContextSwitchVisual key="context" />,
-    <CiLoopVisual key="ci" />,
+    <ProjectOrchestrationVisual key="orchestration" />,
     <GitHubPingPongVisual key="github" />,
     <SlackAnxietyVisual key="slack" />,
   ];
@@ -363,15 +373,15 @@ const problems: ProblemCard[] = engineerProblemsSeoItems.map((item, index) => {
 
   const titles = [
     "Context switching kills focus",
-    "CI fails and trial-and-error loops",
-    "GitHub ↔ assistant back-and-forth",
-    "Eliminates Slack anxiety",
+    "Repeating context & instructions exhausts you",
+    "GitHub ↔ CI fixes ↔ coding agent looping",
+    "Binge-checking Slack stresses you out",
   ];
   const fixes = [
     "GitHub, Slack, Jira, CI - now all gathered inside Claude ❋",
-    "Claude Code pointed to CI checks until green✅",
-    "Reviews comments and failed CI checks fixed inside the same run.",
-    "Thread mentions scanned; tone-matched drafted messages.",
+    "Coolplugz orchestration is always there with you and customizable.",
+    "Reviews, resolving comments and CI checks are always in context.",
+    "Thread mentions auto-scanned and tone-matched drafted messages.",
   ];
 
   return {
@@ -427,7 +437,7 @@ export function EngineerProblemsSection() {
         >
           {[
             { label: "Less context switching", emoji: "⚡" },
-            { label: "CI without loops", emoji: "✅" },
+            { label: "Orchestration reuse", emoji: "🔁" },
             { label: "No Slack dread", emoji: "😌" },
           ].map(({ label, emoji }) => (
             <span

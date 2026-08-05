@@ -54,7 +54,7 @@ export function InstallPluginGuide({
               valid until expiry.
             </>
           ) : (
-            <>Add your unique MCP URL to Claude Code and follow the quick setup instructions.</>
+            <>Add your unique MCP URL to Claude Code and enjoy.</>
           )}
         </p>
         {(isTrial || isLegacyDaily) && passEndLabel && (

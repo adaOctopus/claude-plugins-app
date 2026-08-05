@@ -18,7 +18,7 @@ export function HeroSection() {
              agents, fixing CI and
             </span>
             <span className="block whitespace-nowrap">
-            switching tools all day?<span style={{ fontSize: '0.9em', marginLeft: '-0.1em' }}>😮‍💨</span>
+            context switching all day?<span style={{ fontSize: '0.9em', marginLeft: '-0.1em' }}>😮‍💨</span>
             {/* Try Coolplugz<span style={{ fontSize: '0.9em', marginLeft: '-0.2em' }}>😎</span> */}
             {/* <span style={{ fontSize: '1.0em', marginLeft: '-0.3em' }}>🔌</span> */}
             </span>

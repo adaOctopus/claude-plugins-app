@@ -15,13 +15,13 @@ export const engineerProblemsSeoItems: EngineerProblemSeoItem[] = [
     name: "Stop context switching between dev tools",
     description:
       "CoolPlugz gathers GitHub, Slack, Jira, CI, and docs in one Claude panel so remote engineers avoid tab-hopping and save mental energy.",
-    payoff: "More energy",
+    payoff: "Save Energy",
   },
   {
-    id: "ci-loops",
-    name: "End CI trial-and-error loops",
+    id: "orchestration-reuse",
+    name: "Stop re-briefing Claude Code on every new project",
     description:
-      "Checks run in the CoolPlugz environment until green—no more copy-pasting failed CI logs into your coding assistant.",
+      "CoolPlugz keeps your orchestration playbook across repos-no repeating how Claude Code should approach stack, CI, and workflow from scratch each time.",
     payoff: "Save hours",
   },
   {
@@ -43,5 +43,5 @@ export const engineerProblemsSeoItems: EngineerProblemSeoItem[] = [
 export const engineerProblemsSectionSchema = {
   name: "Problems CoolPlugz solves for remote AI-native engineers",
   description:
-    "CoolPlugz helps developers ship from Claude with less context switching, fewer CI loops, less GitHub ping-pong, and less Slack anxiety.",
+    "CoolPlugz helps developers ship from Claude with less context switching, reusable orchestration across projects, less GitHub ping-pong, and less Slack anxiety.",
 };
