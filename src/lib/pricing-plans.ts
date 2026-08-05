@@ -44,20 +44,16 @@ export const tierPricing = {
 
 export const trialPlanFeatures: PricingFeature[] = [
   { label: "Jira + GitHub + Notion + Slack integration" },
-  { label: "PR workflow: branches, CI checks & review comments" },
+  { label: "Complete PR workflow: branch finder, CI fixes & review comments" },
   { label: "Unlimited usage", excluded: true },
 ];
 
 /** Full Pro card list — every trial feature plus paid-only items. */
 export const proPlanFeatures: PricingFeature[] = [
-  { label: "Jira + GitHub + Notion + Slack integration" },
-  { label: "Smart branch detection" },
-  { label: "Push verification via GitHub API" },
-  { label: "PR creation & CI status checks" },
-  { label: "PR review comment resolution" },
-  { label: "Unlimited usage" },
-  { label: "Tasks with multiple repos covered" },
-  { label: "Developer insights" },
+  { label: "Unlimited task execution & Coolplugz MCP usage" },
+   { label: "Persistent orchestration across all your tasks and projects" },
+  { label: "Customize the orchestrator with your own instructions" },
+  { label: "Unique Developer insights report" },
   // { label: "Persistent MCP access while subscribed" },
   // { label: "Priority Claude Code session orchestration" },
 ];
@@ -126,7 +122,7 @@ export const proPlan = {
   name: "Pro",
   badge: "Recommended",
   tagline: "Stay on top of your work effortlessly",
-  featureHeader: "Includes:",
+  featureHeader: "Everything in free plus:",
   features: proPlanFeatures,
   cta: "GET PRO",
 };
