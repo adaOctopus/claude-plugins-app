@@ -106,12 +106,12 @@ export default async function AppDashboardPage() {
       )}
 
       <div className="mt-10">
-        <h2 className="font-serif text-2xl font-semibold text-charcoal">Your plugins</h2>
+        <h2 className="font-serif text-2xl font-semibold text-charcoal">Your tools</h2>
         <div className="mt-4 space-y-4">
           {plugins.map((plugin) => (
             <Card key={plugin.slug}>
               <CardHeader className="pb-2">
-                <CardTitle className="text-lg">{plugin.title}</CardTitle>
+                <CardTitle className="text-lg">Best Claude Code Orchestrator for Developers</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-sm text-charcoal-muted">{plugin.description}</p>

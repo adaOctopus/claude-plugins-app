@@ -32,7 +32,7 @@ const REMOVED_SLUGS = ["slack-fetch", "notion-fetch", "jira-fetch"];
 const PLUGINS = [
   {
     slug: "context-engineer",
-    title: "Context Engineer Autopilot",
+    title: "Best Claude Code Orchestrator for DEVS",
     description:
       "Full-stack context for engineers. Jira, Slack, GitHub, Notion - code, CI, and Slack drafts in one run.",
     category: "engineering",
