@@ -19,6 +19,8 @@ type GenerateResponse = {
   discountPercent: number;
   revenueSharePercent: number;
   created: boolean;
+  alreadyExists?: boolean;
+  message?: string;
   stats: ReferralStats;
   error?: string;
 };
@@ -117,6 +119,20 @@ export function ReferralGenerator({ embedded = false }: ReferralGeneratorProps) 
         </form>
       ) : (
         <div className="space-y-5">
+          {!result.created ? (
+            <div
+              className="rounded-2xl border border-[#7DD3C0]/50 bg-[#E8FAF6]/80 px-4 py-3 text-sm text-charcoal"
+              role="status"
+            >
+              <p className="font-medium text-charcoal">
+                {result.message ?? "You already have a referral link for this email."}
+              </p>
+              <p className="mt-1 text-charcoal-muted">
+                Here it is — share the same code and link below. One link per email.
+              </p>
+            </div>
+          ) : null}
+
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.12em] text-charcoal-muted">
               Your promo code
@@ -168,10 +184,24 @@ export function ReferralGenerator({ embedded = false }: ReferralGeneratorProps) 
           </div>
 
           <p className="text-sm text-charcoal-muted">
-            Ready for 🤑 Friends get 15% off · You earn 15% on
-            every payment and renewal.
-            {!result.created ? " We found your existing code." : null}
+            Ready for 🤑 Friends get {result.discountPercent}% off · You earn{" "}
+            {result.revenueSharePercent}% on every payment and renewal.
           </p>
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              onClick={() => {
+                setResult(null);
+                setError(null);
+              }}
+            >
+              Use another email
+            </Button>
+          </div>
 
           <ReferralStatsCard stats={result.stats} revenueSharePercent={result.revenueSharePercent} />
         </div>

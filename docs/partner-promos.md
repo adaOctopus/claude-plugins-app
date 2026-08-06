@@ -115,3 +115,19 @@ https://www.coolplugz.com/?promo=COOLPLUGZTASOS4821#pricing
 ```
 
 Promos are stored with `source: "dev_referral"` in MongoDB (admin-created promos use `source: "admin"`).
+
+## Local earnings report (terminal table)
+
+From the project root:
+
+```bash
+npm run partners
+```
+
+Reads `MONGODB_URI` from `.env.local` and prints all partners, promo codes, redemptions, net revenue, and amount owed.
+
+For **production** data, point at the live database:
+
+```bash
+MONGODB_URI="mongodb+srv://..." npm run partners
+```

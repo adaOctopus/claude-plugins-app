@@ -42,6 +42,10 @@ export async function POST(request: NextRequest) {
       discountPercent: promo.discountPercent,
       revenueSharePercent: promo.revenueSharePercent,
       created,
+      alreadyExists: !created,
+      message: created
+        ? "Your referral link is ready."
+        : "You already have a referral link for this email.",
       stats,
       programDefaults: {
         discountPercent: getReferralDiscountPercent(),
