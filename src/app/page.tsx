@@ -23,7 +23,6 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      {/* <HowItWorksStrip /> */}
       <EngineerProblemsSection />
       {/* <BenefitsSection /> */}
       <DashboardSection />
