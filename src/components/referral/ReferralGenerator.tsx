@@ -168,7 +168,7 @@ export function ReferralGenerator({ embedded = false }: ReferralGeneratorProps) 
           </div>
 
           <p className="text-sm text-charcoal-muted">
-            Friends get {result.discountPercent}% off · You earn {result.revenueSharePercent}% on
+            Ready for 🤑 Friends get 15% off · You earn 15% on
             every payment and renewal.
             {!result.created ? " We found your existing code." : null}
           </p>

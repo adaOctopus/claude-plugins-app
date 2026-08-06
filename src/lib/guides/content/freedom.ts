@@ -529,7 +529,7 @@ export const freedomGuides: Guide[] = [
             items: [
               "Enter your email on coolplugz.com/#make-money",
               "Get a unique code like COOLPLUGZTASOS4821",
-              "Share your link — friends get 15% off at checkout",
+              "Share your link - friends get 15% off at checkout",
               "Earn 15% of net revenue on initial payment and renewals",
               "Payouts sent manually to your email each month",
             ],
