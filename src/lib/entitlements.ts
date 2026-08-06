@@ -3,6 +3,9 @@ import { connectDB } from "@/lib/db";
 import { Subscription } from "@/models/Subscription";
 import { Plugin } from "@/models/Plugin";
 
+export const ACTIVE_PRO_SUBSCRIPTION_MESSAGE =
+  "You already have an active Pro subscription.";
+
 export async function hasActiveSubscription(userId: string) {
   await connectDB();
   const sub = await Subscription.findOne({
@@ -11,6 +14,12 @@ export async function hasActiveSubscription(userId: string) {
     currentPeriodEnd: { $gt: new Date() },
   });
   return !!sub;
+}
+
+export async function assertCanSubscribe(userId: string) {
+  if (await hasActiveSubscription(userId)) {
+    throw new Error(ACTIVE_PRO_SUBSCRIPTION_MESSAGE);
+  }
 }
 
 export async function getUserSubscription(userId: string) {

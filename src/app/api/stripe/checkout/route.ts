@@ -13,6 +13,7 @@ import {
   syncStripeCustomerId,
   type CheckoutPlan,
 } from "@/lib/stripe";
+import { assertCanSubscribe, ACTIVE_PRO_SUBSCRIPTION_MESSAGE } from "@/lib/entitlements";
 import { toUserFacingStripeError } from "@/lib/user-facing-errors";
 import { User } from "@/models/User";
 import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
@@ -103,6 +104,8 @@ export async function POST(request: NextRequest) {
     let userId = "";
     let customerEmail: string | undefined;
 
+    const isSubscriptionCheckout = checkoutKey !== "addon";
+
     if (session) {
       try {
         await connectDB();
@@ -110,6 +113,11 @@ export async function POST(request: NextRequest) {
         if (user) {
           userId = user._id.toString();
           customerEmail = user.email;
+
+          if (isSubscriptionCheckout) {
+            await assertCanSubscribe(userId);
+          }
+
           customerId = await getOrCreateStripeCustomer(
             user.email,
             userId,
@@ -118,6 +126,12 @@ export async function POST(request: NextRequest) {
           await syncStripeCustomerId(user, customerId);
         }
       } catch (dbError) {
+        if (
+          dbError instanceof Error &&
+          dbError.message === ACTIVE_PRO_SUBSCRIPTION_MESSAGE
+        ) {
+          return NextResponse.json({ error: dbError.message }, { status: 403 });
+        }
         console.warn("Checkout continuing without linked customer — DB unavailable:", dbError);
       }
     }

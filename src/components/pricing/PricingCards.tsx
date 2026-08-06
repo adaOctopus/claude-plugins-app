@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import Link from "next/link";
+import { useEffect, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, Sparkles, X } from "lucide-react";
@@ -28,6 +29,7 @@ type PricingCardsProps = {
   billing: BillingPeriod;
   onCheckout?: (tier: PaidTier, billing: BillingPeriod) => void | Promise<void>;
   loadingPlan?: string | null;
+  alreadySubscribed?: boolean;
 };
 
 type PlanBadgeVariant = "muted" | "recommended" | "outline";
@@ -141,12 +143,45 @@ function PricingPlanCard({
 }
 
 /** Trial, Pro, and Enterprise pricing cards. */
-export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsProps) {
+export function PricingCards({
+  billing,
+  onCheckout,
+  loadingPlan,
+  alreadySubscribed = false,
+}: PricingCardsProps) {
   const [enterpriseOpen, setEnterpriseOpen] = useState(false);
+  const [subscribed, setSubscribed] = useState(alreadySubscribed);
   const proPrice = tierPricing.pro[billing];
   const promo = useOptionalPromoCode();
 
+  useEffect(() => {
+    if (alreadySubscribed) return;
+
+    let cancelled = false;
+
+    async function loadSubscriptionStatus() {
+      try {
+        const res = await fetch("/api/auth/session", {
+          credentials: "same-origin",
+          cache: "no-store",
+        });
+        if (!res.ok) return;
+        const data = (await res.json()) as { hasActiveSubscription?: boolean };
+        if (!cancelled) setSubscribed(!!data.hasActiveSubscription);
+      } catch {
+        // ignore
+      }
+    }
+
+    void loadSubscriptionStatus();
+    return () => {
+      cancelled = true;
+    };
+  }, [alreadySubscribed]);
+
   async function handleCheckout(tier: PaidTier) {
+    if (subscribed) return;
+
     if (isWipSite()) {
       window.location.href = comingSoonHref;
       return;
@@ -217,7 +252,11 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
           featureHeader={proPlan.featureHeader}
           features={proPlan.features}
           footer={
-            onCheckout ? (
+            subscribed ? (
+              <Button className="w-full shadow-sm" variant="outline" asChild>
+                <Link href="/app">You&apos;re on Pro — Manage account</Link>
+              </Button>
+            ) : onCheckout ? (
               <Button
                 className="w-full shadow-sm"
                 onClick={() => handleCheckout("pro")}
@@ -226,7 +265,13 @@ export function PricingCards({ billing, onCheckout, loadingPlan }: PricingCardsP
                 {isLoading("pro") ? "Redirecting..." : proPlan.cta}
               </Button>
             ) : (
-              <StripeCheckoutButton tier="pro" billing={billing} className="w-full shadow-sm" size="default">
+              <StripeCheckoutButton
+                tier="pro"
+                billing={billing}
+                className="w-full shadow-sm"
+                size="default"
+                alreadySubscribed={subscribed}
+              >
                 {proPlan.cta}
               </StripeCheckoutButton>
             )
