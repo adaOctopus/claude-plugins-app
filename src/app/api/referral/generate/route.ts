@@ -8,6 +8,8 @@ import {
   getReferralRevenueSharePercent,
 } from "@/lib/partner-promos";
 import { getReferralClientKey, isReferralRateLimited } from "@/lib/referral-rate-limit";
+import { toUserFacingStripeError } from "@/lib/user-facing-errors";
+import Stripe from "stripe";
 
 const schema = z.object({
   email: z.string().email(),
@@ -51,9 +53,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Enter a valid email address" }, { status: 400 });
     }
     console.error("Referral generate error:", error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Could not generate referral link" },
-      { status: 500 }
-    );
+    const message =
+      error instanceof Stripe.errors.StripeError
+        ? toUserFacingStripeError(error, "referral-generate")
+        : error instanceof Error
+          ? error.message
+          : "Could not generate referral link";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

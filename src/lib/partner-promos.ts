@@ -61,6 +61,21 @@ function partnerDisplayNameFromEmail(email: string): string {
   return local.replace(/[._-]+/g, " ").trim() || "Developer";
 }
 
+/** Stripe coupon names are capped at 40 characters. */
+export function stripeCouponDisplayName(partnerName: string, code: string): string {
+  const normalizedCode = normalizePromoCode(code);
+  const full = `Partner: ${partnerName.trim()} (${normalizedCode})`;
+  if (full.length <= 40) return full;
+
+  const prefix = "Partner: ";
+  const suffix = ` (${normalizedCode})`;
+  const nameRoom = 40 - prefix.length - suffix.length;
+  const shortName =
+    nameRoom > 0 ? partnerName.trim().slice(0, nameRoom) : partnerName.trim().slice(0, 1);
+
+  return `${prefix}${shortName}${suffix}`.slice(0, 40);
+}
+
 export type PartnerPromoStats = {
   redemptionCount: number;
   totalNetRevenue: number;
@@ -183,7 +198,7 @@ export async function createPartnerPromo(input: CreatePartnerPromoInput): Promis
   const coupon = await stripe.coupons.create({
     percent_off: discountPercent,
     duration: "forever",
-    name: `Partner: ${input.partnerName} (${code})`,
+    name: stripeCouponDisplayName(input.partnerName, code),
     metadata: {
       partnerName: input.partnerName,
       promoCode: code,
