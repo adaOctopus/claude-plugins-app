@@ -5,7 +5,7 @@ import { connectDB } from "@/lib/db";
 import { assertCanPurchaseDailyPass } from "@/lib/daily-pass";
 import { isWipSite } from "@/lib/site-mode";
 import { USAGE_LIMITS } from "@/lib/usage-limits";
-import { getDailyPassPriceId, getOrCreateStripeCustomer, getStripe } from "@/lib/stripe";
+import { getDailyPassPriceId, getOrCreateStripeCustomer, getStripe, syncStripeCustomerId } from "@/lib/stripe";
 import { User } from "@/models/User";
 
 function checkoutErrorMessage(error: unknown): string {
@@ -64,10 +64,7 @@ export async function POST(_request: NextRequest) {
       user.stripeCustomerId
     );
 
-    if (!user.stripeCustomerId) {
-      user.stripeCustomerId = customerId;
-      await user.save();
-    }
+    await syncStripeCustomerId(user, customerId);
 
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",

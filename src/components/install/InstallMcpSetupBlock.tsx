@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { CopyMcpUrlButton } from "@/components/install/CopyMcpUrlButton";
+import { InstallQuickSetup } from "@/components/install/InstallQuickSetup";
 import { InstallSetupMethods } from "@/components/install/InstallSetupMethods";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { InstallUsageCommands } from "@/components/install/InstallUsageCommands";
+import { COOLPLUGZ_GETTING_STARTED } from "@/lib/install-guides";
 import { GENERIC_TRY_AGAIN_MESSAGE } from "@/lib/user-facing-errors";
 
 type InstallMcpSetupBlockProps = {
@@ -14,20 +14,14 @@ type InstallMcpSetupBlockProps = {
   provisionMode?: "subscription" | "free-trial";
 };
 
-function formatExpiresAt(iso: string) {
-  return new Date(iso).toLocaleString(undefined, {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
-}
-
-/** Unique MCP URL + web/desktop setup paths in one block. */
+/** Quick Claude.ai + Desktop setup up top; detailed screenshot guide below. */
 export function InstallMcpSetupBlock({
   initialMcpUrl = null,
   initialExpiresAt = null,
   autoProvision = true,
   provisionMode = "subscription",
 }: InstallMcpSetupBlockProps) {
+  const guide = COOLPLUGZ_GETTING_STARTED;
   const provisionEndpoint =
     provisionMode === "free-trial"
       ? "/api/provision-coolplugz/free-trial"
@@ -84,53 +78,28 @@ export function InstallMcpSetupBlock({
 
   return (
     <>
-      <Card className="mb-6 border-charcoal/15">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-lg">Your unique MCP url💎🔗</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-4 text-sm text-charcoal-muted">
-            Copy this once - use it in claude.ai or Claude Desktop below.
-          </p>
-          {status === "loading" && (
-            <p className="text-sm text-charcoal-muted">
-              Generating your unique CoolPlugz MCP URL…
-            </p>
-          )}
-          {status !== "loading" && mcpUrl && (
-            <div className="space-y-3">
-              <CopyMcpUrlButton url={mcpUrl} />
-              {expiresAt && (
-                <p className="text-sm text-[#0D9488]">
-                  Expires: <span className="font-semibold">{formatExpiresAt(expiresAt)}</span>
-                </p>
-              )}
-            </div>
-          )}
-          {status !== "loading" && !mcpUrl && (
-            <div className="space-y-3">
-              <p className="text-sm text-charcoal-muted">
-                {error ||
-                  (provisionMode === "free-trial"
-                    ? GENERIC_TRY_AGAIN_MESSAGE
-                    : "Your unique MCP URL is not ready yet. This usually takes a few seconds after payment.")}
-              </p>
-              <Button type="button" variant="outline" size="sm" onClick={() => void provision()}>
-                Generate my URL
-              </Button>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      <InstallQuickSetup
+        mcpUrl={mcpUrl}
+        expiresAt={expiresAt}
+        status={status}
+        error={error}
+        provisionMode={provisionMode}
+        onRetry={() => void provision()}
+      />
 
-      <Card className="mb-4">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-lg">One step setup 👍</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="mt-4">
+        <InstallUsageCommands />
+      </div>
+
+      <div className="mt-12 border-t border-border pt-10">
+        <h2 className="font-serif text-xl text-charcoal md:text-2xl">{guide.detailedGuideTitle}</h2>
+        <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-charcoal-muted">
+          {guide.detailedGuideSubline}
+        </p>
+        <div className="mt-6">
           <InstallSetupMethods mcpUrl={mcpUrl} />
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </>
   );
 }

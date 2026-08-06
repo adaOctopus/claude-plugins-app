@@ -10,8 +10,10 @@ import {
   getOrCreateStripeCustomer,
   normalizeCheckoutPlan,
   parseSubscriptionFromCheckout,
+  syncStripeCustomerId,
   type CheckoutPlan,
 } from "@/lib/stripe";
+import { toUserFacingStripeError } from "@/lib/user-facing-errors";
 import { User } from "@/models/User";
 import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 import { findActivePartnerPromo, isSelfReferralPromo, normalizePromoCode } from "@/lib/partner-promos";
@@ -44,7 +46,7 @@ function checkoutErrorMessage(error: unknown): string {
     return "Invalid plan selected";
   }
   if (error instanceof Stripe.errors.StripeError) {
-    return error.message;
+    return toUserFacingStripeError(error, "checkout");
   }
   if (error instanceof Error) {
     return error.message;
@@ -113,10 +115,7 @@ export async function POST(request: NextRequest) {
             userId,
             user.stripeCustomerId
           );
-          if (!user.stripeCustomerId) {
-            user.stripeCustomerId = customerId;
-            await user.save();
-          }
+          await syncStripeCustomerId(user, customerId);
         }
       } catch (dbError) {
         console.warn("Checkout continuing without linked customer — DB unavailable:", dbError);

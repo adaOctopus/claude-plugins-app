@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import type { BillingPeriod, PaidTier } from "@/lib/pricing-plans";
 import { PRICING_AMOUNTS } from "@/lib/pricing-plans";
+import { isStripeModeMismatchError } from "@/lib/user-facing-errors";
 
 let stripeInstance: Stripe | null = null;
 
@@ -164,6 +165,25 @@ export function parseSubscriptionFromCheckout(plan: CheckoutPlan): {
   return { tier, billing };
 }
 
+function isStaleStripeCustomerError(error: unknown): boolean {
+  if (isStripeModeMismatchError(error)) return true;
+  return (
+    error instanceof Stripe.errors.StripeInvalidRequestError &&
+    error.code === "resource_missing"
+  );
+}
+
+/** Replace stored customer ID when it changes (e.g. test → live mode migration). */
+export async function syncStripeCustomerId(
+  user: { stripeCustomerId?: string; save: () => Promise<unknown> },
+  customerId: string
+) {
+  if (user.stripeCustomerId !== customerId) {
+    user.stripeCustomerId = customerId;
+    await user.save();
+  }
+}
+
 export async function getOrCreateStripeCustomer(
   email: string,
   userId: string,
@@ -172,7 +192,19 @@ export async function getOrCreateStripeCustomer(
   const stripe = getStripe();
 
   if (existingCustomerId) {
-    return existingCustomerId;
+    try {
+      const customer = await stripe.customers.retrieve(existingCustomerId);
+      if (!("deleted" in customer && customer.deleted)) {
+        return existingCustomerId;
+      }
+    } catch (error) {
+      if (!isStaleStripeCustomerError(error)) {
+        throw error;
+      }
+      console.warn(
+        `[Stripe] Replacing stale customer ${existingCustomerId} for user ${userId}`
+      );
+    }
   }
 
   const customer = await stripe.customers.create({

@@ -54,7 +54,7 @@ export function InstallPluginGuide({
               valid until expiry.
             </>
           ) : (
-            <>Add your unique MCP URL to Claude Code and enjoy.</>
+            <>Copy your URL for Claude.ai or the JSON for Claude Desktop — quick setup below.</>
           )}
         </p>
         {(isTrial || isLegacyDaily) && passEndLabel && (
@@ -72,33 +72,14 @@ export function InstallPluginGuide({
         provisionMode="subscription"
       />
 
-      <Card className="mb-4">
+      {/* <Card className="mb-4">
         <CardHeader className="pb-2">
           <CardTitle className="text-lg">{guide.connectTitle}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-charcoal-muted">{guide.connectIntro}</p>
         </CardContent>
-      </Card>
-
-      <Card className="mb-8">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-lg">{guide.usageTitle}</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-charcoal-muted">{guide.usageIntro}</p>
-          <ul className="space-y-3">
-            {guide.commands.map((item) => (
-              <li key={item.command} className="text-sm text-charcoal-muted">
-                <span className="font-medium text-charcoal">&quot;{item.command}&quot;</span>
-                {" - "}
-                {item.description}
-              </li>
-            ))}
-          </ul>
-          <p className="text-sm text-charcoal-muted">{guide.usageFooter}</p>
-        </CardContent>
-      </Card>
+      </Card> */}
 
       {(isTrial || isLegacyDaily) && (
         <div className="mb-6 rounded-xl border border-border bg-cream-warm/60 p-4 text-sm text-charcoal-muted">
@@ -109,6 +90,8 @@ export function InstallPluginGuide({
           for unlimited usage and multi-repo tasks.
         </div>
       )}
+      
+      <div className="h-4"></div>
 
       <Button variant="outline" asChild>
         <Link href="/">← Back to home</Link>

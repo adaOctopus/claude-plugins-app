@@ -5,7 +5,7 @@ import { getSession } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
 import { isWipSite } from "@/lib/site-mode";
 import { getCreditPack, type CreditPackId } from "@/lib/usage-limits";
-import { getCreditPackPriceId, getOrCreateStripeCustomer, getStripe } from "@/lib/stripe";
+import { getCreditPackPriceId, getOrCreateStripeCustomer, getStripe, syncStripeCustomerId } from "@/lib/stripe";
 import { User } from "@/models/User";
 import { canPurchaseTopUp } from "@/lib/mcp-access";
 
@@ -87,10 +87,7 @@ export async function POST(request: NextRequest) {
       user.stripeCustomerId
     );
 
-    if (!user.stripeCustomerId) {
-      user.stripeCustomerId = customerId;
-      await user.save();
-    }
+    await syncStripeCustomerId(user, customerId);
 
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",

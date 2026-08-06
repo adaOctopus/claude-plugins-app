@@ -42,13 +42,6 @@ export function InstallSetupMethods({ mcpUrl }: InstallSetupMethodsProps) {
 
   return (
     <div className="space-y-4">
-      <div>
-        <h3 className="text-lg font-semibold text-charcoal">{guide.setupHeadline}</h3>
-        {guide.setupSubline ? (
-          <p className="mt-1 text-sm text-charcoal-muted">{guide.setupSubline}</p>
-        ) : null}
-      </div>
-
       <div
         className="rounded-xl border border-[#7DD3C0]/40 bg-[#E8FAF6]/90 px-4 py-3 sm:px-5"
         role="note"

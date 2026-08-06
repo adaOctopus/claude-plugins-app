@@ -122,7 +122,7 @@ export const proPlan = {
   name: "Pro",
   badge: "Recommended",
   tagline: "Stay on top of your work effortlessly",
-  featureHeader: "Everything in free plus:",
+  featureHeader: "Everything in Free, plus:",
   features: proPlanFeatures,
   cta: "GET PRO",
 };
