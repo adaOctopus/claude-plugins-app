@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LogoutButton } from "@/components/marketplace/DashboardActions";
 import { CancelSubscriptionButton } from "@/components/subscription/CancelSubscriptionButton";
+import { TierBadge, resolveAccountTierBadge } from "@/components/account/TierBadge";
 import { getMarketplacePlugins } from "@/lib/marketplace-plugins.server";
 import { UNIQUE_MCP_URL_PATH } from "@/lib/mcp-setup-paths";
 import { TROUBLESHOOTING_GUIDE_SLUG } from "@/lib/guides/registry";
@@ -44,12 +45,20 @@ export default async function AppDashboardPage() {
   const hasMcpAccess =
     !!subscription || dailyStatus?.active || trialStatus?.active;
 
+  const accountTier = resolveAccountTierBadge({
+    hasSubscription: !!subscription,
+    trialActive: !!trialStatus?.active,
+  });
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-32 md:px-8">
       <h1 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl">
         Manage account
       </h1>
-      <p className="mt-2 text-charcoal-muted">{session.email}</p>
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <p className="text-charcoal-muted">{session.email}</p>
+        {accountTier ? <TierBadge tier={accountTier} /> : null}
+      </div>
 
       {!subscription && trialStatus?.active && (
         <Card className="mt-8 border-[#7DD3C0]/40 bg-[#E8FAF6]/40">
