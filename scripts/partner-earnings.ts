@@ -4,12 +4,14 @@
  * Run from project root:
  *   npm run partners
  *
- * Uses MONGODB_URI from .env.local (or shell env). Override for production:
- *   MONGODB_URI="mongodb+srv://..." npm run partners
+ * Uses MONGODB_URI (+ optional MONGODB_DB_NAME) from .env.local.
+ * Production earnings (live data in `test` db):
+ *   MONGODB_DB_NAME=test npm run partners
  */
 import { existsSync, readFileSync } from "fs";
 import { resolve } from "path";
 import mongoose from "mongoose";
+import { getMongoConfig } from "../src/lib/mongo-config";
 
 function loadEnvLocal() {
   const envPath = resolve(process.cwd(), ".env.local");
@@ -127,13 +129,16 @@ const PartnerPromoRedemptionSchema = new mongoose.Schema(
 async function main() {
   loadEnvLocal();
 
-  const mongoUri = process.env.MONGODB_URI;
-  if (!mongoUri) {
+  let uri: string;
+  let dbName: string;
+  try {
+    ({ uri, dbName } = getMongoConfig());
+  } catch {
     console.error("MONGODB_URI is not set. Add it to .env.local or pass it in the shell.");
     process.exit(1);
   }
 
-  await mongoose.connect(mongoUri);
+  await mongoose.connect(uri, { dbName });
 
   const PartnerPromo =
     mongoose.models.PartnerPromo || mongoose.model("PartnerPromo", PartnerPromoSchema);
@@ -252,12 +257,12 @@ async function main() {
     },
   ];
 
-  const dbName = mongoose.connection.name || "unknown";
+  const connectedDb = mongoose.connection.name || dbName;
   const generatedAt = new Date().toLocaleString();
 
   console.log("");
   console.log("  CoolPlugz — Partner earnings");
-  console.log(`  Database: ${dbName}   Generated: ${generatedAt}`);
+  console.log(`  Database: ${connectedDb}   Generated: ${generatedAt}`);
   console.log(`  Partners: ${rows.length}   Total owed: ${formatUsd(totals.totalPartnerShare)}`);
   console.log("");
   console.log("  " + renderTable(rows, columns).join("\n  "));

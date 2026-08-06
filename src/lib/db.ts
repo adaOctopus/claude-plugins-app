@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-
-const MONGODB_URI = process.env.MONGODB_URI;
+import { getMongoConfig } from "@/lib/mongo-config";
 
 interface MongooseCache {
   conn: typeof mongoose | null;
@@ -20,17 +19,15 @@ const cached: MongooseCache = global.mongooseCache ?? {
 global.mongooseCache = cached;
 
 export async function connectDB() {
-  if (!MONGODB_URI) {
-    throw new Error("MONGODB_URI is not defined");
-  }
-
   if (cached.conn) {
     return cached.conn;
   }
 
   if (!cached.promise) {
+    const { uri, dbName } = getMongoConfig();
+
     cached.promise = mongoose
-      .connect(MONGODB_URI, { bufferCommands: false })
+      .connect(uri, { dbName, bufferCommands: false })
       .then((conn) => {
         cached.conn = conn;
         return conn;
@@ -43,4 +40,9 @@ export async function connectDB() {
   }
 
   return cached.promise;
+}
+
+/** Active database name (for logging / scripts). */
+export function getConnectedDatabaseName(): string {
+  return mongoose.connection.name || getMongoConfig().dbName;
 }

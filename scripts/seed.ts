@@ -3,12 +3,15 @@
  * Run: npx tsx scripts/seed.ts
  */
 import mongoose from "mongoose";
+import { getMongoConfig } from "../src/lib/mongo-config";
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  console.error("Set MONGODB_URI env var");
-  process.exit(1);
+function requireMongoConfig() {
+  try {
+    return getMongoConfig();
+  } catch {
+    console.error("Set MONGODB_URI env var");
+    process.exit(1);
+  }
 }
 
 const PluginSchema = new mongoose.Schema(
@@ -74,7 +77,8 @@ const PLUGINS = [
 ];
 
 async function seed() {
-  await mongoose.connect(MONGODB_URI!);
+  const { uri, dbName } = requireMongoConfig();
+  await mongoose.connect(uri, { dbName });
   const Plugin = mongoose.models.Plugin || mongoose.model("Plugin", PluginSchema);
 
   for (const slug of REMOVED_SLUGS) {

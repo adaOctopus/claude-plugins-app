@@ -124,10 +124,26 @@ From the project root:
 npm run partners
 ```
 
-Reads `MONGODB_URI` from `.env.local` and prints all partners, promo codes, redemptions, net revenue, and amount owed.
+Reads `MONGODB_URI` from `.env.local`. Database name comes from `MONGODB_DB_NAME`, or the path in the URI, or defaults to `test`.
 
-For **production** data, point at the live database:
+For **production** earnings (live users in the `test` database):
 
 ```bash
-MONGODB_URI="mongodb+srv://..." npm run partners
+MONGODB_DB_NAME=test npm run partners
 ```
+
+## MongoDB on Vercel
+
+Keep `MONGODB_URI` **without** a database name in the path (Atlas connect string as-is):
+
+```text
+mongodb+srv://tasosvaltinos_db_user:PASSWORD@cluster0.ost6q1m.mongodb.net/?retryWrites=true&w=majority
+```
+
+Set a separate env var for the database:
+
+```text
+MONGODB_DB_NAME=test
+```
+
+Local `.env.local` can keep `/coolplugz_dev` in the URI **or** set `MONGODB_DB_NAME=coolplugz_dev`.
