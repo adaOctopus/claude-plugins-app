@@ -125,10 +125,10 @@ export function ReferralGenerator({ embedded = false }: ReferralGeneratorProps) 
               role="status"
             >
               <p className="font-medium text-charcoal">
-                {result.message ?? "You already have a referral link for this email."}
+                {result.message ?? "You already have a referral link for this email💸"}
               </p>
               <p className="mt-1 text-charcoal-muted">
-                Here it is — share the same code and link below. One link per email.
+                
               </p>
             </div>
           ) : null}
