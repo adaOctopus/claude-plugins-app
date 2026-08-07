@@ -254,7 +254,7 @@ export function PricingCards({
           footer={
             subscribed ? (
               <Button className="w-full shadow-sm" variant="outline" asChild>
-                <Link href="/app">You&apos;re on Pro — Manage account</Link>
+                <Link href="/app">You&apos;re on Pro - Manage account</Link>
               </Button>
             ) : onCheckout ? (
               <Button

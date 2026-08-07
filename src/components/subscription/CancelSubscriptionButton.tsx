@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 type CancelSubscriptionButtonProps = {
   currentPeriodEnd: string;
@@ -14,10 +16,13 @@ export function CancelSubscriptionButton({ currentPeriodEnd }: CancelSubscriptio
   const [loading, setLoading] = useState(false);
   const [canceled, setCanceled] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [cancellationFeedback, setCancellationFeedback] = useState("");
 
   const accessUntil = new Date(currentPeriodEnd).toLocaleDateString(undefined, {
     dateStyle: "medium",
   });
+
+  const feedbackValid = cancellationFeedback.trim().length > 0;
 
   useEffect(() => {
     if (!open) return;
@@ -35,14 +40,24 @@ export function CancelSubscriptionButton({ currentPeriodEnd }: CancelSubscriptio
   useEffect(() => {
     if (!open) {
       setError(null);
+      setCancellationFeedback("");
     }
   }, [open]);
 
   async function handleCancel() {
+    if (!feedbackValid) {
+      setError("Please tell us why you're canceling before continuing.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/stripe/cancel-subscription", { method: "POST" });
+      const res = await fetch("/api/stripe/cancel-subscription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cancellationFeedback: cancellationFeedback.trim() }),
+      });
       const data = (await res.json()) as { error?: string };
       if (!res.ok) throw new Error(data.error || "Cancel failed");
       setCanceled(true);
@@ -108,6 +123,23 @@ export function CancelSubscriptionButton({ currentPeriodEnd }: CancelSubscriptio
                 After that, your MCP URL stops working until you resubscribe.
               </p>
 
+              <div className="mt-5 space-y-2">
+                <Label htmlFor="cancellation-feedback">
+                  Why are you canceling? <span className="text-red-600">*</span>
+                </Label>
+                <Textarea
+                  id="cancellation-feedback"
+                  name="cancellationFeedback"
+                  required
+                  maxLength={2000}
+                  placeholder="What didn't work for you, or what would have kept you on Coolplugz?"
+                  value={cancellationFeedback}
+                  onChange={(event) => setCancellationFeedback(event.target.value)}
+                  disabled={loading}
+                  className="min-h-[100px] rounded-xl"
+                />
+              </div>
+
               {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
 
               <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
@@ -123,7 +155,7 @@ export function CancelSubscriptionButton({ currentPeriodEnd }: CancelSubscriptio
                   type="button"
                   className="border-red-300 bg-red-600 text-white hover:bg-red-700"
                   onClick={() => void handleCancel()}
-                  disabled={loading}
+                  disabled={loading || !feedbackValid}
                 >
                   {loading ? (
                     <>
