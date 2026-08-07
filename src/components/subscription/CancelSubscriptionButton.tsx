@@ -125,7 +125,7 @@ export function CancelSubscriptionButton({ currentPeriodEnd }: CancelSubscriptio
 
               <div className="mt-5 space-y-2">
                 <Label htmlFor="cancellation-feedback">
-                  Why are you canceling? <span className="text-red-600">*</span>
+                  Where did we mess up? <span className="text-red-600">*</span>
                 </Label>
                 <Textarea
                   id="cancellation-feedback"
