@@ -26,7 +26,7 @@ export function HeroSection() {
           </h1>
 {/* <span style={{ fontSize: '0.8em', marginLeft: '-0.2em' }}>🍼</span> */}
           <p className="mt-2 text-xs font-normal uppercase tracking-wide text-charcoal-muted/90">
-          TRY THE BEST CLAUDE CODE TOOL FOR DEVS
+          TRY THE BEST CLAUDE CODE TOOL FOR DEVELOPERS
           {/* <span className="inline text-[0.8em] -ml-[0.5em]">🔋</span> */}
           
           </p>
