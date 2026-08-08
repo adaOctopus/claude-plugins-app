@@ -20,16 +20,39 @@ export const COOLPLUGZ_GETTING_STARTED = {
   web: {
     emoji: "🌐",
     title: "From claude.ai (browser)",
-    badge: "Easiest",
+    badge: "Very Easy",
     steps: [
       "Settings → Connectors → Add → Custom connector",
       'Name it "coolplugz"',
       "Paste your URL from above → Add",
     ],
   },
+  desktopConnectors: {
+    emoji: "🖥️",
+    title: "From Claude Desktop (Connectors)",
+    badge: "Very Easy",
+    steps: [
+      "Open Claude Desktop → Settings → Connectors → Add → Custom connector",
+      'Name it "coolplugz"',
+      "Paste your URL from above → Add",
+    ],
+  },
+  desktopLegacy: {
+    emoji: "🖥️",
+    title: "Claude Desktop - config file (OLD)",
+    steps: [
+      "Settings → Developer → Edit Config",
+      "Choose claude_desktop_config.json — create the file if it doesn't exist",
+      "Paste the JSON you see below the image with your URL → Save",
+      "Quit Claude Desktop fully, then reopen",
+    ],
+    macPath: "~/Library/Application Support/Claude/claude_desktop_config.json",
+    windowsPath: "%APPDATA%\\Claude\\claude_desktop_config.json",
+  },
+  /** @deprecated Use desktopLegacy — kept for any stale imports. */
   desktop: {
     emoji: "🖥️",
-    title: "From Claude Desktop",
+    title: "Claude Desktop - config file (OLD)",
     steps: [
       "Settings → Developer → Edit Config",
       "Choose claude_desktop_config.json — create the file if it doesn't exist",
@@ -42,12 +65,18 @@ export const COOLPLUGZ_GETTING_STARTED = {
   quickWeb: {
     emoji: "🌐",
     title: "Claude.ai (browser)",
-    badge: "Easiest",
+    badge: "Very easy",
     hint: "Settings → Connectors → Add → Custom connector → name it coolplugz → paste URL → Add",
   },
-  quickDesktop: {
+  quickDesktopConnectors: {
     emoji: "🖥️",
     title: "Claude Desktop",
+    badge: "Very easy",
+    hint: "Settings → Connectors → Add → Custom connector → name it coolplugz → paste URL → Add ",
+  },
+  quickDesktopLegacy: {
+    emoji: "🖥️",
+    title: "Claude Desktop (OLD guide - config file)",
     hint: "Settings → Developer → Edit Config → paste JSON below → Save → quit & reopen Claude",
   },
   quickDesktopConfigFile: {
@@ -61,7 +90,7 @@ export const COOLPLUGZ_GETTING_STARTED = {
   connectTitle: "Connect your tools 🔑",
   connectIntro:
     "On first use, CoolPlugz will walk you through connecting Jira, GitHub, Notion, and Slack inside Claude Code when needed.",
-  usageTitle: "Ready get started⚡",
+  usageTitle: "Ready to get started⚡",
   usageIntro: "Once setup is done, you connect to Jira, Github etc. and you can start using the following message actions:",
   commands: [
     {

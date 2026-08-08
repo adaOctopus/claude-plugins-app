@@ -1,14 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Check, Copy } from "lucide-react";
 import { CopyMcpUrlButton } from "@/components/install/CopyMcpUrlButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  buildDesktopMcpConfig,
-  COOLPLUGZ_GETTING_STARTED,
-} from "@/lib/install-guides";
+import { COOLPLUGZ_GETTING_STARTED } from "@/lib/install-guides";
 import { GENERIC_TRY_AGAIN_MESSAGE } from "@/lib/user-facing-errors";
 
 type InstallQuickSetupProps = {
@@ -27,7 +22,7 @@ function formatExpiresAt(iso: string) {
   });
 }
 
-/** Compact copy-paste blocks — Claude.ai URL first, Claude Desktop JSON right below. */
+/** Compact copy-paste blocks — Claude.ai and Claude Desktop Connectors. */
 export function InstallQuickSetup({
   mcpUrl = null,
   expiresAt = null,
@@ -37,29 +32,6 @@ export function InstallQuickSetup({
   onRetry,
 }: InstallQuickSetupProps) {
   const guide = COOLPLUGZ_GETTING_STARTED;
-  const [copiedJson, setCopiedJson] = useState(false);
-
-  const configSnippet = mcpUrl
-    ? buildDesktopMcpConfig(mcpUrl)
-    : `{
-  "mcpServers": {
-    "coolplugz": {
-      "url": "YOUR_COOLPLUGZ_URL",
-      "transport": "http"
-    }
-  }
-}`;
-
-  async function copyConfig() {
-    if (!mcpUrl) return;
-    try {
-      await navigator.clipboard.writeText(configSnippet);
-      setCopiedJson(true);
-      window.setTimeout(() => setCopiedJson(false), 2000);
-    } catch {
-      window.prompt("Copy this config:", configSnippet);
-    }
-  }
 
   const waitingMessage =
     error ||
@@ -111,64 +83,26 @@ export function InstallQuickSetup({
 
       <Card className="border-border">
         <CardHeader className="pb-2">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-lg" aria-hidden>
-              {guide.quickDesktop.emoji}
+              {guide.quickDesktopConnectors.emoji}
             </span>
-            <CardTitle className="text-lg">{guide.quickDesktop.title}</CardTitle>
+            <CardTitle className="text-lg">{guide.quickDesktopConnectors.title}</CardTitle>
+            <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800">
+              {guide.quickDesktopConnectors.badge}
+            </span>
           </div>
-          <p className="text-sm text-charcoal-muted">{guide.quickDesktop.hint}</p>
+          <p className="text-sm text-charcoal-muted">{guide.quickDesktopConnectors.hint}</p>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="rounded-xl border border-border/80 bg-accent-sand/30 px-4 py-3.5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-charcoal">
-              {guide.quickDesktopConfigFile.title}
+        <CardContent>
+          {mcpUrl ? (
+            <p className="text-sm italic text-charcoal-muted">
+              Use the same CoolPlugz URL from the Claude.ai section above.
             </p>
-            <p className="mt-2 text-sm leading-relaxed text-charcoal-muted">
-              {guide.quickDesktopConfigFile.missingFile}
-            </p>
-            <dl className="mt-3 space-y-2 text-sm">
-              <div className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
-                <dt className="shrink-0 font-medium text-charcoal">🍎 Mac</dt>
-                <dd>
-                  <code className="break-all rounded-md bg-white/80 px-2 py-1 text-xs text-charcoal">
-                    {guide.desktop.macPath}
-                  </code>
-                </dd>
-              </div>
-              <div className="flex flex-col gap-0.5 sm:flex-row sm:gap-3">
-                <dt className="shrink-0 font-medium text-charcoal">🪟 Windows</dt>
-                <dd>
-                  <code className="break-all rounded-md bg-white/80 px-2 py-1 text-xs text-charcoal">
-                    {guide.desktop.windowsPath}
-                  </code>
-                </dd>
-              </div>
-            </dl>
-          </div>
-
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-xs font-medium uppercase tracking-wide text-charcoal-muted">
-              claude_desktop_config.json
-            </p>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-8 gap-1.5 text-xs"
-              onClick={() => void copyConfig()}
-              disabled={!mcpUrl}
-            >
-              {copiedJson ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-              {copiedJson ? "Copied" : "Copy JSON"}
-            </Button>
-          </div>
-          <pre className="overflow-x-auto rounded-xl border border-border bg-[#1e1e1e] p-4 text-xs leading-relaxed text-[#d4d4d4]">
-            <code>{configSnippet}</code>
-          </pre>
-          {!mcpUrl && (
-            <p className="mt-2 text-xs text-charcoal-muted">
-              Your URL will appear above — then copy this JSON in one click.
+          ) : (
+            <p className="text-sm text-charcoal-muted">
+              Your URL will appear in the Claude.ai section above — paste it into Connectors on
+              Desktop the same way.
             </p>
           )}
         </CardContent>

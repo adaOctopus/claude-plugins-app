@@ -54,7 +54,7 @@ export function InstallPluginGuide({
               valid until expiry.
             </>
           ) : (
-            <>Copy your URL for Claude.ai or the JSON for Claude Desktop — quick setup below.</>
+            <>Copy your URL for Claude.ai or Claude Desktop Connectors — quick setup below.</>
           )}
         </p>
         {(isTrial || isLegacyDaily) && passEndLabel && (

@@ -14,7 +14,7 @@ type InstallSetupMethodsProps = {
   mcpUrl?: string | null;
 };
 
-/** Web Connectors UI vs Desktop JSON — one URL, two one-step paths. */
+/** Web Connectors UI, Desktop Connectors, and legacy Desktop JSON paths. */
 export function InstallSetupMethods({ mcpUrl }: InstallSetupMethodsProps) {
   const guide = COOLPLUGZ_GETTING_STARTED;
   const [copied, setCopied] = useState(false);
@@ -81,12 +81,46 @@ export function InstallSetupMethods({ mcpUrl }: InstallSetupMethodsProps) {
 
       <div className="overflow-hidden rounded-2xl border border-border bg-white">
         <div className="border-b border-border bg-accent-sand/40 px-5 py-4">
-          <div className="flex items-center gap-2">
-            <span className="text-base">{guide.desktop.emoji}</span>
-            <h4 className="font-medium text-charcoal">{guide.desktop.title}</h4>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-base">{guide.desktopConnectors.emoji}</span>
+            <h4 className="font-medium text-charcoal">{guide.desktopConnectors.title}</h4>
+            <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800">
+              {guide.desktopConnectors.badge}
+            </span>
           </div>
+          <p className="mt-2 text-sm text-charcoal-muted">
+            Same Connectors flow as claude.ai — paste the same CoolPlugz URL from above.
+          </p>
           <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm text-charcoal-muted">
-            {guide.desktop.steps.map((step) => (
+            {guide.desktopConnectors.steps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+        </div>
+        <div className="bg-charcoal/5 p-3 sm:p-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={CLAUDE_WEB_CONNECTOR_IMAGE}
+            alt="Claude Desktop Connectors — same Add custom connector flow as claude.ai"
+            className="w-full rounded-xl border border-border shadow-sm"
+          />
+        </div>
+      </div>
+
+      <div className="overflow-hidden rounded-2xl border border-dashed border-border bg-accent-sand/20">
+        <div className="border-b border-border bg-accent-sand/40 px-5 py-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-base">{guide.desktopLegacy.emoji}</span>
+            <h4 className="font-medium text-charcoal">{guide.desktopLegacy.title}</h4>
+            <span className="rounded-full bg-charcoal/10 px-2.5 py-0.5 text-xs font-medium text-charcoal-muted">
+              Legacy
+            </span>
+          </div>
+          <p className="mt-2 text-sm text-charcoal-muted">
+            Only use this if Connectors is not available in your Claude Desktop version.
+          </p>
+          <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm text-charcoal-muted">
+            {guide.desktopLegacy.steps.map((step) => (
               <li key={step}>{step}</li>
             ))}
           </ol>
@@ -94,11 +128,11 @@ export function InstallSetupMethods({ mcpUrl }: InstallSetupMethodsProps) {
             <p className="font-medium text-charcoal">📁 File location</p>
             <p className="text-charcoal-muted">
               <span className="font-medium text-charcoal">🍎 Mac:</span>{" "}
-              <code className="text-xs">{guide.desktop.macPath}</code>
+              <code className="text-xs">{guide.desktopLegacy.macPath}</code>
             </p>
             <p className="text-charcoal-muted">
               <span className="font-medium text-charcoal">🪟 Windows:</span>{" "}
-              <code className="text-xs">{guide.desktop.windowsPath}</code>
+              <code className="text-xs">{guide.desktopLegacy.windowsPath}</code>
             </p>
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { InstallQuickSetup } from "@/components/install/InstallQuickSetup";
+import { InstallLegacyDesktopSetup } from "@/components/install/InstallLegacyDesktopSetup";
 import { InstallSetupMethods } from "@/components/install/InstallSetupMethods";
 import { InstallUsageCommands } from "@/components/install/InstallUsageCommands";
 import { COOLPLUGZ_GETTING_STARTED } from "@/lib/install-guides";
@@ -90,6 +91,8 @@ export function InstallMcpSetupBlock({
       <div className="mt-4">
         <InstallUsageCommands />
       </div>
+
+      <InstallLegacyDesktopSetup mcpUrl={mcpUrl} />
 
       <div className="mt-12 border-t border-border pt-10">
         <h2 className="font-serif text-xl text-charcoal md:text-2xl">{guide.detailedGuideTitle}</h2>
