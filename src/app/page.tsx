@@ -13,7 +13,7 @@ import { FAQSection } from "@/components/landing/FAQSection";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: "Get engineering work done without AI fatigue",
+  title: "Gives developers back their time and energy.",
   path: "/",
   siteUrl: CANONICAL_SITE_URL,
 });

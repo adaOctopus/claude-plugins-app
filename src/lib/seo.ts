@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const CANONICAL_SITE_URL = "https://www.coolplugz.com";
 
 export const OG_TAGLINE =
-  "Get engineering work done without AI fatigue.";
+  "Gives developers back their time and energy.";
 
 export const OG_IMAGE = {
   path: "/coolpreview.png",
@@ -20,7 +20,7 @@ export const TWITTER_CARD_DESCRIPTION =
   "An orchestration layer that guides Claude Code to deliver your coding tasks - context, workflows, and CI without your constant supervision.";
 
 export const SEO_DEFAULTS = {
-  title: "coolplugz - Get engineering work done without AI fatigue",
+  title: "coolplugz - Gives developers back their time and energy.",
   description:
     "An orchestration layer that guides Claude Code to deliver your coding tasks - context, workflows, and CI without your constant supervision.",
   keywords: [
