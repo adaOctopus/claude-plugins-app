@@ -14,7 +14,7 @@ export type LoopTerminalLine = {
 
 export const loopEngineeringCopy = {
   badge: "Loop Engineering · Anthropic's Playbook",
-  headline: "Removes manual work and gives your back your energy🔋",
+  headline: "Removes manual work and gives you back your energy🔋",
   subhead:
     "CoolPlugz orchestrates the same agentic loop used by top engineering teams to ship in 2026.",
   aside:
