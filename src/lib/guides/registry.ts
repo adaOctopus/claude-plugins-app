@@ -6,11 +6,13 @@ import {
   troubleshootingGuides,
   TROUBLESHOOTING_GUIDE_SLUG,
 } from "@/lib/guides/content/troubleshooting";
+import { loopEngineeringGuides } from "@/lib/guides/content/loop-engineering";
 import type { ComparePage, Guide } from "@/lib/guides/types";
 
 export { TROUBLESHOOTING_GUIDE_SLUG };
 
 export const allGuides: Guide[] = [
+  ...loopEngineeringGuides,
   ...phase1Guides,
   ...pillarGuides,
   ...funnelGuides,
@@ -58,6 +60,7 @@ const PILLAR_HUBS: Record<string, string> = {
 
 /** Sitewide high-intent guides — surfaced when not already linked. */
 const FUNNEL_BOOSTERS: RelatedLink[] = [
+  { href: "/guides/loop-engineering-anthropic-playbook", label: "Loop engineering guide" },
   { href: "/guides/best-claude-plugins-for-developers", label: "Best Claude plugins" },
   { href: "/guides/claude-code-after-tutorial", label: "After Claude tutorials" },
   { href: "/guides/make-money-with-claude-as-a-developer", label: "Make money with Claude" },
@@ -161,6 +164,7 @@ export const footerGuideLinks = [
   { href: "/guides/passive-income-refer-coolplugz", label: "Refer CoolPlugz" },
   { href: "/guides/best-claude-plugins-for-developers", label: "Best Claude plugins" },
   { href: "/guides/claude-code-after-tutorial", label: "Claude Code best practices" },
+  { href: "/guides/loop-engineering-anthropic-playbook", label: "Loop engineering playbook" },
   { href: "/guides/ai-fatigue-for-developers", label: "Prevent AI fatigue" },
   { href: "/guides/context-switching-remote-engineering", label: "AvoidContext switching" },
 ] as const;
@@ -181,6 +185,13 @@ export const northStarQueries = [
   "claude code best practices",
   "claude code agents",
   "claude code tutorial",
+  "loop engineering",
+  "loop engineering anthropic",
+  "anthropic agent loop",
+  "gather act verify repeat",
+  "claude agent sdk loop",
+  "loop engineering vs prompt engineering",
+  "claude code orchestration",
   "work less freelance developer",
   "AI fatigue",
   "context switching remote work",

@@ -1,5 +1,6 @@
 import { HowItWorksStrip } from "@/components/landing/HowItWorksStrip";
 import { EngineerProblemsSection } from "@/components/landing/EngineerProblemsSection";
+import { LoopEngineeringSection } from "@/components/landing/LoopEngineeringSection";
 import { BenefitsSection } from "@/components/landing/BenefitsSection";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { MakeMoneySection } from "@/components/landing/MakeMoneySection";
@@ -24,7 +25,7 @@ export default function HomePage() {
     <>
       <HeroSection />
       <EngineerProblemsSection />
-      {/* <BenefitsSection /> */}
+      <LoopEngineeringSection />
       <DashboardSection />
       <MakeMoneySection />
      
