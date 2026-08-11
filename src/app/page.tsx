@@ -14,7 +14,7 @@ import { FAQSection } from "@/components/landing/FAQSection";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: "Gives developers back their time and energy.",
+  title: "Delivers your coding tasks without your constant supervision. their time and energy.",
   path: "/",
   siteUrl: CANONICAL_SITE_URL,
 });
