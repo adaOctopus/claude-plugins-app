@@ -16,7 +16,7 @@ export const loopEngineeringCopy = {
   badge: "Loop Engineering · Anthropic's Playbook",
   headline: "Removes manual work and gives you back your energy🔋",
   subhead:
-    "CoolPlugz orchestrates the same agentic loop used by top engineering teams to ship in 2026.",
+    "CoolPlugz orchestrates the same agentic loop used by top engineering teams in2026.",
   aside:
     "Gather Context → Take Action → Verify Work✅",
   guideLinkLabel: "Learn more about Loop Engineering",
