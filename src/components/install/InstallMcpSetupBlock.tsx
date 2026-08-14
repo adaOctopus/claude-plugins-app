@@ -64,18 +64,11 @@ export function InstallMcpSetupBlock({
   }, [provisionEndpoint]);
 
   useEffect(() => {
-    if (initialMcpUrl) {
-      setMcpUrl(initialMcpUrl);
-      setStatus("idle");
-    }
-    if (initialExpiresAt) {
-      setExpiresAt(initialExpiresAt);
-    }
     if (initialMcpUrl) return;
     if (autoProvision) {
       void provision();
     }
-  }, [initialMcpUrl, initialExpiresAt, autoProvision, provision]);
+  }, [initialMcpUrl, autoProvision, provision]);
 
   return (
     <>

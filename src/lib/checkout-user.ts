@@ -19,7 +19,7 @@ export async function resolveUserFromCheckoutSession(
     session.customer_details?.email?.toLowerCase() ||
     session.customer_email?.toLowerCase();
 
-  let customerId =
+  const customerId =
     typeof session.customer === "string" ? session.customer : session.customer?.id;
 
   if (!email && customerId) {

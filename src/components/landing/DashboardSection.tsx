@@ -93,7 +93,7 @@ function ClaudeChatMock() {
           <div className="min-w-0 flex-1 space-y-3">
             <p className="text-sm leading-relaxed text-charcoal">
               <strong>coolplugz</strong> finished the run 🎉 Everything is structured, CI-checked, and
-              what <strong style={{ fontStyle: "italic" }}>@Edouard</strong> shared in team's channel was used too.
+              what <strong style={{ fontStyle: "italic" }}>@Edouard</strong> shared in team&apos;s channel was used too.
             </p>
 
             {/* coolplugz run card embedded in chat */}

@@ -1,20 +1,15 @@
-import { HowItWorksStrip } from "@/components/landing/HowItWorksStrip";
 import { EngineerProblemsSection } from "@/components/landing/EngineerProblemsSection";
 import { LoopEngineeringSection } from "@/components/landing/LoopEngineeringSection";
-import { BenefitsSection } from "@/components/landing/BenefitsSection";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { MakeMoneySection } from "@/components/landing/MakeMoneySection";
 import { DashboardSection } from "@/components/landing/DashboardSection";
-import { PluginMarketplaceSection } from "@/components/landing/PluginMarketplaceSection";
-import { MarketplaceSection } from "@/components/landing/MarketplaceSection";
-import { ChatTagsSection } from "@/components/landing/ChatTagsSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { ComingSoonSection } from "@/components/landing/ComingSoonSection";
 import { FAQSection } from "@/components/landing/FAQSection";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: "Delivers your coding tasks without your constant supervision. their time and energy.",
+  title: "Gives developers back their time and energy.",
   path: "/",
   siteUrl: CANONICAL_SITE_URL,
 });
