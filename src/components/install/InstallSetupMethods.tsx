@@ -9,6 +9,7 @@ import {
   CLAUDE_WEB_CONNECTOR_IMAGE,
   COOLPLUGZ_GETTING_STARTED,
 } from "@/lib/install-guides";
+import { ClaudeCodeCliTerminal } from "@/components/install/ClaudeCodeCliTerminal";
 
 type InstallSetupMethodsProps = {
   mcpUrl?: string | null;
@@ -52,6 +53,31 @@ export function InstallSetupMethods({ mcpUrl }: InstallSetupMethodsProps) {
         <p className="mt-1.5 text-sm leading-relaxed text-charcoal-muted">
           {guide.companyAccountNote.body}
         </p>
+      </div>
+
+      <div className="overflow-hidden rounded-2xl border-2 border-[#7DD3C0]/45 bg-white shadow-[0_8px_24px_rgba(13,148,136,0.06)]">
+        <div className="border-b border-border bg-accent-sand/40 px-5 py-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-base">{guide.claudeCodeCli.emoji}</span>
+            <h4 className="font-medium text-charcoal">{guide.claudeCodeCli.title}</h4>
+            <span className="rounded-full bg-charcoal px-2.5 py-0.5 text-xs font-medium text-cream">
+              {guide.claudeCodeCli.badge}
+            </span>
+          </div>
+          <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm text-charcoal-muted">
+            {guide.claudeCodeCli.steps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+        </div>
+        <div className="p-4 sm:p-5">
+          <ClaudeCodeCliTerminal mcpUrl={mcpUrl} />
+          {!mcpUrl && (
+            <p className="mt-2 text-xs text-charcoal-muted">
+              Your unique key will appear above — then copy the command in one click.
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-border bg-white">

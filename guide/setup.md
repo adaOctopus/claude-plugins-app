@@ -1,8 +1,16 @@
 # CoolPlugz — Getting Started
 
-One step — same URL for web or desktop ✨
+One command for Claude Code CLI — same URL for web or desktop ✨
 
-## 🌐 claude.ai (browser) — easiest
+## ⌨️ Claude Code CLI — easier · most used
+
+```bash
+claude mcp add coolplugz --transport http YOUR_COOLPLUGZ_URL
+```
+
+Replace `YOUR_COOLPLUGZ_URL` with your unique key from the setup page (e.g. `https://api.coolplugz.com/mcp/ck_…`).
+
+## 🌐 claude.ai (browser)
 
 1. **Settings → Connectors → Add → Custom connector**
 2. Name: `coolplugz`

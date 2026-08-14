@@ -27,6 +27,16 @@ export const COOLPLUGZ_GETTING_STARTED = {
       "Paste your URL from above → Add",
     ],
   },
+  claudeCodeCli: {
+    emoji: "⌨️",
+    title: "Claude Code CLI",
+    badge: "Easier · Most used",
+    steps: [
+      "Open a terminal in any project folder",
+      "Paste and run the command below (includes your unique key)",
+      "Launch Claude Code — CoolPlugz MCP is connected",
+    ],
+  },
   desktopConnectors: {
     emoji: "🖥️",
     title: "From Claude Desktop (Connectors)",
@@ -61,6 +71,12 @@ export const COOLPLUGZ_GETTING_STARTED = {
     ],
     macPath: "~/Library/Application Support/Claude/claude_desktop_config.json",
     windowsPath: "%APPDATA%\\Claude\\claude_desktop_config.json",
+  },
+  quickClaudeCodeCli: {
+    emoji: "⌨️",
+    title: "Claude Code CLI",
+    badge: "Easiest · Most used🔥",
+    hint: "Run one command in your terminal - CoolPlugz connects with your unique key.",
   },
   quickWeb: {
     emoji: "🌐",
@@ -126,6 +142,10 @@ export const COOLPLUGZ_GETTING_STARTED = {
   ] satisfies CoolplugzCommand[],
   usageFooter: "Enjoy your new workflow!😎",
 };
+
+export function buildClaudeCodeCliMcpCommand(mcpUrl: string) {
+  return `claude mcp add coolplugz --transport http ${mcpUrl}`;
+}
 
 export function buildDesktopMcpConfig(mcpUrl: string) {
   return JSON.stringify(

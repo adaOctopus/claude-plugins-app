@@ -1,10 +1,9 @@
 "use client";
 
 import { CopyMcpUrlButton } from "@/components/install/CopyMcpUrlButton";
-import { Button } from "@/components/ui/button";
+import { InstallClaudeCodeCliSetup } from "@/components/install/InstallClaudeCodeCliSetup";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { COOLPLUGZ_GETTING_STARTED } from "@/lib/install-guides";
-import { GENERIC_TRY_AGAIN_MESSAGE } from "@/lib/user-facing-errors";
 
 type InstallQuickSetupProps = {
   mcpUrl?: string | null;
@@ -22,7 +21,7 @@ function formatExpiresAt(iso: string) {
   });
 }
 
-/** Compact copy-paste blocks — Claude.ai and Claude Desktop Connectors. */
+/** Compact copy-paste blocks — Claude Code CLI first, then web and Desktop Connectors. */
 export function InstallQuickSetup({
   mcpUrl = null,
   expiresAt = null,
@@ -33,14 +32,16 @@ export function InstallQuickSetup({
 }: InstallQuickSetupProps) {
   const guide = COOLPLUGZ_GETTING_STARTED;
 
-  const waitingMessage =
-    error ||
-    (provisionMode === "free-trial"
-      ? GENERIC_TRY_AGAIN_MESSAGE
-      : "Your unique MCP URL is not ready yet. This usually takes a few seconds after payment.");
-
   return (
     <div className="space-y-4">
+      <InstallClaudeCodeCliSetup
+        mcpUrl={mcpUrl}
+        status={status}
+        error={error}
+        provisionMode={provisionMode}
+        onRetry={onRetry}
+      />
+
       <Card className="border-[#7DD3C0]/35 bg-gradient-to-br from-[#E8FAF6]/50 to-white">
         <CardHeader className="pb-2">
           <div className="flex flex-wrap items-center gap-2">
@@ -56,7 +57,9 @@ export function InstallQuickSetup({
         </CardHeader>
         <CardContent>
           {status === "loading" && (
-            <p className="text-sm text-charcoal-muted">Generating your unique CoolPlugz MCP URL…</p>
+            <p className="text-sm text-charcoal-muted">
+              Your URL will appear in the CLI command above…
+            </p>
           )}
           {status !== "loading" && mcpUrl && (
             <div className="space-y-3">
@@ -69,14 +72,9 @@ export function InstallQuickSetup({
             </div>
           )}
           {status !== "loading" && !mcpUrl && (
-            <div className="space-y-3">
-              <p className="text-sm text-charcoal-muted">{waitingMessage}</p>
-              {onRetry ? (
-                <Button type="button" variant="outline" size="sm" onClick={onRetry}>
-                  Generate my URL
-                </Button>
-              ) : null}
-            </div>
+            <p className="text-sm text-charcoal-muted">
+              Generate your URL using the CLI section above first.
+            </p>
           )}
         </CardContent>
       </Card>
@@ -97,12 +95,12 @@ export function InstallQuickSetup({
         <CardContent>
           {mcpUrl ? (
             <p className="text-sm italic text-charcoal-muted">
-              Use the same CoolPlugz URL from the Claude.ai section above.
+              Use the same CoolPlugz URL from the CLI command or browser section above.
             </p>
           ) : (
             <p className="text-sm text-charcoal-muted">
-              Your URL will appear in the Claude.ai section above — paste it into Connectors on
-              Desktop the same way.
+              Your URL will appear in the CLI command above — paste it into Connectors on Desktop
+              the same way.
             </p>
           )}
         </CardContent>
