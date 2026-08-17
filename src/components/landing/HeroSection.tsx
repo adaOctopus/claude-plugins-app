@@ -32,7 +32,7 @@ export function HeroSection() {
           </p>
 
           <p className="mt-5 max-w-md text-sm leading-snug text-charcoal-muted md:text-base">
-           An orchestrator that ensures Claude Code delivers your tasks without you repeating instructions every session.</p>
+           An orchestrator that ensures Claude Code delivers your tasks without requesting your input every 5 seconds.</p>
           <div className="mt-8">         
             <CtaMonoBadge />
           </div>
