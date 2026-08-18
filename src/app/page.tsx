@@ -9,7 +9,7 @@ import { FAQSection } from "@/components/landing/FAQSection";
 import { CANONICAL_SITE_URL, createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: "Gives developers back their time and energy.",
+  title: "Complete dev work without AI fatigue.",
   path: "/",
   siteUrl: CANONICAL_SITE_URL,
 });
