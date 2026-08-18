@@ -6,13 +6,12 @@ export const OG_TAGLINE =
   "Delivers your coding tasks without your constant supervision. their time and energy.";
 
 export const OG_IMAGE = {
-  path: "/coolpreview.png",
-  /** Bump when replacing the social preview asset so X/FB re-fetch. */
-  version: "3",
-  width: 1430,
-  height: 794,
+  /** Static path only — X/Twitter often fails on query-string image URLs. */
+  path: "/social-preview.jpg",
+  width: 1200,
+  height: 630,
   alt: "coolplugz - Claude plugin for developers",
-  type: "image/png" as const,
+  type: "image/jpeg" as const,
 } as const;
 
 /** X/Twitter card descriptions should stay under ~200 chars. */
@@ -149,7 +148,7 @@ export function resolveSiteUrlFromRequest(requestHeaders: Headers): string {
 }
 
 export function getAbsoluteOgImageUrl(siteUrl = getSiteUrl()): string {
-  return `${siteUrl}${OG_IMAGE.path}?v=${OG_IMAGE.version}`;
+  return `${siteUrl}${OG_IMAGE.path}`;
 }
 
 /** Shared Open Graph + Twitter image config (Facebook, LinkedIn, iMessage, Slack, etc.). */
@@ -222,7 +221,7 @@ export function createRootMetadata(options: { siteUrl?: string } = {}): Metadata
       card: "summary_large_image",
       title: SEO_DEFAULTS.title,
       description: TWITTER_CARD_DESCRIPTION,
-      images: [openGraphImages[0]?.url ?? getAbsoluteOgImageUrl(siteUrl)],
+      images: openGraphImages,
     },
     robots: {
       index: true,
@@ -250,6 +249,7 @@ export function createPageMetadata({
   const { openGraphImages } = getSocialImageMetadata(siteUrl);
 
   return {
+    metadataBase: new URL(siteUrl),
     title: pageTitle,
     description,
     alternates: {
@@ -268,7 +268,7 @@ export function createPageMetadata({
       card: "summary_large_image",
       title: pageTitle,
       description: TWITTER_CARD_DESCRIPTION,
-      images: [openGraphImages[0]?.url ?? getAbsoluteOgImageUrl(siteUrl)],
+      images: openGraphImages,
     },
   };
 }

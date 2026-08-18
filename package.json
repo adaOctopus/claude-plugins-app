@@ -9,7 +9,7 @@
     "lint": "eslint",
     "seed": "tsx scripts/seed.ts",
     "partners": "tsx scripts/partner-earnings.ts",
-    "sync:og": "cp src/assets/coolpreview.png public/coolpreview.png && cp src/assets/coolpreview.png src/app/opengraph-image.png && cp src/assets/coolpreview.png src/app/twitter-image.png"
+    "sync:og": "tsx scripts/sync-og-images.ts"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.14",

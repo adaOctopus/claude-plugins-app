@@ -263,7 +263,7 @@ Use this README as the **single source of truth** for external messaging. Align 
 
 | File | Use |
 |------|-----|
-| `src/assets/coolpreview.png` → `public/coolpreview.png` | **Social / OG thumbnail** — Twitter, LinkedIn, Slack, iMessage link previews |
+| `src/assets/coolpreview.png` → `npm run sync:og` | **Social / OG thumbnail** — generates `public/social-preview.jpg` (1200×630) for Twitter/X, LinkedIn, Slack, iMessage |
 | `public/marketing/dashboard.jpg` | Live dashboard UI |
 | `public/guides/claude-web-connector.png` | Web MCP setup |
 | `public/guides/claude-desktop-edit-config.png` | Desktop JSON setup |
