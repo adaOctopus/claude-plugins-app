@@ -2,7 +2,7 @@
 
 **Ship merge-ready code and handle your Slack - from inside Claude.**
 
-CoolPlugz is an MCP (Model Context Protocol) server for engineers who are tired of tab-hopping, re-prompting, and babysitting AI. Stay in Claude. CoolPlugz gathers context from **Jira, Slack, GitHub, and Notion**, engineers the prompt, runs the task, and delivers PRs, CI fixes, and Slack drafts — so you work less, save mental energy, and avoid AI fatigue and context-switching spirals.
+CoolPlugz is an MCP (Model Context Protocol) server for engineers who are tired of tab-hopping, re-prompting, and babysitting AI. Stay in Claude. CoolPlugz gathers context from **Jira, Slack, GitHub, and Notion**, engineers the prompt, runs the task, and delivers PRs, CI fixes, and Slack drafts - so you work less, save mental energy, and avoid AI fatigue and context-switching spirals.
 
 **Website:** [coolplugz.com](https://www.coolplugz.com)
 
