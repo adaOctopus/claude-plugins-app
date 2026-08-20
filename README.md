@@ -18,6 +18,28 @@ CoolPlugz is an MCP (Model Context Protocol) server for engineers who are tired 
   <em>Live dashboard - tasks, PRs, execution log, and updates to share</em>
 </p>
 
+## Loop Engineering
+
+State-machine-driven orchestration for autonomous Jira → GitHub → PR workflows over MCP. Every tool response carries structured loop metadata via `_meta` — Claude Code reads it to determine the next action instead of parsing free text.
+
+<p align="center">
+  <img src="public/marketing/loop-engineering/01-system-architecture.png" alt="CoolPlugz Loop Engineering — system architecture: Claude Code, MCP transport, CoolPlugz server, Prisma, GitHub, Jira, Slack, Notion" width="720" />
+  <br />
+  <em>01 — System architecture</em>
+</p>
+
+<p align="center">
+  <img src="public/marketing/loop-engineering/02-loop-state-machine.png" alt="CoolPlugz Loop Engineering — loop state machine: IDLE through EXECUTING, PUSHED, PR_OPEN, DONE with CI and review self-correction loops" width="720" />
+  <br />
+  <em>02 — Loop state machine</em>
+</p>
+
+<p align="center">
+  <img src="public/marketing/loop-engineering/03-loop-metadata-shape.png" alt="CoolPlugz Loop Engineering — _meta.loop JSON shape attached to every tool response" width="720" />
+  <br />
+  <em>03 — Loop metadata shape</em>
+</p>
+
 ---
 
 ## What CoolPlugz is
@@ -265,6 +287,9 @@ Use this README as the **single source of truth** for external messaging. Align 
 |------|-----|
 | `src/assets/coolpreview.png` → `npm run sync:og` | **Social / OG thumbnail** — generates `public/social-preview.jpg` (1200×630) for Twitter/X, LinkedIn, Slack, iMessage |
 | `public/marketing/dashboard.jpg` | Live dashboard UI |
+| `public/marketing/loop-engineering/01-system-architecture.png` | Loop Engineering — system architecture |
+| `public/marketing/loop-engineering/02-loop-state-machine.png` | Loop Engineering — state machine |
+| `public/marketing/loop-engineering/03-loop-metadata-shape.png` | Loop Engineering — `_meta.loop` JSON shape |
 | `public/guides/claude-web-connector.png` | Web MCP setup |
 | `public/guides/claude-desktop-edit-config.png` | Desktop JSON setup |
 
