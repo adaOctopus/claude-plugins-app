@@ -25,19 +25,19 @@ State-machine-driven orchestration for autonomous Jira → GitHub → PR workflo
 <p align="center">
   <img src="public/marketing/loop-engineering/01-system-architecture.png" alt="CoolPlugz Loop Engineering — system architecture: Claude Code, MCP transport, CoolPlugz server, Prisma, GitHub, Jira, Slack, Notion" width="720" />
   <br />
-  <em>01 — System architecture</em>
+  <em>01 - System architecture</em>
 </p>
 
 <p align="center">
   <img src="public/marketing/loop-engineering/02-loop-state-machine.png" alt="CoolPlugz Loop Engineering — loop state machine: IDLE through EXECUTING, PUSHED, PR_OPEN, DONE with CI and review self-correction loops" width="720" />
   <br />
-  <em>02 — Loop state machine</em>
+  <em>02 - Loop state machine</em>
 </p>
 
 <p align="center">
   <img src="public/marketing/loop-engineering/03-loop-metadata-shape.png" alt="CoolPlugz Loop Engineering — _meta.loop JSON shape attached to every tool response" width="720" />
   <br />
-  <em>03 — Loop metadata shape</em>
+  <em>03 - Loop metadata shape</em>
 </p>
 
 ---
@@ -49,7 +49,7 @@ CoolPlugz is **not** another chat wrapper. It is a **paid MCP connector** that:
 1. Gives each customer a **unique MCP URL** (minted after purchase)
 2. **Fetches live context** from your engineering tools
 3. **Builds structured prompts** (CRISPE-style) so Claude gets trustworthy inputs
-4. **Executes end-to-end** — code, PRs, CI, Slack replies — from a single conversation
+4. **Executes end-to-end** - code, PRs, CI, Slack replies — from a single conversation
 
 You connect once in Claude (web or desktop). After that, plain-English commands replace hours of manual context gathering.
 
