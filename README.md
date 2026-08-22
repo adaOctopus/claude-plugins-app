@@ -70,10 +70,10 @@ If you spend more time **feeding context to AI** than doing the work, CoolPlugz 
 
 | Pain | CoolPlugz answer |
 |------|------------------|
-| AI fatigue — endless prompt → fix → re-prompt loops | One `@RUN` completes a full ticket hands-off |
-| Context switching — Jira tab, Slack tab, GitHub tab | One dashboard, one MCP, one chat |
-| AI spirals — model drifts without grounded context | Context fetched from your real tools before every run |
-| Mental load — “what was I doing on PROJ-124?” | Live task board + execution log in Claude |
+| AI fatigue - endless prompt → fix → re-prompt loops | One `@RUN` completes a full ticket hands-off |
+| Context switching - Jira tab, Slack tab, GitHub tab | One dashboard, one MCP, one chat |
+| AI spirals - model drifts without grounded context | Context fetched from your real tools before every run |
+| Mental load - “what was I doing on PROJ-124?” | Live task board + execution log in Claude |
 | Low-quality AI output | CRISPE prompt engineering baked in per task |
 
 **Goal:** deliver high-quality code and updates **by working less** — not by typing more prompts.
